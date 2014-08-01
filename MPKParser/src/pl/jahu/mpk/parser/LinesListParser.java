@@ -15,27 +15,16 @@ import java.util.List;
 /**
  * Created by hudzj on 8/1/2014.
  */
-public class LinesListParser {
+public class LinesListParser extends AbstractParser {
 
     private static final String URL = "http://rozklady.mpk.krakow.pl/linie.aspx";
 
-    private Document document;
-
-
     public LinesListParser() throws TimetableNotFoundException {
-        try {
-            this.document = Jsoup.connect(URL).get();
-        } catch (IOException e) {
-            if (e.toString().contains("Status=404")) {
-                throw new TimetableNotFoundException();
-            } else {
-                e.printStackTrace();
-            }
-        }
+        super(URL);
     }
 
     public LinesListParser(File file, String encoding) throws IOException, TimetableParseException {
-        this.document = Jsoup.parse(file, encoding);
+        super(file, encoding);
     }
 
     public List<Integer> parse() {

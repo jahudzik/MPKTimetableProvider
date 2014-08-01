@@ -20,7 +20,7 @@ import java.util.Map;
 /**
  * Created by jahudzik on 2014-07-13.
  */
-public class TimetableParser {
+public class TimetableParser extends AbstractParser {
 
     private static final String STOP_NAME_CLASS = "fontstop";
     private static final String ROUTE_CELL_CLASS = "fontroute";
@@ -34,34 +34,19 @@ public class TimetableParser {
     private final static String STOP_SEQ_TOKEN = "@[seg]";
     private final static String TIMETABLE_URL_PATTERN = "http://rozklady.mpk.krakow.pl/aktualne/" + LINE_NUMBER_TOKEN + "/" + LINE_NUMBER_TOKEN + "t" + STOP_SEQ_TOKEN + ".htm";
 
-    private Document document;
     private String stopName;
     private String destination;
     private Elements legendCells;
 
 
-    /**
-     * Creates parser for specified URL
-     */
     public TimetableParser(String url) throws TimetableNotFoundException, TimetableParseException {
-        try {
-            this.document = Jsoup.connect(url).get();
-        } catch (IOException e) {
-            if (e.toString().contains("Status=404")) {
-                throw new TimetableNotFoundException();
-            } else {
-                e.printStackTrace();
-            }
-        }
+        super(url);
         this.stopName = retrieveSpecificCell(STOP_NAME_CLASS, "stop name");
         this.destination = retrieveDestination();
     }
 
-    /**
-     * Creates parser for specified file with timetable. Used for testing.
-     */
     public TimetableParser(File file, String encoding) throws IOException, TimetableParseException {
-        this.document = Jsoup.parse(file, encoding);
+        super(file, encoding);
         this.stopName = retrieveSpecificCell(STOP_NAME_CLASS, "stop name");
         this.destination = retrieveDestination();
     }
