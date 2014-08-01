@@ -44,11 +44,11 @@ public class TimetableParserTest {
 
         try {
             List<DayTypes> dayTypes = TimetableParser.retrieveDayTypesConfiguration(inputElements);
-            assertEquals(dayTypes.size(), 4);
-            assertEquals(dayTypes.get(0), DayTypes.WEEKDAY);
-            assertEquals(dayTypes.get(1), DayTypes.SATURDAY);
-            assertEquals(dayTypes.get(2), DayTypes.SUNDAY);
-            assertEquals(dayTypes.get(3), DayTypes.EVERYDAY);
+            assertEquals(4, dayTypes.size());
+            assertEquals(DayTypes.WEEKDAY, dayTypes.get(0));
+            assertEquals(DayTypes.SATURDAY, dayTypes.get(1));
+            assertEquals(DayTypes.SUNDAY, dayTypes.get(2));
+            assertEquals(DayTypes.EVERYDAY, dayTypes.get(3));
         } catch (TimetableParseException e) {
             fail();
         }
@@ -75,34 +75,34 @@ public class TimetableParserTest {
             File inputFile = new File("./MPKParserTests/res/timetable1.html");
 
             TimetableParser parser = new TimetableParser(inputFile, "iso-8859-2");
-            assertEquals(parser.getStopName(), expectedStopName);
-            assertEquals(parser.getDestination(), expectedDestination);
+            assertEquals(expectedStopName, parser.getStopName());
+            assertEquals(expectedDestination, parser.getDestination());
 
             Map<DayTypes, List<Departure>> departures = parser.parse(new Station(expectedStopName));
 
-            assertEquals(departures.size(), 3);
+            assertEquals(3, departures.size());
             assertTrue(departures.containsKey(DayTypes.WEEKDAY));
             assertTrue(departures.containsKey(DayTypes.SATURDAY));
             assertTrue(departures.containsKey(DayTypes.SUNDAY));
 
-            assertEquals(departures.get(DayTypes.WEEKDAY).size(), 76);
-            assertEquals(departures.get(DayTypes.SATURDAY).size(), 53);
-            assertEquals(departures.get(DayTypes.SUNDAY).size(), 50);
+            assertEquals(76, departures.get(DayTypes.WEEKDAY).size());
+            assertEquals(53, departures.get(DayTypes.SATURDAY).size());
+            assertEquals(50, departures.get(DayTypes.SUNDAY).size());
 
-            assertEquals(departures.get(DayTypes.WEEKDAY).get(0).getHour(), 4);
-            assertEquals(departures.get(DayTypes.WEEKDAY).get(0).getMin(), 37);
-            assertEquals(departures.get(DayTypes.WEEKDAY).get(75).getHour(), 22);
-            assertEquals(departures.get(DayTypes.WEEKDAY).get(75).getMin(), 37);
+            assertEquals(4, departures.get(DayTypes.WEEKDAY).get(0).getHour());
+            assertEquals(37, departures.get(DayTypes.WEEKDAY).get(0).getMin());
+            assertEquals(22, departures.get(DayTypes.WEEKDAY).get(75).getHour());
+            assertEquals(37, departures.get(DayTypes.WEEKDAY).get(75).getMin());
 
-            assertEquals(departures.get(DayTypes.SATURDAY).get(0).getHour(), 4);
-            assertEquals(departures.get(DayTypes.SATURDAY).get(0).getMin(), 59);
-            assertEquals(departures.get(DayTypes.SATURDAY).get(52).getHour(), 22);
-            assertEquals(departures.get(DayTypes.SATURDAY).get(52).getMin(), 47);
+            assertEquals(4, departures.get(DayTypes.SATURDAY).get(0).getHour());
+            assertEquals(59, departures.get(DayTypes.SATURDAY).get(0).getMin());
+            assertEquals(22, departures.get(DayTypes.SATURDAY).get(52).getHour());
+            assertEquals(47, departures.get(DayTypes.SATURDAY).get(52).getMin());
 
-            assertEquals(departures.get(DayTypes.SUNDAY).get(0).getHour(), 5);
-            assertEquals(departures.get(DayTypes.SUNDAY).get(0).getMin(), 20);
-            assertEquals(departures.get(DayTypes.SUNDAY).get(49).getHour(), 22);
-            assertEquals(departures.get(DayTypes.SUNDAY).get(49).getMin(), 47);
+            assertEquals(5, departures.get(DayTypes.SUNDAY).get(0).getHour());
+            assertEquals(20, departures.get(DayTypes.SUNDAY).get(0).getMin());
+            assertEquals(22, departures.get(DayTypes.SUNDAY).get(49).getHour());
+            assertEquals(47, departures.get(DayTypes.SUNDAY).get(49).getMin());
 
         } catch (IOException e) {
             fail();
@@ -122,40 +122,40 @@ public class TimetableParserTest {
             File inputFile = new File("./MPKParserTests/res/timetable2.html");
 
             TimetableParser parser = new TimetableParser(inputFile, "iso-8859-2");
-            assertEquals(parser.getStopName(), expectedStopName);
-            assertEquals(parser.getDestination(), expectedDestination);
+            assertEquals(expectedStopName, parser.getStopName());
+            assertEquals(expectedDestination, parser.getDestination());
 
             Map<DayTypes, List<Departure>> departures = parser.parse(new Station(expectedStopName));
 
-            assertEquals(departures.size(), 3);
+            assertEquals(3, departures.size());
             assertTrue(departures.containsKey(DayTypes.WEEKDAY));
             assertTrue(departures.containsKey(DayTypes.SATURDAY));
             assertTrue(departures.containsKey(DayTypes.SUNDAY));
 
-            assertEquals(departures.get(DayTypes.WEEKDAY).size(), 62);
-            assertEquals(departures.get(DayTypes.SATURDAY).size(), 54);
-            assertEquals(departures.get(DayTypes.SUNDAY).size(), 51);
+            assertEquals(62, departures.get(DayTypes.WEEKDAY).size());
+            assertEquals(54, departures.get(DayTypes.SATURDAY).size());
+            assertEquals(51, departures.get(DayTypes.SUNDAY).size());
 
-            assertEquals(departures.get(DayTypes.WEEKDAY).get(0).getHour(), 5);
-            assertEquals(departures.get(DayTypes.WEEKDAY).get(0).getMin(), 0);
+            assertEquals(5, departures.get(DayTypes.WEEKDAY).get(0).getHour());
+            assertEquals(0, departures.get(DayTypes.WEEKDAY).get(0).getMin());
             assertNull(departures.get(DayTypes.WEEKDAY).get(0).getExtraInfo());
-            assertEquals(departures.get(DayTypes.WEEKDAY).get(61).getHour(), 23);
-            assertEquals(departures.get(DayTypes.WEEKDAY).get(61).getMin(), 36);
-            assertEquals(departures.get(DayTypes.WEEKDAY).get(61).getExtraInfo(), expectedLegend);
+            assertEquals(23, departures.get(DayTypes.WEEKDAY).get(61).getHour());
+            assertEquals(36, departures.get(DayTypes.WEEKDAY).get(61).getMin());
+            assertEquals(expectedLegend, departures.get(DayTypes.WEEKDAY).get(61).getExtraInfo());
 
-            assertEquals(departures.get(DayTypes.SATURDAY).get(0).getHour(), 5);
+            assertEquals(5, departures.get(DayTypes.SATURDAY).get(0).getHour());
             assertNull(departures.get(DayTypes.SATURDAY).get(0).getExtraInfo());
-            assertEquals(departures.get(DayTypes.SATURDAY).get(0).getMin(), 3);
-            assertEquals(departures.get(DayTypes.SATURDAY).get(53).getHour(), 23);
-            assertEquals(departures.get(DayTypes.SATURDAY).get(53).getMin(), 4);
-            assertEquals(departures.get(DayTypes.SATURDAY).get(53).getExtraInfo(), expectedLegend);
+            assertEquals(3, departures.get(DayTypes.SATURDAY).get(0).getMin());
+            assertEquals(23, departures.get(DayTypes.SATURDAY).get(53).getHour());
+            assertEquals(4, departures.get(DayTypes.SATURDAY).get(53).getMin());
+            assertEquals(expectedLegend, departures.get(DayTypes.SATURDAY).get(53).getExtraInfo());
 
-            assertEquals(departures.get(DayTypes.SUNDAY).get(0).getHour(), 5);
-            assertEquals(departures.get(DayTypes.SUNDAY).get(0).getMin(), 3);
+            assertEquals(5, departures.get(DayTypes.SUNDAY).get(0).getHour());
+            assertEquals(3, departures.get(DayTypes.SUNDAY).get(0).getMin());
             assertNull(departures.get(DayTypes.SUNDAY).get(0).getExtraInfo());
-            assertEquals(departures.get(DayTypes.SUNDAY).get(50).getHour(), 23);
-            assertEquals(departures.get(DayTypes.SUNDAY).get(50).getMin(), 6);
-            assertEquals(departures.get(DayTypes.SUNDAY).get(50).getExtraInfo(), expectedLegend);
+            assertEquals(23, departures.get(DayTypes.SUNDAY).get(50).getHour());
+            assertEquals(6, departures.get(DayTypes.SUNDAY).get(50).getMin());
+            assertEquals(expectedLegend, departures.get(DayTypes.SUNDAY).get(50).getExtraInfo());
 
         } catch (TimetableParseException e) {
             fail();
@@ -174,18 +174,18 @@ public class TimetableParserTest {
             File inputFile = new File("./MPKParserTests/res/timetable3.html");
 
             TimetableParser parser = new TimetableParser(inputFile, "iso-8859-2");
-            assertEquals(parser.getStopName(), expectedStopName);
-            assertEquals(parser.getDestination(), expectedDestination);
+            assertEquals(expectedStopName, parser.getStopName());
+            assertEquals(expectedDestination, parser.getDestination());
 
             Map<DayTypes, List<Departure>> departures = parser.parse(new Station(expectedStopName));
 
-            assertEquals(departures.size(), 1);
+            assertEquals(1, departures.size());
             assertTrue(departures.containsKey(DayTypes.EVERYDAY));
 
-            assertEquals(departures.get(DayTypes.EVERYDAY).size(), 6);
+            assertEquals(6, departures.get(DayTypes.EVERYDAY).size());
 
-            assertEquals(departures.get(DayTypes.EVERYDAY).get(0).getHour(), 23);
-            assertEquals(departures.get(DayTypes.EVERYDAY).get(0).getMin(), 30);
+            assertEquals(23, departures.get(DayTypes.EVERYDAY).get(0).getHour());
+            assertEquals(30, departures.get(DayTypes.EVERYDAY).get(0).getMin());
             assertNull(departures.get(DayTypes.EVERYDAY).get(0).getExtraInfo());
 
         } catch (TimetableParseException e) {
@@ -206,31 +206,31 @@ public class TimetableParserTest {
             File inputFile = new File("./MPKParserTests/res/timetable4.html");
 
             TimetableParser parser = new TimetableParser(inputFile, "iso-8859-2");
-            assertEquals(parser.getStopName(), expectedStopName);
-            assertEquals(parser.getDestination(), expectedDestination);
+            assertEquals(expectedStopName, parser.getStopName());
+            assertEquals(expectedDestination, parser.getDestination());
 
             Map<DayTypes, List<Departure>> departures = parser.parse(new Station(expectedStopName));
 
-            assertEquals(departures.size(), 3);
+            assertEquals(3, departures.size());
             assertTrue(departures.containsKey(DayTypes.MONDAY_TO_THURSDAY));
             assertTrue(departures.containsKey(DayTypes.WEEKEND_NIGHTS));
             assertTrue(departures.containsKey(DayTypes.SUNDAY));
 
-            assertEquals(departures.get(DayTypes.MONDAY_TO_THURSDAY).size(), 5);
-            assertEquals(departures.get(DayTypes.WEEKEND_NIGHTS).size(), 5);
-            assertEquals(departures.get(DayTypes.SUNDAY).size(), 5);
+            assertEquals(5, departures.get(DayTypes.MONDAY_TO_THURSDAY).size());
+            assertEquals(5, departures.get(DayTypes.WEEKEND_NIGHTS).size());
+            assertEquals(5, departures.get(DayTypes.SUNDAY).size());
 
-            assertEquals(departures.get(DayTypes.MONDAY_TO_THURSDAY).get(0).getHour(), 23);
-            assertEquals(departures.get(DayTypes.MONDAY_TO_THURSDAY).get(0).getMin(), 32);
-            assertEquals(departures.get(DayTypes.MONDAY_TO_THURSDAY).get(0).getExtraInfo(), expectedLegend);
+            assertEquals(23, departures.get(DayTypes.MONDAY_TO_THURSDAY).get(0).getHour());
+            assertEquals(32, departures.get(DayTypes.MONDAY_TO_THURSDAY).get(0).getMin());
+            assertEquals(expectedLegend, departures.get(DayTypes.MONDAY_TO_THURSDAY).get(0).getExtraInfo());
 
-            assertEquals(departures.get(DayTypes.WEEKEND_NIGHTS).get(1).getHour(), 0);
-            assertEquals(departures.get(DayTypes.WEEKEND_NIGHTS).get(1).getMin(), 32);
+            assertEquals(0, departures.get(DayTypes.WEEKEND_NIGHTS).get(1).getHour());
+            assertEquals(32, departures.get(DayTypes.WEEKEND_NIGHTS).get(1).getMin());
             assertNull(departures.get(DayTypes.WEEKEND_NIGHTS).get(1).getExtraInfo());
 
-            assertEquals(departures.get(DayTypes.SUNDAY).get(0).getHour(), 23);
-            assertEquals(departures.get(DayTypes.SUNDAY).get(0).getMin(), 32);
-            assertEquals(departures.get(DayTypes.SUNDAY).get(0).getExtraInfo(), expectedLegend);
+            assertEquals(23, departures.get(DayTypes.SUNDAY).get(0).getHour());
+            assertEquals(32, departures.get(DayTypes.SUNDAY).get(0).getMin());
+            assertEquals(expectedLegend, departures.get(DayTypes.SUNDAY).get(0).getExtraInfo());
 
         } catch (TimetableParseException e) {
             fail();
@@ -251,44 +251,43 @@ public class TimetableParserTest {
             File inputFile = new File("./MPKParserTests/res/timetable5.html");
 
             TimetableParser parser = new TimetableParser(inputFile, "iso-8859-2");
-            assertEquals(parser.getStopName(), expectedStopName);
-            assertEquals(parser.getDestination(), expectedDestination);
+            assertEquals(expectedStopName, parser.getStopName());
+            assertEquals(expectedDestination, parser.getDestination());
 
             Map<DayTypes, List<Departure>> departures = parser.parse(new Station(expectedStopName));
 
-            assertEquals(departures.size(), 3);
+            assertEquals(3, departures.size());
             assertTrue(departures.containsKey(DayTypes.WEEKDAY));
             assertTrue(departures.containsKey(DayTypes.SATURDAY));
             assertTrue(departures.containsKey(DayTypes.SUNDAY));
 
-            assertEquals(departures.get(DayTypes.WEEKDAY).size(), 37);
-            assertEquals(departures.get(DayTypes.SATURDAY).size(), 32);
-            assertEquals(departures.get(DayTypes.SUNDAY).size(), 30);
+            assertEquals(37, departures.get(DayTypes.WEEKDAY).size());
+            assertEquals(32, departures.get(DayTypes.SATURDAY).size());
+            assertEquals(30, departures.get(DayTypes.SUNDAY).size());
 
-            assertEquals(departures.get(DayTypes.WEEKDAY).get(0).getHour(), 4);
-            assertEquals(departures.get(DayTypes.WEEKDAY).get(0).getMin(), 41);
+            assertEquals(4, departures.get(DayTypes.WEEKDAY).get(0).getHour());
+            assertEquals(41, departures.get(DayTypes.WEEKDAY).get(0).getMin());
             assertNull(departures.get(DayTypes.WEEKDAY).get(0).getExtraInfo());
 
-            assertEquals(departures.get(DayTypes.WEEKDAY).get(35).getHour(), 22);
-            assertEquals(departures.get(DayTypes.WEEKDAY).get(35).getMin(), 8);
-            assertEquals(departures.get(DayTypes.WEEKDAY).get(35).getExtraInfo(), expectedLegend1);
+            assertEquals(22, departures.get(DayTypes.WEEKDAY).get(35).getHour());
+            assertEquals(8, departures.get(DayTypes.WEEKDAY).get(35).getMin());
+            assertEquals(expectedLegend1, departures.get(DayTypes.WEEKDAY).get(35).getExtraInfo());
 
-            assertEquals(departures.get(DayTypes.WEEKDAY).get(36).getHour(), 23);
-            assertEquals(departures.get(DayTypes.WEEKDAY).get(36).getMin(), 5);
-            assertEquals(departures.get(DayTypes.WEEKDAY).get(36).getExtraInfo(), expectedLegend2);
+            assertEquals(23, departures.get(DayTypes.WEEKDAY).get(36).getHour());
+            assertEquals(5, departures.get(DayTypes.WEEKDAY).get(36).getMin());
+            assertEquals(expectedLegend2, departures.get(DayTypes.WEEKDAY).get(36).getExtraInfo());
 
-            assertEquals(departures.get(DayTypes.SUNDAY).get(0).getHour(), 4);
-            assertEquals(departures.get(DayTypes.SUNDAY).get(0).getMin(), 40);
+            assertEquals(4, departures.get(DayTypes.SUNDAY).get(0).getHour());
+            assertEquals(40, departures.get(DayTypes.SUNDAY).get(0).getMin());
             assertNull(departures.get(DayTypes.SUNDAY).get(0).getExtraInfo());
 
-            assertEquals(departures.get(DayTypes.SUNDAY).get(28).getHour(), 22);
-            assertEquals(departures.get(DayTypes.SUNDAY).get(28).getMin(), 49);
-            assertEquals(departures.get(DayTypes.SUNDAY).get(28).getExtraInfo(), expectedLegend1);
+            assertEquals(22, departures.get(DayTypes.SUNDAY).get(28).getHour());
+            assertEquals(49, departures.get(DayTypes.SUNDAY).get(28).getMin());
+            assertEquals(expectedLegend1, departures.get(DayTypes.SUNDAY).get(28).getExtraInfo());
 
-            assertEquals(departures.get(DayTypes.SUNDAY).get(29).getHour(), 23);
-            assertEquals(departures.get(DayTypes.SUNDAY).get(29).getMin(), 35);
-            assertEquals(departures.get(DayTypes.SUNDAY).get(29).getExtraInfo(), expectedLegend2);
-
+            assertEquals(23, departures.get(DayTypes.SUNDAY).get(29).getHour());
+            assertEquals(35, departures.get(DayTypes.SUNDAY).get(29).getMin());
+            assertEquals(expectedLegend2, departures.get(DayTypes.SUNDAY).get(29).getExtraInfo());
 
         } catch (TimetableParseException e) {
             fail();
