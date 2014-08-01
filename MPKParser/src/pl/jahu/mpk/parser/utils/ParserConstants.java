@@ -1,4 +1,4 @@
-package pl.jahu.mpk.parser;
+package pl.jahu.mpk.parser.utils;
 
 import pl.jahu.mpk.enums.DayTypes;
 

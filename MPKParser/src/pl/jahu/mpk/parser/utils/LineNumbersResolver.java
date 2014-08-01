@@ -1,4 +1,4 @@
-package pl.jahu.mpk.parser;
+package pl.jahu.mpk.parser.utils;
 
 import javafx.beans.property.ReadOnlyStringProperty;
 import pl.jahu.mpk.enums.AreaTypes;

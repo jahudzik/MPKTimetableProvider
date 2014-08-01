@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * Created by hudzj on 8/1/2014.
  */
-public abstract class AbstractParser {
+abstract class AbstractParser {
 
     protected Document document;
 

@@ -3,7 +3,7 @@ package pl.jahu.mpk.samples;
 import pl.jahu.mpk.enums.AreaTypes;
 import pl.jahu.mpk.enums.ReasonTypes;
 import pl.jahu.mpk.enums.VehicleTypes;
-import pl.jahu.mpk.parser.LineNumbersResolver;
+import pl.jahu.mpk.parser.utils.LineNumbersResolver;
 import pl.jahu.mpk.parser.LinesListParser;
 import pl.jahu.mpk.parser.TimetableParser;
 import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
