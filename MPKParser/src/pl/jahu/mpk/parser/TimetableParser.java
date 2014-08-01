@@ -9,7 +9,6 @@ import pl.jahu.mpk.entities.Station;
 import pl.jahu.mpk.enums.DayTypes;
 import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parser.exceptions.TimetableParseException;
-import pl.jahu.mpk.parser.exceptions.UnsupportedDayTypesConfigurationException;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,9 +29,17 @@ public class TimetableParser {
     private static final String LEGEND_CELL_CLASS = "fontprzyp";
     private static final String NO_MINUTES_PATTERN = "-";
 
+    private final static String LINE_NUMBER_TOKEN = "@[line]";
+    private final static String STOP_SEQ_TOKEN = "@[seg]";
+    private final static String TIMETABLE_URL_PATTERN = "http://rozklady.mpk.krakow.pl/aktualne/" + LINE_NUMBER_TOKEN + "/" + LINE_NUMBER_TOKEN + "t" + STOP_SEQ_TOKEN + ".htm";
+
     private Document document;
     private String stopName;
 
+
+    /**
+     * Creates parser for specified URL
+     */
     public TimetableParser(String url) throws TimetableNotFoundException, TimetableParseException {
         try {
             this.document = Jsoup.connect(url).get();
@@ -43,10 +50,12 @@ public class TimetableParser {
                 e.printStackTrace();
             }
         }
-
         this.stopName = retrieveStopName();
     }
 
+    /**
+     * Creates parser for specified file with timetable. Used for testing.
+     */
     public TimetableParser(File file, String encoding) throws IOException, TimetableParseException {
         this.document = Jsoup.parse(file, encoding);
         this.stopName = retrieveStopName();
@@ -78,7 +87,7 @@ public class TimetableParser {
                 }
 
                 // first row is for day types, last row is for extra info
-                for (int i = 1; i < rows.size()-1; i++) {
+                for (int i = 1; i < rows.size() - 1; i++) {
                     Elements hourCells = rows.get(i).getElementsByClass(HOUR_CELL_CLASS);
                     if (hourCells != null && hourCells.size() > 0) {
                         int hour = new Integer(hourCells.get(0).text());
@@ -97,11 +106,8 @@ public class TimetableParser {
                                             String letter = minString.substring(2);
                                             // find legend in the last row
                                             Elements legendCells = rows.get(rows.size() - 1).getElementsByClass(LEGEND_CELL_CLASS);
-                                            if (legendCells.size() > 1) {
-                                                System.out.println(")000000000000000000000");
-                                            }
-                                            for (int k = 0; k < legendCells.size(); k++) {
-                                                String legend = legendCells.get(k).text();
+                                            for (Element legendCell : legendCells) {
+                                                String legend = legendCell.text();
                                                 if (legend.substring(0, 1).equals(letter)) {
                                                     departures.get(dayTypesList.get(j)).add(new Departure(station, hour, min, legend.substring(4)));
                                                 }
@@ -129,8 +135,8 @@ public class TimetableParser {
 
     public static List<DayTypes> retrieveDayTypesConfiguration(Elements dayTypes) throws TimetableParseException {
         List<DayTypes> list = new ArrayList<DayTypes>();
-        for (int i = 0; i < dayTypes.size(); i++) {
-            String label = dayTypes.get(i).text();
+        for (Element dayType1 : dayTypes) {
+            String label = dayType1.text();
             DayTypes dayType = ParserConstants.dayTypesNames.get(label);
             if (dayType != null) {
                 list.add(dayType);
@@ -139,6 +145,13 @@ public class TimetableParser {
             }
         }
         return list;
+    }
+
+
+    public static String getStationTimetableUrl(Integer lineNo, Integer stationSeq) {
+        String line = (lineNo < 10) ? "000" + lineNo.toString() : (lineNo < 100) ? "00" + lineNo.toString() : "0" + lineNo.toString();
+        String seq = (stationSeq < 10) ? "00" + stationSeq.toString() : "0" + stationSeq.toString();
+        return TIMETABLE_URL_PATTERN.replace(LINE_NUMBER_TOKEN, line).replace(STOP_SEQ_TOKEN, seq);
     }
 
 }

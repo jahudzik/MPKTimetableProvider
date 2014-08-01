@@ -1,7 +1,6 @@
 package pl.jahu.mpk.tests;
 
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.Test;
 import pl.jahu.mpk.entities.Departure;
@@ -22,7 +21,7 @@ public class TimetableParserTest {
 
     @Test(expected = TimetableNotFoundException.class)
     public void testIncorrectTimetableUrl() throws TimetableParseException, TimetableNotFoundException {
-        TimetableParser timetableParser = new TimetableParser("http://rozklady.mpk.krakow.pl/aktualne/000123456/0002341t001.htm");
+        new TimetableParser("http://rozklady.mpk.krakow.pl/aktualne/000123456/0002341t001.htm");
     }
 
     @Test
@@ -63,7 +62,7 @@ public class TimetableParserTest {
                 "<td>Święta</td>" +
                 "</tr></table></body></html>";
         Elements inputElements = Jsoup.parse(inputHtml).getElementsByTag("td");
-        List<DayTypes> dayTypes = TimetableParser.retrieveDayTypesConfiguration(inputElements);
+        TimetableParser.retrieveDayTypesConfiguration(inputElements);
     }
 
 

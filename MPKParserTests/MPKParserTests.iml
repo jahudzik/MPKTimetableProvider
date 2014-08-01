@@ -9,6 +9,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="MPKParser" />
     <orderEntry type="library" name="JUnit4" level="project" />
+    <orderEntry type="library" name="jsoup-1.7.3" level="project" />
   </component>
 </module>
 
