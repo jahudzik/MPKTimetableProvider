@@ -24,6 +24,18 @@ public class LinesListParserTest {
             List<Integer> lines = parser.parse();
             assertNotNull(lines);
             assertEquals(169, lines.size());
+            assertTrue(lines.contains(0));
+            assertTrue(lines.contains(1));
+            assertTrue(lines.contains(72));
+            assertTrue(lines.contains(301));
+            assertTrue(lines.contains(352));
+            assertTrue(lines.contains(238));
+            assertTrue(lines.contains(915));
+
+            assertFalse(lines.contains(303));
+            assertFalse(lines.contains(5));
+            assertFalse(lines.contains(298));
+            assertFalse(lines.contains(1000));
         } catch (IOException e) {
             fail();
         } catch (TimetableParseException e) {
