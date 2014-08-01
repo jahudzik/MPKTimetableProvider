@@ -69,12 +69,14 @@ public class TimetableParserTest {
     @Test
     public void testTimetable1Standard() {
         String expectedStopName = "Wzgórza Krzesławickie";
+        String expectedDestination = "SALWATOR";
 
         try {
             File inputFile = new File("./MPKParserTests/res/timetable1.html");
 
             TimetableParser parser = new TimetableParser(inputFile, "iso-8859-2");
             assertEquals(parser.getStopName(), expectedStopName);
+            assertEquals(parser.getDestination(), expectedDestination);
 
             Map<DayTypes, List<Departure>> departures = parser.parse(new Station(expectedStopName));
 
@@ -113,6 +115,7 @@ public class TimetableParserTest {
     @Test
     public void testTimetable2WithLegend() {
         String expectedStopName = "Borek Fałęcki";
+        String expectedDestination = "WALCOWNIA";
         String expectedLegend = "Kurs do przystanku: Kombinat";
 
         try {
@@ -120,6 +123,7 @@ public class TimetableParserTest {
 
             TimetableParser parser = new TimetableParser(inputFile, "iso-8859-2");
             assertEquals(parser.getStopName(), expectedStopName);
+            assertEquals(parser.getDestination(), expectedDestination);
 
             Map<DayTypes, List<Departure>> departures = parser.parse(new Station(expectedStopName));
 
@@ -164,12 +168,14 @@ public class TimetableParserTest {
     @Test
     public void testTimetable3WithEverydayType() {
         String expectedStopName = "Mydlniki";
+        String expectedDestination = "CZYŻYNY DWORZEC";
 
         try {
             File inputFile = new File("./MPKParserTests/res/timetable3.html");
 
             TimetableParser parser = new TimetableParser(inputFile, "iso-8859-2");
             assertEquals(parser.getStopName(), expectedStopName);
+            assertEquals(parser.getDestination(), expectedDestination);
 
             Map<DayTypes, List<Departure>> departures = parser.parse(new Station(expectedStopName));
 
@@ -193,6 +199,7 @@ public class TimetableParserTest {
     @Test
      public void testTimetable4WithWeekendSpecificDayTypes() {
         String expectedStopName = "Zajezdnia Płaszów";
+        String expectedDestination = "BIELANY";
         String expectedLegend = "Kurs do przystanku: Dworzec Główny";
 
         try {
@@ -200,6 +207,7 @@ public class TimetableParserTest {
 
             TimetableParser parser = new TimetableParser(inputFile, "iso-8859-2");
             assertEquals(parser.getStopName(), expectedStopName);
+            assertEquals(parser.getDestination(), expectedDestination);
 
             Map<DayTypes, List<Departure>> departures = parser.parse(new Station(expectedStopName));
 
@@ -235,6 +243,7 @@ public class TimetableParserTest {
     @Test
     public void testTimetable5WithTwoLegendEntries() {
         String expectedStopName = "Złocień";
+        String expectedDestination = "DOM SPOKOJNEJ STAROŚCI";
         String expectedLegend1 = "Kurs do przystanku: Wydział Farmaceutyczny UJ";
         String expectedLegend2 = "Kurs do przystanku: Prokocim Szpital";
 
@@ -243,6 +252,7 @@ public class TimetableParserTest {
 
             TimetableParser parser = new TimetableParser(inputFile, "iso-8859-2");
             assertEquals(parser.getStopName(), expectedStopName);
+            assertEquals(parser.getDestination(), expectedDestination);
 
             Map<DayTypes, List<Departure>> departures = parser.parse(new Station(expectedStopName));
 

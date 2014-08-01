@@ -23,6 +23,7 @@ import java.util.Map;
 public class TimetableParser {
 
     private static final String STOP_NAME_CLASS = "fontstop";
+    private static final String ROUTE_CELL_CLASS = "fontroute";
     private static final String DEPARTURES_TABLE_CLASS = "celldepart";
     private static final String HOUR_CELL_CLASS = "cellhour";
     private static final String MINUTE_CELL_CLASS = "cellmin";
@@ -35,6 +36,7 @@ public class TimetableParser {
 
     private Document document;
     private String stopName;
+    private String destination;
     private Elements legendCells;
 
 
@@ -51,7 +53,8 @@ public class TimetableParser {
                 e.printStackTrace();
             }
         }
-        this.stopName = retrieveStopName();
+        this.stopName = retrieveSpecificCell(STOP_NAME_CLASS, "stop name");
+        this.destination = retrieveDestination();
     }
 
     /**
@@ -59,22 +62,37 @@ public class TimetableParser {
      */
     public TimetableParser(File file, String encoding) throws IOException, TimetableParseException {
         this.document = Jsoup.parse(file, encoding);
-        this.stopName = retrieveStopName();
+        this.stopName = retrieveSpecificCell(STOP_NAME_CLASS, "stop name");
+        this.destination = retrieveDestination();
     }
 
 
-    private String retrieveStopName() throws TimetableParseException {
-        Elements elementsByClass = document.getElementsByClass(STOP_NAME_CLASS);
+    private String retrieveDestination() throws TimetableParseException {
+        String route = retrieveSpecificCell(ROUTE_CELL_CLASS, "route");
+        int in = route.lastIndexOf(" - ");
+        if (in != -1) {
+            return route.substring(in+3);
+        } else {
+            throw new TimetableParseException("Could not parse destination");
+        }
+    }
+
+    private String retrieveSpecificCell(String className, String contentDescription) throws TimetableParseException {
+        Elements elementsByClass = document.getElementsByClass(className);
         if (elementsByClass.size() == 0) {
-            throw new TimetableParseException("Could not parse stop name");
+            throw new TimetableParseException("Could not parse " + contentDescription);
         }
         return elementsByClass.get(0).text();
     }
+
 
     public String getStopName() {
         return stopName;
     }
 
+    public String getDestination() {
+        return destination;
+    }
 
     public Map<DayTypes, List<Departure>> parse(Station station) throws TimetableParseException {
         Map<DayTypes, List<Departure>> departures = new HashMap<DayTypes, List<Departure>>();
