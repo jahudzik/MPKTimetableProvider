@@ -35,6 +35,7 @@ public class TimetableParser {
 
     private Document document;
     private String stopName;
+    private Elements legendCells;
 
 
     /**
@@ -79,6 +80,8 @@ public class TimetableParser {
         Map<DayTypes, List<Departure>> departures = new HashMap<DayTypes, List<Departure>>();
         Elements rows = document.getElementsByClass(DEPARTURES_TABLE_CLASS).get(0).getElementsByTag("tr");
         if (rows != null && rows.size() > 0) {
+
+            // parse day types
             Elements dayTypes = rows.get(0).children();
             if (dayTypes != null && dayTypes.size() > 0) {
                 List<DayTypes> dayTypesList = retrieveDayTypesConfiguration(dayTypes);
@@ -86,7 +89,10 @@ public class TimetableParser {
                     departures.put(type, new ArrayList<Departure>());
                 }
 
-                // first row is for day types, last row is for extra info
+                // get legend
+                legendCells = rows.get(rows.size() - 1).getElementsByClass(LEGEND_CELL_CLASS);
+
+                // first row is for day types, last row is for extra info - parse the rest (actual timetables)
                 for (int i = 1; i < rows.size() - 1; i++) {
                     Elements hourCells = rows.get(i).getElementsByClass(HOUR_CELL_CLASS);
                     if (hourCells != null && hourCells.size() > 0) {
@@ -96,24 +102,8 @@ public class TimetableParser {
                             for (int j = 0; j < dayTypes.size(); j++) {
                                 String minuteString = minCells.get(j).text();
                                 if (!minuteString.equals(NO_MINUTES_PATTERN)) {
-                                    String[] mins = minuteString.split(" ");
-                                    for (String minString : mins) {
-                                        try {
-                                            int min = Integer.parseInt(minString);
-                                            departures.get(dayTypesList.get(j)).add(new Departure(station, hour, min));
-                                        } catch (NumberFormatException e) {
-                                            int min = Integer.parseInt(minString.substring(0, 2));
-                                            String letter = minString.substring(2);
-                                            // find legend in the last row
-                                            Elements legendCells = rows.get(rows.size() - 1).getElementsByClass(LEGEND_CELL_CLASS);
-                                            for (Element legendCell : legendCells) {
-                                                String legend = legendCell.text();
-                                                if (legend.substring(0, 1).equals(letter)) {
-                                                    departures.get(dayTypesList.get(j)).add(new Departure(station, hour, min, legend.substring(4)));
-                                                }
-                                            }
-                                        }
-                                    }
+                                    List<Departure> deps = buildDeparturesList(station, hour, minuteString);
+                                    departures.get(dayTypesList.get(j)).addAll(deps);
                                 }
                             }
                         } else {
@@ -131,6 +121,37 @@ public class TimetableParser {
         }
 
         return departures;
+    }
+
+    /**
+     * Returns list of departures for specified hour
+     */
+    private List<Departure> buildDeparturesList(Station station, int hour, String minuteString) throws TimetableParseException {
+        List<Departure> deps = new ArrayList<Departure>();
+        String[] mins = minuteString.split(" ");
+        for (String minString : mins) {
+            try {
+                int min = Integer.parseInt(minString);
+                deps.add(new Departure(station, hour, min));
+            } catch (NumberFormatException e) {
+                int min = Integer.parseInt(minString.substring(0, 2));
+                String letter = minString.substring(2);
+                boolean legendFound = false;
+                if (legendCells != null) {
+                    for (Element legendCell : legendCells) {
+                        String legend = legendCell.text();
+                        if (legend.substring(0, 1).equals(letter)) {
+                            deps.add(new Departure(station, hour, min, legend.substring(4)));
+                            legendFound = true;
+                        }
+                    }
+                }
+                if (!legendFound) {
+                    throw new TimetableParseException("No legend found");
+                }
+            }
+        }
+        return deps;
     }
 
     public static List<DayTypes> retrieveDayTypesConfiguration(Elements dayTypes) throws TimetableParseException {
