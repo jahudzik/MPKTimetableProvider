@@ -9,7 +9,9 @@ public class MpkSampleMain {
 
 //        Samples.parseFilteredLinesTimetables();
 //        Samples.parseAllLines();
-        Samples.parseLineRoute();
+//        Samples.parseLineRoute();
+
+        Scenario1ShowLineTimetable.execute();
 
     }
 
