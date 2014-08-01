@@ -8,7 +8,9 @@ public class MpkSampleMain {
     public static void main(String args[]) {
 
 //        Samples.parseFilteredLinesTimetables();
-        Samples.parseAllLines();
+//        Samples.parseAllLines();
+        Samples.parseLineRoute();
+
     }
 
 

@@ -3,6 +3,8 @@ package pl.jahu.mpk.samples;
 import pl.jahu.mpk.enums.AreaTypes;
 import pl.jahu.mpk.enums.ReasonTypes;
 import pl.jahu.mpk.enums.VehicleTypes;
+import pl.jahu.mpk.parser.LineRouteParser;
+import pl.jahu.mpk.parser.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parser.utils.LineNumbersResolver;
 import pl.jahu.mpk.parser.LinesListParser;
 import pl.jahu.mpk.parser.TimetableParser;
@@ -54,6 +56,22 @@ public class Samples {
                 System.out.println(line);
             }
         } catch (TimetableNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void parseLineRoute() {
+        try {
+            String lineRouteUrl = LineRouteParser.getLineRouteUrl(10, 1);
+            LineRouteParser parser = new LineRouteParser(lineRouteUrl);
+            List<String[]> list = parser.parse();
+            for (String[] item : list) {
+                System.out.println(item[0] + ": " + item[1]);
+            }
+        } catch (TimetableNotFoundException e) {
+            e.printStackTrace();
+        } catch (LineRouteParseException e) {
             e.printStackTrace();
         }
     }
