@@ -19,15 +19,43 @@ public class LineRouteParser extends AbstractParser {
     private final static String LINE_NUMBER_TOKEN = "@[line]";
     private final static String DIRECTION_TOKEN = "@[seg]";
     private static final String LINE_ROUTE_URL_PATTERN = "http://rozklady.mpk.krakow.pl/aktualne/"+LINE_NUMBER_TOKEN+"/"+LINE_NUMBER_TOKEN+"w00"+DIRECTION_TOKEN+".htm";
+    private String destination;
 
-    public LineRouteParser(String url) throws TimetableNotFoundException {
+    public LineRouteParser(String url) throws TimetableNotFoundException, LineRouteParseException {
         super(url);
+        this.destination = retrieveDestination();
     }
 
-    public LineRouteParser(File file, String encoding) throws IOException, TimetableParseException {
+    public LineRouteParser(File file, String encoding) throws IOException, TimetableParseException, LineRouteParseException {
         super(file, encoding);
+        this.destination = retrieveDestination();
     }
 
+    public String getDestination() {
+        return destination;
+    }
+
+    private String retrieveDestination() throws LineRouteParseException {
+        String destinationName = null;
+        Elements bullets = document.getElementsByTag("li");
+        for (Element bullet : bullets) {
+            Elements links = bullet.getElementsByTag("a");
+            if (links.size() == 0) {
+                destinationName = bullet.getElementsByTag("b").text();
+                break;
+            }
+        }
+        if (destinationName == null) {
+            throw new LineRouteParseException("No destination found");
+        }
+        return destinationName;
+    }
+
+    /**
+     * Parses chosen line route page
+     * @return Array of [station name, timetable url] String pairs
+     * @throws LineRouteParseException
+     */
     public List<String[]> parse() throws LineRouteParseException {
         List<String[]> list = new ArrayList<String[]>();
         Elements stations = document.getElementsByAttributeValue("target", "R");

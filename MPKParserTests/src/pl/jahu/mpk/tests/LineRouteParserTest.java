@@ -24,6 +24,8 @@ public class LineRouteParserTest {
 
         try {
             LineRouteParser parser = new LineRouteParser(inputFile, "iso-8859-2");
+            assertEquals("Salwator", parser.getDestination());
+
             List<String[]> stations = parser.parse();
 
             assertNotNull(stations);
