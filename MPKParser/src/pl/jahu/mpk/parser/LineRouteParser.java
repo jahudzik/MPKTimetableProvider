@@ -42,10 +42,9 @@ public class LineRouteParser extends AbstractParser {
             Elements links = bullet.getElementsByTag("a");
             if (links.size() == 0) {
                 destinationName = bullet.getElementsByTag("b").text();
-                break;
             }
         }
-        if (destinationName == null) {
+        if (destinationName == null || destinationName.isEmpty()) {
             throw new LineRouteParseException("No destination found");
         }
         return destinationName;
