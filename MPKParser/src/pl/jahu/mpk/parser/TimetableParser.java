@@ -78,6 +78,12 @@ public class TimetableParser extends AbstractParser {
         return destination;
     }
 
+
+
+    public Map<DayTypes, List<Departure>> parse() throws TimetableParseException {
+        return parse(null);
+    }
+
     public Map<DayTypes, List<Departure>> parse(Station station) throws TimetableParseException {
         Map<DayTypes, List<Departure>> departures = new HashMap<DayTypes, List<Departure>>();
         Elements rows = document.getElementsByClass(DEPARTURES_TABLE_CLASS).get(0).getElementsByTag("tr");

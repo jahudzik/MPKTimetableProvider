@@ -1,13 +1,15 @@
 package pl.jahu.mpk.samples;
 
+import pl.jahu.mpk.entities.Departure;
+import pl.jahu.mpk.enums.DayTypes;
 import pl.jahu.mpk.parser.LineRouteParser;
 import pl.jahu.mpk.parser.LinesListParser;
+import pl.jahu.mpk.parser.TimetableParser;
 import pl.jahu.mpk.parser.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
+import pl.jahu.mpk.parser.exceptions.TimetableParseException;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by hudzj on 8/1/2014.
@@ -16,6 +18,11 @@ public class Scenario1ShowLineTimetable {
 
 
     public static void execute() {
+        int chosenLine = -1; // 183, 225
+        String chosenDestination = null;
+        String[] chosenStation = null;
+        Random rand = new Random();
+
         try {
             // show all lines
             LinesListParser linesListParser = new LinesListParser();
@@ -23,34 +30,66 @@ public class Scenario1ShowLineTimetable {
             Collections.sort(lines);
 
             System.out.println("### Choose line:");
+            System.out.print("### ");
             for (int line : lines) {
                 System.out.print(line + " ");
             }
+            chosenLine = lines.get(rand.nextInt(lines.size()));
+            System.out.println("\n[User chooses line " + chosenLine + "]");
         } catch (TimetableNotFoundException e) {
             e.printStackTrace();
         }
 
-        System.out.println("\n\n");
-        System.out.println("[User chooses line 142]");
-        int line = 142;
 
         // get routes for chosen line
+        Map<String, LineRouteParser> destinations = new HashMap<String, LineRouteParser>();
         for (int i = 1; i < 10; i++) {
-            String url = LineRouteParser.getLineRouteUrl(line, i);
+            String url = LineRouteParser.getLineRouteUrl(chosenLine, i);
             try {
                 LineRouteParser routeParser = new LineRouteParser(url);
-                List<String[]> route = routeParser.parse();
-                String[] routeInfo = route.get(route.size()-1);
+                destinations.put(routeParser.getDestination(), routeParser);
             } catch (TimetableNotFoundException e) {
                 break;
             } catch (LineRouteParseException e) {
                 e.printStackTrace();
             }
-
         }
 
-        System.out.println("\n\n");
-        System.out.println("### Choose direction:");
+        List<String> destList = new ArrayList<String>(destinations.keySet());
+        Collections.sort(destList);
+        System.out.println("\n### Choose direction:");
+        for (String dest : destList) {
+            System.out.println("### - " + dest);
+        };
+        chosenDestination = destList.get(rand.nextInt(destList.size()));
+        System.out.println("[User choses '" + chosenDestination + "' destination]");
+
+
+        List<String[]> route = null;
+        try {
+            LineRouteParser chosenRouteParser = destinations.get(chosenDestination);
+            route = chosenRouteParser.parse();
+        } catch (LineRouteParseException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("\n### Choose station:");
+        for (String[] stationInfo : route) {
+            System.out.println("### - " + stationInfo[0]);
+        }
+
+        chosenStation = route.get(rand.nextInt(route.size()));
+        System.out.println("[User choses '" + chosenStation[0] + "' station]");
+
+
+        try {
+            TimetableParser timetableParser = new TimetableParser(chosenStation[1]);
+            Map<DayTypes, List<Departure>> timetables = timetableParser.parse();
+        } catch (TimetableNotFoundException e) {
+            e.printStackTrace();
+        } catch (TimetableParseException e) {
+            e.printStackTrace();
+        }
 
     }
 
