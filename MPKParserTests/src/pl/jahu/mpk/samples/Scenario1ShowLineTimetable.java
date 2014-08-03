@@ -8,6 +8,8 @@ import pl.jahu.mpk.parser.TimetableParser;
 import pl.jahu.mpk.parser.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parser.exceptions.TimetableParseException;
+import pl.jahu.mpk.parser.exceptions.UnsupportedDayTypesConfigurationException;
+import pl.jahu.mpk.parser.utils.TimeUtils;
 
 import java.util.*;
 
@@ -82,14 +84,34 @@ public class Scenario1ShowLineTimetable {
         System.out.println("[User choses '" + chosenStation[0] + "' station]");
 
 
+        List<Departure> departuresForToday = null;
+        DayTypes todayType = null;
         try {
-            TimetableParser timetableParser = new TimetableParser(chosenStation[1]);
+            String timetableUrl = TimetableParser.getStationTimetableUrl(chosenLine, chosenStation[1]);
+            TimetableParser timetableParser = new TimetableParser(timetableUrl);
             Map<DayTypes, List<Departure>> timetables = timetableParser.parse();
+            for (DayTypes dayType : timetables.keySet()) {
+                if (TimeUtils.validateDayTypeForToday(dayType)) {
+                    departuresForToday = timetables.get(dayType);
+                    todayType = dayType;
+                    break;
+                }
+            }
         } catch (TimetableNotFoundException e) {
             e.printStackTrace();
         } catch (TimetableParseException e) {
             e.printStackTrace();
+        } catch (UnsupportedDayTypesConfigurationException e) {
+            e.printStackTrace();
         }
+
+        System.out.println("\n### Departures for today (" + todayType + ") ");
+        System.out.print("### ");
+        for (Departure dep : departuresForToday) {
+            System.out.print(dep + "  ");
+        }
+        System.out.println();
+
 
     }
 

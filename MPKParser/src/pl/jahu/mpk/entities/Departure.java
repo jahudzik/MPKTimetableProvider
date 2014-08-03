@@ -2,6 +2,8 @@ package pl.jahu.mpk.entities;
 
 import pl.jahu.mpk.enums.DayTypes;
 
+import java.io.StringReader;
+
 /**
  * Created by jahudzik on 2014-07-13.
  */
@@ -71,5 +73,13 @@ public class Departure {
 
     public void setExtraInfo(String extraInfo) {
         this.extraInfo = extraInfo;
+    }
+
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append((hour < 10) ? "0" + hour : hour);
+        sb.append(":");
+        sb.append((min < 10) ? "0" + min : min);
+        return sb.toString();
     }
 }

@@ -30,8 +30,8 @@ public class TimetableParser extends AbstractParser {
     private static final String NO_MINUTES_PATTERN = "-";
 
     private final static String LINE_NUMBER_TOKEN = "@[line]";
-    private final static String STOP_SEQ_TOKEN = "@[seg]";
-    private final static String TIMETABLE_URL_PATTERN = "http://rozklady.mpk.krakow.pl/aktualne/" + LINE_NUMBER_TOKEN + "/" + LINE_NUMBER_TOKEN + "t" + STOP_SEQ_TOKEN + ".htm";
+    private final static String PAGE_TOKEN = "@[page]";
+    private final static String TIMETABLE_URL_PATTERN = "http://rozklady.mpk.krakow.pl/aktualne/" + LINE_NUMBER_TOKEN + "/" + PAGE_TOKEN;
 
     private String stopName;
     private String destination;
@@ -177,10 +177,9 @@ public class TimetableParser extends AbstractParser {
     }
 
 
-    public static String getStationTimetableUrl(Integer lineNo, Integer stationSeq) {
+    public static String getStationTimetableUrl(Integer lineNo, String page) {
         String line = (lineNo < 10) ? "000" + lineNo.toString() : (lineNo < 100) ? "00" + lineNo.toString() : "0" + lineNo.toString();
-        String seq = (stationSeq < 10) ? "00" + stationSeq.toString() : "0" + stationSeq.toString();
-        return TIMETABLE_URL_PATTERN.replace(LINE_NUMBER_TOKEN, line).replace(STOP_SEQ_TOKEN, seq);
+        return TIMETABLE_URL_PATTERN.replace(LINE_NUMBER_TOKEN, line).replace(PAGE_TOKEN, page);
     }
 
 }
