@@ -1,4 +1,4 @@
-package pl.jahu.mpk.tests;
+package pl.jahu.mpk.tests.unit;
 
 import org.junit.Test;
 import pl.jahu.mpk.parser.LinesListParser;

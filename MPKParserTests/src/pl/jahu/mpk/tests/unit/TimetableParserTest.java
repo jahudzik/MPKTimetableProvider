@@ -1,4 +1,4 @@
-package pl.jahu.mpk.tests;
+package pl.jahu.mpk.tests.unit;
 
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
