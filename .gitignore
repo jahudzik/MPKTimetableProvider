@@ -36,3 +36,7 @@ Icon
 .Trashes
 out
 .idea
+*.iml
+/MPKParser/*.iml
+/MPKParserTests/*.iml
+/Tests
