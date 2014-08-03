@@ -1,0 +1,3 @@
+Fix irregular routes (eg 183, 225)
+Adjust DayType.WEEKEND_NIGHTS in validateDayType
+Handle lines with one direction (405, 451)
