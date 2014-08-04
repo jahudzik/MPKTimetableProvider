@@ -1,0 +1,5 @@
+* 0.1
+- Added LinesListParser - retrieves list of all lines from MPK page
+- Added LineRouteParser - retrieves routes for specified line
+- Added TimetableParser - retrieves all departures from specified timetable
+- Added Scenario1ShowLineTimetable (with integration test) - presents usage of above parsers in order to show specific timetable (based on user's random actions)
