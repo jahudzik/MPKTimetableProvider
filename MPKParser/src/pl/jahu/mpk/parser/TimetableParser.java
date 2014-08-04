@@ -3,7 +3,6 @@ package pl.jahu.mpk.parser;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import pl.jahu.mpk.entities.Departure;
-import pl.jahu.mpk.entities.Station;
 import pl.jahu.mpk.enums.DayTypes;
 import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parser.exceptions.TimetableParseException;
@@ -17,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by jahudzik on 2014-07-13.
+ *  Created by jahudzik on 2014-07-13.
  */
 public class TimetableParser extends AbstractParser {
 
@@ -79,12 +78,7 @@ public class TimetableParser extends AbstractParser {
     }
 
 
-
     public Map<DayTypes, List<Departure>> parse() throws TimetableParseException {
-        return parse(null);
-    }
-
-    public Map<DayTypes, List<Departure>> parse(Station station) throws TimetableParseException {
         Map<DayTypes, List<Departure>> departures = new HashMap<DayTypes, List<Departure>>();
         Elements rows = document.getElementsByClass(DEPARTURES_TABLE_CLASS).get(0).getElementsByTag("tr");
         if (rows != null && rows.size() > 0) {
@@ -110,7 +104,7 @@ public class TimetableParser extends AbstractParser {
                             for (int j = 0; j < dayTypes.size(); j++) {
                                 String minuteString = minCells.get(j).text();
                                 if (!minuteString.equals(NO_MINUTES_PATTERN)) {
-                                    List<Departure> deps = buildDeparturesList(station, hour, minuteString);
+                                    List<Departure> deps = buildDeparturesList(hour, minuteString);
                                     departures.get(dayTypesList.get(j)).addAll(deps);
                                 }
                             }
@@ -134,27 +128,29 @@ public class TimetableParser extends AbstractParser {
     /**
      * Returns list of departures for specified hour
      */
-    private List<Departure> buildDeparturesList(Station station, int hour, String minuteString) throws TimetableParseException {
+    private List<Departure> buildDeparturesList(int hour, String minuteString) throws TimetableParseException {
         List<Departure> deps = new ArrayList<Departure>();
         String[] mins = minuteString.split(" ");
         for (String minString : mins) {
             try {
                 int min = Integer.parseInt(minString);
-                deps.add(new Departure(station, hour, min));
+                deps.add(new Departure( hour, min));
             } catch (NumberFormatException e) {
                 int min = Integer.parseInt(minString.substring(0, 2));
-                String letter = minString.substring(2);
-                boolean legendFound = false;
+                String legendLetters = minString.substring(2);
+                int legendLettersCount = legendLetters.length();
+                int legendsFound = 0;
+                String[] legends = new String[legendLettersCount];
                 if (legendCells != null) {
                     for (Element legendCell : legendCells) {
                         String legend = legendCell.text();
-                        if (legend.substring(0, 1).equals(letter)) {
-                            deps.add(new Departure(station, hour, min, legend.substring(4)));
-                            legendFound = true;
+                        if (legendLetters.contains(legend.substring(0, 1))) {
+                            legends[legendsFound++] = legend.substring(4);
                         }
                     }
+                    deps.add(new Departure(hour, min, legends));
                 }
-                if (!legendFound) {
+                if (legendsFound != legendLettersCount) {
                     throw new TimetableParseException("No legend found");
                 }
             }
