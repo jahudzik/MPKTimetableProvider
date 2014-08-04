@@ -9,5 +9,5 @@ public enum DayTypes {
     SUNDAY,
     EVERYDAY,
     MONDAY_TO_THURSDAY,
-    WEEKEND_NIGHTS;
+    WEEKEND_NIGHTS
 }

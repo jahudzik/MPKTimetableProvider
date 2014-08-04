@@ -5,5 +5,5 @@ package pl.jahu.mpk.enums;
  */
 public enum VehicleTypes {
     BUS,
-    TRAM;
+    TRAM
 }

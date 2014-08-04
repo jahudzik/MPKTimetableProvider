@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO Handle irregular routes (eg 183, 225)
+// TODO Handle lines with one direction (405, 451) if required
+
 /**
  * Created by hudzj on 8/1/2014.
  */

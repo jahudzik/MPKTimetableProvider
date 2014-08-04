@@ -21,8 +21,8 @@ public class Scenario1ShowLineTimetable {
 
     public static void execute() {
         int chosenLine = -1; // 183, 225
-        String chosenDestination = null;
-        String[] chosenStation = null;
+        String chosenDestination;
+        String[] chosenStation;
         Random rand = new Random();
 
         try {
@@ -62,9 +62,9 @@ public class Scenario1ShowLineTimetable {
         System.out.println("\n### Choose direction:");
         for (String dest : destList) {
             System.out.println("### - " + dest);
-        };
+        }
         chosenDestination = destList.get(rand.nextInt(destList.size()));
-        System.out.println("[User choses '" + chosenDestination + "' destination]");
+        System.out.println("[User chooses '" + chosenDestination + "' destination]");
 
 
         List<String[]> route = null;
@@ -76,6 +76,7 @@ public class Scenario1ShowLineTimetable {
         }
 
         System.out.println("\n### Choose station:");
+        assert route != null;
         for (String[] stationInfo : route) {
             System.out.println("### - " + stationInfo[0]);
         }
@@ -107,6 +108,7 @@ public class Scenario1ShowLineTimetable {
 
         System.out.println("\n### Departures for today (" + todayType + ") ");
         System.out.print("### ");
+        assert departuresForToday != null;
         for (Departure dep : departuresForToday) {
             System.out.print(dep + "  ");
         }

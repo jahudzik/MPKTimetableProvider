@@ -32,10 +32,6 @@ public class Departure {
     }
 
     public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append((hour < 10) ? "0" + hour : hour);
-        sb.append(":");
-        sb.append((min < 10) ? "0" + min : min);
-        return sb.toString();
+        return ((hour < 10) ? "0" + hour : hour) + ":" + ((min < 10) ? "0" + min : min);
     }
 }

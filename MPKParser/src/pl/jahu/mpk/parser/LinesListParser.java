@@ -1,7 +1,5 @@
 package pl.jahu.mpk.parser;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
@@ -35,7 +33,7 @@ public class LinesListParser extends AbstractParser {
             try {
                 int line = Integer.parseInt(lineCandidate);
                 lines.add(line);
-            } catch (NumberFormatException e) {}
+            } catch (NumberFormatException ignored) {}
         }
         return lines;
     }

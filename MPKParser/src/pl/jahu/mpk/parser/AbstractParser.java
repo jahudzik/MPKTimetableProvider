@@ -22,6 +22,7 @@ abstract class AbstractParser {
         try {
             this.document = Jsoup.connect(url).get();
         } catch (IOException e) {
+            // TODO handle it properly
             if (e.toString().contains("Status=404")) {
                 throw new TimetableNotFoundException();
             } else {

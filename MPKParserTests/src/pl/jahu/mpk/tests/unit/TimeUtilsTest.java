@@ -11,6 +11,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+// TODO Handle WEEKEND_NIGHTS properly
+
 /**
  * Created by jahudzik on 2014-08-03.
  */
