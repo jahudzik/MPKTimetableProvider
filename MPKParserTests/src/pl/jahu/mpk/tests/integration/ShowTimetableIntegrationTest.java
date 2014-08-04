@@ -12,7 +12,6 @@ import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parser.exceptions.TimetableParseException;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,8 +57,13 @@ public class ShowTimetableIntegrationTest {
 
         Collections.sort(lines);
 
+        int firstLine = 0;
+//        int firstLine = lines.indexOf(201);
+        int lastLine = lines.size() - 1;
+
         // for each line...
-        for (int line : lines) {
+        for (int k = firstLine; k <= lastLine;k++) {
+            int line = lines.get(k);
             actLine = line;
             // for each destination...
             for (int i = 1; i < 10; i++) {
@@ -85,15 +89,15 @@ public class ShowTimetableIntegrationTest {
                     assertNotNull(timetables);
                     assertTrue(timetables.size() > 0);
 
-                    StringBuffer sb = new StringBuffer();
+                    StringBuilder sb = new StringBuilder();
                     for (DayTypes dayType : timetables.keySet()) {
                         List<Departure> departures = timetables.get(dayType);
-                        sb.append(dayType + "=" + departures.size() + ";");
+                        sb.append(dayType).append("=").append(departures.size()).append(";");
                         assertNotNull(departures);
                         assertTrue(departures.size() > 0);
                     }
 
-                    System.out.println("PASSED: {line=" + line + ", destination='" + destination + "', stations=" + route.size() + ", firstStation='" + route.get(0)[0] + "', departures={" + sb.toString() + "} }");
+                    System.out.println("PASSED: {line=" + line + ", route='" + route.get(0)[0] + "'->'" + destination + "', stations=" + route.size() + ", departures={" + sb.toString() + "} }");
                 } catch (TimetableNotFoundException e) {
                     break;
                 }
