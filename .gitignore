@@ -1,3 +1,20 @@
+# built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+out/
+build/
+
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -13,6 +30,16 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+
+# IDEA/Android Studio project files
+*.idea
+*.iml
+
+# Local IDEA workspace
+.idea/workspace.xml
+
+# Gradle cache
+.gradle
 
 # =========================
 # Operating System Files
@@ -34,9 +61,5 @@ Icon
 # Files that might appear on external disk
 .Spotlight-V100
 .Trashes
-out
-.idea
-*.iml
-/MPKParser/*.iml
-/MPKParserTests/*.iml
-/Tests
+
+
