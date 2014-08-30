@@ -1,6 +1,5 @@
 package pl.jahu.mpk.tests.unit.integration;
 
-import org.junit.AfterClass;
 import org.junit.Test;
 import pl.jahu.mpk.parser.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
