@@ -5,6 +5,7 @@ import org.jsoup.select.Elements;
 import pl.jahu.mpk.parser.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parser.exceptions.TimetableParseException;
+import pl.jahu.mpk.parser.utils.UrlResolver;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,13 +20,10 @@ import java.util.List;
  */
 public class LineRouteParser extends AbstractParser {
 
-    private final static String LINE_NUMBER_TOKEN = "@[line]";
-    private final static String DIRECTION_TOKEN = "@[seg]";
-    private static final String LINE_ROUTE_URL_PATTERN = "http://rozklady.mpk.krakow.pl/aktualne/"+LINE_NUMBER_TOKEN+"/"+LINE_NUMBER_TOKEN+"w00"+DIRECTION_TOKEN+".htm";
     private String destination;
 
-    public LineRouteParser(String url) throws TimetableNotFoundException, LineRouteParseException {
-        super(url);
+    public LineRouteParser(int lineNo, int direction) throws TimetableNotFoundException, LineRouteParseException {
+        super(UrlResolver.getLineRouteUrl(lineNo, direction));
         this.destination = retrieveDestination();
     }
 
@@ -74,11 +72,6 @@ public class LineRouteParser extends AbstractParser {
         }
 
         return list;
-    }
-
-    public static String getLineRouteUrl(Integer lineNo, Integer direction) {
-        String line = (lineNo < 10) ? "000" + lineNo.toString() : (lineNo < 100) ? "00" + lineNo.toString() : "0" + lineNo.toString();
-        return LINE_ROUTE_URL_PATTERN.replace(LINE_NUMBER_TOKEN, line).replace(DIRECTION_TOKEN, direction.toString());
     }
 
 

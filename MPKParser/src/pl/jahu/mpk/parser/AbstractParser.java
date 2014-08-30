@@ -14,6 +14,7 @@ import java.io.IOException;
 abstract class AbstractParser {
 
     protected Document document;
+    private String url;
 
     /**
      * Creates parser for specified URL
@@ -21,6 +22,7 @@ abstract class AbstractParser {
     public AbstractParser(String url) throws TimetableNotFoundException {
         try {
             this.document = Jsoup.connect(url).get();
+            this.url = url;
         } catch (IOException e) {
             // TODO handle it properly
             if (e.toString().contains("Status=404")) {
@@ -38,4 +40,7 @@ abstract class AbstractParser {
         this.document = Jsoup.parse(file, encoding);
     }
 
+    public String getUrl() {
+        return url;
+    }
 }

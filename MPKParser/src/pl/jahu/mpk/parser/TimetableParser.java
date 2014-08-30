@@ -7,6 +7,7 @@ import pl.jahu.mpk.enums.DayTypes;
 import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parser.exceptions.TimetableParseException;
 import pl.jahu.mpk.parser.utils.ParserConstants;
+import pl.jahu.mpk.parser.utils.UrlResolver;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,17 +29,13 @@ public class TimetableParser extends AbstractParser {
     private static final String LEGEND_CELL_CLASS = "fontprzyp";
     private static final String NO_MINUTES_PATTERN = "-";
 
-    private final static String LINE_NUMBER_TOKEN = "@[line]";
-    private final static String PAGE_TOKEN = "@[page]";
-    private final static String TIMETABLE_URL_PATTERN = "http://rozklady.mpk.krakow.pl/aktualne/" + LINE_NUMBER_TOKEN + "/" + PAGE_TOKEN;
-
     private String stopName;
     private String destination;
     private Elements legendCells;
 
 
-    public TimetableParser(String url) throws TimetableNotFoundException, TimetableParseException {
-        super(url);
+    public TimetableParser(int lineNo, String page) throws TimetableNotFoundException, TimetableParseException {
+        super(UrlResolver.getStationTimetableUrl(lineNo, page));
         this.stopName = retrieveSpecificCell(STOP_NAME_CLASS, "stop name");
         this.destination = retrieveDestination();
     }
@@ -172,10 +169,5 @@ public class TimetableParser extends AbstractParser {
         return list;
     }
 
-
-    public static String getStationTimetableUrl(Integer lineNo, String page) {
-        String line = (lineNo < 10) ? "000" + lineNo.toString() : (lineNo < 100) ? "00" + lineNo.toString() : "0" + lineNo.toString();
-        return TIMETABLE_URL_PATTERN.replace(LINE_NUMBER_TOKEN, line).replace(PAGE_TOKEN, page);
-    }
 
 }

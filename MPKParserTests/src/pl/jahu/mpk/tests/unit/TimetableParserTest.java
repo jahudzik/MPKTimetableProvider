@@ -21,12 +21,12 @@ public class TimetableParserTest {
 
     @Test(expected = TimetableNotFoundException.class)
     public void testIncorrectTimetableUrl() throws TimetableParseException, TimetableNotFoundException {
-        new TimetableParser("http://rozklady.mpk.krakow.pl/aktualne/000123456/0002341t001.htm");
+        new TimetableParser(12345,"123");
     }
 
     @Test
     public void testCorrectCase() throws TimetableParseException, TimetableNotFoundException {
-        TimetableParser timetableParser = new TimetableParser("http://rozklady.mpk.krakow.pl/aktualne/0001/0001t001.htm");
+        TimetableParser timetableParser = new TimetableParser(1, "0001t001.htm");
         assertNotNull(timetableParser.getStopName());
         assertTrue(timetableParser.getStopName().length() > 0);
     }

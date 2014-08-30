@@ -26,7 +26,7 @@ public class ShowTimetableIntegrationTest {
 
     private static int actLine;
     private static String destination;
-    private static String timetableUrl;
+    private static String actTimetableUrl;
 
     @Test
     public void testShowingTimetable() {
@@ -46,7 +46,7 @@ public class ShowTimetableIntegrationTest {
 
     @AfterClass
     public static void logAfter() {
-        System.out.println("LAST EXECUTED: {line=" + actLine + ", destination='" + destination + "', url=" + timetableUrl + "}");
+        System.out.println("LAST EXECUTED: {line=" + actLine + ", destination='" + destination + "', url=" + actTimetableUrl + "}");
     }
 
     private void showTimetable() throws TimetableNotFoundException, LineRouteParseException, TimetableParseException {
@@ -67,9 +67,8 @@ public class ShowTimetableIntegrationTest {
             actLine = line;
             // for each destination...
             for (int i = 1; i < 10; i++) {
-                String url = LineRouteParser.getLineRouteUrl(line, i);
                 try {
-                    LineRouteParser routeParser = new LineRouteParser(url);
+                    LineRouteParser routeParser = new LineRouteParser(line, i);
                     destination = routeParser.getDestination();
                     // get route (all stations)
                     List<String[]> route = routeParser.parse();
@@ -83,8 +82,8 @@ public class ShowTimetableIntegrationTest {
                     }
 
                     // parse timetable for the first station on the route
-                    timetableUrl = TimetableParser.getStationTimetableUrl(line, route.get(0)[1]);
-                    TimetableParser timetableParser = new TimetableParser(timetableUrl);
+                    TimetableParser timetableParser = new TimetableParser(line, route.get(0)[1]);
+                    actTimetableUrl = timetableParser.getUrl();
                     Map<DayTypes, List<Departure>> timetables = timetableParser.parse();
                     assertNotNull(timetables);
                     assertTrue(timetables.size() > 0);

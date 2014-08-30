@@ -46,9 +46,8 @@ public class Scenario1ShowLineTimetable {
         // get routes for chosen line
         Map<String, LineRouteParser> destinations = new HashMap<String, LineRouteParser>();
         for (int i = 1; i < 10; i++) {
-            String url = LineRouteParser.getLineRouteUrl(chosenLine, i);
             try {
-                LineRouteParser routeParser = new LineRouteParser(url);
+                LineRouteParser routeParser = new LineRouteParser(chosenLine, i);
                 destinations.put(routeParser.getDestination(), routeParser);
             } catch (TimetableNotFoundException e) {
                 break;
@@ -88,8 +87,7 @@ public class Scenario1ShowLineTimetable {
         List<Departure> departuresForToday = null;
         DayTypes todayType = null;
         try {
-            String timetableUrl = TimetableParser.getStationTimetableUrl(chosenLine, chosenStation[1]);
-            TimetableParser timetableParser = new TimetableParser(timetableUrl);
+            TimetableParser timetableParser = new TimetableParser(chosenLine, chosenStation[1]);
             Map<DayTypes, List<Departure>> timetables = timetableParser.parse();
             for (DayTypes dayType : timetables.keySet()) {
                 if (TimeUtils.validateDayTypeForToday(dayType)) {

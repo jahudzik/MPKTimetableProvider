@@ -4,6 +4,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parser.exceptions.TimetableParseException;
+import pl.jahu.mpk.parser.utils.UrlResolver;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,10 +16,8 @@ import java.util.List;
  */
 public class LinesListParser extends AbstractParser {
 
-    private static final String URL = "http://rozklady.mpk.krakow.pl/linie.aspx";
-
     public LinesListParser() throws TimetableNotFoundException {
-        super(URL);
+        super(UrlResolver.getLinesListUrl());
     }
 
     public LinesListParser(File file, String encoding) throws IOException, TimetableParseException {
