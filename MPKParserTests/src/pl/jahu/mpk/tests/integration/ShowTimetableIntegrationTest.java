@@ -27,11 +27,12 @@ public class ShowTimetableIntegrationTest {
     private static int actLine;
     private static String destination;
     private static String actTimetableUrl;
+    private static boolean printOutput;
 
     @Test
     public void testShowingTimetable() {
         try {
-            showTimetable();
+            showTimetable(0, 1000, true);
         } catch (TimetableNotFoundException e) {
             e.printStackTrace();
             fail();
@@ -46,10 +47,13 @@ public class ShowTimetableIntegrationTest {
 
     @AfterClass
     public static void logAfter() {
-        System.out.println("LAST EXECUTED: {line=" + actLine + ", destination='" + destination + "', url=" + actTimetableUrl + "}");
+        if (printOutput) {
+            System.out.println("LAST EXECUTED: {line=" + actLine + ", destination='" + destination + "', url=" + actTimetableUrl + "}");
+        }
     }
 
-    private void showTimetable() throws TimetableNotFoundException, LineRouteParseException, TimetableParseException {
+    public static void showTimetable(int firstLine, int lastLine, boolean printOutput) throws TimetableNotFoundException, LineRouteParseException, TimetableParseException {
+        ShowTimetableIntegrationTest.printOutput = printOutput;
         LinesListParser linesListParser = new LinesListParser();
         List<Integer> lines = linesListParser.parse();
         assertNotNull(lines);
@@ -57,12 +61,18 @@ public class ShowTimetableIntegrationTest {
 
         Collections.sort(lines);
 
-        int firstLine = 0;
-//        int firstLine = lines.indexOf(201);
-        int lastLine = lines.size() - 1;
+        int firstLineIndex = 0;
+        while (lines.get(firstLineIndex) < firstLine) {
+            firstLineIndex++;
+        }
+
+        int lastLineIndex = lines.size() - 1;
+        while (lines.get(lastLineIndex) > lastLine) {
+            lastLineIndex--;
+        }
 
         // for each line...
-        for (int k = firstLine; k <= lastLine;k++) {
+        for (int k = firstLineIndex; k <= lastLineIndex; k++) {
             int line = lines.get(k);
             actLine = line;
             // for each destination...
@@ -96,7 +106,9 @@ public class ShowTimetableIntegrationTest {
                         assertTrue(departures.size() > 0);
                     }
 
-                    System.out.println("PASSED: {line=" + line + ", route='" + route.get(0)[0] + "'->'" + destination + "', stations=" + route.size() + ", departures={" + sb.toString() + "} }");
+                    if (printOutput) {
+                        System.out.println("PASSED: {line=" + line + ", route='" + route.get(0)[0] + "'->'" + destination + "', stations=" + route.size() + ", departures={" + sb.toString() + "} }");
+                    }
                 } catch (TimetableNotFoundException e) {
                     break;
                 }
