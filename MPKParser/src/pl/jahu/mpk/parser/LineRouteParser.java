@@ -17,6 +17,15 @@ import java.util.List;
 
 /**
  * Created by hudzj on 8/1/2014.
+ *
+ * Returns list of stations on line's route in specified direction.
+ *
+ * Input (constructor):
+ * - lineNo - line number (integer)
+ * - direction - direction's index (integer beginning from 1)
+ *
+ * Output (parse() method):
+ * - list of [station name, timetable url] String pairs
  */
 public class LineRouteParser extends AbstractParser {
 
@@ -53,7 +62,7 @@ public class LineRouteParser extends AbstractParser {
 
     /**
      * Parses chosen line route page
-     * @return Array of [station name, timetable url] String pairs
+     * @return list of [station name, timetable url] String pairs
      * @throws LineRouteParseException
      */
     public List<String[]> parse() throws LineRouteParseException {

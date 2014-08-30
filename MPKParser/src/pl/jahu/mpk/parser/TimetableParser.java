@@ -18,6 +18,16 @@ import java.util.Map;
 
 /**
  *  Created by jahudzik on 2014-07-13.
+ *
+ * Returns all departures in specified timetable divided by day types.
+ *
+ * Input (constructor):
+ * - lineNo - line number (integer)
+ * - page - html page name with specified timetable (string, ex. '0001t001.htm')
+ *
+ * Output (parse() method):
+ * - map with departures lists for each day type
+ *
  */
 public class TimetableParser extends AbstractParser {
 
@@ -131,7 +141,7 @@ public class TimetableParser extends AbstractParser {
         for (String minString : mins) {
             try {
                 int min = Integer.parseInt(minString);
-                deps.add(new Departure( hour, min));
+                deps.add(new Departure(hour, min));
             } catch (NumberFormatException e) {
                 int min = Integer.parseInt(minString.substring(0, 2));
                 String legendLetters = minString.substring(2);

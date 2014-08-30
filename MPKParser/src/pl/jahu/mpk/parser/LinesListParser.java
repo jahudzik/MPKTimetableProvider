@@ -13,6 +13,9 @@ import java.util.List;
 
 /**
  * Created by hudzj on 8/1/2014.
+ *
+ * Output (parse() method):
+ * - list of lines numbers
  */
 public class LinesListParser extends AbstractParser {
 
