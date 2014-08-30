@@ -27,6 +27,10 @@ public class Departure {
         return time.getMin();
     }
 
+    public Time getTime() {
+        return time;
+    }
+
     public String[] getExtraInfo() {
         return extraInfo;
     }

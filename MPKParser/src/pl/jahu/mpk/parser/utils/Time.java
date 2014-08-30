@@ -23,7 +23,7 @@ public class Time implements Comparable<Time> {
     }
 
     public int getTime() {
-        return 60 * hour - min;
+        return 60 * hour + min;
     }
 
     @Override
