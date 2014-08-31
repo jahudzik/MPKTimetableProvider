@@ -6,6 +6,8 @@ package pl.jahu.mpk.parser.utils;
  */
 public class Time implements Comparable<Time> {
 
+    private static final int DAY_MINUTES_COUNT = 24 * 60;
+
     private int hour;
     private int min;
 
@@ -28,7 +30,12 @@ public class Time implements Comparable<Time> {
 
     @Override
     public int compareTo(Time o) {
-        return getTime() - o.getTime();
+        int diff = getTime() - o.getTime();
+        if (Math.abs(diff) > DAY_MINUTES_COUNT / 2) {
+            // difference between times is bigger than half a day = assume one of them is from the next day (ex. 23:50 & 00:10)
+            diff = (diff > 0) ? diff - DAY_MINUTES_COUNT : diff + DAY_MINUTES_COUNT;
+        }
+        return diff;
     }
 
     @Override
