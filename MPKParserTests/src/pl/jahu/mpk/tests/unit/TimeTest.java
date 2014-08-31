@@ -49,6 +49,14 @@ public class TimeTest {
         assertEquals(time2.compareTo(time1), 715);
     }
 
+    @Test
+    public void testCompareDaytime() {
+        Time time1 = new Time(23, 50);
+        Time time2 = new Time(0, 5);
+        assertEquals(time1.compareDaytimeTo(time2), -15);
+        assertEquals(time2.compareDaytimeTo(time1), 15);
+    }
+
 
     @Test
     public void testToString1() {

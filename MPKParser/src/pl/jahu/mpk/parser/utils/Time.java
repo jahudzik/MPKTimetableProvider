@@ -28,6 +28,18 @@ public class Time implements Comparable<Time> {
         return 60 * hour + min;
     }
 
+    /**
+     * Compares this time value to passed time's value.
+     *
+     * Assumes both are day times, which means 00:xx is later than 23:xx.
+     *
+     */
+    public int compareDaytimeTo(Time o) {
+        int timeValue1 = (hour == 0) ? getTime() + DAY_MINUTES_COUNT : getTime();
+        int timeValue2 = (o.getHour() == 0) ? o.getTime() + DAY_MINUTES_COUNT : o.getTime();
+        return (timeValue1 - timeValue2);
+    }
+
     @Override
     public int compareTo(Time o) {
         int diff = getTime() - o.getTime();
