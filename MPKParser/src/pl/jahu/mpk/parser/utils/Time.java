@@ -24,7 +24,7 @@ public class Time implements Comparable<Time> {
         return min;
     }
 
-    public int getTime() {
+    public int getTimeValue() {
         return 60 * hour + min;
     }
 
@@ -35,14 +35,14 @@ public class Time implements Comparable<Time> {
      *
      */
     public int compareDaytimeTo(Time o) {
-        int timeValue1 = (hour == 0) ? getTime() + DAY_MINUTES_COUNT : getTime();
-        int timeValue2 = (o.getHour() == 0) ? o.getTime() + DAY_MINUTES_COUNT : o.getTime();
+        int timeValue1 = (hour == 0) ? getTimeValue() + DAY_MINUTES_COUNT : getTimeValue();
+        int timeValue2 = (o.getHour() == 0) ? o.getTimeValue() + DAY_MINUTES_COUNT : o.getTimeValue();
         return (timeValue1 - timeValue2);
     }
 
     @Override
     public int compareTo(Time o) {
-        int diff = getTime() - o.getTime();
+        int diff = getTimeValue() - o.getTimeValue();
         if (Math.abs(diff) > DAY_MINUTES_COUNT / 2) {
             // difference between times is bigger than half a day = assume one of them is from the next day (ex. 23:50 & 00:10)
             diff = (diff > 0) ? diff - DAY_MINUTES_COUNT : diff + DAY_MINUTES_COUNT;

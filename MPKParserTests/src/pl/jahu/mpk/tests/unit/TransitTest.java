@@ -5,8 +5,6 @@ import pl.jahu.mpk.entities.Transit;
 import pl.jahu.mpk.entities.TransitStop;
 import pl.jahu.mpk.parser.utils.Time;
 
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
