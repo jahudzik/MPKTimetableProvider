@@ -20,7 +20,8 @@ public class TransitStop {
         return time;
     }
 
-    public String getStation() {
-        return station;
+    @Override
+    public String toString() {
+        return station + " [" + time + "]";
     }
 }

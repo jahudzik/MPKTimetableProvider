@@ -1,5 +1,7 @@
 package pl.jahu.mpk.entities;
 
+import pl.jahu.mpk.parser.utils.Time;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,6 +14,7 @@ import java.util.List;
 public class Transit {
 
     private int line;
+    private String destStation;
     private List<TransitStop> stops;
     private Comparator<TransitStop> stopsComparator;
 
@@ -37,12 +40,33 @@ public class Transit {
         return line;
     }
 
+    public String getDestStation() {
+        return destStation;
+    }
+
+    public void setDestStation(String destStation) {
+        this.destStation = destStation;
+    }
+
+    public Time getLastStopTime() {
+        return (stops.size() > 0 ) ? stops.get(stops.size() - 1).getTime() : null;
+    }
+
+    public String getDirections() {
+        if (stops.size() == 0) {
+            return "[empty]";
+        }
+        return stops.get(0).toString() + " -> " + stops.get(stops.size() - 1).toString() + " -> " + destStation;
+    }
 
     @Override
     public String toString() {
+        if (stops.size() == 0) {
+            return "[empty]";
+        }
         StringBuilder sb = new StringBuilder();
         for (TransitStop stop : stops) {
-            sb.append(stop.getStation() + " [" + stop.getTime() + "] ");
+            sb.append(stop).append(" ");
         }
         return sb.toString();
     }

@@ -30,8 +30,8 @@ public class Time implements Comparable<Time> {
 
     /**
      * Compares this time value to passed time's value.
-     *
      * Assumes both are day times, which means 00:xx is later than 23:xx.
+     * Returns value less than 0, if this time is earlier than passed time, bigger than 0, if it's later, equal to 0 otherwise.
      *
      */
     public int compareDaytimeTo(Time o) {
