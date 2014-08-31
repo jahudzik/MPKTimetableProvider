@@ -37,4 +37,7 @@ public class TimeUtils {
         }
     }
 
+    private static boolean moreLessEqual(Time time1, Time time2) {
+        return Math.abs(time1.compareDaytimeTo(time2)) < 3;
+    }
 }

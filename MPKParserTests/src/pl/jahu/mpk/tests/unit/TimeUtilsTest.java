@@ -3,8 +3,11 @@ package pl.jahu.mpk.tests.unit;
 import org.junit.Test;
 import pl.jahu.mpk.enums.DayTypes;
 import pl.jahu.mpk.parser.exceptions.UnsupportedDayTypesConfigurationException;
+import pl.jahu.mpk.parser.utils.Time;
 import pl.jahu.mpk.parser.utils.TimeUtils;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Calendar;
 
 import static org.junit.Assert.assertFalse;
@@ -93,6 +96,52 @@ public class TimeUtilsTest {
     @Test(expected = UnsupportedDayTypesConfigurationException.class)
     public void testNull() throws UnsupportedDayTypesConfigurationException {
         assertTrue(TimeUtils.validateDayType(null, Calendar.SATURDAY));
+    }
+
+
+    private boolean testMoreLessEqual(Time time1, Time time2) {
+        try {
+            Method method = TimeUtils.class.getDeclaredMethod("moreLessEqual", Time.class, Time.class);
+            method.setAccessible(true);
+            return (Boolean) method.invoke(null, time1, time2);
+        } catch (NoSuchMethodException e) {
+            fail();
+            return false;
+        } catch (InvocationTargetException e) {
+            fail();
+            return false;
+        } catch (IllegalAccessException e) {
+            fail();
+            return false;
+        }
+    }
+
+    @Test
+    public void testMoreLessEqual1() {
+        Time time1 = new Time(13, 25);
+        Time time2 = new Time(13, 25);
+        assertTrue(testMoreLessEqual(time1, time2));
+    }
+
+    @Test
+    public void testMoreLessEqual2() {
+        Time time1 = new Time(13, 25);
+        Time time2 = new Time(13, 26);
+        assertTrue(testMoreLessEqual(time1, time2));
+    }
+
+    @Test
+    public void testMoreLessEqual3() {
+        Time time1 = new Time(13, 27);
+        Time time2 = new Time(13, 25);
+        assertTrue(testMoreLessEqual(time1, time2));
+    }
+
+    @Test
+    public void testMoreLessEqual4() {
+        Time time1 = new Time(13, 25);
+        Time time2 = new Time(13, 28);
+        assertFalse(testMoreLessEqual(time1, time2));
     }
 
 }

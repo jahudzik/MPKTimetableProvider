@@ -59,6 +59,10 @@ public class Transit {
         return stops.get(0).toString() + " -> " + stops.get(stops.size() - 1).toString() + " -> " + destStation;
     }
 
+    public int getDuration() {
+        return getLastStopTime().getTimeValue() - stops.get(0).getTime().getTimeValue();
+    }
+
     @Override
     public String toString() {
         if (stops.size() == 0) {
