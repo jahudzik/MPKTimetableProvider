@@ -78,7 +78,7 @@ public class TimetableParserTest {
             assertEquals(expectedStopName, parser.getStation());
             assertEquals(expectedDestination, parser.getDestStation());
 
-            Map<DayTypes, List<Departure>> departures = parser.parse();
+            Map<DayTypes, List<Departure>> departures = parser.parse().getDepartures();
 
             assertEquals(3, departures.size());
             assertTrue(departures.containsKey(DayTypes.WEEKDAY));
@@ -125,7 +125,7 @@ public class TimetableParserTest {
             assertEquals(expectedStopName, parser.getStation());
             assertEquals(expectedDestination, parser.getDestStation());
 
-            Map<DayTypes, List<Departure>> departures = parser.parse();
+            Map<DayTypes, List<Departure>> departures = parser.parse().getDepartures();
 
             assertEquals(3, departures.size());
             assertTrue(departures.containsKey(DayTypes.WEEKDAY));
@@ -177,7 +177,7 @@ public class TimetableParserTest {
             assertEquals(expectedStopName, parser.getStation());
             assertEquals(expectedDestination, parser.getDestStation());
 
-            Map<DayTypes, List<Departure>> departures = parser.parse();
+            Map<DayTypes, List<Departure>> departures = parser.parse().getDepartures();
 
             assertEquals(1, departures.size());
             assertTrue(departures.containsKey(DayTypes.EVERYDAY));
@@ -209,7 +209,7 @@ public class TimetableParserTest {
             assertEquals(expectedStopName, parser.getStation());
             assertEquals(expectedDestination, parser.getDestStation());
 
-            Map<DayTypes, List<Departure>> departures = parser.parse();
+            Map<DayTypes, List<Departure>> departures = parser.parse().getDepartures();
 
             assertEquals(3, departures.size());
             assertTrue(departures.containsKey(DayTypes.MONDAY_TO_THURSDAY));
@@ -254,7 +254,7 @@ public class TimetableParserTest {
             assertEquals(expectedStopName, parser.getStation());
             assertEquals(expectedDestination, parser.getDestStation());
 
-            Map<DayTypes, List<Departure>> departures = parser.parse();
+            Map<DayTypes, List<Departure>> departures = parser.parse().getDepartures();
 
             assertEquals(3, departures.size());
             assertTrue(departures.containsKey(DayTypes.WEEKDAY));
@@ -312,7 +312,7 @@ public class TimetableParserTest {
             assertEquals(expectedStopName, parser.getStation());
             assertEquals(expectedDestination, parser.getDestStation());
 
-            Map<DayTypes, List<Departure>> departures = parser.parse();
+            Map<DayTypes, List<Departure>> departures = parser.parse().getDepartures();
 
             assertEquals(6, departures.get(DayTypes.WEEKDAY).get(2).getHour());
             assertEquals(28, departures.get(DayTypes.WEEKDAY).get(2).getMin());

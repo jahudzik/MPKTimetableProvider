@@ -3,6 +3,7 @@ package pl.jahu.mpk.parser;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import pl.jahu.mpk.entities.Departure;
+import pl.jahu.mpk.entities.Timetable;
 import pl.jahu.mpk.enums.DayTypes;
 import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parser.exceptions.TimetableParseException;
@@ -26,7 +27,7 @@ import java.util.Map;
  * - page - html page name with specified timetable (string, ex. '0001t001.htm')
  *
  * Output (parse() method):
- * - map with departures lists for each day type
+ * - Timetable object holding map with departures lists for each day type
  *
  */
 public class TimetableParser extends AbstractParser {
@@ -39,6 +40,7 @@ public class TimetableParser extends AbstractParser {
     private static final String LEGEND_CELL_CLASS = "fontprzyp";
     private static final String NO_MINUTES_PATTERN = "-";
 
+    private int line;
     private String station;
     private String destStation;
     private Elements legendCells;
@@ -46,6 +48,7 @@ public class TimetableParser extends AbstractParser {
 
     public TimetableParser(int lineNo, String page) throws TimetableNotFoundException, TimetableParseException {
         super(UrlResolver.getStationTimetableUrl(lineNo, page));
+        this.line = lineNo;
         this.station = retrieveSpecificCell(STOP_NAME_CLASS, "stop name");
         this.destStation = retrieveDestination();
     }
@@ -85,7 +88,7 @@ public class TimetableParser extends AbstractParser {
     }
 
 
-    public Map<DayTypes, List<Departure>> parse() throws TimetableParseException {
+    public Timetable parse() throws TimetableParseException {
         Map<DayTypes, List<Departure>> departures = new HashMap<DayTypes, List<Departure>>();
         Elements rows = document.getElementsByClass(DEPARTURES_TABLE_CLASS).get(0).getElementsByTag("tr");
         if (rows != null && rows.size() > 0) {
@@ -129,7 +132,7 @@ public class TimetableParser extends AbstractParser {
             throw new TimetableParseException("No departure info found on the timetable");
         }
 
-        return departures;
+        return new Timetable(station, line, destStation, departures);
     }
 
     /**

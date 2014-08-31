@@ -88,7 +88,7 @@ public class Scenario1ShowLineTimetable {
         DayTypes todayType = null;
         try {
             TimetableParser timetableParser = new TimetableParser(chosenLine, chosenStation[1]);
-            Map<DayTypes, List<Departure>> timetables = timetableParser.parse();
+            Map<DayTypes, List<Departure>> timetables = timetableParser.parse().getDepartures();
             for (DayTypes dayType : timetables.keySet()) {
                 if (TimeUtils.validateDayTypeForToday(dayType)) {
                     departuresForToday = timetables.get(dayType);

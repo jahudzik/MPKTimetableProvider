@@ -94,7 +94,7 @@ public class ShowTimetableIntegrationTest {
                     // parse timetable for the first station on the route
                     TimetableParser timetableParser = new TimetableParser(line, route.get(0)[1]);
                     actTimetableUrl = timetableParser.getUrl();
-                    Map<DayTypes, List<Departure>> timetables = timetableParser.parse();
+                    Map<DayTypes, List<Departure>> timetables = timetableParser.parse().getDepartures();
                     assertNotNull(timetables);
                     assertTrue(timetables.size() > 0);
 
