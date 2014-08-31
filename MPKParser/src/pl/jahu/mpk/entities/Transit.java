@@ -37,8 +37,17 @@ public class Transit {
         return line;
     }
 
-    private class TransitStopsComparator implements Comparator<TransitStop> {
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (TransitStop stop : stops) {
+            sb.append(stop.getStation() + " [" + stop.getTime() + "] ");
+        }
+        return sb.toString();
+    }
+
+    private class TransitStopsComparator implements Comparator<TransitStop> {
         @Override
         public int compare(TransitStop o1, TransitStop o2) {
             return o1.getTime().compareDaytimeTo(o2.getTime());
