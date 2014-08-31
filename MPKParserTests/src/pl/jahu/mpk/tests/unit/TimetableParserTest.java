@@ -27,8 +27,8 @@ public class TimetableParserTest {
     @Test
     public void testCorrectCase() throws TimetableParseException, TimetableNotFoundException {
         TimetableParser timetableParser = new TimetableParser(1, "0001t001.htm");
-        assertNotNull(timetableParser.getStopName());
-        assertTrue(timetableParser.getStopName().length() > 0);
+        assertNotNull(timetableParser.getStation());
+        assertTrue(timetableParser.getStation().length() > 0);
     }
 
 
@@ -75,8 +75,8 @@ public class TimetableParserTest {
             File inputFile = new File("./MPKParserTests/res/timetable1.html");
 
             TimetableParser parser = new TimetableParser(inputFile, "iso-8859-2");
-            assertEquals(expectedStopName, parser.getStopName());
-            assertEquals(expectedDestination, parser.getDestination());
+            assertEquals(expectedStopName, parser.getStation());
+            assertEquals(expectedDestination, parser.getDestStation());
 
             Map<DayTypes, List<Departure>> departures = parser.parse();
 
@@ -122,8 +122,8 @@ public class TimetableParserTest {
             File inputFile = new File("./MPKParserTests/res/timetable2.html");
 
             TimetableParser parser = new TimetableParser(inputFile, "iso-8859-2");
-            assertEquals(expectedStopName, parser.getStopName());
-            assertEquals(expectedDestination, parser.getDestination());
+            assertEquals(expectedStopName, parser.getStation());
+            assertEquals(expectedDestination, parser.getDestStation());
 
             Map<DayTypes, List<Departure>> departures = parser.parse();
 
@@ -174,8 +174,8 @@ public class TimetableParserTest {
             File inputFile = new File("./MPKParserTests/res/timetable3.html");
 
             TimetableParser parser = new TimetableParser(inputFile, "iso-8859-2");
-            assertEquals(expectedStopName, parser.getStopName());
-            assertEquals(expectedDestination, parser.getDestination());
+            assertEquals(expectedStopName, parser.getStation());
+            assertEquals(expectedDestination, parser.getDestStation());
 
             Map<DayTypes, List<Departure>> departures = parser.parse();
 
@@ -206,8 +206,8 @@ public class TimetableParserTest {
             File inputFile = new File("./MPKParserTests/res/timetable4.html");
 
             TimetableParser parser = new TimetableParser(inputFile, "iso-8859-2");
-            assertEquals(expectedStopName, parser.getStopName());
-            assertEquals(expectedDestination, parser.getDestination());
+            assertEquals(expectedStopName, parser.getStation());
+            assertEquals(expectedDestination, parser.getDestStation());
 
             Map<DayTypes, List<Departure>> departures = parser.parse();
 
@@ -251,8 +251,8 @@ public class TimetableParserTest {
             File inputFile = new File("./MPKParserTests/res/timetable5.html");
 
             TimetableParser parser = new TimetableParser(inputFile, "iso-8859-2");
-            assertEquals(expectedStopName, parser.getStopName());
-            assertEquals(expectedDestination, parser.getDestination());
+            assertEquals(expectedStopName, parser.getStation());
+            assertEquals(expectedDestination, parser.getDestStation());
 
             Map<DayTypes, List<Departure>> departures = parser.parse();
 
@@ -309,8 +309,8 @@ public class TimetableParserTest {
             File inputFile = new File("./MPKParserTests/res/timetable6.html");
 
             TimetableParser parser = new TimetableParser(inputFile, "iso-8859-2");
-            assertEquals(expectedStopName, parser.getStopName());
-            assertEquals(expectedDestination, parser.getDestination());
+            assertEquals(expectedStopName, parser.getStation());
+            assertEquals(expectedDestination, parser.getDestStation());
 
             Map<DayTypes, List<Departure>> departures = parser.parse();
 

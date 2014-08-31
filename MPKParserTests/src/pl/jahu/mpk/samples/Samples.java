@@ -38,7 +38,7 @@ public class Samples {
 //
 //                try {
 //                    TimetableParser parser = new TimetableParser(url);
-//                    System.out.println("[" + lineCandidate.toString() + "] " + parser.getStopName());
+//                    System.out.println("[" + lineCandidate.toString() + "] " + parser.getStation());
 //                    parser.parse(null);
 //                } catch (TimetableNotFoundException e) {}
 //            }

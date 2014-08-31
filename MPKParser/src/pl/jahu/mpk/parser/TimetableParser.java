@@ -39,21 +39,21 @@ public class TimetableParser extends AbstractParser {
     private static final String LEGEND_CELL_CLASS = "fontprzyp";
     private static final String NO_MINUTES_PATTERN = "-";
 
-    private String stopName;
-    private String destination;
+    private String station;
+    private String destStation;
     private Elements legendCells;
 
 
     public TimetableParser(int lineNo, String page) throws TimetableNotFoundException, TimetableParseException {
         super(UrlResolver.getStationTimetableUrl(lineNo, page));
-        this.stopName = retrieveSpecificCell(STOP_NAME_CLASS, "stop name");
-        this.destination = retrieveDestination();
+        this.station = retrieveSpecificCell(STOP_NAME_CLASS, "stop name");
+        this.destStation = retrieveDestination();
     }
 
     public TimetableParser(File file, String encoding) throws IOException, TimetableParseException {
         super(file, encoding);
-        this.stopName = retrieveSpecificCell(STOP_NAME_CLASS, "stop name");
-        this.destination = retrieveDestination();
+        this.station = retrieveSpecificCell(STOP_NAME_CLASS, "stop name");
+        this.destStation = retrieveDestination();
     }
 
 
@@ -63,7 +63,7 @@ public class TimetableParser extends AbstractParser {
         if (in != -1) {
             return route.substring(in+3);
         } else {
-            throw new TimetableParseException("Could not parse destination");
+            throw new TimetableParseException("Could not parse destStation");
         }
     }
 
@@ -76,12 +76,12 @@ public class TimetableParser extends AbstractParser {
     }
 
 
-    public String getStopName() {
-        return stopName;
+    public String getStation() {
+        return station;
     }
 
-    public String getDestination() {
-        return destination;
+    public String getDestStation() {
+        return destStation;
     }
 
 
