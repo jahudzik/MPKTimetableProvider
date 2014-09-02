@@ -22,6 +22,9 @@ import static org.junit.Assert.assertNotNull;
  */
 public class TransitBuilderTest {
 
+    public static final String[] STATIONS = {"Station 1", "Station 2", "Station 3", "Station 4"};
+    public static final String LAST_STATION = "Last Station";
+
 
     @Test
     public void testNullInput() {
@@ -33,47 +36,51 @@ public class TransitBuilderTest {
 
     @Test
     public void testRegularTimetables() {
-        String destStation = "Last Station";
         List<Timetable> timetables = new ArrayList<Timetable>();
-        timetables.add(buildTimetable(new int[]{12, 10, 12, 20, 12, 30}, "Station1", 123, destStation, DayTypes.WEEKDAY));
-        timetables.add(buildTimetable(new int[]{12, 12, 12, 22, 12, 32}, "Station2", 123, destStation, DayTypes.WEEKDAY));
-        timetables.add(buildTimetable(new int[]{12, 13, 12, 23, 12, 33}, "Station3", 123, destStation, DayTypes.WEEKDAY));
-        timetables.add(buildTimetable(new int[]{12, 16, 12, 26, 12, 36}, "Station4", 123, destStation, DayTypes.WEEKDAY));
+        timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY, DayTypes.SUNDAY}, new int[][]{{12, 10, 12, 20, 12, 30}, {12, 00}}, STATIONS[0], 123, LAST_STATION));
+        timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY, DayTypes.SUNDAY}, new int[][]{{12, 12, 12, 22, 12, 32}, {12, 02}}, STATIONS[1], 123, LAST_STATION));
+        timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY, DayTypes.SUNDAY}, new int[][]{{12, 13, 12, 23, 12, 33}, {12, 03}}, STATIONS[2], 123, LAST_STATION));
+        timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY, DayTypes.SUNDAY}, new int[][]{{12, 16, 12, 26, 12, 36}, {12, 06}}, STATIONS[3], 123, LAST_STATION));
         Map<DayTypes, List<Transit>> transitsMap = TransitBuilder.buildFromTimetables(timetables);
 
-        assertEquals(1, transitsMap.keySet().size());
-        List<Transit> transits = transitsMap.get(DayTypes.WEEKDAY);
-        assertNotNull(transits);
-        assertEquals(3, transits.size());
+        assertEquals(2, transitsMap.keySet().size());
 
-        for (Transit transit : transits) {
-            validateTransit(transit, 4, 6, destStation);
-        }
+        List<Transit> weekTransits = transitsMap.get(DayTypes.WEEKDAY);
+        assertNotNull(weekTransits);
+        assertEquals(3, weekTransits.size());
+        validateTransit(weekTransits.get(0), 4, 6, LAST_STATION, STATIONS, new int[]{12, 10, 12, 12, 12, 13, 12, 16});
+        validateTransit(weekTransits.get(1), 4, 6, LAST_STATION, STATIONS, new int[]{12, 20, 12, 22, 12, 23, 12, 26});
+        validateTransit(weekTransits.get(2), 4, 6, LAST_STATION, STATIONS, new int[]{12, 30, 12, 32, 12, 33, 12, 36});
 
-        Transit transit2 = transits.get(1);
-        assertEquals("Station1", transit2.getStops().get(0).getStation());
-        assertEquals("Station2", transit2.getStops().get(1).getStation());
-        assertEquals("Station3", transit2.getStops().get(2).getStation());
-        assertEquals("Station4", transit2.getStops().get(3).getStation());
-        assertEquals(TimeUtils.timeValue(12, 20), transit2.getStops().get(0).getTime().getTimeValue());
-        assertEquals(TimeUtils.timeValue(12, 22), transit2.getStops().get(1).getTime().getTimeValue());
-        assertEquals(TimeUtils.timeValue(12, 23), transit2.getStops().get(2).getTime().getTimeValue());
-        assertEquals(TimeUtils.timeValue(12, 26), transit2.getStops().get(3).getTime().getTimeValue());
+        List<Transit> sundayTransits = transitsMap.get(DayTypes.SUNDAY);
+        assertNotNull(sundayTransits);
+        assertEquals(1, sundayTransits.size());
+        validateTransit(sundayTransits.get(0), 4, 6, LAST_STATION, STATIONS, new int[]{12, 00, 12, 02, 12, 03, 12, 06});
     }
 
-    private void validateTransit(Transit transit, int stopsCount, int duration, String destStation) {
+    private void validateTransit(Transit transit, int stopsCount, int duration, String destStation, String[] stations, int[] times) {
         assertEquals(stopsCount, transit.getStops().size());
         assertEquals(duration, transit.getDuration());
         assertEquals(destStation, transit.getDestStation());
+        for (int i = 0; i < stations.length; i++) {
+            assertEquals(stations[i], transit.getStops().get(i).getStation());
+            assertEquals(TimeUtils.timeValue(times[2*i], times[2*i+1]), transit.getStops().get(i).getTime().getTimeValue());
+        }
     }
 
-    private Timetable buildTimetable(int[] times, String station, int lineNo, String destStation, DayTypes dayType) {
-        List<Departure> departures = new ArrayList<Departure>();
-        for (int i = 0; i < times.length; i+=2) {
-            departures.add(new Departure(times[i], times[i + 1]));
-        }
+    /**
+     * Builds timetable based on passed int values representing times (grouped by day type)
+     */
+    private Timetable buildTimetable(DayTypes[] dayTypes, int[][] timesMap, String station, int lineNo, String destStation) {
         Map<DayTypes, List<Departure>> map = new HashMap<DayTypes, List<Departure>>();
-        map.put(dayType, departures);
+        for (int i = 0; i < dayTypes.length; i++) {
+            int[] times = timesMap[i];
+            List<Departure> departures = new ArrayList<Departure>();
+            for (int j = 0; j < times.length; j+=2) {
+                departures.add(new Departure(times[j], times[j + 1]));
+            }
+            map.put(dayTypes[i], departures);
+        }
         return new Timetable(station, lineNo, destStation, map);
     }
 
