@@ -26,4 +26,16 @@ public class Timetable {
     public Map<DayTypes, List<Departure>> getDepartures() {
         return departures;
     }
+
+    public String getStation() {
+        return station;
+    }
+
+    public int getLine() {
+        return line;
+    }
+
+    public String getDestStation() {
+        return destStation;
+    }
 }

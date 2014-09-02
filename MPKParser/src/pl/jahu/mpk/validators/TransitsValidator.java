@@ -14,6 +14,8 @@ import java.util.Map;
  */
 public class TransitsValidator {
 
+    private static final int TRANSITS_DURATION_MARGIN_OF_ERROR = 10;
+
 
     public static void validate(List<Transit> transits) throws TransitValidationException{
         validateTransitDurations(transits);
@@ -23,11 +25,10 @@ public class TransitsValidator {
         Map<String, Transit> durations = new HashMap<String, Transit>();
         for (Transit transit : transits) {
             String key = transit.getStops().get(0).getStation() + "->" + transit.getDestStation();
-            int duration = transit.getLastStopTime().getTimeValue() - transit.getStops().get(0).getTime().getTimeValue();
             if (durations.containsKey(key)) {
                 Transit prevTransit = durations.get(key);
                 int prevDuration = prevTransit.getDuration();
-                if (!moreLessEqual(duration, prevDuration)) {
+                if (!moreLessEqual(transit.getDuration(), prevDuration, TRANSITS_DURATION_MARGIN_OF_ERROR)) {
                     throw new IncorrectTransitDurationException("Previous transit (" + prevDuration + " mins): " + prevTransit.getDirections() + ", actual transit (" + transit.getDuration() + "mins) : " + transit.getDirections());
                 }
             } else {
@@ -38,8 +39,8 @@ public class TransitsValidator {
     }
 
 
-    private static boolean moreLessEqual(int value1, int value2) {
-        return Math.abs(value1 - value2) < 10;
+    private static boolean moreLessEqual(int value1, int value2, int marginOfError) {
+        return Math.abs(value1 - value2) < marginOfError;
     }
 
 

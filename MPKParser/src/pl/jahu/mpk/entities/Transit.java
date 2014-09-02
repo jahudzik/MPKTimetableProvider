@@ -60,7 +60,7 @@ public class Transit {
     }
 
     public int getDuration() {
-        return getLastStopTime().getTimeValue() - stops.get(0).getTime().getTimeValue();
+        return getLastStopTime().compareDaytimeTo(stops.get(0).getTime());
     }
 
     @Override
@@ -72,6 +72,7 @@ public class Transit {
         for (TransitStop stop : stops) {
             sb.append(stop).append(" ");
         }
+        sb.append("-> ").append(destStation);
         return sb.toString();
     }
 

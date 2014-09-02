@@ -40,4 +40,9 @@ public class TimeUtils {
     private static boolean moreLessEqual(Time time1, Time time2) {
         return Math.abs(time1.compareDaytimeTo(time2)) < 3;
     }
+
+    public static int timeValue(int hour, int min) {
+        return hour * 60 + min;
+    }
+
 }
