@@ -60,6 +60,29 @@ public class TransitBuilderTest {
     }
 
 
+    @Test
+    public void testTimetablesWithDifferentBeginningAndEnd() {
+        List<Timetable> timetables = new ArrayList<Timetable>();
+        timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 10        , 12, 30}}, STATIONS[0], 123, LAST_STATION));
+        timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 12        , 12, 32}}, STATIONS[1], 123, LAST_STATION));
+        timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 13, 12, 23, 12, 33}}, STATIONS[2], 123, LAST_STATION));
+        timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 16, 12, 26,       }}, STATIONS[3], 123, LAST_STATION));
+        timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 18, 12, 28,       }}, STATIONS[4], 123, LAST_STATION));
+        Map<DayTypes, List<Transit>> transitsMap = TransitBuilder.buildFromTimetables(timetables);
+
+        assertEquals(1, transitsMap.keySet().size());
+
+        List<Transit> weekTransits = transitsMap.get(DayTypes.WEEKDAY);
+        assertNotNull(weekTransits);
+        assertEquals(3, weekTransits.size());
+        // first transit makes full route - from 'Station 1' to 'Last Station'
+        validateTransit(weekTransits.get(0), 5, 8, LAST_STATION, STATIONS, new int[]{12, 10, 12, 12, 12, 13, 12, 16, 12, 18});
+        // second transit starts later, from 'Station 3' and makes it to the end 'Last Station'
+        validateTransit(weekTransits.get(1), 3, 5, LAST_STATION, new String[] {STATIONS[2], STATIONS[3], STATIONS[4]}, new int[]{12, 23, 12, 26, 12, 28});
+        // third transit starts from 'Station 1', but finishes earlier on 'Station 4'
+        validateTransit(weekTransits.get(2), 3, 3, STATIONS[3], new String[] {STATIONS[0], STATIONS[1], STATIONS[2]}, new int[]{12, 30, 12, 32, 12, 33});
+    }
+
     private void validateTransit(Transit transit, int stopsCount, int duration, String destStation, String[] stations, int[] times) {
         assertEquals(stopsCount, transit.getStops().size());
         assertEquals(duration, transit.getDuration());
