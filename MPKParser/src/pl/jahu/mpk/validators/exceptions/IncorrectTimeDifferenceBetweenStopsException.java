@@ -9,4 +9,9 @@ public class IncorrectTimeDifferenceBetweenStopsException extends TransitValidat
     public IncorrectTimeDifferenceBetweenStopsException(String stations, String transit1, String transit2) {
         super("Stations: " + stations + ", transit1: '" + transit1 + "', transit2: '" + transit2 + "'");
     }
+
+    public IncorrectTimeDifferenceBetweenStopsException(String transit) {
+        super("Transit: " + transit);
+    }
+
 }

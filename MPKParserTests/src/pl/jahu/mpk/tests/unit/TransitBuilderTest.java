@@ -114,7 +114,7 @@ public class TransitBuilderTest {
 
 
     @Test(expected = IncorrectTimeDifferenceBetweenStopsException.class)
-    public void testIncorrectTimeDifferenceBetweenStopsException() throws TransitValidationException {
+    public void testIncorrectTimeDifferenceBetweenStopsException1() throws TransitValidationException {
         List<Timetable> timetables = new ArrayList<Timetable>();
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 10, 12, 20, 12, 30}}, STATIONS[0], 123, LAST_STATION));
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 12, 12, 22, 12, 32}}, STATIONS[1], 123, LAST_STATION));
@@ -122,6 +122,18 @@ public class TransitBuilderTest {
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 16, 12, 26, 12, 38}}, STATIONS[3], 123, LAST_STATION));
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 18, 12, 28, 12, 39}}, STATIONS[4], 123, LAST_STATION));
         // in the last transit there's much bigger difference between 2 and 3 stops (5 mins) than in previous transits (1 min) - IncorrectTimeDifferenceBetweenStopsException should be thrown
+        TransitBuilder.buildFromTimetables(timetables);
+    }
+
+    @Test(expected = IncorrectTimeDifferenceBetweenStopsException.class)
+    public void testIncorrectTimeDifferenceBetweenStopsException2() throws TransitValidationException {
+        List<Timetable> timetables = new ArrayList<Timetable>();
+        timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 10, 12, 20, 12, 30}}, STATIONS[0], 123, LAST_STATION));
+        timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 10, 12, 22, 12, 32}}, STATIONS[1], 123, LAST_STATION));
+        timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 13, 12, 23, 12, 33}}, STATIONS[2], 123, LAST_STATION));
+        timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 16, 12, 26, 12, 36}}, STATIONS[3], 123, LAST_STATION));
+        timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 18, 12, 28, 12, 38}}, STATIONS[4], 123, LAST_STATION));
+        // no time difference between first two stops in the first transit - IncorrectTimeDifferenceBetweenStopsException should be thrown
         TransitBuilder.buildFromTimetables(timetables);
     }
 

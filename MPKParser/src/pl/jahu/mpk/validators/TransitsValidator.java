@@ -52,6 +52,13 @@ public class TransitsValidator {
                 TransitStop prevStop = null;
                 for (TransitStop stop : transit.getStops()) {
                     if (prevStop != null) {
+
+                        // validate if this stop's time is bigger than previous stop
+                        if (stop.getTime().compareDaytimeTo(prevStop.getTime()) <= 0) {
+                            throw new IncorrectTimeDifferenceBetweenStopsException(transit.toString());
+                        }
+
+                        // validate time difference between these two stops compared to previous transits
                         String key = prevStop.getStation() + "->" + stop.getStation();
                         int diff = stop.getTime().compareDaytimeTo(prevStop.getTime());
                         if (durations.containsKey(key)) {
@@ -69,7 +76,6 @@ public class TransitsValidator {
             }
         }
     }
-
 
     private static boolean moreLessEqual(int value1, int value2, int marginOfError) {
         return Math.abs(value1 - value2) < marginOfError;
