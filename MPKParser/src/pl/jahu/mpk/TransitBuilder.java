@@ -11,6 +11,7 @@ import pl.jahu.mpk.parser.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parser.exceptions.TimetableParseException;
 import pl.jahu.mpk.parser.utils.Time;
+import pl.jahu.mpk.validators.TransitsValidator;
 import pl.jahu.mpk.validators.exceptions.TransitValidationException;
 import pl.jahu.mpk.validators.exceptions.UnhandledTimetableDepartureException;
 
@@ -37,8 +38,6 @@ public class TransitBuilder {
         }
         Map<DayTypes, List<Transit>> transitsMap = buildFromTimetables(timetables);
 
-//        TransitsValidator.validate(transits);
-
         printTransitsMap(transitsMap);
         return transitsMap;
     }
@@ -57,7 +56,7 @@ public class TransitBuilder {
     /**
      * Converts list of timetables (all in common direction) into list of transits grouped by day types.
      */
-    public static Map<DayTypes, List<Transit>> buildFromTimetables(List<Timetable> timetables) throws UnhandledTimetableDepartureException {
+    public static Map<DayTypes, List<Transit>> buildFromTimetables(List<Timetable> timetables) throws TransitValidationException {
         Map<DayTypes, List<Transit>> resultMap = new HashMap<DayTypes, List<Transit>>();
         if (timetables != null) {
             Set<DayTypes> dayTypes = timetables.get(0).getDepartures().keySet();
@@ -128,6 +127,8 @@ public class TransitBuilder {
                 }
             }
         }
+
+        TransitsValidator.validate(resultMap);
         return resultMap;
     }
 

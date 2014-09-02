@@ -1,6 +1,7 @@
 package pl.jahu.mpk.validators;
 
 import pl.jahu.mpk.entities.Transit;
+import pl.jahu.mpk.enums.DayTypes;
 import pl.jahu.mpk.validators.exceptions.IncorrectTransitDurationException;
 import pl.jahu.mpk.validators.exceptions.TransitValidationException;
 
@@ -14,25 +15,27 @@ import java.util.Map;
  */
 public class TransitsValidator {
 
-    private static final int TRANSITS_DURATION_MARGIN_OF_ERROR = 10;
+    private static final int TRANSITS_DURATION_MARGIN_OF_ERROR = 6;
 
 
-    public static void validate(List<Transit> transits) throws TransitValidationException{
-        validateTransitDurations(transits);
+    public static void validate(Map<DayTypes, List<Transit>> transitsMap) throws TransitValidationException{
+        validateTransitDurations(transitsMap);
     }
 
-    private static void validateTransitDurations(List<Transit> transits) throws IncorrectTransitDurationException {
+    private static void validateTransitDurations(Map<DayTypes, List<Transit>> transitsMap) throws IncorrectTransitDurationException {
         Map<String, Transit> durations = new HashMap<String, Transit>();
-        for (Transit transit : transits) {
-            String key = transit.getStops().get(0).getStation() + "->" + transit.getDestStation();
-            if (durations.containsKey(key)) {
-                Transit prevTransit = durations.get(key);
-                int prevDuration = prevTransit.getDuration();
-                if (!moreLessEqual(transit.getDuration(), prevDuration, TRANSITS_DURATION_MARGIN_OF_ERROR)) {
-                    throw new IncorrectTransitDurationException("Previous transit (" + prevDuration + " mins): " + prevTransit.getDirections() + ", actual transit (" + transit.getDuration() + "mins) : " + transit.getDirections());
+        for (List<Transit> transits : transitsMap.values()) {
+            for (Transit transit : transits) {
+                String key = transit.getStops().get(0).getStation() + "->" + transit.getDestStation();
+                if (durations.containsKey(key)) {
+                    Transit prevTransit = durations.get(key);
+                    int prevDuration = prevTransit.getDuration();
+                    if (!moreLessEqual(transit.getDuration(), prevDuration, TRANSITS_DURATION_MARGIN_OF_ERROR)) {
+                        throw new IncorrectTransitDurationException("Previous transit (" + prevDuration + " mins): " + prevTransit.getDirections() + ", actual transit (" + transit.getDuration() + " mins) : " + transit.getDirections());
+                    }
+                } else {
+                    durations.put(key, transit);
                 }
-            } else {
-                durations.put(key, transit);
             }
         }
 

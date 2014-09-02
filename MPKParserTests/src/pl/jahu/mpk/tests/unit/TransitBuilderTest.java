@@ -7,6 +7,8 @@ import pl.jahu.mpk.entities.Timetable;
 import pl.jahu.mpk.entities.Transit;
 import pl.jahu.mpk.enums.DayTypes;
 import pl.jahu.mpk.parser.utils.TimeUtils;
+import pl.jahu.mpk.validators.exceptions.IncorrectTransitDurationException;
+import pl.jahu.mpk.validators.exceptions.TransitValidationException;
 import pl.jahu.mpk.validators.exceptions.UnhandledTimetableDepartureException;
 
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ public class TransitBuilderTest {
 
 
     @Test
-    public void testNullInput() throws UnhandledTimetableDepartureException {
+    public void testNullInput() throws TransitValidationException {
         Map<DayTypes, List<Transit>> transits = TransitBuilder.buildFromTimetables(null);
         assertNotNull(transits);
         assertEquals(0, transits.size());
@@ -36,7 +38,7 @@ public class TransitBuilderTest {
 
 
     @Test
-      public void testRegularTimetables() throws UnhandledTimetableDepartureException {
+      public void testRegularTimetables() throws TransitValidationException {
         List<Timetable> timetables = new ArrayList<Timetable>();
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY, DayTypes.SUNDAY}, new int[][]{{12, 10, 12, 20, 12, 30}, {12,  0}}, STATIONS[0], 123, LAST_STATION));
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY, DayTypes.SUNDAY}, new int[][]{{12, 12, 12, 22, 12, 32}, {12,  2}}, STATIONS[1], 123, LAST_STATION));
@@ -62,7 +64,7 @@ public class TransitBuilderTest {
 
 
     @Test
-    public void testTimetablesWithDifferentBeginningAndEnd() throws UnhandledTimetableDepartureException {
+    public void testTimetablesWithDifferentBeginningAndEnd() throws TransitValidationException {
         List<Timetable> timetables = new ArrayList<Timetable>();
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 10        , 12, 30}}, STATIONS[0], 123, LAST_STATION));
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 12        , 12, 32}}, STATIONS[1], 123, LAST_STATION));
@@ -85,7 +87,7 @@ public class TransitBuilderTest {
     }
 
     @Test(expected = UnhandledTimetableDepartureException.class)
-    public void testUnhandledTimetableDepartureException() throws UnhandledTimetableDepartureException {
+    public void testUnhandledTimetableDepartureException() throws TransitValidationException {
         List<Timetable> timetables = new ArrayList<Timetable>();
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 10, 12, 20, 12, 30}}, STATIONS[0], 123, LAST_STATION));
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 12, 12, 22, 12, 32}}, STATIONS[1], 123, LAST_STATION));
@@ -93,6 +95,19 @@ public class TransitBuilderTest {
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 16, 12, 26, 12, 36, 12, 46}}, STATIONS[3], 123, LAST_STATION));
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 18, 12, 28, 12, 38}}, STATIONS[4], 123, LAST_STATION));
         // there's an unexpected departure (12:46) in 4th timetable - UnhandledTimetableDepartureException should be thrown
+        TransitBuilder.buildFromTimetables(timetables);
+    }
+
+
+    @Test(expected = IncorrectTransitDurationException.class)
+    public void testIncorrectTransitDurationException() throws TransitValidationException {
+        List<Timetable> timetables = new ArrayList<Timetable>();
+        timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 10, 12, 20, 12, 30}}, STATIONS[0], 123, LAST_STATION));
+        timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 12, 12, 22, 12, 34}}, STATIONS[1], 123, LAST_STATION));
+        timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 13, 12, 23, 12, 37}}, STATIONS[2], 123, LAST_STATION));
+        timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 16, 12, 26, 12, 41}}, STATIONS[3], 123, LAST_STATION));
+        timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 18, 12, 28, 12, 46}}, STATIONS[4], 123, LAST_STATION));
+        // third tranist is much longer than the others - IncorrectTransitDurationException should be thrown
         TransitBuilder.buildFromTimetables(timetables);
     }
 
