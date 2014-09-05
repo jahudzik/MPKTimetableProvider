@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 public class TimetableParserTest {
 

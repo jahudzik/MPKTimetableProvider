@@ -1,13 +1,12 @@
 package pl.jahu.mpk.tests.unit;
 
-import org.junit.Before;
 import org.junit.Test;
 import pl.jahu.mpk.parser.utils.LineNumbersResolver;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * MPK Timetable Parser
