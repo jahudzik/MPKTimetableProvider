@@ -11,12 +11,9 @@ public class UrlResolver {
     private final static String PAGE_TOKEN = "@[page]";
 
     private static final String LINE_ROUTE_URL_PATTERN = "http://rozklady.mpk.krakow.pl/aktualne/"+LINE_NUMBER_TOKEN+"/"+LINE_NUMBER_TOKEN+"w00"+DIRECTION_TOKEN+".htm";
-    private static final String LINES_LIST_URL = "http://rozklady.mpk.krakow.pl/linie.aspx";
+    public static final String LINES_LIST_URL = "http://rozklady.mpk.krakow.pl/linie.aspx";
+    public static final String TIMETABLE_MENU_URL = "http://rozklady.mpk.krakow.pl/menu.aspx";
     private static final String TIMETABLE_URL_PATTERN = "http://rozklady.mpk.krakow.pl/aktualne/" + LINE_NUMBER_TOKEN + "/" + PAGE_TOKEN;
-
-    public static String getLinesListUrl() {
-        return LINES_LIST_URL;
-    }
 
     public static String getLineRouteUrl(Integer lineNo, Integer direction) {
         return LINE_ROUTE_URL_PATTERN.replace(LINE_NUMBER_TOKEN, getLineString(lineNo)).replace(DIRECTION_TOKEN, direction.toString());

@@ -20,12 +20,24 @@ import java.util.List;
 public class TimetablesDownloader {
 
     public static final String TIMETABLES_LOCATION = "offline/timetables/";
+    public static final String LINES_PAGE_NAME = "_lines.html";
+    public static final String MENU_PAGE_NAME = "_menu.html";
+
+    /**
+     * Downloads:
+     * - lines list page, showing which lines timetables has changed
+     * - menu page, containing next timetable changes dates and links to new timetables
+     */
+    public static void downloadInfo() {
+        downloadUrl(UrlResolver.LINES_LIST_URL, LINES_PAGE_NAME);
+        downloadUrl(UrlResolver.TIMETABLE_MENU_URL, MENU_PAGE_NAME);
+    }
 
 
     /**
      * Downloads timetables for lines from specified range [firstLine, lastLine] and saves them locally
      */
-    public static void download(int firstLine, int lastLine) {
+    public static void downloadTimetables(int firstLine, int lastLine) {
 
         try {
             LinesListParser linesListParser = new LinesListParser();
@@ -40,16 +52,13 @@ public class TimetablesDownloader {
                         List<String[]> route = routeParser.parse();
                         for (String[] station : route) {
                             String url = UrlResolver.getStationTimetableUrl(line, station[1]);
-                            System.out.println(url);
-                            FileUtils.copyURLToFile(new URL(url), new File(TIMETABLES_LOCATION + getPage(url)));
+                            downloadUrl(url, getPageName(url));
                         }
                     } catch (TimetableNotFoundException e) {
                         break;
                     }
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (TimetableNotFoundException e) {
             e.printStackTrace();
         } catch (LineRouteParseException e) {
@@ -57,7 +66,18 @@ public class TimetablesDownloader {
         }
     }
 
-    private static String getPage(String url) {
+
+    private static void downloadUrl(String url, String destFileName) {
+        try {
+            System.out.println(url);
+            FileUtils.copyURLToFile(new URL(url), new File(TIMETABLES_LOCATION + destFileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private static String getPageName(String url) {
         return url.substring(url.lastIndexOf("/"));
     }
 

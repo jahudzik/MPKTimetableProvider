@@ -20,7 +20,7 @@ import java.util.List;
 public class LinesListParser extends AbstractParser {
 
     public LinesListParser() throws TimetableNotFoundException {
-        super(UrlResolver.getLinesListUrl());
+        super(UrlResolver.LINES_LIST_URL);
     }
 
     public LinesListParser(File file, String encoding) throws IOException, TimetableParseException {
@@ -35,7 +35,9 @@ public class LinesListParser extends AbstractParser {
             try {
                 int line = Integer.parseInt(lineCandidate);
                 lines.add(line);
-            } catch (NumberFormatException ignored) {}
+            } catch (NumberFormatException ignored) {
+                // TODO handle literal line numbers (ex 64a)
+            }
         }
         return lines;
     }
