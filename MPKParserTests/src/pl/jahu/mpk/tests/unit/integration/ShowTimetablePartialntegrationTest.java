@@ -5,6 +5,7 @@ import pl.jahu.mpk.parser.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parser.exceptions.TimetableParseException;
 import pl.jahu.mpk.tests.integration.ShowTimetableIntegrationTest;
+import pl.jahu.mpk.validators.exceptions.TransitValidationException;
 
 import static org.junit.Assert.fail;
 
@@ -18,7 +19,7 @@ public class ShowTimetablePartialntegrationTest {
     @Test
      public void testShowingDailyBusesTimetable() {
         try {
-            ShowTimetableIntegrationTest.showTimetable(180, 190, false);
+            ShowTimetableIntegrationTest.showTimetable(180, 190, false, false);
         } catch (TimetableNotFoundException e) {
             e.printStackTrace();
             fail();
@@ -26,6 +27,9 @@ public class ShowTimetablePartialntegrationTest {
             e.printStackTrace();
             fail();
         } catch (TimetableParseException e) {
+            e.printStackTrace();
+            fail();
+        } catch (TransitValidationException e) {
             e.printStackTrace();
             fail();
         }
@@ -34,7 +38,7 @@ public class ShowTimetablePartialntegrationTest {
     @Test
     public void testShowingNigthlyBusesTimetable() {
         try {
-            ShowTimetableIntegrationTest.showTimetable(600, 610, false);
+            ShowTimetableIntegrationTest.showTimetable(600, 610, false, false);
         } catch (TimetableNotFoundException e) {
             e.printStackTrace();
             fail();
@@ -42,6 +46,9 @@ public class ShowTimetablePartialntegrationTest {
             e.printStackTrace();
             fail();
         } catch (TimetableParseException e) {
+            e.printStackTrace();
+            fail();
+        } catch (TransitValidationException e) {
             e.printStackTrace();
             fail();
         }
