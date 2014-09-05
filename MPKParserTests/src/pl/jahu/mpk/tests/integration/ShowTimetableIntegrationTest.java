@@ -13,10 +13,10 @@ import pl.jahu.mpk.parser.TimetableParser;
 import pl.jahu.mpk.parser.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parser.exceptions.TimetableParseException;
+import pl.jahu.mpk.parser.utils.LineNumbersResolver;
 import pl.jahu.mpk.validators.exceptions.TransitValidationException;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +33,6 @@ public class ShowTimetableIntegrationTest {
     private static String destination;
     private static String actTimetableUrl;
     private static boolean printGeneralOutput;
-    private static boolean printDetailedOutput;
 
     @Test
     public void testShowingTimetable() {
@@ -63,26 +62,15 @@ public class ShowTimetableIntegrationTest {
 
     public static void showTimetable(int firstLine, int lastLine, boolean printGeneralOutput, boolean printDetailedOutput) throws TimetableNotFoundException, LineRouteParseException, TimetableParseException, TransitValidationException {
         ShowTimetableIntegrationTest.printGeneralOutput = printGeneralOutput;
-        ShowTimetableIntegrationTest.printDetailedOutput = printDetailedOutput;
         LinesListParser linesListParser = new LinesListParser();
         List<Integer> lines = linesListParser.parse();
         assertNotNull(lines);
         assertTrue(lines.size() > 0);
 
-        Collections.sort(lines);
-
-        int firstLineIndex = 0;
-        while (lines.get(firstLineIndex) < firstLine) {
-            firstLineIndex++;
-        }
-
-        int lastLineIndex = lines.size() - 1;
-        while (lines.get(lastLineIndex) > lastLine) {
-            lastLineIndex--;
-        }
+        int[] linesRange = LineNumbersResolver.getLinesFromRange(lines, firstLine, lastLine);
 
         // for each line...
-        for (int k = firstLineIndex; k <= lastLineIndex; k++) {
+        for (int k = linesRange[0]; k <= linesRange[1]; k++) {
             int line = lines.get(k);
             actLine = line;
 

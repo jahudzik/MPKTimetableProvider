@@ -98,6 +98,30 @@ public class LineNumbersResolver {
         return lines;
     }
 
+    /**
+     * Returns range of passed lines array containing all numbers greater or equal to firstLine and smaller or equal to lastLine
+     *
+     * @return array with two integers: begin index and end index in lines array, or NO_LINE_NUMBER values if no lines match
+     */
+    public static int[] getLinesFromRange(List<Integer> lines, int firstLine, int lastLine) {
+        Collections.sort(lines);
+
+        if (lastLine < firstLine || lines.size() == 0 || firstLine > lines.get(lines.size() - 1) || lastLine < lines.get(0)) {
+            return new int[]{NO_LINE_NUMBER, NO_LINE_NUMBER};
+        }
+
+        int firstLineIndex = 0;
+        while (lines.get(firstLineIndex) < firstLine) {
+            firstLineIndex++;
+        }
+
+        int lastLineIndex = lines.size() - 1;
+        while (lines.get(lastLineIndex) > lastLine) {
+            lastLineIndex--;
+        }
+        return new int[]{firstLineIndex, lastLineIndex};
+    }
+
     private class LinesList extends ArrayList<Integer> {
 
         public void addRange(int a, int b) {
