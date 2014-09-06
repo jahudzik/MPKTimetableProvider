@@ -1,6 +1,6 @@
 package pl.jahu.mpk.entities;
 
-import pl.jahu.mpk.parser.utils.Time;
+import pl.jahu.mpk.utils.Time;
 
 import java.util.ArrayList;
 import java.util.Collections;

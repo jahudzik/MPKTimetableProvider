@@ -1,11 +1,11 @@
-package pl.jahu.mpk.parser;
+package pl.jahu.mpk.parsers;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import pl.jahu.mpk.entities.LineNumber;
-import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
-import pl.jahu.mpk.parser.exceptions.TimetableParseException;
-import pl.jahu.mpk.parser.utils.UrlResolver;
+import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
+import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
+import pl.jahu.mpk.utils.UrlResolver;
 import pl.jahu.mpk.validators.exceptions.NoDataProvidedException;
 import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 

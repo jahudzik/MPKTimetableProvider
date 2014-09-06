@@ -1,8 +1,8 @@
-package pl.jahu.mpk.tests.unit;
+package pl.jahu.mpk.tests.unit.utils;
 
 import org.junit.Test;
 import pl.jahu.mpk.entities.LineNumber;
-import pl.jahu.mpk.parser.utils.UrlResolver;
+import pl.jahu.mpk.utils.UrlResolver;
 import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import static org.junit.Assert.*;

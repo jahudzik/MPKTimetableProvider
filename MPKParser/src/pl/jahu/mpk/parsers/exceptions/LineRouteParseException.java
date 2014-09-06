@@ -1,4 +1,4 @@
-package pl.jahu.mpk.parser.exceptions;
+package pl.jahu.mpk.parsers.exceptions;
 
 /**
  * Created by hudzj on 8/1/2014.

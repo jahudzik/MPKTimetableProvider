@@ -7,7 +7,7 @@ import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.entities.Timetable;
 import pl.jahu.mpk.entities.Transit;
 import pl.jahu.mpk.enums.DayTypes;
-import pl.jahu.mpk.parser.utils.TimeUtils;
+import pl.jahu.mpk.utils.TimeUtils;
 import pl.jahu.mpk.validators.exceptions.*;
 
 import java.util.ArrayList;

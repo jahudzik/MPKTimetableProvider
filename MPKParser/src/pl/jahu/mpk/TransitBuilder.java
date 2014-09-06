@@ -2,12 +2,12 @@ package pl.jahu.mpk;
 
 import pl.jahu.mpk.entities.*;
 import pl.jahu.mpk.enums.DayTypes;
-import pl.jahu.mpk.parser.LineRouteParser;
-import pl.jahu.mpk.parser.TimetableParser;
-import pl.jahu.mpk.parser.exceptions.LineRouteParseException;
-import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
-import pl.jahu.mpk.parser.exceptions.TimetableParseException;
-import pl.jahu.mpk.parser.utils.Time;
+import pl.jahu.mpk.parsers.LineRouteParser;
+import pl.jahu.mpk.parsers.TimetableParser;
+import pl.jahu.mpk.parsers.exceptions.LineRouteParseException;
+import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
+import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
+import pl.jahu.mpk.utils.Time;
 import pl.jahu.mpk.validators.TransitsValidator;
 import pl.jahu.mpk.validators.exceptions.TransitValidationException;
 import pl.jahu.mpk.validators.exceptions.UnhandledTimetableDepartureException;

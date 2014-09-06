@@ -1,9 +1,9 @@
-package pl.jahu.mpk.parser;
+package pl.jahu.mpk.parsers;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
-import pl.jahu.mpk.parser.exceptions.TimetableParseException;
+import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
+import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +17,7 @@ abstract class AbstractParser {
     private String url;
 
     /**
-     * Creates parser for specified URL
+     * Creates parsers for specified URL
      */
     public AbstractParser(String url) throws TimetableNotFoundException {
         try {
@@ -34,7 +34,7 @@ abstract class AbstractParser {
     }
 
     /**
-     * Creates parser for specified file with timetable. Used for testing.
+     * Creates parsers for specified file with timetable. Used for testing.
      */
     public AbstractParser(File file, String encoding) throws IOException, TimetableParseException {
         this.document = Jsoup.parse(file, encoding);

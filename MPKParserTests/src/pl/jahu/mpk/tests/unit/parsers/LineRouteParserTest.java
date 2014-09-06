@@ -1,9 +1,9 @@
-package pl.jahu.mpk.tests.unit;
+package pl.jahu.mpk.tests.unit.parsers;
 
 import org.junit.Test;
-import pl.jahu.mpk.parser.LineRouteParser;
-import pl.jahu.mpk.parser.exceptions.LineRouteParseException;
-import pl.jahu.mpk.parser.exceptions.TimetableParseException;
+import pl.jahu.mpk.parsers.LineRouteParser;
+import pl.jahu.mpk.parsers.exceptions.LineRouteParseException;
+import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 
 import java.io.File;
 import java.io.IOException;

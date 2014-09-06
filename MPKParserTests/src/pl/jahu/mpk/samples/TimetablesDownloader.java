@@ -2,12 +2,12 @@ package pl.jahu.mpk.samples;
 
 import org.apache.commons.io.FileUtils;
 import pl.jahu.mpk.entities.LineNumber;
-import pl.jahu.mpk.parser.LineRouteParser;
-import pl.jahu.mpk.parser.LinesListParser;
-import pl.jahu.mpk.parser.exceptions.LineRouteParseException;
-import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
-import pl.jahu.mpk.parser.utils.LineNumbersResolver;
-import pl.jahu.mpk.parser.utils.UrlResolver;
+import pl.jahu.mpk.parsers.LineRouteParser;
+import pl.jahu.mpk.parsers.LinesListParser;
+import pl.jahu.mpk.parsers.exceptions.LineRouteParseException;
+import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
+import pl.jahu.mpk.utils.LineNumbersResolver;
+import pl.jahu.mpk.utils.UrlResolver;
 import pl.jahu.mpk.validators.exceptions.NoDataProvidedException;
 import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 

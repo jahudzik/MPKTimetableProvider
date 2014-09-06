@@ -1,9 +1,9 @@
-package pl.jahu.mpk.tests.unit;
+package pl.jahu.mpk.tests.unit.utils;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 import pl.jahu.mpk.entities.LineNumber;
-import pl.jahu.mpk.parser.utils.LineNumbersResolver;
+import pl.jahu.mpk.utils.LineNumbersResolver;
 import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import java.util.Arrays;

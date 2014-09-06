@@ -1,7 +1,7 @@
 package pl.jahu.mpk.validators.exceptions;
 
 import pl.jahu.mpk.enums.DayTypes;
-import pl.jahu.mpk.parser.utils.Time;
+import pl.jahu.mpk.utils.Time;
 
 /**
  * MPK Timetable Parser

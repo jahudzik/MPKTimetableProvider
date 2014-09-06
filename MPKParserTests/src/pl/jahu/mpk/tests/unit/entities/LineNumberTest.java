@@ -1,4 +1,4 @@
-package pl.jahu.mpk.tests.unit;
+package pl.jahu.mpk.tests.unit.entities;
 
 import org.junit.Test;
 import pl.jahu.mpk.entities.LineNumber;

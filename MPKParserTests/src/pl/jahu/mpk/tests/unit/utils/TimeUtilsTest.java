@@ -1,10 +1,10 @@
-package pl.jahu.mpk.tests.unit;
+package pl.jahu.mpk.tests.unit.utils;
 
 import org.junit.Test;
 import pl.jahu.mpk.enums.DayTypes;
-import pl.jahu.mpk.parser.exceptions.UnsupportedDayTypesConfigurationException;
-import pl.jahu.mpk.parser.utils.Time;
-import pl.jahu.mpk.parser.utils.TimeUtils;
+import pl.jahu.mpk.parsers.exceptions.UnsupportedDayTypesConfigurationException;
+import pl.jahu.mpk.utils.Time;
+import pl.jahu.mpk.utils.TimeUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

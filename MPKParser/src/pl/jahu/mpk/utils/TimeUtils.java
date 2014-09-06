@@ -1,7 +1,7 @@
-package pl.jahu.mpk.parser.utils;
+package pl.jahu.mpk.utils;
 
 import pl.jahu.mpk.enums.DayTypes;
-import pl.jahu.mpk.parser.exceptions.UnsupportedDayTypesConfigurationException;
+import pl.jahu.mpk.parsers.exceptions.UnsupportedDayTypesConfigurationException;
 
 import java.util.Calendar;
 

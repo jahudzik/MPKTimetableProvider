@@ -1,4 +1,4 @@
-package pl.jahu.mpk.parser.utils;
+package pl.jahu.mpk.utils;
 
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;

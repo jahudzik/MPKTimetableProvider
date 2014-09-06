@@ -1,7 +1,7 @@
-package pl.jahu.mpk.tests.unit;
+package pl.jahu.mpk.tests.unit.utils;
 
 import org.junit.Test;
-import pl.jahu.mpk.parser.utils.Time;
+import pl.jahu.mpk.utils.Time;
 
 import static org.junit.Assert.assertEquals;
 

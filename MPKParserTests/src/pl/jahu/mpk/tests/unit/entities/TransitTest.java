@@ -1,10 +1,10 @@
-package pl.jahu.mpk.tests.unit;
+package pl.jahu.mpk.tests.unit.entities;
 
 import org.junit.Test;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.entities.Transit;
 import pl.jahu.mpk.entities.TransitStop;
-import pl.jahu.mpk.parser.utils.Time;
+import pl.jahu.mpk.utils.Time;
 import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import static org.junit.Assert.assertEquals;

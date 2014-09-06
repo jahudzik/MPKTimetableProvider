@@ -1,4 +1,4 @@
-package pl.jahu.mpk.tests.unit;
+package pl.jahu.mpk.tests.unit.parsers;
 
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
@@ -6,9 +6,9 @@ import org.junit.Test;
 import pl.jahu.mpk.entities.Departure;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.enums.DayTypes;
-import pl.jahu.mpk.parser.TimetableParser;
-import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
-import pl.jahu.mpk.parser.exceptions.TimetableParseException;
+import pl.jahu.mpk.parsers.TimetableParser;
+import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
+import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import java.io.File;
