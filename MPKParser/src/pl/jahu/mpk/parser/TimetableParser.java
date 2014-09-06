@@ -3,12 +3,14 @@ package pl.jahu.mpk.parser;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import pl.jahu.mpk.entities.Departure;
+import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.entities.Timetable;
 import pl.jahu.mpk.enums.DayTypes;
 import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parser.exceptions.TimetableParseException;
 import pl.jahu.mpk.parser.utils.ParserConstants;
 import pl.jahu.mpk.parser.utils.UrlResolver;
+import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,13 +42,13 @@ public class TimetableParser extends AbstractParser {
     private static final String LEGEND_CELL_CLASS = "fontprzyp";
     private static final String NO_MINUTES_PATTERN = "-";
 
-    private int line;
+    private LineNumber line;
     private String station;
     private String destStation;
     private Elements legendCells;
 
 
-    public TimetableParser(int lineNo, String page) throws TimetableNotFoundException, TimetableParseException {
+    public TimetableParser(LineNumber lineNo, String page) throws TimetableNotFoundException, TimetableParseException, UnsupportedLineNumberException {
         super(UrlResolver.getStationTimetableUrl(lineNo, page));
         this.line = lineNo;
         this.station = retrieveSpecificCell(STOP_NAME_CLASS, "stop name");

@@ -1,9 +1,11 @@
 package pl.jahu.mpk.tests.unit;
 
 import org.junit.Test;
+import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.entities.Transit;
 import pl.jahu.mpk.entities.TransitStop;
 import pl.jahu.mpk.parser.utils.Time;
+import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -15,20 +17,20 @@ import static org.junit.Assert.assertNotNull;
 public class TransitTest {
 
     @Test
-    public void testInitialization() {
-        Transit transit = new Transit(123);
+    public void testInitialization() throws UnsupportedLineNumberException {
+        Transit transit = new Transit(new LineNumber(123));
         assertNotNull(transit.getStops());
         assertEquals(transit.getStops().size(), 0);
     }
 
 
     @Test
-    public void testAddingStops() {
+    public void testAddingStops() throws UnsupportedLineNumberException {
         TransitStop stop1 = new TransitStop(new Time(15, 20), "station1");
         TransitStop stop2 = new TransitStop(new Time(15, 30), "station2");
         TransitStop stop3 = new TransitStop(new Time(15, 25), "station3");
 
-        Transit transit = new Transit(123);
+        Transit transit = new Transit(new LineNumber(123));
 
         transit.addStop(stop1);
         assertEquals(transit.getStops().size(), 1);

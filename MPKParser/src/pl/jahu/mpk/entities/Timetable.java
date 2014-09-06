@@ -12,11 +12,11 @@ import java.util.Map;
 public class Timetable {
 
     private String station;
-    private int line;
+    private LineNumber line;
     private String destStation;
     private Map<DayTypes, List<Departure>> departures;
 
-    public Timetable(String station, int line, String destStation, Map<DayTypes, List<Departure>> departures) {
+    public Timetable(String station, LineNumber line, String destStation, Map<DayTypes, List<Departure>> departures) {
         this.station = station;
         this.line = line;
         this.destStation = destStation;
@@ -31,7 +31,7 @@ public class Timetable {
         return station;
     }
 
-    public int getLine() {
+    public LineNumber getLine() {
         return line;
     }
 

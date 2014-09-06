@@ -9,7 +9,7 @@ import pl.jahu.mpk.parser.utils.Time;
  */
 public class UnhandledTimetableDepartureException extends TransitValidationException {
 
-    public UnhandledTimetableDepartureException(int line, String station, String destStation, DayTypes dayType, Time departureTime) {
+    public UnhandledTimetableDepartureException(String line, String station, String destStation, DayTypes dayType, Time departureTime) {
         super("Line: " + line + ", Station: " + station + ", Direction: " + destStation + ", Day type: " + dayType + ", Departure: " + departureTime);
     }
 

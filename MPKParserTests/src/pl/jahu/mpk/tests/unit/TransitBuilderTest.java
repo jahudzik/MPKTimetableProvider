@@ -3,14 +3,12 @@ package pl.jahu.mpk.tests.unit;
 import org.junit.Test;
 import pl.jahu.mpk.TransitBuilder;
 import pl.jahu.mpk.entities.Departure;
+import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.entities.Timetable;
 import pl.jahu.mpk.entities.Transit;
 import pl.jahu.mpk.enums.DayTypes;
 import pl.jahu.mpk.parser.utils.TimeUtils;
-import pl.jahu.mpk.validators.exceptions.IncorrectTimeDifferenceBetweenStopsException;
-import pl.jahu.mpk.validators.exceptions.IncorrectTransitDurationException;
-import pl.jahu.mpk.validators.exceptions.TransitValidationException;
-import pl.jahu.mpk.validators.exceptions.UnhandledTimetableDepartureException;
+import pl.jahu.mpk.validators.exceptions.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +17,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 /**
  * MPK Timetable Parser
@@ -154,16 +153,21 @@ public class TransitBuilderTest {
      * Builds timetable based on passed int values representing times (grouped by day type)
      */
     private Timetable buildTimetable(DayTypes[] dayTypes, int[][] timesMap, String station, int lineNo, String destStation) {
-        Map<DayTypes, List<Departure>> map = new HashMap<DayTypes, List<Departure>>();
-        for (int i = 0; i < dayTypes.length; i++) {
-            int[] times = timesMap[i];
-            List<Departure> departures = new ArrayList<Departure>();
-            for (int j = 0; j < times.length; j+=2) {
-                departures.add(new Departure(times[j], times[j + 1]));
+        try {
+            Map<DayTypes, List<Departure>> map = new HashMap<DayTypes, List<Departure>>();
+            for (int i = 0; i < dayTypes.length; i++) {
+                int[] times = timesMap[i];
+                List<Departure> departures = new ArrayList<Departure>();
+                for (int j = 0; j < times.length; j+=2) {
+                    departures.add(new Departure(times[j], times[j + 1]));
+                }
+                map.put(dayTypes[i], departures);
             }
-            map.put(dayTypes[i], departures);
+            return new Timetable(station, new LineNumber(lineNo), destStation, map);
+        } catch (UnsupportedLineNumberException e) {
+           fail(e.getMessage());
+            return null;
         }
-        return new Timetable(station, lineNo, destStation, map);
     }
 
 }

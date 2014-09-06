@@ -4,6 +4,7 @@ import org.junit.AfterClass;
 import org.junit.Test;
 import pl.jahu.mpk.TransitBuilder;
 import pl.jahu.mpk.entities.Departure;
+import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.entities.Timetable;
 import pl.jahu.mpk.entities.Transit;
 import pl.jahu.mpk.enums.DayTypes;
@@ -14,7 +15,9 @@ import pl.jahu.mpk.parser.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parser.exceptions.TimetableParseException;
 import pl.jahu.mpk.parser.utils.LineNumbersResolver;
+import pl.jahu.mpk.validators.exceptions.NoDataProvidedException;
 import pl.jahu.mpk.validators.exceptions.TransitValidationException;
+import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +32,7 @@ import static org.junit.Assert.*;
  */
 public class ShowTimetableIntegrationTest {
 
-    private static int actLine;
+    private static LineNumber actLine;
     private static String destination;
     private static String actTimetableUrl;
     private static boolean printGeneralOutput;
@@ -50,6 +53,10 @@ public class ShowTimetableIntegrationTest {
         } catch (TransitValidationException e) {
             e.printStackTrace();
             fail();
+        } catch (UnsupportedLineNumberException e) {
+            e.printStackTrace();
+        } catch (NoDataProvidedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -60,18 +67,18 @@ public class ShowTimetableIntegrationTest {
         }
     }
 
-    public static void showTimetable(int firstLine, int lastLine, boolean printGeneralOutput, boolean printDetailedOutput) throws TimetableNotFoundException, LineRouteParseException, TimetableParseException, TransitValidationException {
+    public static void showTimetable(int firstLine, int lastLine, boolean printGeneralOutput, boolean printDetailedOutput) throws TimetableNotFoundException, LineRouteParseException, TimetableParseException, TransitValidationException, NoDataProvidedException, UnsupportedLineNumberException {
         ShowTimetableIntegrationTest.printGeneralOutput = printGeneralOutput;
         LinesListParser linesListParser = new LinesListParser();
-        List<Integer> lines = linesListParser.parse();
+        List<LineNumber> lines = linesListParser.parse();
         assertNotNull(lines);
         assertTrue(lines.size() > 0);
 
-        int[] linesRange = LineNumbersResolver.getLinesFromRange(lines, firstLine, lastLine);
+        int[] linesRange = LineNumbersResolver.getLinesFromRange(lines, new LineNumber(firstLine), new LineNumber(lastLine));
 
         // for each line...
         for (int k = linesRange[0]; k <= linesRange[1]; k++) {
-            int line = lines.get(k);
+            LineNumber line = lines.get(k);
             actLine = line;
 
             // for each destination...

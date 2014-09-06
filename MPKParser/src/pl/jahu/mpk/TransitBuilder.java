@@ -1,9 +1,6 @@
 package pl.jahu.mpk;
 
-import pl.jahu.mpk.entities.Departure;
-import pl.jahu.mpk.entities.Timetable;
-import pl.jahu.mpk.entities.Transit;
-import pl.jahu.mpk.entities.TransitStop;
+import pl.jahu.mpk.entities.*;
 import pl.jahu.mpk.enums.DayTypes;
 import pl.jahu.mpk.parser.LineRouteParser;
 import pl.jahu.mpk.parser.TimetableParser;
@@ -14,6 +11,7 @@ import pl.jahu.mpk.parser.utils.Time;
 import pl.jahu.mpk.validators.TransitsValidator;
 import pl.jahu.mpk.validators.exceptions.TransitValidationException;
 import pl.jahu.mpk.validators.exceptions.UnhandledTimetableDepartureException;
+import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import java.util.*;
 
@@ -28,7 +26,7 @@ public class TransitBuilder {
     /**
      * Parses timetables of specified line in specified direction and builds list of transits.
      */
-    public static Map<DayTypes, List<Transit>> parseAndBuild(int lineNo, int direction) throws TimetableNotFoundException, LineRouteParseException, TimetableParseException, TransitValidationException {
+    public static Map<DayTypes, List<Transit>> parseAndBuild(LineNumber lineNo, int direction) throws TimetableNotFoundException, LineRouteParseException, TimetableParseException, TransitValidationException, UnsupportedLineNumberException {
         List<Timetable> timetables = new ArrayList<Timetable>();
         LineRouteParser routeParser = new LineRouteParser(lineNo, direction);
         List<String[]> stations = routeParser.parse();
@@ -79,7 +77,7 @@ public class TransitBuilder {
                         for (Departure departure : departures) {
                             if (transitId == -1) {
                                 // all transits has been matched to the departures, but there's more unhandled departures
-                                throw new UnhandledTimetableDepartureException(timetable.getLine(), timetable.getStation(), timetable.getDestStation(), dayType, departure.getTime());
+                                throw new UnhandledTimetableDepartureException(timetable.getLine().toString(), timetable.getStation(), timetable.getDestStation(), dayType, departure.getTime());
                             }
                             Time lastStopTime = transits.get(transitId).getLastStopTime();
                             if (lastStopTime.compareDaytimeTo(departure.getTime()) > 0) {
@@ -98,7 +96,7 @@ public class TransitBuilder {
                                 }
                                 if (transitId == -1) {
                                     // all transits has been matched to the departures, so this departure will be unhandled
-                                    throw new UnhandledTimetableDepartureException(timetable.getLine(), timetable.getStation(), timetable.getDestStation(), dayType, departure.getTime());
+                                    throw new UnhandledTimetableDepartureException(timetable.getLine().toString(), timetable.getStation(), timetable.getDestStation(), dayType, departure.getTime());
                                 }
 
                                 transits.get(transitId).addStop(new TransitStop(departure.getTime(), timetable.getStation()));

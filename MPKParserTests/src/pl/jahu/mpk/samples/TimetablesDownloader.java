@@ -1,12 +1,15 @@
 package pl.jahu.mpk.samples;
 
 import org.apache.commons.io.FileUtils;
+import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parser.LineRouteParser;
 import pl.jahu.mpk.parser.LinesListParser;
 import pl.jahu.mpk.parser.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parser.utils.LineNumbersResolver;
 import pl.jahu.mpk.parser.utils.UrlResolver;
+import pl.jahu.mpk.validators.exceptions.NoDataProvidedException;
+import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,19 +36,23 @@ public class TimetablesDownloader {
         downloadUrl(UrlResolver.TIMETABLE_MENU_URL, MENU_PAGE_NAME);
     }
 
+    public static void downloadTimetables(int firstLine, int lastLine) throws NoDataProvidedException, UnsupportedLineNumberException {
+        downloadTimetables(new LineNumber(firstLine), new LineNumber(lastLine));
+    }
+
 
     /**
      * Downloads timetables for lines from specified range [firstLine, lastLine] and saves them locally
      */
-    public static void downloadTimetables(int firstLine, int lastLine) {
+    public static void downloadTimetables(LineNumber firstLine, LineNumber lastLine) {
 
         try {
             LinesListParser linesListParser = new LinesListParser();
-            List<Integer> lines = linesListParser.parse();
+            List<LineNumber> lines = linesListParser.parse();
 
             int[] linesRange = LineNumbersResolver.getLinesFromRange(lines, firstLine, lastLine);
             for (int i = linesRange[0]; i <= linesRange[1]; i++) {
-                int line = lines.get(i);
+                LineNumber line = lines.get(i);
                 for (int j = 1; j < 10; j++) {
                     try {
                         LineRouteParser routeParser = new LineRouteParser(line, j);
@@ -62,6 +69,10 @@ public class TimetablesDownloader {
         } catch (TimetableNotFoundException e) {
             e.printStackTrace();
         } catch (LineRouteParseException e) {
+            e.printStackTrace();
+        } catch (NoDataProvidedException e) {
+            e.printStackTrace();
+        } catch (UnsupportedLineNumberException e) {
             e.printStackTrace();
         }
     }

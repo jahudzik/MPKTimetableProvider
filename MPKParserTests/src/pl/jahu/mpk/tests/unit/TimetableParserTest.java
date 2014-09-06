@@ -4,10 +4,12 @@ import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import org.junit.Test;
 import pl.jahu.mpk.entities.Departure;
+import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.enums.DayTypes;
 import pl.jahu.mpk.parser.TimetableParser;
 import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parser.exceptions.TimetableParseException;
+import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,14 +20,14 @@ import static org.junit.Assert.*;
 
 public class TimetableParserTest {
 
-    @Test(expected = TimetableNotFoundException.class)
-    public void testIncorrectTimetableUrl() throws TimetableParseException, TimetableNotFoundException {
-        new TimetableParser(12345,"123");
+    @Test(expected = UnsupportedLineNumberException.class)
+    public void testIncorrectTimetableUrl() throws TimetableParseException, TimetableNotFoundException, UnsupportedLineNumberException {
+        new TimetableParser(new LineNumber(12345), "123");
     }
 
     @Test
-    public void testCorrectCase() throws TimetableParseException, TimetableNotFoundException {
-        TimetableParser timetableParser = new TimetableParser(1, "0001t001.htm");
+    public void testCorrectCase() throws TimetableParseException, TimetableNotFoundException, UnsupportedLineNumberException {
+        TimetableParser timetableParser = new TimetableParser(new LineNumber(1), "0001t001.htm");
         assertNotNull(timetableParser.getStation());
         assertTrue(timetableParser.getStation().length() > 0);
     }

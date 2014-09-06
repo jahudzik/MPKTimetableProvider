@@ -2,9 +2,12 @@ package pl.jahu.mpk.parser;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parser.exceptions.TimetableParseException;
 import pl.jahu.mpk.parser.utils.UrlResolver;
+import pl.jahu.mpk.validators.exceptions.NoDataProvidedException;
+import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,16 +30,14 @@ public class LinesListParser extends AbstractParser {
         super(file, encoding);
     }
 
-    public List<Integer> parse() {
-        List<Integer> lines = new ArrayList<Integer>();
+    public List<LineNumber> parse() throws NoDataProvidedException, UnsupportedLineNumberException {
+        List<LineNumber> lines = new ArrayList<LineNumber>();
         Elements links = document.getElementsByTag("a");
         for (Element link : links) {
-            String lineCandidate = link.text();
-            try {
-                int line = Integer.parseInt(lineCandidate);
-                lines.add(line);
-            } catch (NumberFormatException ignored) {
-                // TODO handle literal line numbers (ex 64a)
+            // ensure this is a link to line details - it should have "[line_number]rw" substring (ex http://rozklady.mpk.krakow.pl/aktualne/0164/0164rw01.htm)
+            String href = link.attr("href");
+            if (href != null && href.contains(link.text() + "rw")) {
+                lines.add(new LineNumber(link.text()));
             }
         }
         return lines;

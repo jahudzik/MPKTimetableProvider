@@ -1,8 +1,11 @@
 package pl.jahu.mpk.tests.unit;
 
 import org.junit.Test;
+import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parser.LinesListParser;
 import pl.jahu.mpk.parser.exceptions.TimetableParseException;
+import pl.jahu.mpk.validators.exceptions.NoDataProvidedException;
+import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,25 +24,29 @@ public class LinesListParserTest {
 
         try {
             LinesListParser parser = new LinesListParser(inputFile, "iso-8859-2");
-            List<Integer> lines = parser.parse();
+            List<LineNumber> lines = parser.parse();
             assertNotNull(lines);
             assertEquals(169, lines.size());
-            assertTrue(lines.contains(0));
-            assertTrue(lines.contains(1));
-            assertTrue(lines.contains(72));
-            assertTrue(lines.contains(301));
-            assertTrue(lines.contains(352));
-            assertTrue(lines.contains(238));
-            assertTrue(lines.contains(915));
+            assertTrue(lines.contains(new LineNumber(0)));
+            assertTrue(lines.contains((new LineNumber(1))));
+            assertTrue(lines.contains((new LineNumber(72))));
+            assertTrue(lines.contains((new LineNumber(301))));
+            assertTrue(lines.contains((new LineNumber(352))));
+            assertTrue(lines.contains((new LineNumber(238))));
+            assertTrue(lines.contains((new LineNumber(915))));
 
-            assertFalse(lines.contains(303));
-            assertFalse(lines.contains(5));
-            assertFalse(lines.contains(298));
-            assertFalse(lines.contains(1000));
+            assertFalse(lines.contains((new LineNumber(303))));
+            assertFalse(lines.contains((new LineNumber(5))));
+            assertFalse(lines.contains((new LineNumber(298))));
+            assertFalse(lines.contains((new LineNumber(1000))));
         } catch (IOException e) {
-            fail();
+            fail(e.getMessage());
         } catch (TimetableParseException e) {
-            fail();
+            fail(e.getMessage());
+        } catch (NoDataProvidedException e) {
+            fail(e.getMessage());
+        } catch (UnsupportedLineNumberException e) {
+            fail(e.getMessage());
         }
     }
 

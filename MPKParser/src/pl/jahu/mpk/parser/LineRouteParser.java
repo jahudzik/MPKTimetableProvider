@@ -2,10 +2,12 @@ package pl.jahu.mpk.parser;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parser.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parser.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parser.exceptions.TimetableParseException;
 import pl.jahu.mpk.parser.utils.UrlResolver;
+import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +33,7 @@ public class LineRouteParser extends AbstractParser {
 
     private String destination;
 
-    public LineRouteParser(int lineNo, int direction) throws TimetableNotFoundException, LineRouteParseException {
+    public LineRouteParser(LineNumber lineNo, int direction) throws TimetableNotFoundException, LineRouteParseException, UnsupportedLineNumberException {
         super(UrlResolver.getLineRouteUrl(lineNo, direction));
         this.destination = retrieveDestination();
     }

@@ -1,6 +1,6 @@
 package pl.jahu.mpk.parser.utils;
 
-import javafx.beans.property.ReadOnlyStringProperty;
+import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.enums.AreaTypes;
 import pl.jahu.mpk.enums.ReasonTypes;
 import pl.jahu.mpk.enums.VehicleTypes;
@@ -103,20 +103,20 @@ public class LineNumbersResolver {
      *
      * @return array with two integers: begin index and end index in lines array, or NO_LINE_NUMBER values if no lines match
      */
-    public static int[] getLinesFromRange(List<Integer> lines, int firstLine, int lastLine) {
+    public static int[] getLinesFromRange(List<LineNumber> lines, LineNumber firstLine, LineNumber lastLine) {
         Collections.sort(lines);
 
-        if (lastLine < firstLine || lines.size() == 0 || firstLine > lines.get(lines.size() - 1) || lastLine < lines.get(0)) {
+        if (lastLine.compareTo(firstLine) < 0 || lines.size() == 0 || firstLine.compareTo(lines.get(lines.size() - 1)) > 0 || lastLine.compareTo(lines.get(0)) < 0) {
             return new int[]{NO_LINE_NUMBER, NO_LINE_NUMBER};
         }
 
         int firstLineIndex = 0;
-        while (lines.get(firstLineIndex) < firstLine) {
+        while (lines.get(firstLineIndex).compareTo(firstLine) < 0) {
             firstLineIndex++;
         }
 
         int lastLineIndex = lines.size() - 1;
-        while (lines.get(lastLineIndex) > lastLine) {
+        while (lines.get(lastLineIndex).compareTo(lastLine) > 0) {
             lastLineIndex--;
         }
         return new int[]{firstLineIndex, lastLineIndex};
