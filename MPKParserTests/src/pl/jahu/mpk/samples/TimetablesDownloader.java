@@ -25,6 +25,7 @@ public class TimetablesDownloader {
     public static final String TIMETABLES_LOCATION = "offline/timetables/";
     public static final String LINES_PAGE_NAME = "_lines.html";
     public static final String MENU_PAGE_NAME = "_menu.html";
+    public static final String STATIONS_PAGE_NAME = "_stations.html";
 
     /**
      * Downloads:
@@ -34,6 +35,7 @@ public class TimetablesDownloader {
     public static void downloadInfo() {
         downloadUrl(UrlResolver.LINES_LIST_URL, LINES_PAGE_NAME);
         downloadUrl(UrlResolver.TIMETABLE_MENU_URL, MENU_PAGE_NAME);
+        downloadUrl(UrlResolver.STATIONS_LIST_URL, STATIONS_PAGE_NAME);
     }
 
     public static void downloadTimetables(int firstLine, int lastLine) throws NoDataProvidedException, UnsupportedLineNumberException {

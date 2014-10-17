@@ -16,6 +16,7 @@ public class UrlResolver {
     private static final String LINE_ROUTE_URL_PATTERN = "http://rozklady.mpk.krakow.pl/aktualne/"+LINE_NUMBER_TOKEN+"/"+LINE_NUMBER_TOKEN+"w00"+DIRECTION_TOKEN+".htm";
     public static final String LINES_LIST_URL = "http://rozklady.mpk.krakow.pl/linie.aspx";
     public static final String TIMETABLE_MENU_URL = "http://rozklady.mpk.krakow.pl/menu.aspx";
+    public static final String STATIONS_LIST_URL = "http://rozklady.mpk.krakow.pl/aktualne/przystan.htm";
     private static final String TIMETABLE_URL_PATTERN = "http://rozklady.mpk.krakow.pl/aktualne/" + LINE_NUMBER_TOKEN + "/" + PAGE_TOKEN;
 
     public static String getLineRouteUrl(LineNumber lineNo, Integer direction) throws UnsupportedLineNumberException {
