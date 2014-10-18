@@ -58,6 +58,9 @@ public class TimetablesDownloader {
                 for (int j = 1; j < 10; j++) {
                     try {
                         LineRouteParser routeParser = new LineRouteParser(line, j);
+                        String lineRouteUrl = UrlResolver.getLineRouteUrl(line, j);
+                        downloadUrl(lineRouteUrl, getPageName(lineRouteUrl));
+
                         List<String[]> route = routeParser.parse();
                         for (String[] station : route) {
                             String url = UrlResolver.getStationTimetableUrl(line, station[1]);
