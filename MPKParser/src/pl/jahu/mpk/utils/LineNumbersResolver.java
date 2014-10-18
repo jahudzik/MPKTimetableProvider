@@ -4,6 +4,7 @@ import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.enums.AreaTypes;
 import pl.jahu.mpk.enums.ReasonTypes;
 import pl.jahu.mpk.enums.VehicleTypes;
+import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import java.util.*;
 
@@ -35,6 +36,36 @@ public class LineNumbersResolver {
             this.vehicleTypes.add(VehicleTypes.TRAM);
         }
     }
+
+    public static String getLineString(LineNumber lineNo) throws UnsupportedLineNumberException {
+        if (lineNo == null) {
+            throw new UnsupportedLineNumberException("null");
+        }
+        if (lineNo.isNumericOnly()) {
+            if (lineNo.getNumeric() > 999) {
+                throw new UnsupportedLineNumberException(lineNo.getLiteral());
+            }
+            return getNumberLiteral(lineNo.getNumeric());
+        } else {
+            switch (lineNo.getLiteral().length()) {
+                case 1:
+                    return "000" + lineNo.toString();
+                case 2:
+                    return "00" + lineNo.toString();
+                case 3:
+                    return "0" + lineNo.toString();
+                case 4:
+                    return lineNo.toString();
+                default:
+                    throw new UnsupportedLineNumberException(lineNo.getLiteral());
+            }
+        }
+    }
+
+    public static String getNumberLiteral(Integer value) {
+        return (value < 10) ? "000" + value.toString() : (value < 100) ? "00" + value.toString() : "0" + value.toString();
+    }
+
 
     public void addAreaType(AreaTypes type) {
         areaTypes.add(type);
