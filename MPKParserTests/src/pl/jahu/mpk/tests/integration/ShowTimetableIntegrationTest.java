@@ -10,6 +10,7 @@ import pl.jahu.mpk.entities.Transit;
 import pl.jahu.mpk.enums.DayTypes;
 import pl.jahu.mpk.parsers.LineRouteParser;
 import pl.jahu.mpk.parsers.LinesListParser;
+import pl.jahu.mpk.parsers.StationData;
 import pl.jahu.mpk.parsers.TimetableParser;
 import pl.jahu.mpk.parsers.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
@@ -88,20 +89,19 @@ public class ShowTimetableIntegrationTest {
                     destination = routeParser.getDestination();
 
                     // get all stations on the route
-                    List<String[]> route = routeParser.parse();
+                    List<StationData> route = routeParser.parse();
                     assertNotNull(route);
                     assertTrue(route.size() > 0);
                     List<Timetable> timetables = new ArrayList<Timetable>();
 
                     // for each station on the route...
-                    for (String[] station : route) {
+                    for (StationData station : route) {
                         assertNotNull(station);
-                        assertEquals(2, station.length);
-                        assertNotNull(station[0]);
-                        assertNotNull(station[1]);
+                        assertNotNull(station.getName());
+                        assertNotNull(station.getAddress());
 
                         // parse and save timetable
-                        TimetableParser timetableParser = new TimetableParser(line, station[1]);
+                        TimetableParser timetableParser = new TimetableParser(line, station.getAddress());
                         actTimetableUrl = timetableParser.getUrl();
                         Timetable timetable = timetableParser.parse();
                         Map<DayTypes, List<Departure>> departures = timetable.getDepartures();
@@ -127,7 +127,7 @@ public class ShowTimetableIntegrationTest {
                             List<Transit> transits = transitsMap.get(dayType);
                             sb.append(dayType).append("=").append(transits.size()).append(";");
                         }
-                        System.out.println("PASSED: {line=" + line + ", route='" + route.get(0)[0] + "'->'" + destination + "', stations=" + route.size() + ", departures={" + sb.toString() + "} }");
+                        System.out.println("PASSED: {line=" + line + ", route='" + route.get(0).getName() + "'->'" + destination + "', stations=" + route.size() + ", departures={" + sb.toString() + "} }");
                     }
                 } catch (TimetableNotFoundException e) {
                     break;

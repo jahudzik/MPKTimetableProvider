@@ -2,6 +2,7 @@ package pl.jahu.mpk.tests.unit.parsers;
 
 import org.junit.Test;
 import pl.jahu.mpk.parsers.LineRouteParser;
+import pl.jahu.mpk.parsers.StationData;
 import pl.jahu.mpk.parsers.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 
@@ -24,22 +25,20 @@ public class LineRouteParserTest {
             LineRouteParser parser = new LineRouteParser(inputFile, "iso-8859-2");
             assertEquals("Salwator", parser.getDestination());
 
-            List<String[]> stations = parser.parse();
+            List<StationData> stations = parser.parse();
 
             assertNotNull(stations);
             assertEquals(31, stations.size());
 
-            String[] station1 = stations.get(0);
+            StationData station1 = stations.get(0);
             assertNotNull(station1);
-            assertEquals(2, station1.length);
-            assertEquals("Wzgórza Krzesławickie", station1[0]);
-            assertEquals("0001t001.htm", station1[1]);
+            assertEquals("Wzgórza Krzesławickie", station1.getName());
+            assertEquals("0001t001.htm", station1.getAddress());
 
-            String[] station2 = stations.get(30);
+            StationData station2 = stations.get(30);
             assertNotNull(station2);
-            assertEquals(2, station2.length);
-            assertEquals("Salwator", station2[0]);
-            assertEquals("0001t031.htm", station2[1]);
+            assertEquals("Salwator", station2.getName());
+            assertEquals("0001t031.htm", station2.getAddress());
 
         } catch (TimetableParseException e) {
             fail();

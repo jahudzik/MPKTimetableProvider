@@ -5,6 +5,7 @@ import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.enums.DayTypes;
 import pl.jahu.mpk.parsers.LineRouteParser;
 import pl.jahu.mpk.parsers.LinesListParser;
+import pl.jahu.mpk.parsers.StationData;
 import pl.jahu.mpk.parsers.TimetableParser;
 import pl.jahu.mpk.parsers.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
@@ -25,7 +26,7 @@ public class Scenario1ShowLineTimetable {
     public static void execute() {
         LineNumber chosenLine; // 183, 225
         String chosenDestination;
-        String[] chosenStation;
+        StationData chosenStation;
         Random rand = new Random();
 
         try {
@@ -65,7 +66,7 @@ public class Scenario1ShowLineTimetable {
             System.out.println("[User chooses '" + chosenDestination + "' destination]");
 
 
-            List<String[]> route = null;
+            List<StationData> route = null;
             try {
                 LineRouteParser chosenRouteParser = destinations.get(chosenDestination);
                 route = chosenRouteParser.parse();
@@ -75,17 +76,17 @@ public class Scenario1ShowLineTimetable {
 
             System.out.println("\n### Choose station:");
             assert route != null;
-            for (String[] stationInfo : route) {
-                System.out.println("### - " + stationInfo[0]);
+            for (StationData stationAddress : route) {
+                System.out.println("### - " + stationAddress.getName());
             }
 
             chosenStation = route.get(rand.nextInt(route.size()));
-            System.out.println("[User choses '" + chosenStation[0] + "' station]");
+            System.out.println("[User choses '" + chosenStation.getName() + "' station]");
 
             List<Departure> departuresForToday = null;
             DayTypes todayType = null;
 
-            TimetableParser timetableParser = new TimetableParser(chosenLine, chosenStation[1]);
+            TimetableParser timetableParser = new TimetableParser(chosenLine, chosenStation.getAddress());
             Map<DayTypes, List<Departure>> timetables = timetableParser.parse().getDepartures();
             for (DayTypes dayType : timetables.keySet()) {
                 if (TimeUtils.validateDayTypeForToday(dayType)) {

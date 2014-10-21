@@ -67,8 +67,8 @@ public class LineRouteParser extends AbstractParser {
      * @return list of [station name, timetable url] String pairs
      * @throws LineRouteParseException
      */
-    public List<String[]> parse() throws LineRouteParseException {
-        List<String[]> list = new ArrayList<String[]>();
+    public List<StationData> parse() throws LineRouteParseException {
+        List<StationData> list = new ArrayList<StationData>();
         Elements stations = document.getElementsByAttributeValue("target", "R");
         for (Element station : stations) {
             String stationName = station.text();
@@ -79,7 +79,7 @@ public class LineRouteParser extends AbstractParser {
             if (url == null || url.equals("")) {
                 throw new LineRouteParseException("No station url found");
             }
-            list.add(new String[]{stationName, url});
+            list.add(new StationData(stationName, url));
         }
 
         return list;

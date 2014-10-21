@@ -4,6 +4,7 @@ import org.apache.commons.io.FileUtils;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parsers.LineRouteParser;
 import pl.jahu.mpk.parsers.LinesListParser;
+import pl.jahu.mpk.parsers.StationData;
 import pl.jahu.mpk.parsers.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.utils.LineNumbersResolver;
@@ -61,9 +62,9 @@ public class TimetablesDownloader {
                         String lineRouteUrl = UrlResolver.getLineRouteUrl(line, j);
                         downloadUrl(lineRouteUrl, getPageName(lineRouteUrl));
 
-                        List<String[]> route = routeParser.parse();
-                        for (String[] station : route) {
-                            String url = UrlResolver.getStationTimetableUrl(line, station[1]);
+                        List<StationData> route = routeParser.parse();
+                        for (StationData station : route) {
+                            String url = UrlResolver.getStationTimetableUrl(line, station.getAddress());
                             downloadUrl(url, getPageName(url));
                         }
                     } catch (TimetableNotFoundException e) {
