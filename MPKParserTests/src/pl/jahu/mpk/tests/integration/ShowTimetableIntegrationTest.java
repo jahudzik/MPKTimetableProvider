@@ -1,25 +1,26 @@
 package pl.jahu.mpk.tests.integration;
 
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.Test;
+import pl.jahu.mpk.DaggerTestApplication;
 import pl.jahu.mpk.TransitBuilder;
 import pl.jahu.mpk.entities.Departure;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.entities.Timetable;
 import pl.jahu.mpk.entities.Transit;
 import pl.jahu.mpk.enums.DayTypes;
-import pl.jahu.mpk.parsers.LineRouteParser;
-import pl.jahu.mpk.parsers.LinesListParser;
 import pl.jahu.mpk.parsers.StationData;
-import pl.jahu.mpk.parsers.TimetableParser;
 import pl.jahu.mpk.parsers.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
+import pl.jahu.mpk.providers.TimetableProvider;
 import pl.jahu.mpk.utils.LineNumbersResolver;
 import pl.jahu.mpk.validators.exceptions.NoDataProvidedException;
 import pl.jahu.mpk.validators.exceptions.TransitValidationException;
 import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,14 @@ public class ShowTimetableIntegrationTest {
     private static String destination;
     private static String actTimetableUrl;
     private static boolean printGeneralOutput;
+
+    @Inject
+    static TimetableProvider timetableProvider;
+
+    @Before
+    public void setUp() {
+        DaggerTestApplication.inject(this);
+    }
 
     @Test
     public void testShowingTimetable() {
@@ -70,8 +79,7 @@ public class ShowTimetableIntegrationTest {
 
     public static void showTimetable(int firstLine, int lastLine, boolean printGeneralOutput, boolean printDetailedOutput) throws TimetableNotFoundException, LineRouteParseException, TimetableParseException, TransitValidationException, NoDataProvidedException, UnsupportedLineNumberException {
         ShowTimetableIntegrationTest.printGeneralOutput = printGeneralOutput;
-        LinesListParser linesListParser = new LinesListParser();
-        List<LineNumber> lines = linesListParser.parse();
+        List<LineNumber> lines = timetableProvider.getLinesList();
         assertNotNull(lines);
         assertTrue(lines.size() > 0);
 
@@ -85,11 +93,10 @@ public class ShowTimetableIntegrationTest {
             // for each destination...
             for (int i = 1; i < 10; i++) {
                 try {
-                    LineRouteParser routeParser = new LineRouteParser(line, i);
-                    destination = routeParser.getDestination();
+                    destination = timetableProvider.getLineRouteDestination(line, i);
 
                     // get all stations on the route
-                    List<StationData> route = routeParser.parse();
+                    List<StationData> route = timetableProvider.getLineRoute(line, i);
                     assertNotNull(route);
                     assertTrue(route.size() > 0);
                     List<Timetable> timetables = new ArrayList<Timetable>();
@@ -98,12 +105,11 @@ public class ShowTimetableIntegrationTest {
                     for (StationData station : route) {
                         assertNotNull(station);
                         assertNotNull(station.getName());
-                        assertNotNull(station.getAddress());
+                        assertNotNull(station.getUrlLocation());
 
                         // parse and save timetable
-                        TimetableParser timetableParser = new TimetableParser(line, station.getAddress());
-                        actTimetableUrl = timetableParser.getUrl();
-                        Timetable timetable = timetableParser.parse();
+                        actTimetableUrl = station.getUrlLocation();
+                        Timetable timetable = timetableProvider.getTimetable(line, station.getUrlLocation());
                         Map<DayTypes, List<Departure>> departures = timetable.getDepartures();
                         assertNotNull(departures);
                         assertTrue(departures.size() > 0);

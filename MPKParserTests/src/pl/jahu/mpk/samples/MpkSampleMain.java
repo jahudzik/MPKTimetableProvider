@@ -1,5 +1,8 @@
 package pl.jahu.mpk.samples;
 
+import pl.jahu.mpk.DaggerApplication;
+import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
+import pl.jahu.mpk.tools.TimetablesDownloader;
 import pl.jahu.mpk.validators.exceptions.NoDataProvidedException;
 import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
@@ -10,13 +13,7 @@ public class MpkSampleMain {
 
     public static void main(String args[]) {
 
-//        Samples.parseFilteredLinesTimetables();
-//        Samples.parseAllLines();
-//        Samples.parseLineRoute();
-
-//        Scenario1ShowLineTimetable.execute();
-//        Scenario2ShowLineTransits.execute();
-
+        DaggerApplication.init();
 
         try {
             TimetablesDownloader.downloadInfo();
@@ -25,11 +22,10 @@ public class MpkSampleMain {
             e.printStackTrace();
         } catch (UnsupportedLineNumberException e) {
             e.printStackTrace();
+        } catch (TimetableNotFoundException e) {
+            e.printStackTrace();
         }
 
     }
-
-
-
 
 }

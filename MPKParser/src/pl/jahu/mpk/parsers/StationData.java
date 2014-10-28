@@ -7,27 +7,19 @@ package pl.jahu.mpk.parsers;
 public class StationData {
 
     private String name;
-    private String address;
+    private String urlLocation;
 
     public StationData(String name, String address) {
         this.name = name;
-        this.address = address;
+        this.urlLocation = address;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+    public String getUrlLocation() {
+        return urlLocation;
     }
 
 }

@@ -1,19 +1,15 @@
 package pl.jahu.mpk.parsers;
 
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import pl.jahu.mpk.entities.Departure;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.entities.Timetable;
 import pl.jahu.mpk.enums.DayTypes;
-import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 import pl.jahu.mpk.utils.ParserConstants;
-import pl.jahu.mpk.utils.UrlResolver;
-import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,18 +17,8 @@ import java.util.Map;
 
 /**
  *  Created by jahudzik on 2014-07-13.
- *
- * Returns all departures in specified timetable divided by day types.
- *
- * Input (constructor):
- * - lineNo - line number (integer)
- * - page - html page name with specified timetable (string, ex. '0001t001.htm')
- *
- * Output (parse() method):
- * - Timetable object holding map with departures lists for each day type
- *
  */
-public class TimetableParser extends AbstractParser {
+public class TimetableParser {
 
     private static final String STOP_NAME_CLASS = "fontstop";
     private static final String ROUTE_CELL_CLASS = "fontroute";
@@ -42,37 +28,10 @@ public class TimetableParser extends AbstractParser {
     private static final String LEGEND_CELL_CLASS = "fontprzyp";
     private static final String NO_MINUTES_PATTERN = "-";
 
-    private LineNumber line;
-    private String station;
-    private String destStation;
     private Elements legendCells;
 
 
-    public TimetableParser(LineNumber lineNo, String page) throws TimetableNotFoundException, TimetableParseException, UnsupportedLineNumberException {
-        super(UrlResolver.getStationTimetableUrl(lineNo, page));
-        this.line = lineNo;
-        this.station = retrieveSpecificCell(STOP_NAME_CLASS, "stop name");
-        this.destStation = retrieveDestination();
-    }
-
-    public TimetableParser(File file, String encoding) throws IOException, TimetableParseException {
-        super(file, encoding);
-        this.station = retrieveSpecificCell(STOP_NAME_CLASS, "stop name");
-        this.destStation = retrieveDestination();
-    }
-
-
-    private String retrieveDestination() throws TimetableParseException {
-        String route = retrieveSpecificCell(ROUTE_CELL_CLASS, "route");
-        int in = route.lastIndexOf(" - ");
-        if (in != -1) {
-            return route.substring(in+3);
-        } else {
-            throw new TimetableParseException("Could not parse destStation");
-        }
-    }
-
-    private String retrieveSpecificCell(String className, String contentDescription) throws TimetableParseException {
+    private String retrieveSpecificCell(Document document, String className, String contentDescription) throws TimetableParseException {
         Elements elementsByClass = document.getElementsByClass(className);
         if (elementsByClass.size() == 0) {
             throw new TimetableParseException("Could not parse " + contentDescription);
@@ -81,16 +40,11 @@ public class TimetableParser extends AbstractParser {
     }
 
 
-    public String getStation() {
-        return station;
-    }
-
-    public String getDestStation() {
-        return destStation;
-    }
-
-
-    public Timetable parse() throws TimetableParseException {
+    /**
+     * Parser document and returns departures lists for each day type
+     * @return Timetable object holding map with departures lists for each day type
+     */
+    public Timetable parse(Document document, LineNumber lineNumber) throws TimetableParseException {
         Map<DayTypes, List<Departure>> departures = new HashMap<DayTypes, List<Departure>>();
         Elements rows = document.getElementsByClass(DEPARTURES_TABLE_CLASS).get(0).getElementsByTag("tr");
         if (rows != null && rows.size() > 0) {
@@ -134,7 +88,18 @@ public class TimetableParser extends AbstractParser {
             throw new TimetableParseException("No departure info found on the timetable");
         }
 
-        return new Timetable(station, line, destStation, departures);
+        String destStation;
+        String route = retrieveSpecificCell(document, ROUTE_CELL_CLASS, "route");
+        int in = route.lastIndexOf(" - ");
+        if (in != -1) {
+            destStation = route.substring(in + 3);
+        } else {
+            throw new TimetableParseException("Could not parse destStation");
+        }
+
+        String station = retrieveSpecificCell(document, STOP_NAME_CLASS, "stop name");
+
+        return new Timetable(station, lineNumber, destStation, departures);
     }
 
     /**

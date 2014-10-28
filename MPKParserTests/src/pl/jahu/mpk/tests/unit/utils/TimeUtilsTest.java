@@ -21,74 +21,54 @@ public class TimeUtilsTest {
 
 
     @Test
-    public void testSunday() {
-        try {
-            assertTrue(TimeUtils.validateDayType(DayTypes.EVERYDAY, Calendar.SUNDAY));
-            assertFalse(TimeUtils.validateDayType(DayTypes.MONDAY_TO_THURSDAY, Calendar.SUNDAY));
-            assertFalse(TimeUtils.validateDayType(DayTypes.SATURDAY, Calendar.SUNDAY));
-            assertTrue(TimeUtils.validateDayType(DayTypes.SUNDAY, Calendar.SUNDAY));
-            assertFalse(TimeUtils.validateDayType(DayTypes.WEEKDAY, Calendar.SUNDAY));
-            assertTrue(TimeUtils.validateDayType(DayTypes.WEEKEND_NIGHTS, Calendar.SUNDAY));
-        } catch (UnsupportedDayTypesConfigurationException e) {
-            fail();
-        }
+    public void testSunday() throws UnsupportedDayTypesConfigurationException {
+        assertTrue(TimeUtils.validateDayType(DayTypes.EVERYDAY, Calendar.SUNDAY));
+        assertFalse(TimeUtils.validateDayType(DayTypes.MONDAY_TO_THURSDAY, Calendar.SUNDAY));
+        assertFalse(TimeUtils.validateDayType(DayTypes.SATURDAY, Calendar.SUNDAY));
+        assertTrue(TimeUtils.validateDayType(DayTypes.SUNDAY, Calendar.SUNDAY));
+        assertFalse(TimeUtils.validateDayType(DayTypes.WEEKDAY, Calendar.SUNDAY));
+        assertTrue(TimeUtils.validateDayType(DayTypes.WEEKEND_NIGHTS, Calendar.SUNDAY));
     }
 
     @Test
-    public void testMonday() {
-        try {
-            assertTrue(TimeUtils.validateDayType(DayTypes.EVERYDAY, Calendar.MONDAY));
-            assertTrue(TimeUtils.validateDayType(DayTypes.MONDAY_TO_THURSDAY, Calendar.MONDAY));
-            assertFalse(TimeUtils.validateDayType(DayTypes.SATURDAY, Calendar.MONDAY));
-            assertFalse(TimeUtils.validateDayType(DayTypes.SUNDAY, Calendar.MONDAY));
-            assertTrue(TimeUtils.validateDayType(DayTypes.WEEKDAY, Calendar.MONDAY));
-            assertFalse(TimeUtils.validateDayType(DayTypes.WEEKEND_NIGHTS, Calendar.MONDAY));
-        } catch (UnsupportedDayTypesConfigurationException e) {
-            fail();
-        }
+    public void testMonday() throws UnsupportedDayTypesConfigurationException {
+        assertTrue(TimeUtils.validateDayType(DayTypes.EVERYDAY, Calendar.MONDAY));
+        assertTrue(TimeUtils.validateDayType(DayTypes.MONDAY_TO_THURSDAY, Calendar.MONDAY));
+        assertFalse(TimeUtils.validateDayType(DayTypes.SATURDAY, Calendar.MONDAY));
+        assertFalse(TimeUtils.validateDayType(DayTypes.SUNDAY, Calendar.MONDAY));
+        assertTrue(TimeUtils.validateDayType(DayTypes.WEEKDAY, Calendar.MONDAY));
+        assertFalse(TimeUtils.validateDayType(DayTypes.WEEKEND_NIGHTS, Calendar.MONDAY));
     }
 
     @Test
-    public void testThursday() {
-        try {
-            assertTrue(TimeUtils.validateDayType(DayTypes.EVERYDAY, Calendar.THURSDAY));
-            assertTrue(TimeUtils.validateDayType(DayTypes.MONDAY_TO_THURSDAY, Calendar.THURSDAY));
-            assertFalse(TimeUtils.validateDayType(DayTypes.SATURDAY, Calendar.THURSDAY));
-            assertFalse(TimeUtils.validateDayType(DayTypes.SUNDAY, Calendar.THURSDAY));
-            assertTrue(TimeUtils.validateDayType(DayTypes.WEEKDAY, Calendar.THURSDAY));
-            assertFalse(TimeUtils.validateDayType(DayTypes.WEEKEND_NIGHTS, Calendar.THURSDAY));
-        } catch (UnsupportedDayTypesConfigurationException e) {
-            fail();
-        }
+    public void testThursday() throws UnsupportedDayTypesConfigurationException {
+        assertTrue(TimeUtils.validateDayType(DayTypes.EVERYDAY, Calendar.THURSDAY));
+        assertTrue(TimeUtils.validateDayType(DayTypes.MONDAY_TO_THURSDAY, Calendar.THURSDAY));
+        assertFalse(TimeUtils.validateDayType(DayTypes.SATURDAY, Calendar.THURSDAY));
+        assertFalse(TimeUtils.validateDayType(DayTypes.SUNDAY, Calendar.THURSDAY));
+        assertTrue(TimeUtils.validateDayType(DayTypes.WEEKDAY, Calendar.THURSDAY));
+        assertFalse(TimeUtils.validateDayType(DayTypes.WEEKEND_NIGHTS, Calendar.THURSDAY));
     }
 
     @Test
-    public void testFriday() {
-        try {
-            assertTrue(TimeUtils.validateDayType(DayTypes.EVERYDAY, Calendar.FRIDAY));
-            assertFalse(TimeUtils.validateDayType(DayTypes.MONDAY_TO_THURSDAY, Calendar.FRIDAY));
-            assertFalse(TimeUtils.validateDayType(DayTypes.SATURDAY, Calendar.FRIDAY));
-            assertFalse(TimeUtils.validateDayType(DayTypes.SUNDAY, Calendar.FRIDAY));
-            assertTrue(TimeUtils.validateDayType(DayTypes.WEEKDAY, Calendar.FRIDAY));
-            assertFalse(TimeUtils.validateDayType(DayTypes.WEEKEND_NIGHTS, Calendar.FRIDAY));
-        } catch (UnsupportedDayTypesConfigurationException e) {
-            fail();
-        }
+    public void testFriday() throws UnsupportedDayTypesConfigurationException {
+        assertTrue(TimeUtils.validateDayType(DayTypes.EVERYDAY, Calendar.FRIDAY));
+        assertFalse(TimeUtils.validateDayType(DayTypes.MONDAY_TO_THURSDAY, Calendar.FRIDAY));
+        assertFalse(TimeUtils.validateDayType(DayTypes.SATURDAY, Calendar.FRIDAY));
+        assertFalse(TimeUtils.validateDayType(DayTypes.SUNDAY, Calendar.FRIDAY));
+        assertTrue(TimeUtils.validateDayType(DayTypes.WEEKDAY, Calendar.FRIDAY));
+        assertFalse(TimeUtils.validateDayType(DayTypes.WEEKEND_NIGHTS, Calendar.FRIDAY));
     }
 
 
     @Test
-    public void testSaturday() {
-        try {
-            assertTrue(TimeUtils.validateDayType(DayTypes.EVERYDAY, Calendar.SATURDAY));
-            assertFalse(TimeUtils.validateDayType(DayTypes.MONDAY_TO_THURSDAY, Calendar.SATURDAY));
-            assertTrue(TimeUtils.validateDayType(DayTypes.SATURDAY, Calendar.SATURDAY));
-            assertFalse(TimeUtils.validateDayType(DayTypes.SUNDAY, Calendar.SATURDAY));
-            assertFalse(TimeUtils.validateDayType(DayTypes.WEEKDAY, Calendar.SATURDAY));
-            assertTrue(TimeUtils.validateDayType(DayTypes.WEEKEND_NIGHTS, Calendar.SATURDAY));
-        } catch (UnsupportedDayTypesConfigurationException e) {
-            fail();
-        }
+    public void testSaturday() throws UnsupportedDayTypesConfigurationException {
+        assertTrue(TimeUtils.validateDayType(DayTypes.EVERYDAY, Calendar.SATURDAY));
+        assertFalse(TimeUtils.validateDayType(DayTypes.MONDAY_TO_THURSDAY, Calendar.SATURDAY));
+        assertTrue(TimeUtils.validateDayType(DayTypes.SATURDAY, Calendar.SATURDAY));
+        assertFalse(TimeUtils.validateDayType(DayTypes.SUNDAY, Calendar.SATURDAY));
+        assertFalse(TimeUtils.validateDayType(DayTypes.WEEKDAY, Calendar.SATURDAY));
+        assertTrue(TimeUtils.validateDayType(DayTypes.WEEKEND_NIGHTS, Calendar.SATURDAY));
     }
 
     @Test(expected = UnsupportedDayTypesConfigurationException.class)
@@ -97,49 +77,38 @@ public class TimeUtilsTest {
     }
 
 
-    private boolean testMoreLessEqual(Time time1, Time time2) {
-        try {
-            Method method = TimeUtils.class.getDeclaredMethod("moreLessEqual", Time.class, Time.class);
-            method.setAccessible(true);
-            return (Boolean) method.invoke(null, time1, time2);
-        } catch (NoSuchMethodException e) {
-            fail();
-            return false;
-        } catch (InvocationTargetException e) {
-            fail();
-            return false;
-        } catch (IllegalAccessException e) {
-            fail();
-            return false;
-        }
-    }
-
     @Test
-    public void testMoreLessEqual1() {
+    public void testMoreLessEqual1() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Time time1 = new Time(13, 25);
         Time time2 = new Time(13, 25);
         assertTrue(testMoreLessEqual(time1, time2));
     }
 
     @Test
-    public void testMoreLessEqual2() {
+    public void testMoreLessEqual2() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Time time1 = new Time(13, 25);
         Time time2 = new Time(13, 26);
         assertTrue(testMoreLessEqual(time1, time2));
     }
 
     @Test
-    public void testMoreLessEqual3() {
+    public void testMoreLessEqual3() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Time time1 = new Time(13, 27);
         Time time2 = new Time(13, 25);
         assertTrue(testMoreLessEqual(time1, time2));
     }
 
     @Test
-    public void testMoreLessEqual4() {
+    public void testMoreLessEqual4() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Time time1 = new Time(13, 25);
         Time time2 = new Time(13, 28);
         assertFalse(testMoreLessEqual(time1, time2));
+    }
+
+    private boolean testMoreLessEqual(Time time1, Time time2) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method method = TimeUtils.class.getDeclaredMethod("moreLessEqual", Time.class, Time.class);
+        method.setAccessible(true);
+        return (Boolean) method.invoke(null, time1, time2);
     }
 
 }

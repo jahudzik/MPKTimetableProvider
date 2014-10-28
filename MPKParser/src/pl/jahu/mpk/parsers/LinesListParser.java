@@ -1,5 +1,6 @@
 package pl.jahu.mpk.parsers;
 
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import pl.jahu.mpk.entities.LineNumber;
@@ -16,21 +17,14 @@ import java.util.List;
 
 /**
  * Created by hudzj on 8/1/2014.
- *
- * Output (parse() method):
- * - list of lines numbers
  */
-public class LinesListParser extends AbstractParser {
+public class LinesListParser {
 
-    public LinesListParser() throws TimetableNotFoundException {
-        super(UrlResolver.LINES_LIST_URL);
-    }
-
-    public LinesListParser(File file, String encoding) throws IOException, TimetableParseException {
-        super(file, encoding);
-    }
-
-    public List<LineNumber> parse() throws NoDataProvidedException, UnsupportedLineNumberException {
+    /**
+     * Parses lines list page and return list of lines
+     *
+     */
+    public List<LineNumber> parse(Document document) throws NoDataProvidedException, UnsupportedLineNumberException {
         List<LineNumber> lines = new ArrayList<LineNumber>();
         Elements links = document.getElementsByTag("a");
         for (Element link : links) {
@@ -42,8 +36,5 @@ public class LinesListParser extends AbstractParser {
         }
         return lines;
     }
-
-
-
 
 }

@@ -2,18 +2,18 @@ package pl.jahu.mpk;
 
 import pl.jahu.mpk.entities.*;
 import pl.jahu.mpk.enums.DayTypes;
-import pl.jahu.mpk.parsers.LineRouteParser;
 import pl.jahu.mpk.parsers.StationData;
-import pl.jahu.mpk.parsers.TimetableParser;
 import pl.jahu.mpk.parsers.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
+import pl.jahu.mpk.providers.TimetableProvider;
 import pl.jahu.mpk.utils.Time;
 import pl.jahu.mpk.validators.TransitsValidator;
 import pl.jahu.mpk.validators.exceptions.TransitValidationException;
 import pl.jahu.mpk.validators.exceptions.UnhandledTimetableDepartureException;
 import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
+import javax.inject.Inject;
 import java.util.*;
 
 /**
@@ -24,16 +24,18 @@ public class TransitBuilder {
 
     public static final int MAX_TIME_DIFF_BETWEEN_STOPS = 5;
 
+    @Inject
+    static TimetableProvider timetableProvider;
+
     /**
      * Parses timetables of specified line in specified direction and builds list of transits.
      */
     public static Map<DayTypes, List<Transit>> parseAndBuild(LineNumber lineNo, int direction) throws TimetableNotFoundException, LineRouteParseException, TimetableParseException, TransitValidationException, UnsupportedLineNumberException {
         List<Timetable> timetables = new ArrayList<Timetable>();
-        LineRouteParser routeParser = new LineRouteParser(lineNo, direction);
-        List<StationData> stations = routeParser.parse();
+        timetableProvider.getLineRoute(lineNo, direction);
+        List<StationData> stations = timetableProvider.getLineRoute(lineNo, direction);
         for (StationData station : stations) {
-            TimetableParser timetableParser = new TimetableParser(lineNo, station.getAddress());
-            timetables.add(timetableParser.parse());
+            timetables.add(timetableProvider.getTimetable(lineNo, station.getUrlLocation()));
         }
         Map<DayTypes, List<Transit>> transitsMap = buildFromTimetables(timetables);
 
