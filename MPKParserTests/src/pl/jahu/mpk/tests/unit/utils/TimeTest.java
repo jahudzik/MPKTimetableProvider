@@ -11,51 +11,36 @@ import static org.junit.Assert.assertEquals;
  */
 public class TimeTest {
 
+    /******************** TESTS ********************/
+
     @Test
     public void testCompare1() {
-        Time time1 = new Time(5, 10);
-        Time time2 = new Time(5, 20);
-        assertEquals(time1.compareTo(time2), -10);
-        assertEquals(time2.compareTo(time1), 10);
+        checkTimeDifference(new Time(05, 10), new Time(05, 20), -10, 10);
     }
 
     @Test
     public void testCompare2() {
-        Time time1 = new Time(15, 45);
-        Time time2 = new Time(16, 5);
-        assertEquals(time1.compareTo(time2), -20);
-        assertEquals(time2.compareTo(time1), 20);
+        checkTimeDifference(new Time(15, 45), new Time(16, 05), -20, 20);
     }
 
     @Test
     public void testCompare3() {
-        Time time1 = new Time(12, 45);
-        Time time2 = new Time(12, 45);
-        assertEquals(time1.compareTo(time2), 0);
+        checkTimeDifference(new Time(12, 45), new Time(12, 45), 0, 0);
     }
 
     @Test
     public void testCompare4() {
-        Time time1 = new Time(23, 50);
-        Time time2 = new Time(0, 5);
-        assertEquals(time1.compareTo(time2), -15);
-        assertEquals(time2.compareTo(time1), 15);
+        checkTimeDifference(new Time(23, 50), new Time(0, 05), -15, 15);
     }
 
     @Test
     public void testCompare5() {
-        Time time1 = new Time(12, 05);
-        Time time2 = new Time(0, 0);
-        assertEquals(time1.compareTo(time2), -715);
-        assertEquals(time2.compareTo(time1), 715);
+        checkTimeDifference(new Time(12, 05), new Time(0, 0), -715, 715);
     }
 
     @Test
     public void testCompareDaytime() {
-        Time time1 = new Time(23, 50);
-        Time time2 = new Time(0, 5);
-        assertEquals(time1.compareDaytimeTo(time2), -15);
-        assertEquals(time2.compareDaytimeTo(time1), 15);
+        checkDaytimeDifference(new Time(23, 50), new Time(0, 05), -15, 15);
     }
 
 
@@ -63,6 +48,19 @@ public class TimeTest {
     public void testToString1() {
         Time time1 = new Time(4, 5);
         assertEquals(time1.toString(), "04:05");
+    }
+
+    /******************** API ********************/
+
+
+    private void checkTimeDifference(Time time1, Time time2, int expectedDiff1, int expectedDiff2) {
+        assertEquals(time1.compareTo(time2), expectedDiff1);
+        assertEquals(time2.compareTo(time1), expectedDiff2);
+    }
+
+    private void checkDaytimeDifference(Time time1, Time time2, int expectedDiff1, int expectedDiff2) {
+        assertEquals(time1.compareDaytimeTo(time2), expectedDiff1);
+        assertEquals(time2.compareDaytimeTo(time1), expectedDiff2);
     }
 
 }

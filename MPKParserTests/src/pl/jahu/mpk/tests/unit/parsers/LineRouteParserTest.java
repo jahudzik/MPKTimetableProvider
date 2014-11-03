@@ -13,7 +13,8 @@ import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 import javax.inject.Inject;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by hudzj on 8/1/2014.
@@ -29,26 +30,35 @@ public class LineRouteParserTest {
         DaggerTestApplication.inject(this);
     }
 
-    @Test
-    public void retrieveDestinationTest1() throws UnsupportedLineNumberException, TimetableNotFoundException, LineRouteParseException {
-        assertEquals("Salwator", timetableProvider.getLineRouteDestination(new LineNumber(1), 1));
-    }
+    /******************** TESTS ********************/
 
     @Test
     public void getLineRouteTest1() throws UnsupportedLineNumberException, TimetableNotFoundException, LineRouteParseException {
         List<StationData> stations = timetableProvider.getLineRoute(new LineNumber(1), 1);
-        assertNotNull(stations);
-        assertEquals(29, stations.size());
+        checkStationsListSize(stations, 29);
+        checkStationData(stations.get(0), "Wzgórza Krzesławickie", "0001t001.htm");
+        checkStationData(stations.get(28), "Salwator", "0001t029.htm");
+    }
 
-        StationData station1 = stations.get(0);
-        assertNotNull(station1);
-        assertEquals("Wzgórza Krzesławickie", station1.getName());
-        assertEquals("0001t001.htm", station1.getUrlLocation());
+    @Test
+    public void getLineRouteTest2() throws UnsupportedLineNumberException, TimetableNotFoundException, LineRouteParseException {
+        List<StationData> stations = timetableProvider.getLineRoute(new LineNumber(22), 1);
+        checkStationsListSize(stations, 37);
+        checkStationData(stations.get(0), "Borek Fałęcki", "0022t001.htm");
+        checkStationData(stations.get(36), "Agencja Kraków Wschód NŻ", "0022t037.htm");
+    }
 
-        StationData station2 = stations.get(28);
-        assertNotNull(station2);
-        assertEquals("Salwator", station2.getName());
-        assertEquals("0001t029.htm", station2.getUrlLocation());
+    @Test
+    public void getLineRouteTest3() throws UnsupportedLineNumberException, TimetableNotFoundException, LineRouteParseException {
+        List<StationData> stations = timetableProvider.getLineRoute(new LineNumber(248), 1);
+        checkStationsListSize(stations, 22);
+        checkStationData(stations.get(0), "Bronowice Małe", "0248t001.htm");
+        checkStationData(stations.get(21), "Zelków I NŻ", "0248t022.htm");
+    }
+
+    @Test
+    public void retrieveDestinationTest1() throws UnsupportedLineNumberException, TimetableNotFoundException, LineRouteParseException {
+        assertEquals("Salwator", timetableProvider.getLineRouteDestination(new LineNumber(1), 1));
     }
 
     @Test
@@ -57,42 +67,22 @@ public class LineRouteParserTest {
     }
 
     @Test
-    public void getLineRouteTest2() throws UnsupportedLineNumberException, TimetableNotFoundException, LineRouteParseException {
-        List<StationData> stations = timetableProvider.getLineRoute(new LineNumber(22), 1);
-        assertNotNull(stations);
-        assertEquals(37, stations.size());
-
-        StationData station1 = stations.get(0);
-        assertNotNull(station1);
-        assertEquals("Borek Fałęcki", station1.getName());
-        assertEquals("0022t001.htm", station1.getUrlLocation());
-
-        StationData station2 = stations.get(36);
-        assertNotNull(station2);
-        assertEquals("Agencja Kraków Wschód NŻ", station2.getName());
-        assertEquals("0022t037.htm", station2.getUrlLocation());
-    }
-
-    @Test
     public void retrieveDestinationTest3() throws UnsupportedLineNumberException, TimetableNotFoundException, LineRouteParseException {
         assertEquals("Zelków", timetableProvider.getLineRouteDestination(new LineNumber(248), 1));
     }
 
-    @Test
-    public void getLineRouteTest3() throws UnsupportedLineNumberException, TimetableNotFoundException, LineRouteParseException {
-        List<StationData> stations = timetableProvider.getLineRoute(new LineNumber(248), 1);
+
+    /******************** API ********************/
+
+    private void checkStationsListSize(List<StationData> stations, int expectedSize) {
         assertNotNull(stations);
-        assertEquals(22, stations.size());
+        assertEquals(expectedSize, stations.size());
+    }
 
-        StationData station1 = stations.get(0);
-        assertNotNull(station1);
-        assertEquals("Bronowice Małe", station1.getName());
-        assertEquals("0248t001.htm", station1.getUrlLocation());
-
-        StationData station2 = stations.get(21);
-        assertNotNull(station2);
-        assertEquals("Zelków I NŻ", station2.getName());
-        assertEquals("0248t022.htm", station2.getUrlLocation());
+    private void checkStationData(StationData stationData, String expectedName, String expectedUrlLocation) {
+        assertNotNull(stationData);
+        assertEquals(expectedName, stationData.getName());
+        assertEquals(expectedUrlLocation, stationData.getUrlLocation());
     }
 
 }

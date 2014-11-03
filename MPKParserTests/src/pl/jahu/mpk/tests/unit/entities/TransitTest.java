@@ -16,36 +16,40 @@ import static org.junit.Assert.assertNotNull;
  */
 public class TransitTest {
 
+    /******************** TESTS ********************/
+
     @Test
     public void testInitialization() throws UnsupportedLineNumberException {
         Transit transit = new Transit(new LineNumber(123));
-        assertNotNull(transit.getStops());
-        assertEquals(transit.getStops().size(), 0);
+        checkStopsList(transit, new TransitStop[]{});
     }
 
 
     @Test
     public void testAddingStops() throws UnsupportedLineNumberException {
+        Transit transit = new Transit(new LineNumber(123));
         TransitStop stop1 = new TransitStop(new Time(15, 20), "station1");
         TransitStop stop2 = new TransitStop(new Time(15, 30), "station2");
         TransitStop stop3 = new TransitStop(new Time(15, 25), "station3");
 
-        Transit transit = new Transit(new LineNumber(123));
-
         transit.addStop(stop1);
-        assertEquals(transit.getStops().size(), 1);
-        assertEquals(transit.getStops().get(0), stop1);
+        checkStopsList(transit, new TransitStop[]{stop1});
 
         transit.addStop(stop2);
-        assertEquals(transit.getStops().size(), 2);
-        assertEquals(transit.getStops().get(0), stop1);
-        assertEquals(transit.getStops().get(1), stop2);
+        checkStopsList(transit, new TransitStop[]{stop1, stop2});
 
         transit.addStop(stop3);
-        assertEquals(transit.getStops().size(), 3);
-        assertEquals(transit.getStops().get(0), stop1);
-        assertEquals(transit.getStops().get(1), stop3);
-        assertEquals(transit.getStops().get(2), stop2);
+        checkStopsList(transit, new TransitStop[]{stop1, stop3, stop2});
+    }
+
+
+    /******************* API ********************/
+
+    private void checkStopsList(Transit transit, TransitStop[] expectedStops) {
+        assertEquals(expectedStops.length, transit.getStops().size());
+        for (int i = 0; i < expectedStops.length; i++) {
+            assertEquals(expectedStops[i], transit.getStops().get(i));
+        }
     }
 
 }

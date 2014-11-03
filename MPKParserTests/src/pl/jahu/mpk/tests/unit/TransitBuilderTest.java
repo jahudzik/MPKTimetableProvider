@@ -29,6 +29,8 @@ public class TransitBuilderTest {
     public static final String LAST_STATION = "Last Station";
 
 
+    /******************** TESTS ********************/
+
     @Test
     public void testNullInput() throws TransitValidationException {
         Map<DayTypes, List<Transit>> transits = TransitBuilder.buildFromTimetables(null);
@@ -50,16 +52,14 @@ public class TransitBuilderTest {
         assertEquals(2, transitsMap.keySet().size());
 
         List<Transit> weekTransits = transitsMap.get(DayTypes.WEEKDAY);
-        assertNotNull(weekTransits);
-        assertEquals(3, weekTransits.size());
-        validateTransit(weekTransits.get(0), 5, 8, LAST_STATION, STATIONS, new int[]{12, 10, 12, 12, 12, 13, 12, 16, 12, 18});
-        validateTransit(weekTransits.get(1), 5, 8, LAST_STATION, STATIONS, new int[]{12, 20, 12, 22, 12, 23, 12, 26, 12, 28});
-        validateTransit(weekTransits.get(2), 5, 8, LAST_STATION, STATIONS, new int[]{12, 30, 12, 32, 12, 33, 12, 36, 12, 38});
+        checkTransitsList(weekTransits, 3);
+        checkTransit(weekTransits.get(0), 5, 8, LAST_STATION, STATIONS, new int[]{12, 10, 12, 12, 12, 13, 12, 16, 12, 18});
+        checkTransit(weekTransits.get(1), 5, 8, LAST_STATION, STATIONS, new int[]{12, 20, 12, 22, 12, 23, 12, 26, 12, 28});
+        checkTransit(weekTransits.get(2), 5, 8, LAST_STATION, STATIONS, new int[]{12, 30, 12, 32, 12, 33, 12, 36, 12, 38});
 
         List<Transit> sundayTransits = transitsMap.get(DayTypes.SUNDAY);
-        assertNotNull(sundayTransits);
-        assertEquals(1, sundayTransits.size());
-        validateTransit(sundayTransits.get(0), 5, 8, LAST_STATION, STATIONS, new int[]{12, 00, 12, 02, 12, 03, 12, 06, 12, 8});
+        checkTransitsList(sundayTransits, 1);
+        checkTransit(sundayTransits.get(0), 5, 8, LAST_STATION, STATIONS, new int[]{12, 00, 12, 02, 12, 03, 12, 06, 12, 8});
     }
 
 
@@ -76,14 +76,13 @@ public class TransitBuilderTest {
         assertEquals(1, transitsMap.keySet().size());
 
         List<Transit> weekTransits = transitsMap.get(DayTypes.WEEKDAY);
-        assertNotNull(weekTransits);
-        assertEquals(3, weekTransits.size());
+        checkTransitsList(weekTransits, 3);
         // first transit makes full route - from 'Station 1' to 'Last Station'
-        validateTransit(weekTransits.get(0), 5, 8, LAST_STATION, STATIONS, new int[]{12, 10, 12, 12, 12, 13, 12, 16, 12, 18});
+        checkTransit(weekTransits.get(0), 5, 8, LAST_STATION, STATIONS, new int[]{12, 10, 12, 12, 12, 13, 12, 16, 12, 18});
         // second transit starts later, from 'Station 3' and makes it to the end 'Last Station'
-        validateTransit(weekTransits.get(1), 3, 5, LAST_STATION, new String[] {STATIONS[2], STATIONS[3], STATIONS[4]}, new int[]{12, 23, 12, 26, 12, 28});
+        checkTransit(weekTransits.get(1), 3, 5, LAST_STATION, new String[]{STATIONS[2], STATIONS[3], STATIONS[4]}, new int[]{12, 23, 12, 26, 12, 28});
         // third transit starts from 'Station 1', but finishes earlier on 'Station 4'
-        validateTransit(weekTransits.get(2), 3, 3, STATIONS[3], new String[] {STATIONS[0], STATIONS[1], STATIONS[2]}, new int[]{12, 30, 12, 32, 12, 33});
+        checkTransit(weekTransits.get(2), 3, 3, STATIONS[3], new String[]{STATIONS[0], STATIONS[1], STATIONS[2]}, new int[]{12, 30, 12, 32, 12, 33});
     }
 
     @Test(expected = UnhandledTimetableDepartureException.class)
@@ -97,7 +96,6 @@ public class TransitBuilderTest {
         // there's an unexpected departure (12:46) in 4th timetable - UnhandledTimetableDepartureException should be thrown
         TransitBuilder.buildFromTimetables(timetables);
     }
-
 
     @Test(expected = IncorrectTransitDurationException.class)
     public void testIncorrectTransitDurationException() throws TransitValidationException {
@@ -124,6 +122,7 @@ public class TransitBuilderTest {
         TransitBuilder.buildFromTimetables(timetables);
     }
 
+
     @Test(expected = IncorrectTimeDifferenceBetweenStopsException.class)
     public void testIncorrectTimeDifferenceBetweenStopsException2() throws TransitValidationException {
         List<Timetable> timetables = new ArrayList<Timetable>();
@@ -136,18 +135,8 @@ public class TransitBuilderTest {
         TransitBuilder.buildFromTimetables(timetables);
     }
 
+    /******************** API ********************/
 
-
-
-    private void validateTransit(Transit transit, int stopsCount, int duration, String destStation, String[] stations, int[] times) {
-        assertEquals(stopsCount, transit.getStops().size());
-        assertEquals(duration, transit.getDuration());
-        assertEquals(destStation, transit.getDestStation());
-        for (int i = 0; i < stations.length; i++) {
-            assertEquals(stations[i], transit.getStops().get(i).getStation());
-            assertEquals(TimeUtils.timeValue(times[2*i], times[2*i+1]), transit.getStops().get(i).getTime().getTimeValue());
-        }
-    }
 
     /**
      * Builds timetable based on passed int values representing times (grouped by day type)
@@ -165,8 +154,24 @@ public class TransitBuilderTest {
             }
             return new Timetable(station, new LineNumber(lineNo), destStation, map);
         } catch (UnsupportedLineNumberException e) {
-           fail(e.getMessage());
+            fail(e.getMessage());
             return null;
+        }
+    }
+
+    private void checkTransitsList(List<Transit> transits, int expectedSize) {
+        assertNotNull(transits);
+        assertEquals(expectedSize, transits.size());
+    }
+
+    private void checkTransit(Transit transit, int expectedStopsCount, int expectedDuration, String expectedDestination,
+                              String[] expectedStations, int[] expectedTimes) {
+        assertEquals(expectedStopsCount, transit.getStops().size());
+        assertEquals(expectedDuration, transit.getDuration());
+        assertEquals(expectedDestination, transit.getDestStation());
+        for (int i = 0; i < expectedStations.length; i++) {
+            assertEquals(expectedStations[i], transit.getStops().get(i).getStation());
+            assertEquals(TimeUtils.timeValue(expectedTimes[2*i], expectedTimes[2*i+1]), transit.getStops().get(i).getTime().getTimeValue());
         }
     }
 

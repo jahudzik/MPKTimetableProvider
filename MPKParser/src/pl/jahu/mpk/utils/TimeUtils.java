@@ -37,7 +37,10 @@ public class TimeUtils {
         }
     }
 
-    private static boolean moreLessEqual(Time time1, Time time2) {
+    /**
+     * Planned to be used in comparing transits times
+     */
+    public static boolean moreLessEqual(Time time1, Time time2) {
         return Math.abs(time1.compareDaytimeTo(time2)) < 3;
     }
 

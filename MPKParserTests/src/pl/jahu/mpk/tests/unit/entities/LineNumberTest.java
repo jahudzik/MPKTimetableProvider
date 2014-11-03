@@ -16,6 +16,8 @@ import static org.junit.Assert.*;
  */
 public class LineNumberTest {
 
+    /******************** TESTS ********************/
+
     @Test(expected = UnsupportedLineNumberException.class)
     public void testLiteralConstructor1() throws UnsupportedLineNumberException {
         new LineNumber("");
@@ -26,39 +28,6 @@ public class LineNumberTest {
         new LineNumber(null);
     }
 
-    @Test
-    public void testLiteralConstructor3() throws UnsupportedLineNumberException {
-        LineNumber lineNumber = new LineNumber("16");
-        assertEquals(16, lineNumber.getNumeric());
-        assertEquals("16", lineNumber.getLiteral());
-        assertTrue(lineNumber.isNumericOnly());
-    }
-
-    @Test
-    public void testLiteralConstructor4() throws UnsupportedLineNumberException {
-        LineNumber lineNumber = new LineNumber("Z8");
-        assertEquals(8, lineNumber.getNumeric());
-        assertEquals("Z8", lineNumber.getLiteral());
-        assertFalse(lineNumber.isNumericOnly());
-    }
-
-    @Test
-    public void testLiteralConstructor5() throws UnsupportedLineNumberException {
-        LineNumber lineNumber = new LineNumber("62A");
-        assertEquals(62, lineNumber.getNumeric());
-        assertEquals("62A", lineNumber.getLiteral());
-        assertFalse(lineNumber.isNumericOnly());
-    }
-
-
-    @Test
-    public void testLiteralConstructor6() throws UnsupportedLineNumberException {
-        LineNumber lineNumber = new LineNumber("D");
-        assertEquals(-1, lineNumber.getNumeric());
-        assertEquals("D", lineNumber.getLiteral());
-        assertFalse(lineNumber.isNumericOnly());
-    }
-
     @Test(expected = UnsupportedLineNumberException.class)
     public void testNumericConstructor1() throws UnsupportedLineNumberException {
         new LineNumber(-1);
@@ -66,82 +35,76 @@ public class LineNumberTest {
 
     @Test
     public void testNumericConstructor2() throws UnsupportedLineNumberException {
-        LineNumber lineNumber = new LineNumber(3);
-        assertEquals(3, lineNumber.getNumeric());
-        assertEquals("3", lineNumber.getLiteral());
-        assertTrue(lineNumber.isNumericOnly());
+        checkNumber(new LineNumber(3), 3, "3", true);
+    }
+
+    @Test
+    public void testLiteralConstructor3() throws UnsupportedLineNumberException {
+        checkNumber(new LineNumber(16), 16, "16", true);
+    }
+
+
+    @Test
+    public void testLiteralConstructor4() throws UnsupportedLineNumberException {
+        checkNumber(new LineNumber("Z8"), 8, "Z8", false);
+    }
+
+    @Test
+    public void testLiteralConstructor5() throws UnsupportedLineNumberException {
+        checkNumber(new LineNumber("62A"), 62, "62A", false);
+    }
+
+    @Test
+    public void testLiteralConstructor6() throws UnsupportedLineNumberException {
+        checkNumber(new LineNumber("D"), -1, "D", false);
     }
 
 
     @Test
     public void testComparator1() throws UnsupportedLineNumberException {
-        LineNumber lineNumber1 = new LineNumber("3");
-        LineNumber lineNumber2 = new LineNumber("7");
-        assertTrue(lineNumber1.compareTo(lineNumber2) < 0);
-        assertTrue(lineNumber2.compareTo(lineNumber1) > 0);
+        checkDifferentNumbersComparison(new LineNumber("3"), new LineNumber("7"));
     }
 
     @Test
     public void testComparator2() throws UnsupportedLineNumberException {
-        LineNumber lineNumber1 = new LineNumber("3A");
-        LineNumber lineNumber2 = new LineNumber("7");
-        assertTrue(lineNumber1.compareTo(lineNumber2) < 0);
-        assertTrue(lineNumber2.compareTo(lineNumber1) > 0);
+        checkDifferentNumbersComparison(new LineNumber("3A"), new LineNumber("7"));
     }
 
     @Test
     public void testComparator3() throws UnsupportedLineNumberException {
-        LineNumber lineNumber1 = new LineNumber("3");
-        LineNumber lineNumber2 = new LineNumber("3B");
-        assertTrue(lineNumber1.compareTo(lineNumber2) < 0);
-        assertTrue(lineNumber2.compareTo(lineNumber1) > 0);
+        checkDifferentNumbersComparison(new LineNumber("3"), new LineNumber("3B"));
     }
 
     @Test
     public void testComparator4() throws UnsupportedLineNumberException {
-        LineNumber lineNumber1 = new LineNumber("B");
-        LineNumber lineNumber2 = new LineNumber("C2");
-        assertTrue(lineNumber1.compareTo(lineNumber2) < 0);
-        assertTrue(lineNumber2.compareTo(lineNumber1) > 0);
+        checkDifferentNumbersComparison(new LineNumber("B"), new LineNumber("C2"));
     }
 
 
     @Test
     public void testComparator5() throws UnsupportedLineNumberException {
-        LineNumber lineNumber1 = new LineNumber("D");
-        LineNumber lineNumber2 = new LineNumber("L");
-        assertTrue(lineNumber1.compareTo(lineNumber2) < 0);
-        assertTrue(lineNumber2.compareTo(lineNumber1) > 0);
+        checkDifferentNumbersComparison(new LineNumber("D"), new LineNumber("L"));
     }
 
     @Test
     public void testComparator6() throws UnsupportedLineNumberException {
-        LineNumber lineNumber1 = new LineNumber("5A");
-        LineNumber lineNumber2 = new LineNumber("5B");
-        assertTrue(lineNumber1.compareTo(lineNumber2) < 0);
-        assertTrue(lineNumber2.compareTo(lineNumber1) > 0);
+        checkDifferentNumbersComparison(new LineNumber("5A"), new LineNumber("5B"));
     }
 
     @Test
     public void testEquals1() throws UnsupportedLineNumberException {
-        LineNumber lineNumber1 = new LineNumber("5");
-        LineNumber lineNumber2 = new LineNumber("5");
-        assertTrue(lineNumber1.equals(lineNumber2));
+        checkEqualNumbersComparison(new LineNumber("5"), new LineNumber("5"), true);
     }
 
     @Test
     public void testEquals2() throws UnsupportedLineNumberException {
-        LineNumber lineNumber1 = new LineNumber(5);
-        LineNumber lineNumber2 = new LineNumber("5");
-        assertTrue(lineNumber1.equals(lineNumber2));
+        checkEqualNumbersComparison(new LineNumber(5), new LineNumber("5"), true);
     }
 
 
     @Test
     public void testEquals3() throws UnsupportedLineNumberException {
-        LineNumber lineNumber1 = new LineNumber("5A");
-        LineNumber lineNumber2 = new LineNumber("5");
-        assertFalse(lineNumber1.equals(lineNumber2));
+        checkEqualNumbersComparison(new LineNumber("5"), new LineNumber("5A"), false);
     }
 
 
@@ -165,9 +128,7 @@ public class LineNumberTest {
         numbers.add(new LineNumber("6"));
 
         Collections.sort(numbers);
-
-        assertEquals(new LineNumber(6), numbers.get(0));
-        assertEquals(new LineNumber(13), numbers.get(1));
+        checkNumbersList(numbers, new LineNumber[]{new LineNumber(6), new LineNumber(13)});
     }
 
     @Test
@@ -177,9 +138,7 @@ public class LineNumberTest {
         numbers.add(new LineNumber("6"));
 
         Collections.sort(numbers);
-
-        assertEquals(new LineNumber(6), numbers.get(0));
-        assertEquals(new LineNumber("6a"), numbers.get(1));
+        checkNumbersList(numbers, new LineNumber[]{new LineNumber(6), new LineNumber("6a")});
     }
 
     @Test
@@ -189,9 +148,7 @@ public class LineNumberTest {
         numbers.add(new LineNumber("Z6"));
 
         Collections.sort(numbers);
-
-        assertEquals(new LineNumber(13), numbers.get(0));
-        assertEquals(new LineNumber("Z6"), numbers.get(1));
+        checkNumbersList(numbers, new LineNumber[]{new LineNumber(13), new LineNumber("Z6")});
     }
 
 
@@ -202,9 +159,7 @@ public class LineNumberTest {
         numbers.add(new LineNumber("X"));
 
         Collections.sort(numbers);
-
-        assertEquals(new LineNumber(16), numbers.get(0));
-        assertEquals(new LineNumber("X"), numbers.get(1));
+        checkNumbersList(numbers, new LineNumber[]{new LineNumber(16), new LineNumber("X")});
     }
 
     @Test
@@ -214,9 +169,7 @@ public class LineNumberTest {
         numbers.add(new LineNumber("8e"));
 
         Collections.sort(numbers);
-
-        assertEquals(new LineNumber("8c"), numbers.get(0));
-        assertEquals(new LineNumber("8e"), numbers.get(1));
+        checkNumbersList(numbers, new LineNumber[]{new LineNumber("8c"), new LineNumber("8e")});
     }
 
     @Test
@@ -226,9 +179,7 @@ public class LineNumberTest {
         numbers.add(new LineNumber("E8"));
 
         Collections.sort(numbers);
-
-        assertEquals(new LineNumber("8c"), numbers.get(0));
-        assertEquals(new LineNumber("E8"), numbers.get(1));
+        checkNumbersList(numbers, new LineNumber[]{new LineNumber("8c"), new LineNumber("E8")});
     }
 
     @Test
@@ -238,9 +189,7 @@ public class LineNumberTest {
         numbers.add(new LineNumber("8e"));
 
         Collections.sort(numbers);
-
-        assertEquals(new LineNumber("8e"), numbers.get(0));
-        assertEquals(new LineNumber("A"), numbers.get(1));
+        checkNumbersList(numbers, new LineNumber[]{new LineNumber("8e"), new LineNumber("A")});
     }
 
     @Test
@@ -250,9 +199,7 @@ public class LineNumberTest {
         numbers.add(new LineNumber("Z1"));
 
         Collections.sort(numbers);
-
-        assertEquals(new LineNumber("Z1"), numbers.get(0));
-        assertEquals(new LineNumber("Z2"), numbers.get(1));
+        checkNumbersList(numbers, new LineNumber[]{new LineNumber("Z1"), new LineNumber("Z2")});
     }
 
     @Test
@@ -262,9 +209,7 @@ public class LineNumberTest {
         numbers.add(new LineNumber("M4"));
 
         Collections.sort(numbers);
-
-        assertEquals(new LineNumber("M"), numbers.get(0));
-        assertEquals(new LineNumber("M4"), numbers.get(1));
+        checkNumbersList(numbers, new LineNumber[]{new LineNumber("M"), new LineNumber("M4")});
     }
 
     @Test
@@ -274,9 +219,7 @@ public class LineNumberTest {
         numbers.add(new LineNumber("P"));
 
         Collections.sort(numbers);
-
-        assertEquals(new LineNumber("P"), numbers.get(0));
-        assertEquals(new LineNumber("TM"), numbers.get(1));
+        checkNumbersList(numbers, new LineNumber[]{new LineNumber("P"), new LineNumber("TM")});
     }
 
     
@@ -296,20 +239,46 @@ public class LineNumberTest {
         numbers.add(new LineNumber(192));
 
         Collections.sort(numbers);
-
-        assertEquals(new LineNumber(2), numbers.get(0));
-        assertEquals(new LineNumber(6), numbers.get(1));
-        assertEquals(new LineNumber("6a"), numbers.get(2));
-        assertEquals(new LineNumber("6b"), numbers.get(3));
-        assertEquals(new LineNumber(13), numbers.get(4));
-        assertEquals(new LineNumber(164), numbers.get(5));
-        assertEquals(new LineNumber(192), numbers.get(6));
-        assertEquals(new LineNumber("X"), numbers.get(7));
-        assertEquals(new LineNumber("Z"), numbers.get(8));
-        assertEquals(new LineNumber("Z6"), numbers.get(9));
-        assertEquals(new LineNumber("Z7"), numbers.get(10));
+        checkNumbersList(numbers, new LineNumber[]{
+                new LineNumber(2),
+                new LineNumber(6),
+                new LineNumber("6a"),
+                new LineNumber("6b"),
+                new LineNumber(13),
+                new LineNumber(164),
+                new LineNumber(192),
+                new LineNumber("X"),
+                new LineNumber("Z"),
+                new LineNumber("Z6"),
+                new LineNumber("Z7")}
+        );
     }
 
 
+    /**
+     * *************** API *******************
+     */
+
+    private void checkNumber(LineNumber lineNumber, int expectedNumeric, String expectedLiteral, boolean expectedIsNumeric) {
+        assertEquals(expectedNumeric, lineNumber.getNumeric());
+        assertEquals(expectedLiteral, lineNumber.getLiteral());
+        assertEquals(expectedIsNumeric, lineNumber.isNumericOnly());
+    }
+
+    private void checkDifferentNumbersComparison(LineNumber smallerNumber, LineNumber biggerNumber) {
+        assertTrue(smallerNumber.compareTo(biggerNumber) < 0);
+        assertTrue(biggerNumber.compareTo(smallerNumber) > 0);
+    }
+
+    private void checkEqualNumbersComparison(LineNumber number1, LineNumber number2, boolean equal) {
+        assertEquals(equal, number1.compareTo(number2) == 0);
+    }
+
+    private void checkNumbersList(List<LineNumber> lineNumbers, LineNumber[] expectedLineNumbers) {
+        assertEquals(lineNumbers.size(), expectedLineNumbers.length);
+        for (int i = 0; i < expectedLineNumbers.length; i++) {
+            assertEquals(expectedLineNumbers[i], lineNumbers.get(i));
+        }
+    }
 
 }

@@ -16,8 +16,10 @@ import pl.jahu.mpk.providers.TimetableProvider;
 import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import javax.inject.Inject;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -32,6 +34,9 @@ public class TimetableParserTest {
         DaggerTestApplication.inject(this);
     }
 
+
+    /******************** TESTS ********************/
+
     @Test
     public void testSupportedDayTypes() throws TimetableParseException {
         String inputHtml = "<html><body><table><tr>" +
@@ -42,12 +47,8 @@ public class TimetableParserTest {
                 "</tr></body></table></html>";
         Elements inputElements = Jsoup.parse(inputHtml).getElementsByTag("td");
 
-        List<DayTypes> dayTypes = TimetableParser.retrieveDayTypesConfiguration(inputElements);
-        assertEquals(4, dayTypes.size());
-        assertEquals(DayTypes.WEEKDAY, dayTypes.get(0));
-        assertEquals(DayTypes.SATURDAY, dayTypes.get(1));
-        assertEquals(DayTypes.SUNDAY, dayTypes.get(2));
-        assertEquals(DayTypes.EVERYDAY, dayTypes.get(3));
+        Set<DayTypes> dayTypes = new HashSet<DayTypes>(TimetableParser.retrieveDayTypesConfiguration(inputElements));
+        checkDayTypes(dayTypes, new DayTypes[]{DayTypes.WEEKDAY, DayTypes.SATURDAY, DayTypes.SUNDAY, DayTypes.EVERYDAY});
     }
 
     @Test(expected = TimetableParseException.class)
@@ -65,199 +66,134 @@ public class TimetableParserTest {
     @Test
     public void testTimetable1Standard() throws UnsupportedLineNumberException, TimetableParseException, TimetableNotFoundException {
         Timetable timetable = timetableProvider.getTimetable(new LineNumber(1), "0001t001.htm");
-        assertEquals("SALWATOR", timetable.getDestStation());
-        assertEquals("Wzgórza Krzesławickie", timetable.getStation());
-        assertEquals(1, timetable.getLine().getNumeric());
+        checkTimetableGeneralInfo(timetable, "Wzgórza Krzesławickie", "SALWATOR", 1);
 
         Map<DayTypes, List<Departure>> departures = timetable.getDepartures();
-        assertEquals(3, departures.size());
-        assertTrue(departures.containsKey(DayTypes.WEEKDAY));
-        assertTrue(departures.containsKey(DayTypes.SATURDAY));
-        assertTrue(departures.containsKey(DayTypes.SUNDAY));
+        checkDayTypesWithSizes(departures, new DayTypes[]{DayTypes.WEEKDAY, DayTypes.SATURDAY, DayTypes.SUNDAY}, new int[]{76, 53, 50});
 
-        assertEquals(76, departures.get(DayTypes.WEEKDAY).size());
-        assertEquals(53, departures.get(DayTypes.SATURDAY).size());
-        assertEquals(50, departures.get(DayTypes.SUNDAY).size());
-
-        assertEquals(4, departures.get(DayTypes.WEEKDAY).get(0).getHour());
-        assertEquals(37, departures.get(DayTypes.WEEKDAY).get(0).getMin());
-        assertEquals(22, departures.get(DayTypes.WEEKDAY).get(75).getHour());
-        assertEquals(37, departures.get(DayTypes.WEEKDAY).get(75).getMin());
-
-        assertEquals(4, departures.get(DayTypes.SATURDAY).get(0).getHour());
-        assertEquals(59, departures.get(DayTypes.SATURDAY).get(0).getMin());
-        assertEquals(22, departures.get(DayTypes.SATURDAY).get(52).getHour());
-        assertEquals(47, departures.get(DayTypes.SATURDAY).get(52).getMin());
-
-        assertEquals(5, departures.get(DayTypes.SUNDAY).get(0).getHour());
-        assertEquals(20, departures.get(DayTypes.SUNDAY).get(0).getMin());
-        assertEquals(22, departures.get(DayTypes.SUNDAY).get(49).getHour());
-        assertEquals(47, departures.get(DayTypes.SUNDAY).get(49).getMin());
+        checkDeparture(departures.get(DayTypes.WEEKDAY).get(0), 4, 37, null);
+        checkDeparture(departures.get(DayTypes.WEEKDAY).get(75), 22, 37, null);
+        checkDeparture(departures.get(DayTypes.SATURDAY).get(0), 4, 59, null);
+        checkDeparture(departures.get(DayTypes.SATURDAY).get(52), 22, 47, null);
+        checkDeparture(departures.get(DayTypes.SUNDAY).get(0), 5, 20, null);
+        checkDeparture(departures.get(DayTypes.SUNDAY).get(49), 22, 47, null);
     }
 
 
     @Test
     public void testTimetable2WithLegend() throws UnsupportedLineNumberException, TimetableNotFoundException, TimetableParseException {
-        String expectedLegend = "Kurs do przystanku: Kombinat";
-
         Timetable timetable = timetableProvider.getTimetable(new LineNumber(22), "0022t0001.htm");
-        assertEquals("WALCOWNIA", timetable.getDestStation());
-        assertEquals("Borek Fałęcki", timetable.getStation());
-        assertEquals(22, timetable.getLine().getNumeric());
+        checkTimetableGeneralInfo(timetable, "Borek Fałęcki", "WALCOWNIA", 22);
+
         Map<DayTypes, List<Departure>> departures = timetable.getDepartures();
+        checkDayTypesWithSizes(departures, new DayTypes[]{DayTypes.WEEKDAY, DayTypes.SATURDAY, DayTypes.SUNDAY}, new int[]{62, 54, 51});
 
-        assertEquals(3, departures.size());
-        assertTrue(departures.containsKey(DayTypes.WEEKDAY));
-        assertTrue(departures.containsKey(DayTypes.SATURDAY));
-        assertTrue(departures.containsKey(DayTypes.SUNDAY));
-
-        assertEquals(62, departures.get(DayTypes.WEEKDAY).size());
-        assertEquals(54, departures.get(DayTypes.SATURDAY).size());
-        assertEquals(51, departures.get(DayTypes.SUNDAY).size());
-
-        assertEquals(5, departures.get(DayTypes.WEEKDAY).get(0).getHour());
-        assertEquals(0, departures.get(DayTypes.WEEKDAY).get(0).getMin());
-        assertNull(departures.get(DayTypes.WEEKDAY).get(0).getExtraInfo());
-        assertEquals(23, departures.get(DayTypes.WEEKDAY).get(61).getHour());
-        assertEquals(36, departures.get(DayTypes.WEEKDAY).get(61).getMin());
-        assertEquals(expectedLegend, departures.get(DayTypes.WEEKDAY).get(61).getExtraInfo()[0]);
-
-        assertEquals(5, departures.get(DayTypes.SATURDAY).get(0).getHour());
-        assertNull(departures.get(DayTypes.SATURDAY).get(0).getExtraInfo());
-        assertEquals(3, departures.get(DayTypes.SATURDAY).get(0).getMin());
-        assertEquals(23, departures.get(DayTypes.SATURDAY).get(53).getHour());
-        assertEquals(4, departures.get(DayTypes.SATURDAY).get(53).getMin());
-        assertEquals(expectedLegend, departures.get(DayTypes.SATURDAY).get(53).getExtraInfo()[0]);
-
-        assertEquals(5, departures.get(DayTypes.SUNDAY).get(0).getHour());
-        assertEquals(3, departures.get(DayTypes.SUNDAY).get(0).getMin());
-        assertNull(departures.get(DayTypes.SUNDAY).get(0).getExtraInfo());
-        assertEquals(23, departures.get(DayTypes.SUNDAY).get(50).getHour());
-        assertEquals(6, departures.get(DayTypes.SUNDAY).get(50).getMin());
-        assertEquals(expectedLegend, departures.get(DayTypes.SUNDAY).get(50).getExtraInfo()[0]);
+        String expectedLegend = "Kurs do przystanku: Kombinat";
+        checkDeparture(departures.get(DayTypes.WEEKDAY).get(0), 5, 0, null);
+        checkDeparture(departures.get(DayTypes.WEEKDAY).get(61), 23, 36, new String[]{expectedLegend});
+        checkDeparture(departures.get(DayTypes.SATURDAY).get(0), 5, 3, null);
+        checkDeparture(departures.get(DayTypes.SATURDAY).get(53), 23, 4, new String[]{expectedLegend});
+        checkDeparture(departures.get(DayTypes.SUNDAY).get(0), 5, 3, null);
+        checkDeparture(departures.get(DayTypes.SUNDAY).get(50), 23, 6, new String[]{expectedLegend});
     }
 
 
     @Test
     public void testTimetable3WithEverydayType() throws UnsupportedLineNumberException, TimetableParseException, TimetableNotFoundException {
         Timetable timetable = timetableProvider.getTimetable(new LineNumber(601), "0601t0001.htm");
-        assertEquals("CZYŻYNY DWORZEC", timetable.getDestStation());
-        assertEquals("Mydlniki", timetable.getStation());
-        assertEquals(601, timetable.getLine().getNumeric());
+        checkTimetableGeneralInfo(timetable, "Mydlniki", "CZYŻYNY DWORZEC", 601);
+
         Map<DayTypes, List<Departure>> departures = timetable.getDepartures();
+        checkDayTypesWithSizes(departures, new DayTypes[]{DayTypes.EVERYDAY}, new int[]{6});
 
-        assertEquals(1, departures.size());
-        assertTrue(departures.containsKey(DayTypes.EVERYDAY));
-
-        assertEquals(6, departures.get(DayTypes.EVERYDAY).size());
-
-        assertEquals(23, departures.get(DayTypes.EVERYDAY).get(0).getHour());
-        assertEquals(30, departures.get(DayTypes.EVERYDAY).get(0).getMin());
-        assertNull(departures.get(DayTypes.EVERYDAY).get(0).getExtraInfo());
+        checkDeparture(departures.get(DayTypes.EVERYDAY).get(0), 23, 30, null);
     }
 
 
     @Test
      public void testTimetable4WithWeekendSpecificDayTypes() throws UnsupportedLineNumberException, TimetableParseException, TimetableNotFoundException {
-        String expectedLegend = "Kurs do przystanku: Dworzec Główny";
-
         Timetable timetable = timetableProvider.getTimetable(new LineNumber(605), "0605t0001.htm");
-        assertEquals("BIELANY", timetable.getDestStation());
-        assertEquals("Zajezdnia Płaszów", timetable.getStation());
-        assertEquals(605, timetable.getLine().getNumeric());
+        checkTimetableGeneralInfo(timetable, "Zajezdnia Płaszów", "BIELANY", 605);
+
         Map<DayTypes, List<Departure>> departures = timetable.getDepartures();
+        checkDayTypesWithSizes(departures, new DayTypes[]{DayTypes.MONDAY_TO_THURSDAY, DayTypes.WEEKEND_NIGHTS, DayTypes.SUNDAY}, new int[]{5, 5, 5});
 
-        assertEquals(3, departures.size());
-        assertTrue(departures.containsKey(DayTypes.MONDAY_TO_THURSDAY));
-        assertTrue(departures.containsKey(DayTypes.WEEKEND_NIGHTS));
-        assertTrue(departures.containsKey(DayTypes.SUNDAY));
-
-        assertEquals(5, departures.get(DayTypes.MONDAY_TO_THURSDAY).size());
-        assertEquals(5, departures.get(DayTypes.WEEKEND_NIGHTS).size());
-        assertEquals(5, departures.get(DayTypes.SUNDAY).size());
-
-        assertEquals(23, departures.get(DayTypes.MONDAY_TO_THURSDAY).get(0).getHour());
-        assertEquals(32, departures.get(DayTypes.MONDAY_TO_THURSDAY).get(0).getMin());
-        assertEquals(expectedLegend, departures.get(DayTypes.MONDAY_TO_THURSDAY).get(0).getExtraInfo()[0]);
-
-        assertEquals(0, departures.get(DayTypes.WEEKEND_NIGHTS).get(1).getHour());
-        assertEquals(32, departures.get(DayTypes.WEEKEND_NIGHTS).get(1).getMin());
-        assertNull(departures.get(DayTypes.WEEKEND_NIGHTS).get(1).getExtraInfo());
-
-        assertEquals(23, departures.get(DayTypes.SUNDAY).get(0).getHour());
-        assertEquals(32, departures.get(DayTypes.SUNDAY).get(0).getMin());
-        assertEquals(expectedLegend, departures.get(DayTypes.SUNDAY).get(0).getExtraInfo()[0]);
+        String expectedLegend = "Kurs do przystanku: Dworzec Główny";
+        checkDeparture(departures.get(DayTypes.MONDAY_TO_THURSDAY).get(0), 23, 32, new String[]{expectedLegend});
+        checkDeparture(departures.get(DayTypes.WEEKEND_NIGHTS).get(1), 0, 32, null);
+        checkDeparture(departures.get(DayTypes.SUNDAY).get(0), 23, 32, new String[]{expectedLegend});
     }
 
 
     @Test
     public void testTimetable5WithTwoLegendEntries() throws UnsupportedLineNumberException, TimetableParseException, TimetableNotFoundException {
+        Timetable timetable = timetableProvider.getTimetable(new LineNumber(183), "0183t0001.htm");
+        checkTimetableGeneralInfo(timetable, "Złocień", "DOM SPOKOJNEJ STAROŚCI", 183);
+
+        Map<DayTypes, List<Departure>> departures = timetable.getDepartures();
+        checkDayTypesWithSizes(departures, new DayTypes[]{DayTypes.WEEKDAY, DayTypes.SATURDAY, DayTypes.SUNDAY}, new int[]{37, 32, 30});
+
         String expectedLegend1 = "Kurs do przystanku: Wydział Farmaceutyczny UJ";
         String expectedLegend2 = "Kurs do przystanku: Prokocim Szpital";
-
-        Timetable timetable = timetableProvider.getTimetable(new LineNumber(183), "0183t0001.htm");
-        assertEquals("DOM SPOKOJNEJ STAROŚCI", timetable.getDestStation());
-        assertEquals("Złocień", timetable.getStation());
-        assertEquals(183, timetable.getLine().getNumeric());
-        Map<DayTypes, List<Departure>> departures = timetable.getDepartures();
-
-        assertEquals(3, departures.size());
-        assertTrue(departures.containsKey(DayTypes.WEEKDAY));
-        assertTrue(departures.containsKey(DayTypes.SATURDAY));
-        assertTrue(departures.containsKey(DayTypes.SUNDAY));
-
-        assertEquals(37, departures.get(DayTypes.WEEKDAY).size());
-        assertEquals(32, departures.get(DayTypes.SATURDAY).size());
-        assertEquals(30, departures.get(DayTypes.SUNDAY).size());
-
-        assertEquals(4, departures.get(DayTypes.WEEKDAY).get(0).getHour());
-        assertEquals(41, departures.get(DayTypes.WEEKDAY).get(0).getMin());
-        assertNull(departures.get(DayTypes.WEEKDAY).get(0).getExtraInfo());
-
-        assertEquals(22, departures.get(DayTypes.WEEKDAY).get(35).getHour());
-        assertEquals(8, departures.get(DayTypes.WEEKDAY).get(35).getMin());
-        assertEquals(expectedLegend1, departures.get(DayTypes.WEEKDAY).get(35).getExtraInfo()[0]);
-
-        assertEquals(23, departures.get(DayTypes.WEEKDAY).get(36).getHour());
-        assertEquals(5, departures.get(DayTypes.WEEKDAY).get(36).getMin());
-        assertEquals(expectedLegend2, departures.get(DayTypes.WEEKDAY).get(36).getExtraInfo()[0]);
-
-        assertEquals(4, departures.get(DayTypes.SUNDAY).get(0).getHour());
-        assertEquals(40, departures.get(DayTypes.SUNDAY).get(0).getMin());
-        assertNull(departures.get(DayTypes.SUNDAY).get(0).getExtraInfo());
-
-        assertEquals(22, departures.get(DayTypes.SUNDAY).get(28).getHour());
-        assertEquals(49, departures.get(DayTypes.SUNDAY).get(28).getMin());
-        assertEquals(expectedLegend1, departures.get(DayTypes.SUNDAY).get(28).getExtraInfo()[0]);
-
-        assertEquals(23, departures.get(DayTypes.SUNDAY).get(29).getHour());
-        assertEquals(35, departures.get(DayTypes.SUNDAY).get(29).getMin());
-        assertEquals(expectedLegend2, departures.get(DayTypes.SUNDAY).get(29).getExtraInfo()[0]);
+        checkDeparture(departures.get(DayTypes.WEEKDAY).get(0), 4, 41, null);
+        checkDeparture(departures.get(DayTypes.WEEKDAY).get(35), 22, 8, new String[]{expectedLegend1});
+        checkDeparture(departures.get(DayTypes.WEEKDAY).get(36), 23, 5, new String[]{expectedLegend2});
+        checkDeparture(departures.get(DayTypes.SUNDAY).get(0), 4, 40, null);
+        checkDeparture(departures.get(DayTypes.SUNDAY).get(28), 22, 49, new String[]{expectedLegend1});
+        checkDeparture(departures.get(DayTypes.SUNDAY).get(29), 23, 35, new String[]{expectedLegend2});
     }
-
 
 
     @Test
     public void testTimetable6WithTwoLegendEntriesForOneDeparture() throws UnsupportedLineNumberException, TimetableParseException, TimetableNotFoundException {
+        Timetable timetable = timetableProvider.getTimetable(new LineNumber(248), "0248t0001.htm");
+        checkTimetableGeneralInfo(timetable, "Bronowice Małe", "ZELKÓW", 248);
+
+        Map<DayTypes, List<Departure>> departures = timetable.getDepartures();
+        checkDayTypesWithSizes(departures, new DayTypes[]{DayTypes.WEEKDAY, DayTypes.SATURDAY, DayTypes.SUNDAY}, new int[]{16, 12, 12});
+
         String expectedLegend1 = "Kurs do przystanku: Bolechowice przez: Kraków Business Park";
         String expectedLegend2 = "w dni nauki szkolnej do Bolechowic, w pozostałe dni powszednie do Zelkowa";
-
-        Timetable timetable = timetableProvider.getTimetable(new LineNumber(248), "0248t0001.htm");
-        assertEquals("ZELKÓW", timetable.getDestStation());
-        assertEquals("Bronowice Małe", timetable.getStation());
-        assertEquals(248, timetable.getLine().getNumeric());
-        Map<DayTypes, List<Departure>> departures = timetable.getDepartures();
-
-        assertEquals(6, departures.get(DayTypes.WEEKDAY).get(2).getHour());
-        assertEquals(28, departures.get(DayTypes.WEEKDAY).get(2).getMin());
-
-        String[] extraInfo = departures.get(DayTypes.WEEKDAY).get(2).getExtraInfo();
-        assertNotNull(extraInfo);
-        assertEquals(2, extraInfo.length);
-        assertTrue(extraInfo[0].equals(expectedLegend1) || extraInfo[0].equals(expectedLegend2));
-        assertTrue(extraInfo[1].equals(expectedLegend1) || extraInfo[1].equals(expectedLegend2));
-        assertNotEquals(extraInfo[0], extraInfo[1]);
+        checkDeparture(departures.get(DayTypes.WEEKDAY).get(2), 6, 28, new String[]{expectedLegend1, expectedLegend2});
     }
 
+
+    /****************** API ********************/
+
+    private void checkTimetableGeneralInfo(Timetable timetable, String expectedStation, String expectedDestination, int expectedLineNumber) {
+        assertNotNull(timetable);
+        assertEquals(expectedStation, timetable.getStation());
+        assertEquals(expectedDestination, timetable.getDestStation());
+        assertEquals(expectedLineNumber, timetable.getLine().getNumeric());
+    }
+
+    private void checkDayTypesWithSizes(Map<DayTypes, List<Departure>> departures, DayTypes[] expectedDayTypes, int[] expectedSizes) {
+        checkDayTypes(departures.keySet(), expectedDayTypes);
+        assertEquals(expectedSizes.length, departures.keySet().size());
+        for (int i = 0; i < expectedDayTypes.length; i++) {
+            assertEquals(departures.get(expectedDayTypes[i]).size(), expectedSizes[i]);
+        }
+    }
+
+    private void checkDayTypes(Set<DayTypes> dayTypes, DayTypes[] expectedDayTypes) {
+        assertNotNull(dayTypes);
+        assertEquals(expectedDayTypes.length, dayTypes.size());
+        for (DayTypes expectedDayType : expectedDayTypes) {
+            assertTrue(dayTypes.contains(expectedDayType));
+        }
+    }
+
+    private void checkDeparture(Departure departure, int expectedHour, int expectedMinute, String[] expectedLegends) {
+        assertNotNull(departure);
+        assertEquals(expectedHour, departure.getHour());
+        assertEquals(expectedMinute, departure.getMin());
+        if (expectedLegends != null) {
+            for (int i = 0; i < expectedLegends.length; i++) {
+                assertEquals(expectedLegends[i], departure.getExtraInfo()[i]);
+            }
+        } else {
+            assertNull(departure.getExtraInfo());
+        }
+    }
 
 }

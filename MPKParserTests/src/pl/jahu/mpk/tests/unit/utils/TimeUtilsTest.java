@@ -81,34 +81,28 @@ public class TimeUtilsTest {
     public void testMoreLessEqual1() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Time time1 = new Time(13, 25);
         Time time2 = new Time(13, 25);
-        assertTrue(testMoreLessEqual(time1, time2));
+        assertTrue(TimeUtils.moreLessEqual(time1, time2));
     }
 
     @Test
     public void testMoreLessEqual2() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Time time1 = new Time(13, 25);
         Time time2 = new Time(13, 26);
-        assertTrue(testMoreLessEqual(time1, time2));
+        assertTrue(TimeUtils.moreLessEqual(time1, time2));
     }
 
     @Test
     public void testMoreLessEqual3() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Time time1 = new Time(13, 27);
         Time time2 = new Time(13, 25);
-        assertTrue(testMoreLessEqual(time1, time2));
+        assertTrue(TimeUtils.moreLessEqual(time1, time2));
     }
 
     @Test
     public void testMoreLessEqual4() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Time time1 = new Time(13, 25);
         Time time2 = new Time(13, 28);
-        assertFalse(testMoreLessEqual(time1, time2));
-    }
-
-    private boolean testMoreLessEqual(Time time1, Time time2) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method method = TimeUtils.class.getDeclaredMethod("moreLessEqual", Time.class, Time.class);
-        method.setAccessible(true);
-        return (Boolean) method.invoke(null, time1, time2);
+        assertFalse(TimeUtils.moreLessEqual(time1, time2));
     }
 
 }
