@@ -9,6 +9,7 @@ import pl.jahu.mpk.parsers.StationData;
 import pl.jahu.mpk.parsers.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.providers.TimetableProvider;
+import pl.jahu.mpk.tests.TestUtils;
 import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import javax.inject.Inject;
@@ -36,7 +37,7 @@ public class LineRouteParserTest {
     @Test
     public void getLineRouteTest1() throws UnsupportedLineNumberException, TimetableNotFoundException, LineRouteParseException {
         List<StationData> stations = timetableProvider.getLineRoute(new LineNumber(1), 1);
-        checkStationsListSize(stations, 29);
+        TestUtils.checkCollectionSize(stations, 29);
         checkStationData(stations.get(0), "Wzgórza Krzesławickie", "0001t001.htm");
         checkStationData(stations.get(28), "Salwator", "0001t029.htm");
     }
@@ -44,7 +45,7 @@ public class LineRouteParserTest {
     @Test
     public void getLineRouteTest2() throws UnsupportedLineNumberException, TimetableNotFoundException, LineRouteParseException {
         List<StationData> stations = timetableProvider.getLineRoute(new LineNumber(22), 1);
-        checkStationsListSize(stations, 37);
+        TestUtils.checkCollectionSize(stations, 37);
         checkStationData(stations.get(0), "Borek Fałęcki", "0022t001.htm");
         checkStationData(stations.get(36), "Agencja Kraków Wschód NŻ", "0022t037.htm");
     }
@@ -52,7 +53,7 @@ public class LineRouteParserTest {
     @Test
     public void getLineRouteTest3() throws UnsupportedLineNumberException, TimetableNotFoundException, LineRouteParseException {
         List<StationData> stations = timetableProvider.getLineRoute(new LineNumber(248), 1);
-        checkStationsListSize(stations, 22);
+        TestUtils.checkCollectionSize(stations, 22);
         checkStationData(stations.get(0), "Bronowice Małe", "0248t001.htm");
         checkStationData(stations.get(21), "Zelków I NŻ", "0248t022.htm");
     }
@@ -74,11 +75,6 @@ public class LineRouteParserTest {
 
 
     /******************** API ********************/
-
-    private void checkStationsListSize(List<StationData> stations, int expectedSize) {
-        assertNotNull(stations);
-        assertEquals(expectedSize, stations.size());
-    }
 
     private void checkStationData(StationData stationData, String expectedName, String expectedUrlLocation) {
         assertNotNull(stationData);

@@ -7,6 +7,7 @@ import pl.jahu.mpk.DefaultTestModule;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.providers.TimetableProvider;
+import pl.jahu.mpk.tests.TestUtils;
 import pl.jahu.mpk.validators.exceptions.NoDataProvidedException;
 import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
@@ -31,8 +32,7 @@ public class LinesListParserTest {
         DaggerApplication.inject(this);
 
         lines = timetableProvider.getLinesList();
-        assertNotNull(lines);
-        assertEquals(169, lines.size());
+        TestUtils.checkCollectionSize(lines, 169);
     }
 
     /******************** TESTS ********************/

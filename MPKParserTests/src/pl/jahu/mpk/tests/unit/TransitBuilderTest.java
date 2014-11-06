@@ -7,6 +7,7 @@ import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.entities.Timetable;
 import pl.jahu.mpk.entities.Transit;
 import pl.jahu.mpk.enums.DayTypes;
+import pl.jahu.mpk.tests.TestUtils;
 import pl.jahu.mpk.utils.TimeUtils;
 import pl.jahu.mpk.validators.exceptions.*;
 
@@ -51,13 +52,13 @@ public class TransitBuilderTest {
         assertEquals(2, transitsMap.keySet().size());
 
         List<Transit> weekTransits = transitsMap.get(DayTypes.WEEKDAY);
-        checkTransitsList(weekTransits, 3);
+        TestUtils.checkCollectionSize(weekTransits, 3);
         checkTransit(weekTransits.get(0), 5, 8, LAST_STATION, STATIONS, new int[]{12, 10, 12, 12, 12, 13, 12, 16, 12, 18});
         checkTransit(weekTransits.get(1), 5, 8, LAST_STATION, STATIONS, new int[]{12, 20, 12, 22, 12, 23, 12, 26, 12, 28});
         checkTransit(weekTransits.get(2), 5, 8, LAST_STATION, STATIONS, new int[]{12, 30, 12, 32, 12, 33, 12, 36, 12, 38});
 
         List<Transit> sundayTransits = transitsMap.get(DayTypes.SUNDAY);
-        checkTransitsList(sundayTransits, 1);
+        TestUtils.checkCollectionSize(sundayTransits, 1);
         checkTransit(sundayTransits.get(0), 5, 8, LAST_STATION, STATIONS, new int[]{12, 00, 12, 02, 12, 03, 12, 06, 12, 8});
     }
 
@@ -75,7 +76,7 @@ public class TransitBuilderTest {
         assertEquals(1, transitsMap.keySet().size());
 
         List<Transit> weekTransits = transitsMap.get(DayTypes.WEEKDAY);
-        checkTransitsList(weekTransits, 3);
+        TestUtils.checkCollectionSize(weekTransits, 3);
         // first transit makes full route - from 'Station 1' to 'Last Station'
         checkTransit(weekTransits.get(0), 5, 8, LAST_STATION, STATIONS, new int[]{12, 10, 12, 12, 12, 13, 12, 16, 12, 18});
         // second transit starts later, from 'Station 3' and makes it to the end 'Last Station'
@@ -151,11 +152,6 @@ public class TransitBuilderTest {
             map.put(dayTypes[i], departures);
         }
         return new Timetable(station, new LineNumber(lineNo), destStation, map);
-    }
-
-    private void checkTransitsList(List<Transit> transits, int expectedSize) {
-        assertNotNull(transits);
-        assertEquals(expectedSize, transits.size());
     }
 
     private void checkTransit(Transit transit, int expectedStopsCount, int expectedDuration, String expectedDestination,

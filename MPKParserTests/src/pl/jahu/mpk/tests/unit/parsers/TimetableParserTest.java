@@ -14,6 +14,7 @@ import pl.jahu.mpk.parsers.TimetableParser;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 import pl.jahu.mpk.providers.TimetableProvider;
+import pl.jahu.mpk.tests.TestUtils;
 import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import javax.inject.Inject;
@@ -177,8 +178,7 @@ public class TimetableParserTest {
     }
 
     private void checkDayTypes(Set<DayTypes> dayTypes, DayTypes[] expectedDayTypes) {
-        assertNotNull(dayTypes);
-        assertEquals(expectedDayTypes.length, dayTypes.size());
+        TestUtils.checkCollectionSize(dayTypes, expectedDayTypes.length);
         for (DayTypes expectedDayType : expectedDayTypes) {
             assertTrue(dayTypes.contains(expectedDayType));
         }
