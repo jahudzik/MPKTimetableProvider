@@ -79,8 +79,9 @@ public class TimetablesDownloaderTest {
     @Test
     public void directionsDownloadTest() throws TimetableNotFoundException, TimetableParseException {
         when(timetableProviderMock.getLinesList()).thenReturn(buildLinesList(new int[]{1, 3, 4, 6, 7, 8, 10, 12, 15, 16, 21}));
-        // there's no fifth direction, so exception should be thrown and download process finished
-        doThrow(new TimetableNotFoundException()).when(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0016/0016w005.htm"), anyString());
+        // four directions
+        when(downloadUtilsMock.downloadUrl(anyString(), anyString())).thenReturn(true);
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0016/0016w005.htm"), anyString())).thenReturn(false);
 
         TimetablesDownloader.downloadTimetables(16, 16);
 
@@ -96,8 +97,9 @@ public class TimetablesDownloaderTest {
     public void routeDownloadTest() throws TimetableNotFoundException, TimetableParseException {
         when(timetableProviderMock.getLinesList()).thenReturn(buildLinesList(new int[]{1, 3, 4, 6, 7, 8, 10, 12, 15, 16, 21}));
         when(timetableProviderMock.getLineRoute(new LineNumber(8), 1)).thenReturn(buildRouteStationsList());
-        // there's no second direction, so exception should be thrown and download process finished
-        doThrow(new TimetableNotFoundException()).when(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0008/0008w002.htm"), anyString());
+        // just one direction
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0008/0008w001.htm"), anyString())).thenReturn(true);
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0008/0008w002.htm"), anyString())).thenReturn(false);
 
         TimetablesDownloader.downloadTimetables(8, 8);
 
@@ -108,7 +110,7 @@ public class TimetablesDownloaderTest {
         verify(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0008/0008t002.htm"), eq(TimetablesDownloader.TIMETABLES_LOCATION + "0008t002.htm"));
         verify(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0008/0008t003.htm"), eq(TimetablesDownloader.TIMETABLES_LOCATION + "0008t003.htm"));
         verify(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0008/0008t004.htm"), eq(TimetablesDownloader.TIMETABLES_LOCATION + "0008t004.htm"));
-        // download route in second direction - exception should be thrown
+        // there's no second direction - it should be the last invocation
         verify(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0008/0008w002.htm"), eq(TimetablesDownloader.TIMETABLES_LOCATION + "0008w002.htm"));
         verifyNoMoreInteractions(downloadUtilsMock);
     }
@@ -117,10 +119,14 @@ public class TimetablesDownloaderTest {
     public void differentLinesTest() throws TimetableNotFoundException {
         when(timetableProviderMock.getLinesList()).thenReturn(buildLinesList(new int[]{1, 3, 6, 7, 8, 10, 12, 15, 16, 21}));
         // just one direction for each line
-        doThrow(new TimetableNotFoundException()).when(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0003/0003w002.htm"), anyString());
-        doThrow(new TimetableNotFoundException()).when(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0006/0006w002.htm"), anyString());
-        doThrow(new TimetableNotFoundException()).when(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0007/0007w002.htm"), anyString());
-        doThrow(new TimetableNotFoundException()).when(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0008/0008w002.htm"), anyString());
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0003/0003w001.htm"), anyString())).thenReturn(true);
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0003/0003w002.htm"), anyString())).thenReturn(false);
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0006/0006w001.htm"), anyString())).thenReturn(true);
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0006/0006w002.htm"), anyString())).thenReturn(false);
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0007/0007w001.htm"), anyString())).thenReturn(true);
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0007/0007w002.htm"), anyString())).thenReturn(false);
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0008/0008w001.htm"), anyString())).thenReturn(true);
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0008/0008w002.htm"), anyString())).thenReturn(false);
 
         TimetablesDownloader.downloadTimetables(2, 8);
 

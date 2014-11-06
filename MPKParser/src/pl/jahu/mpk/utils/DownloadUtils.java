@@ -16,12 +16,13 @@ import java.net.URL;
  */
 public class DownloadUtils {
 
-    public void downloadUrl(String url, String destFileName) throws TimetableNotFoundException {
+    public boolean downloadUrl(String url, String destFileName) {
         try {
             System.out.println(url);
             FileUtils.copyURLToFile(new URL(url), new File(destFileName));
+            return true;
         } catch (IOException e) {
-            throw new TimetableNotFoundException(e.getMessage());
+            return false;
         }
     }
 

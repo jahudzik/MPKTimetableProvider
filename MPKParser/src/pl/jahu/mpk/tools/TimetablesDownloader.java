@@ -49,26 +49,20 @@ public class TimetablesDownloader {
      * Downloads timetables for lines from specified range [firstLine, lastLine] and saves them locally
      */
     public static void downloadTimetables(LineNumber firstLine, LineNumber lastLine) {
-
         try {
             List<LineNumber> lines = timetableProvider.getLinesList();
 
             int[] linesRange = LineNumbersResolver.getLinesFromRange(lines, firstLine, lastLine);
             for (int i = linesRange[0]; i <= linesRange[1]; i++) {
                 LineNumber line = lines.get(i);
-                for (int j = 1; j < 10; j++) {
-                    try {
-                        String lineRouteUrl = UrlResolver.getLineRouteUrl(line, j);
-                        downloadUtils.downloadUrl(lineRouteUrl, TIMETABLES_LOCATION + getPageName(lineRouteUrl));
-
-                        List<StationData> route = timetableProvider.getLineRoute(line, j);
-                        for (StationData station : route) {
-                            String url = UrlResolver.getStationTimetableUrl(line, station.getUrlLocation());
-                            downloadUtils.downloadUrl(url, TIMETABLES_LOCATION + getPageName(url));
-                        }
-                    } catch (TimetableNotFoundException e) {
-                        break;
+                int direction = 1;
+                while (downloadLineRouteData(line, direction)) {
+                    List<StationData> route = timetableProvider.getLineRoute(line, direction);
+                    for (StationData station : route) {
+                        String url = UrlResolver.getStationTimetableUrl(line, station.getUrlLocation());
+                        downloadUtils.downloadUrl(url, TIMETABLES_LOCATION + getPageName(url));
                     }
+                    direction++;
                 }
             }
         } catch (TimetableNotFoundException e) {
@@ -76,10 +70,13 @@ public class TimetablesDownloader {
         } catch (TimetableParseException e) {
             e.printStackTrace();
         }
+
     }
 
-
-
+    private static boolean downloadLineRouteData(LineNumber line, int direction) {
+        String lineRouteUrl = UrlResolver.getLineRouteUrl(line, direction);
+        return downloadUtils.downloadUrl(lineRouteUrl, TIMETABLES_LOCATION + getPageName(lineRouteUrl));
+    }
 
 
     private static String getPageName(String url) {
