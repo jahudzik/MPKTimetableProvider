@@ -2,7 +2,7 @@ package pl.jahu.mpk.providers;
 
 import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.entities.LineNumber;
-import pl.jahu.mpk.parsers.ParsableData;
+import pl.jahu.mpk.parsers.data.ParsableData;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.utils.DownloadUtils;
 import pl.jahu.mpk.utils.UrlResolver;

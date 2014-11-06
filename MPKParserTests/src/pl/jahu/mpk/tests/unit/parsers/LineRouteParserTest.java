@@ -5,7 +5,7 @@ import org.junit.Test;
 import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.DefaultTestModule;
 import pl.jahu.mpk.entities.LineNumber;
-import pl.jahu.mpk.parsers.StationData;
+import pl.jahu.mpk.parsers.data.StationData;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 import pl.jahu.mpk.providers.TimetableProvider;

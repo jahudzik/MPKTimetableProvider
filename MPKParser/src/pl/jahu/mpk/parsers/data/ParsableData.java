@@ -1,4 +1,4 @@
-package pl.jahu.mpk.parsers;
+package pl.jahu.mpk.parsers.data;
 
 import org.jsoup.nodes.Document;
 

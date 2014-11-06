@@ -3,6 +3,7 @@ package pl.jahu.mpk.parsers;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import pl.jahu.mpk.entities.LineNumber;
+import pl.jahu.mpk.parsers.data.ParsableData;
 
 import java.util.ArrayList;
 import java.util.List;

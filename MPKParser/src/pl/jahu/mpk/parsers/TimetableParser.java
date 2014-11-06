@@ -7,6 +7,7 @@ import pl.jahu.mpk.entities.Departure;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.entities.Timetable;
 import pl.jahu.mpk.enums.DayTypes;
+import pl.jahu.mpk.parsers.data.ParsableData;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 import pl.jahu.mpk.utils.ParserConstants;
 

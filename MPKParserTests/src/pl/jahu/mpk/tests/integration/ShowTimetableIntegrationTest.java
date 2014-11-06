@@ -11,7 +11,7 @@ import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.entities.Timetable;
 import pl.jahu.mpk.entities.Transit;
 import pl.jahu.mpk.enums.DayTypes;
-import pl.jahu.mpk.parsers.StationData;
+import pl.jahu.mpk.parsers.data.StationData;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 import pl.jahu.mpk.providers.TimetableProvider;

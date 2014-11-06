@@ -2,6 +2,8 @@ package pl.jahu.mpk.parsers;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import pl.jahu.mpk.parsers.data.ParsableData;
+import pl.jahu.mpk.parsers.data.StationData;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 
 import java.util.ArrayList;

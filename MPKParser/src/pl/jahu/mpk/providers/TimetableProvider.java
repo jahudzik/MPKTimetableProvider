@@ -3,6 +3,8 @@ package pl.jahu.mpk.providers;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.entities.Timetable;
 import pl.jahu.mpk.parsers.*;
+import pl.jahu.mpk.parsers.data.ParsableData;
+import pl.jahu.mpk.parsers.data.StationData;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 
