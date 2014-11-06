@@ -45,7 +45,7 @@ public class UrlTimetableProvider extends TimetableProvider {
         } catch (IOException e) {
             // TODO handle it properly
             if (e.toString().contains("Status=404")) {
-                throw new ParsableDataNotFoundException();
+                throw new ParsableDataNotFoundException(e.getMessage());
             } else {
                 e.printStackTrace();
             }

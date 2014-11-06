@@ -33,6 +33,11 @@ public class LineRouteParserTest {
 
     /******************** TESTS ********************/
 
+    @Test(expected = ParsableDataNotFoundException.class)
+    public void notParsableDataFoundTest() throws TimetableParseException, ParsableDataNotFoundException {
+        timetableProvider.getLineRoute(new LineNumber("A"), 2);
+    }
+
     @Test
     public void getLineRouteTest1() throws ParsableDataNotFoundException, TimetableParseException {
         List<StationData> stations = timetableProvider.getLineRoute(new LineNumber(1), 1);

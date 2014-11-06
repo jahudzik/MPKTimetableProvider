@@ -5,10 +5,6 @@ package pl.jahu.mpk.parsers.exceptions;
  */
 public class ParsableDataNotFoundException extends Exception {
 
-    public ParsableDataNotFoundException() {
-        super();
-    }
-
     public ParsableDataNotFoundException(String message) {
         super(message);
     }

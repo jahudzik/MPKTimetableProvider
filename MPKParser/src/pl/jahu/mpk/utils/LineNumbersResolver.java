@@ -29,6 +29,7 @@ public class LineNumbersResolver {
             this.reasonTypes.add(ReasonTypes.NIGHTLY);
             this.reasonTypes.add(ReasonTypes.RAPID);
             this.reasonTypes.add(ReasonTypes.NIGHTLY);
+            this.reasonTypes.add(ReasonTypes.REPLACEMENT);
             this.reasonTypes.add(ReasonTypes.SPECIAL);
             this.reasonTypes.add(ReasonTypes.STANDARD);
             this.vehicleTypes.add(VehicleTypes.BUS);
@@ -38,7 +39,7 @@ public class LineNumbersResolver {
 
     public static String getLineString(LineNumber lineNo)  {
         if (lineNo.isNumericOnly()) {
-            return (lineNo.getNumeric() < 10) ? "000" + lineNo.toString() : (lineNo.getNumeric() < 100) ? "00" + lineNo.toString() : "0" + lineNo.toString();
+            return getNumberLiteral(lineNo.getNumeric());
         } else {
             switch (lineNo.getLiteral().length()) {
                 case 1:
