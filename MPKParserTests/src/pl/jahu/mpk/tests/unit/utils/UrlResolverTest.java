@@ -66,4 +66,49 @@ public class UrlResolverTest {
         assertEquals("http://rozklady.mpk.krakow.pl/aktualne/000Z/000Zw001.htm", url);
     }
 
+    @Test
+    public void getLineStringTest1() {
+        assertEquals("0001", UrlResolver.getLineLiteral(new LineNumber(1)));
+    }
+
+    @Test
+    public void getLineStringTest2() {
+        assertEquals("0045", UrlResolver.getLineLiteral(new LineNumber(45)));
+    }
+
+    @Test
+    public void getLineStringTest3() {
+        assertEquals("0967", UrlResolver.getLineLiteral(new LineNumber(967)));
+    }
+
+    @Test
+    public void getLineStringTest4() {
+        assertEquals("0001", UrlResolver.getLineLiteral(new LineNumber("1")));
+    }
+
+    @Test
+    public void getLineStringTest5() {
+        assertEquals("0045", UrlResolver.getLineLiteral(new LineNumber("45")));
+    }
+
+    @Test
+    public void getLineStringTest6() {
+        assertEquals("0967", UrlResolver.getLineLiteral(new LineNumber("967")));
+    }
+
+    @Test
+    public void getLineStringTest7() {
+        assertEquals("000A", UrlResolver.getLineLiteral(new LineNumber("A")));
+    }
+
+    @Test
+    public void getLineStringTest8() {
+        assertEquals("004B", UrlResolver.getLineLiteral(new LineNumber("4B")));
+    }
+
+    @Test
+    public void getLineStringTest9() {
+        assertEquals("091G", UrlResolver.getLineLiteral(new LineNumber("91G")));
+    }
+
 }

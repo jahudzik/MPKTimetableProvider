@@ -40,26 +40,29 @@ public class LineRouteParserTest {
 
     @Test
     public void getLineRouteTest1() throws ParsableDataNotFoundException, TimetableParseException {
-        List<StationData> stations = timetableProvider.getLineRoute(new LineNumber(1), 1);
+        LineNumber lineNumber = new LineNumber(1);
+        List<StationData> stations = timetableProvider.getLineRoute(lineNumber, 1);
         TestUtils.checkCollectionSize(stations, 29);
-        checkStationData(stations.get(0), "Wzgórza Krzesławickie", "0001t001.htm");
-        checkStationData(stations.get(28), "Salwator", "0001t029.htm");
+        checkStationData(stations.get(0), "Wzgórza Krzesławickie", lineNumber, 1);
+        checkStationData(stations.get(28), "Salwator", lineNumber, 29);
     }
 
     @Test
     public void getLineRouteTest2() throws ParsableDataNotFoundException, TimetableParseException {
-        List<StationData> stations = timetableProvider.getLineRoute(new LineNumber(22), 1);
+        LineNumber lineNumber = new LineNumber(22);
+        List<StationData> stations = timetableProvider.getLineRoute(lineNumber, 1);
         TestUtils.checkCollectionSize(stations, 37);
-        checkStationData(stations.get(0), "Borek Fałęcki", "0022t001.htm");
-        checkStationData(stations.get(36), "Agencja Kraków Wschód NŻ", "0022t037.htm");
+        checkStationData(stations.get(0), "Borek Fałęcki", lineNumber, 1);
+        checkStationData(stations.get(36), "Agencja Kraków Wschód NŻ", lineNumber, 37);
     }
 
     @Test
     public void getLineRouteTest3() throws ParsableDataNotFoundException, TimetableParseException {
-        List<StationData> stations = timetableProvider.getLineRoute(new LineNumber(248), 1);
+        LineNumber lineNumber = new LineNumber(248);
+        List<StationData> stations = timetableProvider.getLineRoute(lineNumber, 1);
         TestUtils.checkCollectionSize(stations, 22);
-        checkStationData(stations.get(0), "Bronowice Małe", "0248t001.htm");
-        checkStationData(stations.get(21), "Zelków I NŻ", "0248t022.htm");
+        checkStationData(stations.get(0), "Bronowice Małe", lineNumber, 1);
+        checkStationData(stations.get(21), "Zelków I NŻ", lineNumber, 22);
     }
 
     @Test
@@ -80,10 +83,11 @@ public class LineRouteParserTest {
 
     /******************** API ********************/
 
-    private void checkStationData(StationData stationData, String expectedName, String expectedUrlLocation) {
+    private void checkStationData(StationData stationData, String expectedName, LineNumber expectedLineNumber, int expectedSequenceNumber) {
         assertNotNull(stationData);
         assertEquals(expectedName, stationData.getName());
-        assertEquals(expectedUrlLocation, stationData.getUrlLocation());
+        assertEquals(expectedLineNumber, stationData.getLineNumber());
+        assertEquals(expectedSequenceNumber, stationData.getSequenceNumber());
     }
 
 }

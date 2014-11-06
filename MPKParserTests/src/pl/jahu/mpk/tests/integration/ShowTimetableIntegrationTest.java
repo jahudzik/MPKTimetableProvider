@@ -34,7 +34,7 @@ public class ShowTimetableIntegrationTest {
 
     private static LineNumber actLine;
     private static String destination;
-    private static String actTimetableUrl;
+    private static int actSequenceNumber;
     private static boolean printGeneralOutput;
 
     @Inject
@@ -64,7 +64,7 @@ public class ShowTimetableIntegrationTest {
     @AfterClass
     public static void logAfter() {
         if (printGeneralOutput) {
-            System.out.println("LAST EXECUTED: {line=" + actLine + ", destination='" + destination + "', url=" + actTimetableUrl + "}");
+            System.out.println("LAST EXECUTED: {line=" + actLine + ", destination='" + destination + "', seq=" + actSequenceNumber + "}");
         }
     }
 
@@ -96,11 +96,12 @@ public class ShowTimetableIntegrationTest {
                     for (StationData station : route) {
                         assertNotNull(station);
                         assertNotNull(station.getName());
-                        assertNotNull(station.getUrlLocation());
+                        assertNotNull(station.getLineNumber());
+                        assertNotNull(station.getSequenceNumber());
 
                         // parse and save timetable
-                        actTimetableUrl = station.getUrlLocation();
-                        Timetable timetable = timetableProvider.getTimetable(line, station.getUrlLocation());
+                        actSequenceNumber = station.getSequenceNumber();
+                        Timetable timetable = timetableProvider.getTimetable(line, station.getSequenceNumber());
                         Map<DayTypes, List<Departure>> departures = timetable.getDepartures();
                         assertNotNull(departures);
                         assertTrue(departures.size() > 0);

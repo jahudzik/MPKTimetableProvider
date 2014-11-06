@@ -33,7 +33,7 @@ public class TransitBuilder {
         timetableProvider.getLineRoute(lineNo, direction);
         List<StationData> stations = timetableProvider.getLineRoute(lineNo, direction);
         for (StationData station : stations) {
-            timetables.add(timetableProvider.getTimetable(lineNo, station.getUrlLocation()));
+            timetables.add(timetableProvider.getTimetable(lineNo, station.getSequenceNumber()));
         }
         Map<DayTypes, List<Transit>> transitsMap = buildFromTimetables(timetables);
 

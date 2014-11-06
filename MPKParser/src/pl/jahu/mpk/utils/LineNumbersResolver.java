@@ -37,29 +37,6 @@ public class LineNumbersResolver {
         }
     }
 
-    public static String getLineString(LineNumber lineNo)  {
-        if (lineNo.isNumericOnly()) {
-            return getNumberLiteral(lineNo.getNumeric());
-        } else {
-            switch (lineNo.getLiteral().length()) {
-                case 1:
-                    return "000" + lineNo.toString();
-                case 2:
-                    return "00" + lineNo.toString();
-                case 3:
-                    return "0" + lineNo.toString();
-                case 4:
-                    return lineNo.toString();
-                default:
-                    return null;
-            }
-        }
-    }
-
-    public static String getNumberLiteral(Integer value) {
-        return (value < 10) ? "000" + value.toString() : (value < 100) ? "00" + value.toString() : "0" + value.toString();
-    }
-
 
     public List<Integer> getLineNumbersCandidates() {
         LinesList lines = new LinesList();

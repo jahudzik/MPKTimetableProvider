@@ -2,6 +2,7 @@ package pl.jahu.mpk.parsers;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parsers.data.ParsableData;
 import pl.jahu.mpk.parsers.data.StationData;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
@@ -18,7 +19,7 @@ public class LineRouteParser {
      * Parses chosen line route page
      * @return list of stations on the route without destination station
      */
-    public List<StationData> parse(ParsableData parsableData) throws TimetableParseException {
+    public List<StationData> parse(LineNumber lineNumber, ParsableData parsableData) throws TimetableParseException {
         List<StationData> list = new ArrayList<StationData>();
         Elements stations = parsableData.getDocument().getElementsByAttributeValue("target", "R");
         for (Element station : stations) {
@@ -30,10 +31,24 @@ public class LineRouteParser {
             if (url == null || url.equals("")) {
                 throw new TimetableParseException("No station url found", parsableData.getLocation());
             }
-            list.add(new StationData(stationName, url));
+            int sequenceNumber = getSequenceNumber(url);
+            if (sequenceNumber == -1) {
+                throw new TimetableParseException("Could not retrieve station sequence number from '" + url + "'", parsableData.getLocation());
+            }
+            list.add(new StationData(stationName, lineNumber, sequenceNumber));
         }
 
         return list;
+    }
+
+    private int getSequenceNumber(String pageName) {
+        int index = pageName.indexOf("t") + 1;
+        String numberLiteral = pageName.substring(index, index + 3);
+        try {
+            return Integer.parseInt(numberLiteral);
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
 
     /**

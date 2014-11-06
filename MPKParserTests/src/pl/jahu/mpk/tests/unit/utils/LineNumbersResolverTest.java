@@ -5,6 +5,7 @@ import org.junit.Test;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.tests.TestUtils;
 import pl.jahu.mpk.utils.LineNumbersResolver;
+import pl.jahu.mpk.utils.UrlResolver;
 
 import java.util.Arrays;
 import java.util.List;
@@ -48,51 +49,6 @@ public class LineNumbersResolverTest {
     public void constructorTest2() {
         LineNumbersResolver lineNumbersResolver = new LineNumbersResolver(false);
         assertTrue(lineNumbersResolver.getLineNumbersCandidates().size() > 0);
-    }
-
-    @Test
-    public void getLineStringTest1() {
-        assertEquals("0001", LineNumbersResolver.getLineString(new LineNumber(1)));
-    }
-
-    @Test
-    public void getLineStringTest2() {
-        assertEquals("0045", LineNumbersResolver.getLineString(new LineNumber(45)));
-    }
-
-    @Test
-    public void getLineStringTest3() {
-        assertEquals("0967", LineNumbersResolver.getLineString(new LineNumber(967)));
-    }
-
-    @Test
-    public void getLineStringTest4() {
-        assertEquals("0001", LineNumbersResolver.getLineString(new LineNumber("1")));
-    }
-
-    @Test
-    public void getLineStringTest5() {
-        assertEquals("0045", LineNumbersResolver.getLineString(new LineNumber("45")));
-    }
-
-    @Test
-    public void getLineStringTest6() {
-        assertEquals("0967", LineNumbersResolver.getLineString(new LineNumber("967")));
-    }
-
-    @Test
-    public void getLineStringTest7() {
-        assertEquals("000A", LineNumbersResolver.getLineString(new LineNumber("A")));
-    }
-
-    @Test
-    public void getLineStringTest8() {
-        assertEquals("004B", LineNumbersResolver.getLineString(new LineNumber("4B")));
-    }
-
-    @Test
-    public void getLineStringTest9() {
-        assertEquals("091G", LineNumbersResolver.getLineString(new LineNumber("91G")));
     }
 
     @Test

@@ -66,7 +66,7 @@ public class TimetableParserTest {
 
     @Test
     public void testTimetable1Standard() throws TimetableParseException, ParsableDataNotFoundException {
-        Timetable timetable = timetableProvider.getTimetable(new LineNumber(1), "0001t001.htm");
+        Timetable timetable = timetableProvider.getTimetable(new LineNumber(1), 1);
         checkTimetableGeneralInfo(timetable, "Wzgórza Krzesławickie", "SALWATOR", 1);
 
         Map<DayTypes, List<Departure>> departures = timetable.getDepartures();
@@ -83,7 +83,7 @@ public class TimetableParserTest {
 
     @Test
     public void testTimetable2WithLegend() throws ParsableDataNotFoundException, TimetableParseException {
-        Timetable timetable = timetableProvider.getTimetable(new LineNumber(22), "0022t0001.htm");
+        Timetable timetable = timetableProvider.getTimetable(new LineNumber(22), 1);
         checkTimetableGeneralInfo(timetable, "Borek Fałęcki", "WALCOWNIA", 22);
 
         Map<DayTypes, List<Departure>> departures = timetable.getDepartures();
@@ -101,7 +101,7 @@ public class TimetableParserTest {
 
     @Test
     public void testTimetable3WithEverydayType() throws TimetableParseException, ParsableDataNotFoundException {
-        Timetable timetable = timetableProvider.getTimetable(new LineNumber(601), "0601t0001.htm");
+        Timetable timetable = timetableProvider.getTimetable(new LineNumber(601), 1);
         checkTimetableGeneralInfo(timetable, "Mydlniki", "CZYŻYNY DWORZEC", 601);
 
         Map<DayTypes, List<Departure>> departures = timetable.getDepartures();
@@ -113,7 +113,7 @@ public class TimetableParserTest {
 
     @Test
      public void testTimetable4WithWeekendSpecificDayTypes() throws TimetableParseException, ParsableDataNotFoundException {
-        Timetable timetable = timetableProvider.getTimetable(new LineNumber(605), "0605t0001.htm");
+        Timetable timetable = timetableProvider.getTimetable(new LineNumber(605), 1);
         checkTimetableGeneralInfo(timetable, "Zajezdnia Płaszów", "BIELANY", 605);
 
         Map<DayTypes, List<Departure>> departures = timetable.getDepartures();
@@ -128,7 +128,7 @@ public class TimetableParserTest {
 
     @Test
     public void testTimetable5WithTwoLegendEntries() throws TimetableParseException, ParsableDataNotFoundException {
-        Timetable timetable = timetableProvider.getTimetable(new LineNumber(183), "0183t0001.htm");
+        Timetable timetable = timetableProvider.getTimetable(new LineNumber(183), 1);
         checkTimetableGeneralInfo(timetable, "Złocień", "DOM SPOKOJNEJ STAROŚCI", 183);
 
         Map<DayTypes, List<Departure>> departures = timetable.getDepartures();
@@ -147,7 +147,7 @@ public class TimetableParserTest {
 
     @Test
     public void testTimetable6WithTwoLegendEntriesForOneDeparture() throws TimetableParseException, ParsableDataNotFoundException {
-        Timetable timetable = timetableProvider.getTimetable(new LineNumber(248), "0248t0001.htm");
+        Timetable timetable = timetableProvider.getTimetable(new LineNumber(248), 1);
         checkTimetableGeneralInfo(timetable, "Bronowice Małe", "ZELKÓW", 248);
 
         Map<DayTypes, List<Departure>> departures = timetable.getDepartures();

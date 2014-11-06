@@ -30,7 +30,7 @@ public abstract class TimetableProvider {
 
     abstract ParsableData getLineRouteDocument(LineNumber lineNumber, int direction) throws ParsableDataNotFoundException;
 
-    abstract ParsableData getTimetableDocument(LineNumber lineNumber, String page) throws ParsableDataNotFoundException;
+    abstract ParsableData getTimetableDocument(LineNumber lineNumber, int stationSequenceNumber) throws ParsableDataNotFoundException;
 
     public List<LineNumber> getLinesList() throws ParsableDataNotFoundException {
         ParsableData data = getLinesListDocument();
@@ -39,7 +39,7 @@ public abstract class TimetableProvider {
 
     public List<StationData> getLineRoute(LineNumber lineNumber, int direction) throws ParsableDataNotFoundException, TimetableParseException {
         ParsableData data = getLineRouteDocument(lineNumber, direction);
-        return lineRouteParser.parse(data);
+        return lineRouteParser.parse(lineNumber, data);
     }
 
     public String getLineRouteDestination(LineNumber lineNumber, int direction) throws ParsableDataNotFoundException, TimetableParseException {
@@ -47,8 +47,8 @@ public abstract class TimetableProvider {
         return lineRouteParser.retrieveDestination(data);
     }
 
-    public Timetable getTimetable(LineNumber lineNumber, String page) throws ParsableDataNotFoundException, TimetableParseException {
-        ParsableData data = getTimetableDocument(lineNumber, page);
+    public Timetable getTimetable(LineNumber lineNumber, int stationSequenceNumber) throws ParsableDataNotFoundException, TimetableParseException {
+        ParsableData data = getTimetableDocument(lineNumber, stationSequenceNumber);
         return timetableParser.parse(data, lineNumber);
     }
 

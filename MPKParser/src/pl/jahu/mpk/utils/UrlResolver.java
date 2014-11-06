@@ -10,21 +10,48 @@ public class UrlResolver {
 
     private final static String DIRECTION_TOKEN = "@[seg]";
     private final static String LINE_NUMBER_TOKEN = "@[line]";
-    private final static String PAGE_TOKEN = "@[page]";
+    private final static String SEQUENCE_TOKEN = "@[seq]";
 
     public static final String LINES_LIST_URL = "http://rozklady.mpk.krakow.pl/linie.aspx";
     public static final String TIMETABLE_MENU_URL = "http://rozklady.mpk.krakow.pl/menu.aspx";
     public static final String STATIONS_LIST_URL = "http://rozklady.mpk.krakow.pl/aktualne/przystan.htm";
 
-    private static final String LINE_ROUTE_URL_PATTERN = "http://rozklady.mpk.krakow.pl/aktualne/"+LINE_NUMBER_TOKEN+"/"+LINE_NUMBER_TOKEN+"w00"+DIRECTION_TOKEN+".htm";
-    private static final String TIMETABLE_URL_PATTERN = "http://rozklady.mpk.krakow.pl/aktualne/" + LINE_NUMBER_TOKEN + "/" + PAGE_TOKEN;
+    private static final String LINE_ROUTE_URL_PATTERN = "http://rozklady.mpk.krakow.pl/aktualne/" + LINE_NUMBER_TOKEN + "/" + LINE_NUMBER_TOKEN + "w00" + DIRECTION_TOKEN + ".htm";
+    private static final String TIMETABLE_URL_PATTERN = "http://rozklady.mpk.krakow.pl/aktualne/" + LINE_NUMBER_TOKEN + "/" + LINE_NUMBER_TOKEN + "t" + SEQUENCE_TOKEN + ".htm";
 
     public static String getLineRouteUrl(LineNumber lineNo, Integer direction) {
-        return LINE_ROUTE_URL_PATTERN.replace(LINE_NUMBER_TOKEN, LineNumbersResolver.getLineString(lineNo)).replace(DIRECTION_TOKEN, direction.toString());
+        return LINE_ROUTE_URL_PATTERN.replace(LINE_NUMBER_TOKEN, getLineLiteral(lineNo)).replace(DIRECTION_TOKEN, direction.toString());
     }
 
-    public static String getStationTimetableUrl(LineNumber lineNo, String page) {
-        return TIMETABLE_URL_PATTERN.replace(LINE_NUMBER_TOKEN, LineNumbersResolver.getLineString(lineNo)).replace(PAGE_TOKEN, page);
+    public static String getStationTimetableUrl(LineNumber lineNo, int sequenceNumber) {
+        return TIMETABLE_URL_PATTERN.replace(LINE_NUMBER_TOKEN, getLineLiteral(lineNo)).replace(SEQUENCE_TOKEN, getSequenceNumberLiteral(sequenceNumber));
     }
 
+
+    public static String getLineLiteral(LineNumber lineNo)  {
+        return (lineNo.isNumericOnly()) ? getNumberLiteral(lineNo.getNumeric()) : getStringNumberLiteral(lineNo);
+    }
+
+    private static String getNumberLiteral(Integer value) {
+        return (value < 10) ? "000" + value.toString() : (value < 100) ? "00" + value.toString() : "0" + value.toString();
+    }
+
+    private static String getStringNumberLiteral(LineNumber lineNo) {
+        switch (lineNo.getLiteral().length()) {
+            case 1:
+                return "000" + lineNo.toString();
+            case 2:
+                return "00" + lineNo.toString();
+            case 3:
+                return "0" + lineNo.toString();
+            case 4:
+                return lineNo.toString();
+            default:
+                return null;
+        }
+    }
+
+    public static String getSequenceNumberLiteral(Integer sequenceNumber) {
+        return (sequenceNumber < 10) ? "00" + sequenceNumber.toString() : (sequenceNumber < 100) ? "0" + sequenceNumber.toString() : sequenceNumber.toString();
+    }
 }

@@ -59,7 +59,7 @@ public class TimetablesDownloader {
                 while (downloadLineRouteData(line, direction)) {
                     List<StationData> route = timetableProvider.getLineRoute(line, direction);
                     for (StationData station : route) {
-                        String url = UrlResolver.getStationTimetableUrl(line, station.getUrlLocation());
+                        String url = UrlResolver.getStationTimetableUrl(line, station.getSequenceNumber());
                         downloadUtils.downloadUrl(url, TIMETABLES_LOCATION + getPageName(url));
                     }
                     direction++;

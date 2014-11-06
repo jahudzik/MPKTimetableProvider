@@ -6,7 +6,7 @@ import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parsers.data.ParsableData;
 import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
-import pl.jahu.mpk.utils.LineNumbersResolver;
+import pl.jahu.mpk.utils.UrlResolver;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +23,7 @@ public class FileTimetableProvider extends TimetableProvider {
     private static final String LINE_NUMBER_TOKEN = "@[line]";
     private static final String LINE_ROUTE_FILE_PATTERN = LINE_NUMBER_TOKEN + "w00" + DIRECTION_TOKEN + ".htm";
     private static final String PAGE_TOKEN = "@[page]";
-    private static final String TIMETABLE_FILE_PATTERN = LINE_NUMBER_TOKEN + "t" + PAGE_TOKEN;
+    private static final String TIMETABLE_FILE_PATTERN = LINE_NUMBER_TOKEN + "t" + PAGE_TOKEN + ".htm";
     public static final String FILE_ENCODING = "iso-8859-2";
 
     private final String filesLocation;
@@ -45,8 +45,8 @@ public class FileTimetableProvider extends TimetableProvider {
     }
 
     @Override
-    public ParsableData getTimetableDocument(LineNumber lineNo, String page) throws ParsableDataNotFoundException {
-        return getDocumentFromFile(page);
+    public ParsableData getTimetableDocument(LineNumber lineNumber, int sequenceNumber) throws ParsableDataNotFoundException {
+        return getDocumentFromFile(getStationTimetableFileName(lineNumber, sequenceNumber));
     }
 
     private ParsableData getDocumentFromFile(String fileName) throws ParsableDataNotFoundException {
@@ -60,11 +60,11 @@ public class FileTimetableProvider extends TimetableProvider {
     }
 
     private static String getLineRouteFileName(LineNumber lineNo, Integer direction) {
-        return LINE_ROUTE_FILE_PATTERN.replace(LINE_NUMBER_TOKEN, LineNumbersResolver.getLineString(lineNo)).replace(DIRECTION_TOKEN, direction.toString());
+        return LINE_ROUTE_FILE_PATTERN.replace(LINE_NUMBER_TOKEN, UrlResolver.getLineLiteral(lineNo)).replace(DIRECTION_TOKEN, direction.toString());
     }
 
-    public static String getStationTimetableFileName(LineNumber lineNo, int stationNo) {
-        return TIMETABLE_FILE_PATTERN.replace(LINE_NUMBER_TOKEN, LineNumbersResolver.getLineString(lineNo)).replace(PAGE_TOKEN, LineNumbersResolver.getNumberLiteral(stationNo));
+    public static String getStationTimetableFileName(LineNumber lineNumber, int sequenceNumber) {
+        return TIMETABLE_FILE_PATTERN.replace(LINE_NUMBER_TOKEN, UrlResolver.getLineLiteral(lineNumber)).replace(PAGE_TOKEN, UrlResolver.getSequenceNumberLiteral(sequenceNumber));
     }
 
 }

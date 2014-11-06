@@ -34,8 +34,8 @@ public class UrlTimetableProvider extends TimetableProvider {
     }
 
     @Override
-    ParsableData getTimetableDocument(LineNumber lineNumber, String page) throws ParsableDataNotFoundException {
-        return retrieveDocumentFromUrl(UrlResolver.getStationTimetableUrl(lineNumber, page));
+    ParsableData getTimetableDocument(LineNumber lineNumber, int sequenceNumber) throws ParsableDataNotFoundException {
+        return retrieveDocumentFromUrl(UrlResolver.getStationTimetableUrl(lineNumber, sequenceNumber));
     }
 
     private ParsableData retrieveDocumentFromUrl(String url) throws ParsableDataNotFoundException {

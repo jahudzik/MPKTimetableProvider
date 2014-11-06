@@ -153,11 +153,12 @@ public class TimetablesDownloaderTest {
     }
 
     private List<StationData> buildRouteStationsList() {
+        LineNumber lineNumber = new LineNumber(8);
         List<StationData> stationsList = new ArrayList<StationData>();
-        stationsList.add(new StationData("X1", "0008t001.htm"));
-        stationsList.add(new StationData("X2", "0008t002.htm"));
-        stationsList.add(new StationData("X3", "0008t003.htm"));
-        stationsList.add(new StationData("X4", "0008t004.htm"));
+        stationsList.add(new StationData("X1", lineNumber, 1));
+        stationsList.add(new StationData("X2", lineNumber, 2));
+        stationsList.add(new StationData("X3", lineNumber, 3));
+        stationsList.add(new StationData("X4", lineNumber, 4));
         return stationsList;
     }
 

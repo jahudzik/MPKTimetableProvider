@@ -105,14 +105,14 @@ public class UrlTimetableProviderTest {
         LineNumber lineNumber = new LineNumber(5);
         timetableProvider.getLineRoute(lineNumber, 1);
         verify(downloadUtilsMock).downloadJsoupDocument(eq("http://rozklady.mpk.krakow.pl/aktualne/0005/0005w001.htm"));
-        verify(lineRouteParserMock).parse(parsableDataMock);
+        verify(lineRouteParserMock).parse(lineNumber, parsableDataMock);
     }
 
     @Test
     public void getTimetableTest() throws TimetableParseException, ParsableDataNotFoundException, IOException {
         LineNumber lineNumber = new LineNumber(605);
-        timetableProvider.getTimetable(lineNumber, "0605t0017.htm");
-        verify(downloadUtilsMock).downloadJsoupDocument(eq("http://rozklady.mpk.krakow.pl/aktualne/0605/0605t0017.htm"));
+        timetableProvider.getTimetable(lineNumber, 17);
+        verify(downloadUtilsMock).downloadJsoupDocument(eq("http://rozklady.mpk.krakow.pl/aktualne/0605/0605t017.htm"));
         verify(timetableParserMock).parse(parsableDataMock, lineNumber);
     }
 

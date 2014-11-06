@@ -1,5 +1,7 @@
 package pl.jahu.mpk.parsers.data;
 
+import pl.jahu.mpk.entities.LineNumber;
+
 /**
  * MPK Timetable Parser
  * Created by jahudzik on 2014-10-21.
@@ -7,19 +9,27 @@ package pl.jahu.mpk.parsers.data;
 public class StationData {
 
     private String name;
-    private String urlLocation;
 
-    public StationData(String name, String address) {
+    private LineNumber lineNumber;
+
+    private int sequenceNumber;
+
+    public StationData(String name, LineNumber lineNumber, int sequenceNumber) {
         this.name = name;
-        this.urlLocation = address;
+        this.lineNumber = lineNumber;
+        this.sequenceNumber = sequenceNumber;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getUrlLocation() {
-        return urlLocation;
+    public LineNumber getLineNumber() {
+        return lineNumber;
+    }
+
+    public int getSequenceNumber() {
+        return sequenceNumber;
     }
 
 }
