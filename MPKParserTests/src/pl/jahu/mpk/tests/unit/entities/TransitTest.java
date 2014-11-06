@@ -8,7 +8,6 @@ import pl.jahu.mpk.utils.Time;
 import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 /**
  * MPK Timetable Parser
@@ -42,6 +41,28 @@ public class TransitTest {
         checkStopsList(transit, new TransitStop[]{stop1, stop3, stop2});
     }
 
+    @Test
+    public void getDirectionsTest() throws UnsupportedLineNumberException {
+        Transit transit = new Transit(new LineNumber(1));
+        assertEquals("[empty]", transit.getDirections());
+    }
+
+    @Test
+    public void toStringTest1() throws UnsupportedLineNumberException {
+        Transit transit = new Transit(new LineNumber(1));
+        assertEquals("[empty]", transit.toString());
+    }
+
+    @Test
+    public void toStringTest2() throws UnsupportedLineNumberException {
+        Transit transit = new Transit(new LineNumber(1));
+        transit.addStop(new TransitStop(new Time(10, 13), "station1"));
+        transit.addStop(new TransitStop(new Time(10, 16), "station2"));
+        transit.addStop(new TransitStop(new Time(10, 18), "station3"));
+        transit.setDestStation("station4");
+
+        assertEquals("station1 [10:13] station2 [10:16] station3 [10:18] -> station4", transit.toString());
+    }
 
     /******************* API ********************/
 

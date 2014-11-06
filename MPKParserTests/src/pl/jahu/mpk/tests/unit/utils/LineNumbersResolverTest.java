@@ -3,6 +3,7 @@ package pl.jahu.mpk.tests.unit.utils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import pl.jahu.mpk.entities.LineNumber;
+import pl.jahu.mpk.tests.TestUtils;
 import pl.jahu.mpk.utils.LineNumbersResolver;
 import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
@@ -10,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * MPK Timetable Parser
@@ -36,6 +38,63 @@ public class LineNumbersResolverTest {
     }
 
     /******************** TESTS ********************/
+
+    @Test
+    public void constructorTest1() {
+        LineNumbersResolver lineNumbersResolver = new LineNumbersResolver(true);
+        TestUtils.checkCollectionSize(lineNumbersResolver.getLineNumbersCandidates(), 0);
+    }
+
+    @Test
+    public void constructorTest2() {
+        LineNumbersResolver lineNumbersResolver = new LineNumbersResolver(false);
+        assertTrue(lineNumbersResolver.getLineNumbersCandidates().size() > 0);
+    }
+
+    @Test
+    public void getLineStringTest1() throws UnsupportedLineNumberException {
+        assertEquals("0001", LineNumbersResolver.getLineString(new LineNumber(1)));
+    }
+
+    @Test
+    public void getLineStringTest2() throws UnsupportedLineNumberException {
+        assertEquals("0045", LineNumbersResolver.getLineString(new LineNumber(45)));
+    }
+
+    @Test
+    public void getLineStringTest3() throws UnsupportedLineNumberException {
+        assertEquals("0967", LineNumbersResolver.getLineString(new LineNumber(967)));
+    }
+
+    @Test
+    public void getLineStringTest4() throws UnsupportedLineNumberException {
+        assertEquals("0001", LineNumbersResolver.getLineString(new LineNumber("1")));
+    }
+
+    @Test
+    public void getLineStringTest5() throws UnsupportedLineNumberException {
+        assertEquals("0045", LineNumbersResolver.getLineString(new LineNumber("45")));
+    }
+
+    @Test
+    public void getLineStringTest6() throws UnsupportedLineNumberException {
+        assertEquals("0967", LineNumbersResolver.getLineString(new LineNumber("967")));
+    }
+
+    @Test
+    public void getLineStringTest7() throws UnsupportedLineNumberException {
+        assertEquals("000A", LineNumbersResolver.getLineString(new LineNumber("A")));
+    }
+
+    @Test
+    public void getLineStringTest8() throws UnsupportedLineNumberException {
+        assertEquals("004B", LineNumbersResolver.getLineString(new LineNumber("4B")));
+    }
+
+    @Test
+    public void getLineStringTest9() throws UnsupportedLineNumberException {
+        assertEquals("091G", LineNumbersResolver.getLineString(new LineNumber("91G")));
+    }
 
     @Test
     public void testLinesFromRange1() throws UnsupportedLineNumberException {
