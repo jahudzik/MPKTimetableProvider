@@ -67,18 +67,6 @@ public class LineNumbersResolver {
     }
 
 
-    public void addAreaType(AreaTypes type) {
-        areaTypes.add(type);
-    }
-
-    public void addReasonType(ReasonTypes type) {
-        reasonTypes.add(type);
-    }
-
-    public void addVehicleType(VehicleTypes type) {
-        vehicleTypes.add(type);
-    }
-
     public List<Integer> getLineNumbersCandidates() {
         LinesList lines = new LinesList();
         if (vehicleTypes.contains(VehicleTypes.TRAM)) {

@@ -61,8 +61,8 @@ public class FileTimetableProvider extends TimetableProvider {
         return LINE_ROUTE_FILE_PATTERN.replace(LINE_NUMBER_TOKEN, LineNumbersResolver.getLineString(lineNo)).replace(DIRECTION_TOKEN, direction.toString());
     }
 
-//    public static String getStationTimetableFileName(LineNumber lineNo, int stationNo) throws UnsupportedLineNumberException {
-//        return TIMETABLE_FILE_PATTERN.replace(LINE_NUMBER_TOKEN, LineNumbersResolver.getLineString(lineNo)).replace(PAGE_TOKEN, LineNumbersResolver.getNumberLiteral(stationNo));
-//    }
+    public static String getStationTimetableFileName(LineNumber lineNo, int stationNo) throws UnsupportedLineNumberException {
+        return TIMETABLE_FILE_PATTERN.replace(LINE_NUMBER_TOKEN, LineNumbersResolver.getLineString(lineNo)).replace(PAGE_TOKEN, LineNumbersResolver.getNumberLiteral(stationNo));
+    }
 
 }

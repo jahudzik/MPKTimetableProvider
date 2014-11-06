@@ -101,24 +101,9 @@ public class LineNumberTest {
         checkEqualNumbersComparison(new LineNumber(5), new LineNumber("5"), true);
     }
 
-
     @Test
     public void testEquals3() throws UnsupportedLineNumberException {
         checkEqualNumbersComparison(new LineNumber("5"), new LineNumber("5A"), false);
-    }
-
-
-    @Test
-    public void testEquals4() throws UnsupportedLineNumberException {
-        LineNumber lineNumber1 = new LineNumber("5");
-        assertTrue(lineNumber1.equals(5));
-    }
-
-
-    @Test
-    public void testEquals5() throws UnsupportedLineNumberException {
-        LineNumber lineNumber1 = new LineNumber(5);
-        assertTrue(lineNumber1.equals(5));
     }
 
     @Test

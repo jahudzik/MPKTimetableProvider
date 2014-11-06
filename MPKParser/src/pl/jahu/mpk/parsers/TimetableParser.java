@@ -47,11 +47,11 @@ public class TimetableParser {
     public Timetable parse(Document document, LineNumber lineNumber) throws TimetableParseException {
         Map<DayTypes, List<Departure>> departures = new HashMap<DayTypes, List<Departure>>();
         Elements rows = document.getElementsByClass(DEPARTURES_TABLE_CLASS).get(0).getElementsByTag("tr");
-        if (rows != null && rows.size() > 0) {
+        if (rows.size() > 0) {
 
             // parse day types
             Elements dayTypes = rows.get(0).children();
-            if (dayTypes != null && dayTypes.size() > 0) {
+            if (dayTypes.size() > 0) {
                 List<DayTypes> dayTypesList = retrieveDayTypesConfiguration(dayTypes);
                 for (DayTypes type : dayTypesList) {
                     departures.put(type, new ArrayList<Departure>());
@@ -63,10 +63,10 @@ public class TimetableParser {
                 // first row is for day types, last row is for extra info - parse the rest (actual timetables)
                 for (int i = 1; i < rows.size() - 1; i++) {
                     Elements hourCells = rows.get(i).getElementsByClass(HOUR_CELL_CLASS);
-                    if (hourCells != null && hourCells.size() > 0) {
+                    if (hourCells.size() > 0) {
                         int hour = new Integer(hourCells.get(0).text());
                         Elements minCells = rows.get(i).getElementsByClass(MINUTE_CELL_CLASS);
-                        if (minCells != null && minCells.size() == dayTypesList.size()) {
+                        if (minCells.size() == dayTypesList.size()) {
                             for (int j = 0; j < dayTypes.size(); j++) {
                                 String minuteString = minCells.get(j).text();
                                 if (!minuteString.equals(NO_MINUTES_PATTERN)) {

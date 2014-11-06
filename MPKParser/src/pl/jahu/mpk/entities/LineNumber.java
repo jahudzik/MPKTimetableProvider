@@ -67,19 +67,9 @@ public class LineNumber implements Comparable<LineNumber> {
         }
     }
 
-    public boolean equals(int number) {
-        return equals(new Integer(number));
-    }
-
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof LineNumber) {
-            return (compareTo((LineNumber) obj) == 0);
-        }
-        if (obj instanceof Integer) {
-            return (numericOnly && numeric == ((Integer) obj).intValue());
-        }
-        return super.equals(obj);
+        return (compareTo((LineNumber) obj) == 0);
     }
 
     @Override

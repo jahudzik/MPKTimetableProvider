@@ -36,10 +36,6 @@ public class Transit {
         return stops;
     }
 
-    public LineNumber getLine() {
-        return line;
-    }
-
     public String getDestStation() {
         return destStation;
     }

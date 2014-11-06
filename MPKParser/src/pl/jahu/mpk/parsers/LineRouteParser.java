@@ -25,7 +25,7 @@ public class LineRouteParser {
         Elements stations = document.getElementsByAttributeValue("target", "R");
         for (Element station : stations) {
             String stationName = station.text();
-            if (stationName == null || stationName.equals("")) {
+            if (stationName.equals("")) {
                 throw new LineRouteParseException("No station name found");
             }
             String url = station.attributes().get("href");

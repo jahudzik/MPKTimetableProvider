@@ -7,10 +7,10 @@ import pl.jahu.mpk.utils.Time;
 import pl.jahu.mpk.utils.TimeUtils;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Calendar;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 // TODO Handle WEEKEND_NIGHTS properly
 

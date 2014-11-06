@@ -1,6 +1,5 @@
 package pl.jahu.mpk.providers;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.entities.LineNumber;

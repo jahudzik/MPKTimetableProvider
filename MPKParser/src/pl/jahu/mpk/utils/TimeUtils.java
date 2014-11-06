@@ -10,11 +10,6 @@ import java.util.Calendar;
  */
 public class TimeUtils {
 
-    public static boolean validateDayTypeForToday(DayTypes dayType) throws UnsupportedDayTypesConfigurationException {
-        int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-        return validateDayType(dayType, dayOfWeek);
-    }
-
     public static boolean validateDayType(DayTypes dayType, int dayOfWeek) throws UnsupportedDayTypesConfigurationException {
         if (dayType == null) {
             throw new UnsupportedDayTypesConfigurationException();
@@ -29,7 +24,7 @@ public class TimeUtils {
             case EVERYDAY:
                 return true;
             case MONDAY_TO_THURSDAY:
-                return (dayOfWeek == Calendar.MONDAY || dayOfWeek == Calendar.THURSDAY || dayOfWeek == Calendar.WEDNESDAY || dayOfWeek == Calendar.THURSDAY);
+                return (dayOfWeek == Calendar.MONDAY || dayOfWeek == Calendar.TUESDAY || dayOfWeek == Calendar.WEDNESDAY || dayOfWeek == Calendar.THURSDAY);
             case WEEKEND_NIGHTS:
                 return (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY);
             default:
