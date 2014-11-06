@@ -7,6 +7,7 @@ import pl.jahu.mpk.parsers.LinesListParser;
 import pl.jahu.mpk.parsers.TimetableParser;
 import pl.jahu.mpk.providers.*;
 import pl.jahu.mpk.tools.TimetablesDownloader;
+import pl.jahu.mpk.utils.DownloadUtils;
 
 import javax.inject.Singleton;
 
@@ -52,6 +53,13 @@ public class AppModule {
     @SuppressWarnings("unused")
     TimetableProvider provideTimetableProvider() {
         return new UrlTimetableProvider();
+    }
+
+    @Provides
+    @Singleton
+    @SuppressWarnings("unused")
+    DownloadUtils provideDownloadUtils() {
+        return new DownloadUtils();
     }
 
 }

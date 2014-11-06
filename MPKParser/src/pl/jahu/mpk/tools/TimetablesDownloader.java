@@ -1,20 +1,17 @@
 package pl.jahu.mpk.tools;
 
-import org.apache.commons.io.FileUtils;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parsers.StationData;
 import pl.jahu.mpk.parsers.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.providers.TimetableProvider;
+import pl.jahu.mpk.utils.DownloadUtils;
 import pl.jahu.mpk.utils.LineNumbersResolver;
 import pl.jahu.mpk.utils.UrlResolver;
 import pl.jahu.mpk.validators.exceptions.NoDataProvidedException;
 import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import javax.inject.Inject;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 
 /**
@@ -31,15 +28,18 @@ public class TimetablesDownloader {
     @Inject
     static TimetableProvider timetableProvider;
 
+    @Inject
+    static DownloadUtils downloadUtils;
+
     /**
      * Downloads:
      * - lines list page, showing which lines timetables has changed
      * - menu page, containing next timetable changes dates and links to new timetables
      */
     public static void downloadInfo() throws TimetableNotFoundException {
-        downloadUrl(UrlResolver.LINES_LIST_URL, LINES_PAGE_NAME);
-        downloadUrl(UrlResolver.TIMETABLE_MENU_URL, MENU_PAGE_NAME);
-        downloadUrl(UrlResolver.STATIONS_LIST_URL, STATIONS_PAGE_NAME);
+        downloadUtils.downloadUrl(UrlResolver.LINES_LIST_URL, TIMETABLES_LOCATION + LINES_PAGE_NAME);
+        downloadUtils.downloadUrl(UrlResolver.TIMETABLE_MENU_URL, TIMETABLES_LOCATION + MENU_PAGE_NAME);
+        downloadUtils.downloadUrl(UrlResolver.STATIONS_LIST_URL, TIMETABLES_LOCATION + STATIONS_PAGE_NAME);
     }
 
     public static void downloadTimetables(int firstLine, int lastLine) throws NoDataProvidedException, UnsupportedLineNumberException {
@@ -61,12 +61,12 @@ public class TimetablesDownloader {
                 for (int j = 1; j < 10; j++) {
                     try {
                         String lineRouteUrl = UrlResolver.getLineRouteUrl(line, j);
-                        downloadUrl(lineRouteUrl, getPageName(lineRouteUrl));
+                        downloadUtils.downloadUrl(lineRouteUrl, TIMETABLES_LOCATION + getPageName(lineRouteUrl));
 
                         List<StationData> route = timetableProvider.getLineRoute(line, j);
                         for (StationData station : route) {
                             String url = UrlResolver.getStationTimetableUrl(line, station.getUrlLocation());
-                            downloadUrl(url, getPageName(url));
+                            downloadUtils.downloadUrl(url, TIMETABLES_LOCATION + getPageName(url));
                         }
                     } catch (TimetableNotFoundException e) {
                         break;
@@ -85,18 +85,11 @@ public class TimetablesDownloader {
     }
 
 
-    private static void downloadUrl(String url, String destFileName) throws TimetableNotFoundException {
-        try {
-            System.out.println(url);
-            FileUtils.copyURLToFile(new URL(url), new File(TIMETABLES_LOCATION + destFileName));
-        } catch (IOException e) {
-            throw new TimetableNotFoundException(e.getMessage());
-        }
-    }
+
 
 
     private static String getPageName(String url) {
-        return url.substring(url.lastIndexOf("/"));
+        return url.substring(url.lastIndexOf("/") + 1);
     }
 
 }

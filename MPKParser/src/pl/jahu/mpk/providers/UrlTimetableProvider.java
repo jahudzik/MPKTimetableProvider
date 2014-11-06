@@ -5,9 +5,11 @@ import org.jsoup.nodes.Document;
 import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
+import pl.jahu.mpk.utils.DownloadUtils;
 import pl.jahu.mpk.utils.UrlResolver;
 import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
+import javax.inject.Inject;
 import java.io.IOException;
 
 /**
@@ -15,6 +17,9 @@ import java.io.IOException;
  * Created by jahudzik on 2014-10-21.
  */
 public class UrlTimetableProvider extends TimetableProvider {
+
+    @Inject
+    DownloadUtils downloadUtils;
 
     public UrlTimetableProvider() {
         DaggerApplication.inject(this);
@@ -38,7 +43,7 @@ public class UrlTimetableProvider extends TimetableProvider {
     private Document retrieveDocumentFromUrl(String url) throws TimetableNotFoundException {
         Document document = null;
         try {
-            document = Jsoup.connect(url).get();
+            document = downloadUtils.downloadJsoupDocument(url);
         } catch (IOException e) {
             // TODO handle it properly
             if (e.toString().contains("Status=404")) {
