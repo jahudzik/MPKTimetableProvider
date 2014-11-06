@@ -6,7 +6,6 @@ import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.utils.DownloadUtils;
 import pl.jahu.mpk.utils.UrlResolver;
-import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -30,12 +29,12 @@ public class UrlTimetableProvider extends TimetableProvider {
     }
 
     @Override
-    Document getLineRouteDocument(LineNumber lineNumber, int direction) throws UnsupportedLineNumberException, TimetableNotFoundException {
+    Document getLineRouteDocument(LineNumber lineNumber, int direction) throws TimetableNotFoundException {
         return retrieveDocumentFromUrl(UrlResolver.getLineRouteUrl(lineNumber, direction));
     }
 
     @Override
-    Document getTimetableDocument(LineNumber lineNumber, String page) throws UnsupportedLineNumberException, TimetableNotFoundException {
+    Document getTimetableDocument(LineNumber lineNumber, String page) throws TimetableNotFoundException {
         return retrieveDocumentFromUrl(UrlResolver.getStationTimetableUrl(lineNumber, page));
     }
 

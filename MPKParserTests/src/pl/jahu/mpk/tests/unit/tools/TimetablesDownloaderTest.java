@@ -15,8 +15,6 @@ import pl.jahu.mpk.providers.TimetableProvider;
 import pl.jahu.mpk.tools.TimetablesDownloader;
 import pl.jahu.mpk.utils.DownloadUtils;
 import pl.jahu.mpk.utils.UrlResolver;
-import pl.jahu.mpk.validators.exceptions.NoDataProvidedException;
-import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import javax.inject.Singleton;
 import java.util.ArrayList;
@@ -79,7 +77,7 @@ public class TimetablesDownloaderTest {
 
 
     @Test
-    public void directionsDownloadTest() throws UnsupportedLineNumberException, NoDataProvidedException, TimetableNotFoundException, LineRouteParseException {
+    public void directionsDownloadTest() throws TimetableNotFoundException, LineRouteParseException {
         when(timetableProviderMock.getLinesList()).thenReturn(buildLinesList(new int[]{1, 3, 4, 6, 7, 8, 10, 12, 15, 16, 21}));
         // there's no fifth direction, so exception should be thrown and download process finished
         doThrow(new TimetableNotFoundException()).when(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0016/0016w005.htm"), anyString());
@@ -95,7 +93,7 @@ public class TimetablesDownloaderTest {
     }
 
     @Test
-    public void routeDownloadTest() throws UnsupportedLineNumberException, TimetableNotFoundException, NoDataProvidedException, LineRouteParseException {
+    public void routeDownloadTest() throws TimetableNotFoundException, LineRouteParseException {
         when(timetableProviderMock.getLinesList()).thenReturn(buildLinesList(new int[]{1, 3, 4, 6, 7, 8, 10, 12, 15, 16, 21}));
         when(timetableProviderMock.getLineRoute(new LineNumber(8), 1)).thenReturn(buildRouteStationsList());
         // there's no second direction, so exception should be thrown and download process finished
@@ -116,7 +114,7 @@ public class TimetablesDownloaderTest {
     }
 
     @Test
-    public void differentLinesTest() throws UnsupportedLineNumberException, TimetableNotFoundException, NoDataProvidedException {
+    public void differentLinesTest() throws TimetableNotFoundException {
         when(timetableProviderMock.getLinesList()).thenReturn(buildLinesList(new int[]{1, 3, 6, 7, 8, 10, 12, 15, 16, 21}));
         // just one direction for each line
         doThrow(new TimetableNotFoundException()).when(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0003/0003w002.htm"), anyString());
@@ -140,7 +138,7 @@ public class TimetablesDownloaderTest {
 
     /******************** API ********************/
 
-    private List<LineNumber> buildLinesList(int[] numbers) throws UnsupportedLineNumberException {
+    private List<LineNumber> buildLinesList(int[] numbers) {
         List<LineNumber> linesList = new ArrayList<LineNumber>();
         for (int number : numbers) {
             linesList.add(new LineNumber(number));

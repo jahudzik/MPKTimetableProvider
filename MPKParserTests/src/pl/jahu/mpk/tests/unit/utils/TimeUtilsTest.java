@@ -2,7 +2,6 @@ package pl.jahu.mpk.tests.unit.utils;
 
 import org.junit.Test;
 import pl.jahu.mpk.enums.DayTypes;
-import pl.jahu.mpk.parsers.exceptions.UnsupportedDayTypesConfigurationException;
 import pl.jahu.mpk.utils.Time;
 import pl.jahu.mpk.utils.TimeUtils;
 
@@ -21,7 +20,7 @@ public class TimeUtilsTest {
 
 
     @Test
-    public void testSunday() throws UnsupportedDayTypesConfigurationException {
+    public void testSunday() {
         assertTrue(TimeUtils.validateDayType(DayTypes.EVERYDAY, Calendar.SUNDAY));
         assertFalse(TimeUtils.validateDayType(DayTypes.MONDAY_TO_THURSDAY, Calendar.SUNDAY));
         assertFalse(TimeUtils.validateDayType(DayTypes.SATURDAY, Calendar.SUNDAY));
@@ -31,7 +30,7 @@ public class TimeUtilsTest {
     }
 
     @Test
-    public void testMonday() throws UnsupportedDayTypesConfigurationException {
+    public void testMonday() {
         assertTrue(TimeUtils.validateDayType(DayTypes.EVERYDAY, Calendar.MONDAY));
         assertTrue(TimeUtils.validateDayType(DayTypes.MONDAY_TO_THURSDAY, Calendar.MONDAY));
         assertFalse(TimeUtils.validateDayType(DayTypes.SATURDAY, Calendar.MONDAY));
@@ -41,7 +40,7 @@ public class TimeUtilsTest {
     }
 
     @Test
-    public void testThursday() throws UnsupportedDayTypesConfigurationException {
+    public void testThursday() {
         assertTrue(TimeUtils.validateDayType(DayTypes.EVERYDAY, Calendar.THURSDAY));
         assertTrue(TimeUtils.validateDayType(DayTypes.MONDAY_TO_THURSDAY, Calendar.THURSDAY));
         assertFalse(TimeUtils.validateDayType(DayTypes.SATURDAY, Calendar.THURSDAY));
@@ -51,7 +50,7 @@ public class TimeUtilsTest {
     }
 
     @Test
-    public void testFriday() throws UnsupportedDayTypesConfigurationException {
+    public void testFriday() {
         assertTrue(TimeUtils.validateDayType(DayTypes.EVERYDAY, Calendar.FRIDAY));
         assertFalse(TimeUtils.validateDayType(DayTypes.MONDAY_TO_THURSDAY, Calendar.FRIDAY));
         assertFalse(TimeUtils.validateDayType(DayTypes.SATURDAY, Calendar.FRIDAY));
@@ -62,7 +61,7 @@ public class TimeUtilsTest {
 
 
     @Test
-    public void testSaturday() throws UnsupportedDayTypesConfigurationException {
+    public void testSaturday() {
         assertTrue(TimeUtils.validateDayType(DayTypes.EVERYDAY, Calendar.SATURDAY));
         assertFalse(TimeUtils.validateDayType(DayTypes.MONDAY_TO_THURSDAY, Calendar.SATURDAY));
         assertTrue(TimeUtils.validateDayType(DayTypes.SATURDAY, Calendar.SATURDAY));
@@ -71,9 +70,9 @@ public class TimeUtilsTest {
         assertTrue(TimeUtils.validateDayType(DayTypes.WEEKEND_NIGHTS, Calendar.SATURDAY));
     }
 
-    @Test(expected = UnsupportedDayTypesConfigurationException.class)
-    public void testNull() throws UnsupportedDayTypesConfigurationException {
-        assertTrue(TimeUtils.validateDayType(null, Calendar.SATURDAY));
+    @Test
+    public void testNull() {
+        assertFalse(TimeUtils.validateDayType(null, Calendar.SATURDAY));
     }
 
 

@@ -1,7 +1,5 @@
 package pl.jahu.mpk.entities;
 
-import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
-
 /**
  * MPK Timetable Parser
  * Created by jahudzik on 2014-09-05.
@@ -11,18 +9,18 @@ public class LineNumber implements Comparable<LineNumber> {
     private String literal;
     private boolean numericOnly;
 
-    public LineNumber(int numeric) throws UnsupportedLineNumberException {
-        if (numeric < 0) {
-            throw new UnsupportedLineNumberException(Integer.toString(numeric));
+    public LineNumber(int numeric)  {
+        if (numeric < 0 || numeric > 9999) {
+            throw new IllegalArgumentException("Incorrect line number: " + Integer.toString(numeric));
         }
         this.numeric = numeric;
         this.literal = Integer.toString(numeric);
         this.numericOnly = true;
     }
 
-    public LineNumber(String literal) throws UnsupportedLineNumberException {
-        if (literal == null || literal.equals("")) {
-            throw new UnsupportedLineNumberException(literal);
+    public LineNumber(String literal)  {
+        if (literal == null || literal.equals("") || literal.length() > 4) {
+            throw new IllegalArgumentException("Incorrect line number: '" + literal + "'");
         }
         this.literal = literal;
         try {

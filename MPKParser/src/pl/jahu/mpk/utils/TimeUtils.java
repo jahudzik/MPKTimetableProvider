@@ -1,7 +1,6 @@
 package pl.jahu.mpk.utils;
 
 import pl.jahu.mpk.enums.DayTypes;
-import pl.jahu.mpk.parsers.exceptions.UnsupportedDayTypesConfigurationException;
 
 import java.util.Calendar;
 
@@ -10,9 +9,9 @@ import java.util.Calendar;
  */
 public class TimeUtils {
 
-    public static boolean validateDayType(DayTypes dayType, int dayOfWeek) throws UnsupportedDayTypesConfigurationException {
+    public static boolean validateDayType(DayTypes dayType, int dayOfWeek) {
         if (dayType == null) {
-            throw new UnsupportedDayTypesConfigurationException();
+            return false;
         }
         switch (dayType) {
             case WEEKDAY:
@@ -28,7 +27,7 @@ public class TimeUtils {
             case WEEKEND_NIGHTS:
                 return (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY);
             default:
-                throw new UnsupportedDayTypesConfigurationException(dayType.name());
+                return false;
         }
     }
 

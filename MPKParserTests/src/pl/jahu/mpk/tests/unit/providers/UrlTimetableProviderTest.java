@@ -18,8 +18,6 @@ import pl.jahu.mpk.providers.TimetableProvider;
 import pl.jahu.mpk.providers.UrlTimetableProvider;
 import pl.jahu.mpk.utils.DownloadUtils;
 import pl.jahu.mpk.utils.UrlResolver;
-import pl.jahu.mpk.validators.exceptions.NoDataProvidedException;
-import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import javax.inject.Singleton;
 import java.io.IOException;
@@ -95,14 +93,14 @@ public class UrlTimetableProviderTest {
     }
 
     @Test
-    public void getLinesListTest() throws UnsupportedLineNumberException, TimetableNotFoundException, NoDataProvidedException, IOException {
+    public void getLinesListTest() throws TimetableNotFoundException, IOException {
         timetableProvider.getLinesList();
         verify(downloadUtilsMock).downloadJsoupDocument(eq(UrlResolver.LINES_LIST_URL));
         verify(linesListParserMock).parse(documentMock);
     }
 
     @Test
-    public void getLineRouteTest() throws UnsupportedLineNumberException, TimetableNotFoundException, LineRouteParseException, IOException {
+    public void getLineRouteTest() throws TimetableNotFoundException, LineRouteParseException, IOException {
         LineNumber lineNumber = new LineNumber(5);
         timetableProvider.getLineRoute(lineNumber, 1);
         verify(downloadUtilsMock).downloadJsoupDocument(eq("http://rozklady.mpk.krakow.pl/aktualne/0005/0005w001.htm"));
@@ -110,7 +108,7 @@ public class UrlTimetableProviderTest {
     }
 
     @Test
-    public void getTimetableTest() throws UnsupportedLineNumberException, TimetableParseException, TimetableNotFoundException, IOException {
+    public void getTimetableTest() throws TimetableParseException, TimetableNotFoundException, IOException {
         LineNumber lineNumber = new LineNumber(605);
         timetableProvider.getTimetable(lineNumber, "0605t0017.htm");
         verify(downloadUtilsMock).downloadJsoupDocument(eq("http://rozklady.mpk.krakow.pl/aktualne/0605/0605t0017.htm"));

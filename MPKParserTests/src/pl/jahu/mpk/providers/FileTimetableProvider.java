@@ -6,7 +6,6 @@ import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.utils.LineNumbersResolver;
-import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,12 +39,12 @@ public class FileTimetableProvider extends TimetableProvider {
     }
 
     @Override
-    public Document getLineRouteDocument(LineNumber lineNo, int direction) throws UnsupportedLineNumberException, TimetableNotFoundException {
+    public Document getLineRouteDocument(LineNumber lineNo, int direction) throws TimetableNotFoundException {
         return getDocumentFromFile(getLineRouteFileName(lineNo, direction));
     }
 
     @Override
-    public Document getTimetableDocument(LineNumber lineNo, String page) throws UnsupportedLineNumberException, TimetableNotFoundException {
+    public Document getTimetableDocument(LineNumber lineNo, String page) throws TimetableNotFoundException {
         return getDocumentFromFile(page);
     }
 
@@ -57,11 +56,11 @@ public class FileTimetableProvider extends TimetableProvider {
         }
     }
 
-    private static String getLineRouteFileName(LineNumber lineNo, Integer direction) throws UnsupportedLineNumberException {
+    private static String getLineRouteFileName(LineNumber lineNo, Integer direction) {
         return LINE_ROUTE_FILE_PATTERN.replace(LINE_NUMBER_TOKEN, LineNumbersResolver.getLineString(lineNo)).replace(DIRECTION_TOKEN, direction.toString());
     }
 
-    public static String getStationTimetableFileName(LineNumber lineNo, int stationNo) throws UnsupportedLineNumberException {
+    public static String getStationTimetableFileName(LineNumber lineNo, int stationNo) {
         return TIMETABLE_FILE_PATTERN.replace(LINE_NUMBER_TOKEN, LineNumbersResolver.getLineString(lineNo)).replace(PAGE_TOKEN, LineNumbersResolver.getNumberLiteral(stationNo));
     }
 

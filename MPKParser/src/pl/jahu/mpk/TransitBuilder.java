@@ -11,7 +11,6 @@ import pl.jahu.mpk.utils.Time;
 import pl.jahu.mpk.validators.TransitsValidator;
 import pl.jahu.mpk.validators.exceptions.TransitValidationException;
 import pl.jahu.mpk.validators.exceptions.UnhandledTimetableDepartureException;
-import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import javax.inject.Inject;
 import java.util.*;
@@ -30,7 +29,7 @@ public class TransitBuilder {
     /**
      * Parses timetables of specified line in specified direction and builds list of transits.
      */
-    public static Map<DayTypes, List<Transit>> parseAndBuild(LineNumber lineNo, int direction) throws TimetableNotFoundException, LineRouteParseException, TimetableParseException, TransitValidationException, UnsupportedLineNumberException {
+    public static Map<DayTypes, List<Transit>> parseAndBuild(LineNumber lineNo, int direction) throws TimetableNotFoundException, LineRouteParseException, TimetableParseException, TransitValidationException {
         List<Timetable> timetables = new ArrayList<Timetable>();
         timetableProvider.getLineRoute(lineNo, direction);
         List<StationData> stations = timetableProvider.getLineRoute(lineNo, direction);

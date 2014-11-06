@@ -17,9 +17,7 @@ import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 import pl.jahu.mpk.providers.TimetableProvider;
 import pl.jahu.mpk.utils.LineNumbersResolver;
-import pl.jahu.mpk.validators.exceptions.NoDataProvidedException;
 import pl.jahu.mpk.validators.exceptions.TransitValidationException;
-import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -64,10 +62,6 @@ public class ShowTimetableIntegrationTest {
         } catch (TransitValidationException e) {
             e.printStackTrace();
             fail();
-        } catch (UnsupportedLineNumberException e) {
-            e.printStackTrace();
-        } catch (NoDataProvidedException e) {
-            e.printStackTrace();
         }
     }
 
@@ -78,7 +72,7 @@ public class ShowTimetableIntegrationTest {
         }
     }
 
-    public static void showTimetable(int firstLine, int lastLine, boolean printGeneralOutput, boolean printDetailedOutput) throws TimetableNotFoundException, LineRouteParseException, TimetableParseException, TransitValidationException, NoDataProvidedException, UnsupportedLineNumberException {
+    public static void showTimetable(int firstLine, int lastLine, boolean printGeneralOutput, boolean printDetailedOutput) throws TimetableNotFoundException, LineRouteParseException, TimetableParseException, TransitValidationException {
         ShowTimetableIntegrationTest.printGeneralOutput = printGeneralOutput;
         List<LineNumber> lines = timetableProvider.getLinesList();
         assertNotNull(lines);

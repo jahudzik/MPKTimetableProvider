@@ -5,7 +5,6 @@ import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.entities.Transit;
 import pl.jahu.mpk.entities.TransitStop;
 import pl.jahu.mpk.utils.Time;
-import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -18,14 +17,14 @@ public class TransitTest {
     /******************** TESTS ********************/
 
     @Test
-    public void testInitialization() throws UnsupportedLineNumberException {
+    public void testInitialization() {
         Transit transit = new Transit(new LineNumber(123));
         checkStopsList(transit, new TransitStop[]{});
     }
 
 
     @Test
-    public void testAddingStops() throws UnsupportedLineNumberException {
+    public void testAddingStops() {
         Transit transit = new Transit(new LineNumber(123));
         TransitStop stop1 = new TransitStop(new Time(15, 20), "station1");
         TransitStop stop2 = new TransitStop(new Time(15, 30), "station2");
@@ -42,19 +41,19 @@ public class TransitTest {
     }
 
     @Test
-    public void getDirectionsTest() throws UnsupportedLineNumberException {
+    public void getDirectionsTest() {
         Transit transit = new Transit(new LineNumber(1));
         assertEquals("[empty]", transit.getDirections());
     }
 
     @Test
-    public void toStringTest1() throws UnsupportedLineNumberException {
+    public void toStringTest1() {
         Transit transit = new Transit(new LineNumber(1));
         assertEquals("[empty]", transit.toString());
     }
 
     @Test
-    public void toStringTest2() throws UnsupportedLineNumberException {
+    public void toStringTest2() {
         Transit transit = new Transit(new LineNumber(1));
         transit.addStop(new TransitStop(new Time(10, 13), "station1"));
         transit.addStop(new TransitStop(new Time(10, 16), "station2"));

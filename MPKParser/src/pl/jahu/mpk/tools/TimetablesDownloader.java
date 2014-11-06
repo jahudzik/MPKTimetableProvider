@@ -8,8 +8,6 @@ import pl.jahu.mpk.providers.TimetableProvider;
 import pl.jahu.mpk.utils.DownloadUtils;
 import pl.jahu.mpk.utils.LineNumbersResolver;
 import pl.jahu.mpk.utils.UrlResolver;
-import pl.jahu.mpk.validators.exceptions.NoDataProvidedException;
-import pl.jahu.mpk.validators.exceptions.UnsupportedLineNumberException;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -42,7 +40,7 @@ public class TimetablesDownloader {
         downloadUtils.downloadUrl(UrlResolver.STATIONS_LIST_URL, TIMETABLES_LOCATION + STATIONS_PAGE_NAME);
     }
 
-    public static void downloadTimetables(int firstLine, int lastLine) throws NoDataProvidedException, UnsupportedLineNumberException {
+    public static void downloadTimetables(int firstLine, int lastLine) {
         downloadTimetables(new LineNumber(firstLine), new LineNumber(lastLine));
     }
 
@@ -76,10 +74,6 @@ public class TimetablesDownloader {
         } catch (TimetableNotFoundException e) {
             e.printStackTrace();
         } catch (LineRouteParseException e) {
-            e.printStackTrace();
-        } catch (NoDataProvidedException e) {
-            e.printStackTrace();
-        } catch (UnsupportedLineNumberException e) {
             e.printStackTrace();
         }
     }

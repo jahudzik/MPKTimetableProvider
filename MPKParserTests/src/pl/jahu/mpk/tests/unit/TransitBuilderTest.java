@@ -9,7 +9,10 @@ import pl.jahu.mpk.entities.Transit;
 import pl.jahu.mpk.enums.DayTypes;
 import pl.jahu.mpk.tests.TestUtils;
 import pl.jahu.mpk.utils.TimeUtils;
-import pl.jahu.mpk.validators.exceptions.*;
+import pl.jahu.mpk.validators.exceptions.IncorrectTimeDifferenceBetweenStopsException;
+import pl.jahu.mpk.validators.exceptions.IncorrectTransitDurationException;
+import pl.jahu.mpk.validators.exceptions.TransitValidationException;
+import pl.jahu.mpk.validators.exceptions.UnhandledTimetableDepartureException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +43,7 @@ public class TransitBuilderTest {
 
 
     @Test
-      public void testRegularTimetables() throws TransitValidationException, UnsupportedLineNumberException {
+      public void testRegularTimetables() throws TransitValidationException {
         List<Timetable> timetables = new ArrayList<Timetable>();
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY, DayTypes.SUNDAY}, new int[][]{{12, 10, 12, 20, 12, 30}, {12,  0}}, STATIONS[0], 123, LAST_STATION));
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY, DayTypes.SUNDAY}, new int[][]{{12, 12, 12, 22, 12, 32}, {12,  2}}, STATIONS[1], 123, LAST_STATION));
@@ -64,7 +67,7 @@ public class TransitBuilderTest {
 
 
     @Test
-    public void testTimetablesWithDifferentBeginningAndEnd() throws TransitValidationException, UnsupportedLineNumberException {
+    public void testTimetablesWithDifferentBeginningAndEnd() throws TransitValidationException {
         List<Timetable> timetables = new ArrayList<Timetable>();
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 10        , 12, 30}}, STATIONS[0], 123, LAST_STATION));
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 12        , 12, 32}}, STATIONS[1], 123, LAST_STATION));
@@ -86,7 +89,7 @@ public class TransitBuilderTest {
     }
 
     @Test(expected = UnhandledTimetableDepartureException.class)
-    public void testUnhandledTimetableDepartureException() throws TransitValidationException, UnsupportedLineNumberException {
+    public void testUnhandledTimetableDepartureException() throws TransitValidationException {
         List<Timetable> timetables = new ArrayList<Timetable>();
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 10, 12, 20, 12, 30}}, STATIONS[0], 123, LAST_STATION));
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 12, 12, 22, 12, 32}}, STATIONS[1], 123, LAST_STATION));
@@ -98,7 +101,7 @@ public class TransitBuilderTest {
     }
 
     @Test(expected = IncorrectTransitDurationException.class)
-    public void testIncorrectTransitDurationException() throws TransitValidationException, UnsupportedLineNumberException {
+    public void testIncorrectTransitDurationException() throws TransitValidationException {
         List<Timetable> timetables = new ArrayList<Timetable>();
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 10, 12, 20, 12, 30}}, STATIONS[0], 123, LAST_STATION));
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 12, 12, 22, 12, 34}}, STATIONS[1], 123, LAST_STATION));
@@ -111,7 +114,7 @@ public class TransitBuilderTest {
 
 
     @Test(expected = IncorrectTimeDifferenceBetweenStopsException.class)
-    public void testIncorrectTimeDifferenceBetweenStopsException1() throws TransitValidationException, UnsupportedLineNumberException {
+    public void testIncorrectTimeDifferenceBetweenStopsException1() throws TransitValidationException {
         List<Timetable> timetables = new ArrayList<Timetable>();
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 10, 12, 20, 12, 30}}, STATIONS[0], 123, LAST_STATION));
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 12, 12, 22, 12, 32}}, STATIONS[1], 123, LAST_STATION));
@@ -124,7 +127,7 @@ public class TransitBuilderTest {
 
 
     @Test(expected = IncorrectTimeDifferenceBetweenStopsException.class)
-    public void testIncorrectTimeDifferenceBetweenStopsException2() throws TransitValidationException, UnsupportedLineNumberException {
+    public void testIncorrectTimeDifferenceBetweenStopsException2() throws TransitValidationException {
         List<Timetable> timetables = new ArrayList<Timetable>();
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 10, 12, 20, 12, 30}}, STATIONS[0], 123, LAST_STATION));
         timetables.add(buildTimetable(new DayTypes[]{DayTypes.WEEKDAY}, new int[][]{{12, 10, 12, 22, 12, 32}}, STATIONS[1], 123, LAST_STATION));
@@ -141,7 +144,7 @@ public class TransitBuilderTest {
     /**
      * Builds timetable based on passed int values representing times (grouped by day type)
      */
-    private Timetable buildTimetable(DayTypes[] dayTypes, int[][] timesMap, String station, int lineNo, String destStation) throws UnsupportedLineNumberException {
+    private Timetable buildTimetable(DayTypes[] dayTypes, int[][] timesMap, String station, int lineNo, String destStation) {
         Map<DayTypes, List<Departure>> map = new HashMap<DayTypes, List<Departure>>();
         for (int i = 0; i < dayTypes.length; i++) {
             int[] times = timesMap[i];
