@@ -12,12 +12,18 @@ public class UrlResolver {
     private final static String LINE_NUMBER_TOKEN = "@[line]";
     private final static String SEQUENCE_TOKEN = "@[seq]";
 
-    public static final String LINES_LIST_URL = "http://rozklady.mpk.krakow.pl/linie.aspx";
-    public static final String TIMETABLE_MENU_URL = "http://rozklady.mpk.krakow.pl/menu.aspx";
-    public static final String STATIONS_LIST_URL = "http://rozklady.mpk.krakow.pl/aktualne/przystan.htm";
+    private final static String HOST_URL = "http://rozklady.mpk.krakow.pl/";
+    private final static String ACT_HOST_URL = HOST_URL + "aktualne";
 
-    private static final String LINE_ROUTE_URL_PATTERN = "http://rozklady.mpk.krakow.pl/aktualne/" + LINE_NUMBER_TOKEN + "/" + LINE_NUMBER_TOKEN + "w00" + DIRECTION_TOKEN + ".htm";
-    private static final String TIMETABLE_URL_PATTERN = "http://rozklady.mpk.krakow.pl/aktualne/" + LINE_NUMBER_TOKEN + "/" + LINE_NUMBER_TOKEN + "t" + SEQUENCE_TOKEN + ".htm";
+    public static final String LINES_LIST_URL = HOST_URL + "linie.aspx";
+    public static final String TIMETABLE_MENU_URL = HOST_URL + "menu.aspx";
+    public static final String STATIONS_LIST_URL = ACT_HOST_URL + "/" + "przystan.htm";
+
+    private static final String LINE_ROUTE_FILE_PATTERN = LINE_NUMBER_TOKEN + "w00" + DIRECTION_TOKEN + ".htm";
+    private static final String LINE_ROUTE_URL_PATTERN = ACT_HOST_URL + "/" + LINE_NUMBER_TOKEN + "/" + LINE_ROUTE_FILE_PATTERN;
+
+    private static final String TIMETABLE_FILE_PATTERN = LINE_NUMBER_TOKEN + "t" + SEQUENCE_TOKEN + ".htm";
+    private static final String TIMETABLE_URL_PATTERN = ACT_HOST_URL + "/" + LINE_NUMBER_TOKEN + "/" + TIMETABLE_FILE_PATTERN;
 
     public static String getLineRouteUrl(LineNumber lineNo, Integer direction) {
         return LINE_ROUTE_URL_PATTERN.replace(LINE_NUMBER_TOKEN, getLineLiteral(lineNo)).replace(DIRECTION_TOKEN, direction.toString());
@@ -54,4 +60,13 @@ public class UrlResolver {
     public static String getSequenceNumberLiteral(Integer sequenceNumber) {
         return (sequenceNumber < 10) ? "00" + sequenceNumber.toString() : (sequenceNumber < 100) ? "0" + sequenceNumber.toString() : sequenceNumber.toString();
     }
+
+    public static String getLineRouteFileName(LineNumber lineNo, Integer direction) {
+        return LINE_ROUTE_FILE_PATTERN.replace(LINE_NUMBER_TOKEN, getLineLiteral(lineNo)).replace(DIRECTION_TOKEN, direction.toString());
+    }
+
+    public static String getStationTimetableFileName(LineNumber lineNumber, int sequenceNumber) {
+        return TIMETABLE_FILE_PATTERN.replace(LINE_NUMBER_TOKEN, getLineLiteral(lineNumber)).replace(SEQUENCE_TOKEN, getSequenceNumberLiteral(sequenceNumber));
+    }
+
 }
