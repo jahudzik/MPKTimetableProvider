@@ -1,6 +1,5 @@
 package pl.jahu.mpk.parsers;
 
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import pl.jahu.mpk.entities.LineNumber;
@@ -17,9 +16,9 @@ public class LinesListParser {
      * Parses lines list page and return list of lines
      *
      */
-    public List<LineNumber> parse(Document document) {
+    public List<LineNumber> parse(ParsableData parsableData) {
         List<LineNumber> lines = new ArrayList<LineNumber>();
-        Elements links = document.getElementsByTag("a");
+        Elements links = parsableData.getDocument().getElementsByTag("a");
         for (Element link : links) {
             // ensure this is a link to line details - it should have "[line_number]rw" substring (ex http://rozklady.mpk.krakow.pl/aktualne/0164/0164rw01.htm)
             String href = link.attr("href");

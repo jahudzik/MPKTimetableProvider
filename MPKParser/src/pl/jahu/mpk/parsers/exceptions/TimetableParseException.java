@@ -5,8 +5,8 @@ package pl.jahu.mpk.parsers.exceptions;
  */
 public class TimetableParseException extends Exception {
 
-    public TimetableParseException(String message) {
-        super(message);
+    public TimetableParseException(String reason, String location) {
+        super(reason + " [location: " + location + "]");
     }
 
 }

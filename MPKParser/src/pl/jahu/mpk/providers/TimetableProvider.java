@@ -1,12 +1,8 @@
 package pl.jahu.mpk.providers;
 
-import org.jsoup.nodes.Document;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.entities.Timetable;
-import pl.jahu.mpk.parsers.LineRouteParser;
-import pl.jahu.mpk.parsers.LinesListParser;
-import pl.jahu.mpk.parsers.StationData;
-import pl.jahu.mpk.parsers.TimetableParser;
+import pl.jahu.mpk.parsers.*;
 import pl.jahu.mpk.parsers.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
@@ -29,30 +25,30 @@ public abstract class TimetableProvider {
     @Inject
     TimetableParser timetableParser;
 
-    abstract Document getLinesListDocument() throws TimetableNotFoundException;
+    abstract ParsableData getLinesListDocument() throws TimetableNotFoundException;
 
-    abstract Document getLineRouteDocument(LineNumber lineNumber, int direction) throws TimetableNotFoundException;
+    abstract ParsableData getLineRouteDocument(LineNumber lineNumber, int direction) throws TimetableNotFoundException;
 
-    abstract Document getTimetableDocument(LineNumber lineNumber, String page) throws TimetableNotFoundException;
+    abstract ParsableData getTimetableDocument(LineNumber lineNumber, String page) throws TimetableNotFoundException;
 
     public List<LineNumber> getLinesList() throws TimetableNotFoundException {
-        Document document = getLinesListDocument();
-        return linesListParser.parse(document);
+        ParsableData data = getLinesListDocument();
+        return linesListParser.parse(data);
     }
 
     public List<StationData> getLineRoute(LineNumber lineNumber, int direction) throws LineRouteParseException, TimetableNotFoundException {
-        Document document = getLineRouteDocument(lineNumber, direction);
-        return lineRouteParser.parse(document);
+        ParsableData data = getLineRouteDocument(lineNumber, direction);
+        return lineRouteParser.parse(data);
     }
 
     public String getLineRouteDestination(LineNumber lineNumber, int direction) throws LineRouteParseException, TimetableNotFoundException {
-        Document document = getLineRouteDocument(lineNumber, direction);
-        return lineRouteParser.retrieveDestination(document);
+        ParsableData data = getLineRouteDocument(lineNumber, direction);
+        return lineRouteParser.retrieveDestination(data);
     }
 
     public Timetable getTimetable(LineNumber lineNumber, String page) throws TimetableParseException, TimetableNotFoundException {
-        Document document = getTimetableDocument(lineNumber, page);
-        return timetableParser.parse(document, lineNumber);
+        ParsableData data = getTimetableDocument(lineNumber, page);
+        return timetableParser.parse(data, lineNumber);
     }
 
 }

@@ -1,8 +1,8 @@
 package pl.jahu.mpk.providers;
 
-import org.jsoup.nodes.Document;
 import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.entities.LineNumber;
+import pl.jahu.mpk.parsers.ParsableData;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.utils.DownloadUtils;
 import pl.jahu.mpk.utils.UrlResolver;
@@ -24,24 +24,24 @@ public class UrlTimetableProvider extends TimetableProvider {
     }
 
     @Override
-    Document getLinesListDocument() throws TimetableNotFoundException {
+    ParsableData getLinesListDocument() throws TimetableNotFoundException {
         return retrieveDocumentFromUrl(UrlResolver.LINES_LIST_URL);
     }
 
     @Override
-    Document getLineRouteDocument(LineNumber lineNumber, int direction) throws TimetableNotFoundException {
+    ParsableData getLineRouteDocument(LineNumber lineNumber, int direction) throws TimetableNotFoundException {
         return retrieveDocumentFromUrl(UrlResolver.getLineRouteUrl(lineNumber, direction));
     }
 
     @Override
-    Document getTimetableDocument(LineNumber lineNumber, String page) throws TimetableNotFoundException {
+    ParsableData getTimetableDocument(LineNumber lineNumber, String page) throws TimetableNotFoundException {
         return retrieveDocumentFromUrl(UrlResolver.getStationTimetableUrl(lineNumber, page));
     }
 
-    private Document retrieveDocumentFromUrl(String url) throws TimetableNotFoundException {
-        Document document = null;
+    private ParsableData retrieveDocumentFromUrl(String url) throws TimetableNotFoundException {
+        ParsableData parsableData = null;
         try {
-            document = downloadUtils.downloadJsoupDocument(url);
+            parsableData = downloadUtils.downloadJsoupDocument(url);
         } catch (IOException e) {
             // TODO handle it properly
             if (e.toString().contains("Status=404")) {
@@ -50,7 +50,7 @@ public class UrlTimetableProvider extends TimetableProvider {
                 e.printStackTrace();
             }
         }
-        return document;
+        return parsableData;
     }
 
 }

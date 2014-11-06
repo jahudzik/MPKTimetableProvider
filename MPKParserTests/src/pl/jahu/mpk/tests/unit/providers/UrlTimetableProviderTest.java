@@ -2,7 +2,6 @@ package pl.jahu.mpk.tests.unit.providers;
 
 import dagger.Module;
 import dagger.Provides;
-import org.jsoup.nodes.Document;
 import org.junit.Before;
 import org.junit.Test;
 import pl.jahu.mpk.AppModule;
@@ -10,6 +9,7 @@ import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parsers.LineRouteParser;
 import pl.jahu.mpk.parsers.LinesListParser;
+import pl.jahu.mpk.parsers.ParsableData;
 import pl.jahu.mpk.parsers.TimetableParser;
 import pl.jahu.mpk.parsers.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
@@ -39,8 +39,10 @@ public class UrlTimetableProviderTest {
     private TimetableParser timetableParserMock;
 
     private DownloadUtils downloadUtilsMock;
+
+    private ParsableData parsableDataMock;
+
     private TimetableProvider timetableProvider;
-    private Document documentMock;
 
     @Module(
             injects = {
@@ -88,15 +90,15 @@ public class UrlTimetableProviderTest {
     public void setUp() throws IOException {
         DaggerApplication.init(new UrlTimetableProviderTestModule());
         timetableProvider = new UrlTimetableProvider();
-        documentMock = mock(Document.class);
-        when(downloadUtilsMock.downloadJsoupDocument(anyString())).thenReturn(documentMock);
+        parsableDataMock = mock(ParsableData.class);
+        when(downloadUtilsMock.downloadJsoupDocument(anyString())).thenReturn(parsableDataMock);
     }
 
     @Test
     public void getLinesListTest() throws TimetableNotFoundException, IOException {
         timetableProvider.getLinesList();
         verify(downloadUtilsMock).downloadJsoupDocument(eq(UrlResolver.LINES_LIST_URL));
-        verify(linesListParserMock).parse(documentMock);
+        verify(linesListParserMock).parse(parsableDataMock);
     }
 
     @Test
@@ -104,7 +106,7 @@ public class UrlTimetableProviderTest {
         LineNumber lineNumber = new LineNumber(5);
         timetableProvider.getLineRoute(lineNumber, 1);
         verify(downloadUtilsMock).downloadJsoupDocument(eq("http://rozklady.mpk.krakow.pl/aktualne/0005/0005w001.htm"));
-        verify(lineRouteParserMock).parse(documentMock);
+        verify(lineRouteParserMock).parse(parsableDataMock);
     }
 
     @Test
@@ -112,7 +114,7 @@ public class UrlTimetableProviderTest {
         LineNumber lineNumber = new LineNumber(605);
         timetableProvider.getTimetable(lineNumber, "0605t0017.htm");
         verify(downloadUtilsMock).downloadJsoupDocument(eq("http://rozklady.mpk.krakow.pl/aktualne/0605/0605t0017.htm"));
-        verify(timetableParserMock).parse(documentMock, lineNumber);
+        verify(timetableParserMock).parse(parsableDataMock, lineNumber);
     }
 
 }

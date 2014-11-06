@@ -48,7 +48,7 @@ public class TimetableParserTest {
                 "</tr></body></table></html>";
         Elements inputElements = Jsoup.parse(inputHtml).getElementsByTag("td");
 
-        Set<DayTypes> dayTypes = new HashSet<DayTypes>(TimetableParser.retrieveDayTypesConfiguration(inputElements));
+        Set<DayTypes> dayTypes = new HashSet<DayTypes>(TimetableParser.retrieveDayTypesConfiguration(inputElements, null));
         checkDayTypes(dayTypes, new DayTypes[]{DayTypes.WEEKDAY, DayTypes.SATURDAY, DayTypes.SUNDAY, DayTypes.EVERYDAY});
     }
 
@@ -60,7 +60,7 @@ public class TimetableParserTest {
                 "<td>Święta</td>" +
                 "</tr></table></body></html>";
         Elements inputElements = Jsoup.parse(inputHtml).getElementsByTag("td");
-        TimetableParser.retrieveDayTypesConfiguration(inputElements);
+        TimetableParser.retrieveDayTypesConfiguration(inputElements, null);
     }
 
 

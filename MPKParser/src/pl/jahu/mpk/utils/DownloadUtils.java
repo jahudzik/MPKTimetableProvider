@@ -3,6 +3,7 @@ package pl.jahu.mpk.utils;
 import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import pl.jahu.mpk.parsers.ParsableData;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 
 import java.io.File;
@@ -24,8 +25,9 @@ public class DownloadUtils {
         }
     }
 
-    public Document downloadJsoupDocument(String url) throws IOException {
-        return  Jsoup.connect(url).get();
+    public ParsableData downloadJsoupDocument(String url) throws IOException {
+        Document document = Jsoup.connect(url).get();
+        return new ParsableData(document, url);
     }
 
 }

@@ -1,6 +1,5 @@
 package pl.jahu.mpk.parsers;
 
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import pl.jahu.mpk.parsers.exceptions.LineRouteParseException;
@@ -17,9 +16,9 @@ public class LineRouteParser {
      * Parses chosen line route page
      * @return list of stations on the route without destination station
      */
-    public List<StationData> parse(Document document) throws LineRouteParseException {
+    public List<StationData> parse(ParsableData parsableData) throws LineRouteParseException {
         List<StationData> list = new ArrayList<StationData>();
-        Elements stations = document.getElementsByAttributeValue("target", "R");
+        Elements stations = parsableData.getDocument().getElementsByAttributeValue("target", "R");
         for (Element station : stations) {
             String stationName = station.text();
             if (stationName.equals("")) {
@@ -39,9 +38,9 @@ public class LineRouteParser {
      * Parses chosen line route page and returns destination
      * @return name of a destination station
      */
-    public String retrieveDestination(Document document) throws LineRouteParseException {
+    public String retrieveDestination(ParsableData parsableData) throws LineRouteParseException {
         String destinationName = null;
-        Elements bullets = document.getElementsByTag("li");
+        Elements bullets = parsableData.getDocument().getElementsByTag("li");
         for (Element bullet : bullets) {
             Elements links = bullet.getElementsByTag("a");
             if (links.size() == 0) {
