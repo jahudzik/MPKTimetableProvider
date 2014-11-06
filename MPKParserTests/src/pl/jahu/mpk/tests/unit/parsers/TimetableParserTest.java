@@ -11,7 +11,7 @@ import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.entities.Timetable;
 import pl.jahu.mpk.enums.DayTypes;
 import pl.jahu.mpk.parsers.TimetableParser;
-import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
+import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 import pl.jahu.mpk.providers.TimetableProvider;
 import pl.jahu.mpk.tests.TestUtils;
@@ -65,7 +65,7 @@ public class TimetableParserTest {
 
 
     @Test
-    public void testTimetable1Standard() throws TimetableParseException, TimetableNotFoundException {
+    public void testTimetable1Standard() throws TimetableParseException, ParsableDataNotFoundException {
         Timetable timetable = timetableProvider.getTimetable(new LineNumber(1), "0001t001.htm");
         checkTimetableGeneralInfo(timetable, "Wzgórza Krzesławickie", "SALWATOR", 1);
 
@@ -82,7 +82,7 @@ public class TimetableParserTest {
 
 
     @Test
-    public void testTimetable2WithLegend() throws TimetableNotFoundException, TimetableParseException {
+    public void testTimetable2WithLegend() throws ParsableDataNotFoundException, TimetableParseException {
         Timetable timetable = timetableProvider.getTimetable(new LineNumber(22), "0022t0001.htm");
         checkTimetableGeneralInfo(timetable, "Borek Fałęcki", "WALCOWNIA", 22);
 
@@ -100,7 +100,7 @@ public class TimetableParserTest {
 
 
     @Test
-    public void testTimetable3WithEverydayType() throws TimetableParseException, TimetableNotFoundException {
+    public void testTimetable3WithEverydayType() throws TimetableParseException, ParsableDataNotFoundException {
         Timetable timetable = timetableProvider.getTimetable(new LineNumber(601), "0601t0001.htm");
         checkTimetableGeneralInfo(timetable, "Mydlniki", "CZYŻYNY DWORZEC", 601);
 
@@ -112,7 +112,7 @@ public class TimetableParserTest {
 
 
     @Test
-     public void testTimetable4WithWeekendSpecificDayTypes() throws TimetableParseException, TimetableNotFoundException {
+     public void testTimetable4WithWeekendSpecificDayTypes() throws TimetableParseException, ParsableDataNotFoundException {
         Timetable timetable = timetableProvider.getTimetable(new LineNumber(605), "0605t0001.htm");
         checkTimetableGeneralInfo(timetable, "Zajezdnia Płaszów", "BIELANY", 605);
 
@@ -127,7 +127,7 @@ public class TimetableParserTest {
 
 
     @Test
-    public void testTimetable5WithTwoLegendEntries() throws TimetableParseException, TimetableNotFoundException {
+    public void testTimetable5WithTwoLegendEntries() throws TimetableParseException, ParsableDataNotFoundException {
         Timetable timetable = timetableProvider.getTimetable(new LineNumber(183), "0183t0001.htm");
         checkTimetableGeneralInfo(timetable, "Złocień", "DOM SPOKOJNEJ STAROŚCI", 183);
 
@@ -146,7 +146,7 @@ public class TimetableParserTest {
 
 
     @Test
-    public void testTimetable6WithTwoLegendEntriesForOneDeparture() throws TimetableParseException, TimetableNotFoundException {
+    public void testTimetable6WithTwoLegendEntriesForOneDeparture() throws TimetableParseException, ParsableDataNotFoundException {
         Timetable timetable = timetableProvider.getTimetable(new LineNumber(248), "0248t0001.htm");
         checkTimetableGeneralInfo(timetable, "Bronowice Małe", "ZELKÓW", 248);
 

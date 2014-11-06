@@ -12,7 +12,7 @@ import pl.jahu.mpk.entities.Timetable;
 import pl.jahu.mpk.entities.Transit;
 import pl.jahu.mpk.enums.DayTypes;
 import pl.jahu.mpk.parsers.data.StationData;
-import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
+import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 import pl.jahu.mpk.providers.TimetableProvider;
 import pl.jahu.mpk.utils.LineNumbersResolver;
@@ -49,7 +49,7 @@ public class ShowTimetableIntegrationTest {
     public void testShowingTimetable() {
         try {
             showTimetable(0, 1000, true, false);
-        } catch (TimetableNotFoundException e) {
+        } catch (ParsableDataNotFoundException e) {
             e.printStackTrace();
             fail();
         } catch (TimetableParseException e) {
@@ -68,7 +68,7 @@ public class ShowTimetableIntegrationTest {
         }
     }
 
-    public static void showTimetable(int firstLine, int lastLine, boolean printGeneralOutput, boolean printDetailedOutput) throws TimetableNotFoundException, TimetableParseException, TransitValidationException {
+    public static void showTimetable(int firstLine, int lastLine, boolean printGeneralOutput, boolean printDetailedOutput) throws ParsableDataNotFoundException, TimetableParseException, TransitValidationException {
         ShowTimetableIntegrationTest.printGeneralOutput = printGeneralOutput;
         List<LineNumber> lines = timetableProvider.getLinesList();
         assertNotNull(lines);
@@ -126,7 +126,7 @@ public class ShowTimetableIntegrationTest {
                         }
                         System.out.println("PASSED: {line=" + line + ", route='" + route.get(0).getName() + "'->'" + destination + "', stations=" + route.size() + ", departures={" + sb.toString() + "} }");
                     }
-                } catch (TimetableNotFoundException e) {
+                } catch (ParsableDataNotFoundException e) {
                     break;
                 }
             }

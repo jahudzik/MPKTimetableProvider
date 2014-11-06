@@ -5,7 +5,7 @@ import org.jsoup.nodes.Document;
 import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parsers.data.ParsableData;
-import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
+import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
 import pl.jahu.mpk.utils.LineNumbersResolver;
 
 import java.io.File;
@@ -35,27 +35,27 @@ public class FileTimetableProvider extends TimetableProvider {
     }
 
     @Override
-    public ParsableData getLinesListDocument() throws TimetableNotFoundException {
+    public ParsableData getLinesListDocument() throws ParsableDataNotFoundException {
         return getDocumentFromFile(LINES_LIST_FILE);
     }
 
     @Override
-    public ParsableData getLineRouteDocument(LineNumber lineNo, int direction) throws TimetableNotFoundException {
+    public ParsableData getLineRouteDocument(LineNumber lineNo, int direction) throws ParsableDataNotFoundException {
         return getDocumentFromFile(getLineRouteFileName(lineNo, direction));
     }
 
     @Override
-    public ParsableData getTimetableDocument(LineNumber lineNo, String page) throws TimetableNotFoundException {
+    public ParsableData getTimetableDocument(LineNumber lineNo, String page) throws ParsableDataNotFoundException {
         return getDocumentFromFile(page);
     }
 
-    private ParsableData getDocumentFromFile(String fileName) throws TimetableNotFoundException {
+    private ParsableData getDocumentFromFile(String fileName) throws ParsableDataNotFoundException {
         try {
             String fileLocation = filesLocation + "/" + fileName;
             Document document = Jsoup.parse(new File(fileLocation), FILE_ENCODING);
             return new ParsableData(document, fileLocation);
         } catch (IOException e) {
-            throw new TimetableNotFoundException(e.getMessage());
+            throw new ParsableDataNotFoundException(e.getMessage());
         }
     }
 

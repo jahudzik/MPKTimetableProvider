@@ -2,7 +2,7 @@ package pl.jahu.mpk.tools;
 
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parsers.data.StationData;
-import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
+import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 import pl.jahu.mpk.providers.TimetableProvider;
 import pl.jahu.mpk.utils.DownloadUtils;
@@ -34,7 +34,7 @@ public class TimetablesDownloader {
      * - lines list page, showing which lines timetables has changed
      * - menu page, containing next timetable changes dates and links to new timetables
      */
-    public static void downloadInfo() throws TimetableNotFoundException {
+    public static void downloadInfo() throws ParsableDataNotFoundException {
         downloadUtils.downloadUrl(UrlResolver.LINES_LIST_URL, TIMETABLES_LOCATION + LINES_PAGE_NAME);
         downloadUtils.downloadUrl(UrlResolver.TIMETABLE_MENU_URL, TIMETABLES_LOCATION + MENU_PAGE_NAME);
         downloadUtils.downloadUrl(UrlResolver.STATIONS_LIST_URL, TIMETABLES_LOCATION + STATIONS_PAGE_NAME);
@@ -65,7 +65,7 @@ public class TimetablesDownloader {
                     direction++;
                 }
             }
-        } catch (TimetableNotFoundException e) {
+        } catch (ParsableDataNotFoundException e) {
             e.printStackTrace();
         } catch (TimetableParseException e) {
             e.printStackTrace();

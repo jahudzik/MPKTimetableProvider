@@ -3,7 +3,7 @@ package pl.jahu.mpk.providers;
 import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parsers.data.ParsableData;
-import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
+import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
 import pl.jahu.mpk.utils.DownloadUtils;
 import pl.jahu.mpk.utils.UrlResolver;
 
@@ -24,28 +24,28 @@ public class UrlTimetableProvider extends TimetableProvider {
     }
 
     @Override
-    ParsableData getLinesListDocument() throws TimetableNotFoundException {
+    ParsableData getLinesListDocument() throws ParsableDataNotFoundException {
         return retrieveDocumentFromUrl(UrlResolver.LINES_LIST_URL);
     }
 
     @Override
-    ParsableData getLineRouteDocument(LineNumber lineNumber, int direction) throws TimetableNotFoundException {
+    ParsableData getLineRouteDocument(LineNumber lineNumber, int direction) throws ParsableDataNotFoundException {
         return retrieveDocumentFromUrl(UrlResolver.getLineRouteUrl(lineNumber, direction));
     }
 
     @Override
-    ParsableData getTimetableDocument(LineNumber lineNumber, String page) throws TimetableNotFoundException {
+    ParsableData getTimetableDocument(LineNumber lineNumber, String page) throws ParsableDataNotFoundException {
         return retrieveDocumentFromUrl(UrlResolver.getStationTimetableUrl(lineNumber, page));
     }
 
-    private ParsableData retrieveDocumentFromUrl(String url) throws TimetableNotFoundException {
+    private ParsableData retrieveDocumentFromUrl(String url) throws ParsableDataNotFoundException {
         ParsableData parsableData = null;
         try {
             parsableData = downloadUtils.downloadJsoupDocument(url);
         } catch (IOException e) {
             // TODO handle it properly
             if (e.toString().contains("Status=404")) {
-                throw new TimetableNotFoundException();
+                throw new ParsableDataNotFoundException();
             } else {
                 e.printStackTrace();
             }

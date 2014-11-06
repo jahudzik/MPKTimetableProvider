@@ -5,7 +5,7 @@ import org.junit.Test;
 import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.DefaultTestModule;
 import pl.jahu.mpk.entities.LineNumber;
-import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
+import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
 import pl.jahu.mpk.providers.TimetableProvider;
 import pl.jahu.mpk.tests.TestUtils;
 
@@ -26,7 +26,7 @@ public class LinesListParserTest {
     private List<LineNumber> lines;
 
     @Before
-    public void setUp() throws TimetableNotFoundException {
+    public void setUp() throws ParsableDataNotFoundException {
         DaggerApplication.init(new DefaultTestModule());
         DaggerApplication.inject(this);
 

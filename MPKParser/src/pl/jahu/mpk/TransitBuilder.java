@@ -3,7 +3,7 @@ package pl.jahu.mpk;
 import pl.jahu.mpk.entities.*;
 import pl.jahu.mpk.enums.DayTypes;
 import pl.jahu.mpk.parsers.data.StationData;
-import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
+import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 import pl.jahu.mpk.providers.TimetableProvider;
 import pl.jahu.mpk.utils.Time;
@@ -28,7 +28,7 @@ public class TransitBuilder {
     /**
      * Parses timetables of specified line in specified direction and builds list of transits.
      */
-    public static Map<DayTypes, List<Transit>> parseAndBuild(LineNumber lineNo, int direction) throws TimetableNotFoundException, TimetableParseException, TransitValidationException {
+    public static Map<DayTypes, List<Transit>> parseAndBuild(LineNumber lineNo, int direction) throws ParsableDataNotFoundException, TimetableParseException, TransitValidationException {
         List<Timetable> timetables = new ArrayList<Timetable>();
         timetableProvider.getLineRoute(lineNo, direction);
         List<StationData> stations = timetableProvider.getLineRoute(lineNo, direction);

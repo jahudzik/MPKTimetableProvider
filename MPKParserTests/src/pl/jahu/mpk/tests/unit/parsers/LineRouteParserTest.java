@@ -6,7 +6,7 @@ import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.DefaultTestModule;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parsers.data.StationData;
-import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
+import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 import pl.jahu.mpk.providers.TimetableProvider;
 import pl.jahu.mpk.tests.TestUtils;
@@ -34,7 +34,7 @@ public class LineRouteParserTest {
     /******************** TESTS ********************/
 
     @Test
-    public void getLineRouteTest1() throws TimetableNotFoundException, TimetableParseException {
+    public void getLineRouteTest1() throws ParsableDataNotFoundException, TimetableParseException {
         List<StationData> stations = timetableProvider.getLineRoute(new LineNumber(1), 1);
         TestUtils.checkCollectionSize(stations, 29);
         checkStationData(stations.get(0), "Wzgórza Krzesławickie", "0001t001.htm");
@@ -42,7 +42,7 @@ public class LineRouteParserTest {
     }
 
     @Test
-    public void getLineRouteTest2() throws TimetableNotFoundException, TimetableParseException {
+    public void getLineRouteTest2() throws ParsableDataNotFoundException, TimetableParseException {
         List<StationData> stations = timetableProvider.getLineRoute(new LineNumber(22), 1);
         TestUtils.checkCollectionSize(stations, 37);
         checkStationData(stations.get(0), "Borek Fałęcki", "0022t001.htm");
@@ -50,7 +50,7 @@ public class LineRouteParserTest {
     }
 
     @Test
-    public void getLineRouteTest3() throws TimetableNotFoundException, TimetableParseException {
+    public void getLineRouteTest3() throws ParsableDataNotFoundException, TimetableParseException {
         List<StationData> stations = timetableProvider.getLineRoute(new LineNumber(248), 1);
         TestUtils.checkCollectionSize(stations, 22);
         checkStationData(stations.get(0), "Bronowice Małe", "0248t001.htm");
@@ -58,17 +58,17 @@ public class LineRouteParserTest {
     }
 
     @Test
-    public void retrieveDestinationTest1() throws TimetableNotFoundException, TimetableParseException {
+    public void retrieveDestinationTest1() throws ParsableDataNotFoundException, TimetableParseException {
         assertEquals("Salwator", timetableProvider.getLineRouteDestination(new LineNumber(1), 1));
     }
 
     @Test
-    public void retrieveDestinationTest2() throws TimetableNotFoundException, TimetableParseException {
+    public void retrieveDestinationTest2() throws ParsableDataNotFoundException, TimetableParseException {
         assertEquals("Walcownia", timetableProvider.getLineRouteDestination(new LineNumber(22), 1));
     }
 
     @Test
-    public void retrieveDestinationTest3() throws TimetableNotFoundException, TimetableParseException {
+    public void retrieveDestinationTest3() throws ParsableDataNotFoundException, TimetableParseException {
         assertEquals("Zelków", timetableProvider.getLineRouteDestination(new LineNumber(248), 1));
     }
 

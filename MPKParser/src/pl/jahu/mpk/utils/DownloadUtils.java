@@ -4,7 +4,6 @@ import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import pl.jahu.mpk.parsers.data.ParsableData;
-import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 
 import java.io.File;
 import java.io.IOException;

@@ -2,7 +2,7 @@ package pl.jahu.mpk.samples;
 
 import pl.jahu.mpk.AppModule;
 import pl.jahu.mpk.DaggerApplication;
-import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
+import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
 import pl.jahu.mpk.tools.TimetablesDownloader;
 
 /**
@@ -16,8 +16,8 @@ public class MpkSampleMain {
 
         try {
             TimetablesDownloader.downloadInfo();
-            TimetablesDownloader.downloadTimetables(1, 1000);
-        } catch (TimetableNotFoundException e) {
+            TimetablesDownloader.downloadTimetables(1, 3);
+        } catch (ParsableDataNotFoundException e) {
             e.printStackTrace();
         }
 
