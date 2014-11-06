@@ -2,8 +2,8 @@ package pl.jahu.mpk.tools;
 
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parsers.StationData;
-import pl.jahu.mpk.parsers.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
+import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 import pl.jahu.mpk.providers.TimetableProvider;
 import pl.jahu.mpk.utils.DownloadUtils;
 import pl.jahu.mpk.utils.LineNumbersResolver;
@@ -73,7 +73,7 @@ public class TimetablesDownloader {
             }
         } catch (TimetableNotFoundException e) {
             e.printStackTrace();
-        } catch (LineRouteParseException e) {
+        } catch (TimetableParseException e) {
             e.printStackTrace();
         }
     }

@@ -11,7 +11,6 @@ import pl.jahu.mpk.parsers.LineRouteParser;
 import pl.jahu.mpk.parsers.LinesListParser;
 import pl.jahu.mpk.parsers.ParsableData;
 import pl.jahu.mpk.parsers.TimetableParser;
-import pl.jahu.mpk.parsers.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 import pl.jahu.mpk.providers.TimetableProvider;
@@ -102,7 +101,7 @@ public class UrlTimetableProviderTest {
     }
 
     @Test
-    public void getLineRouteTest() throws TimetableNotFoundException, LineRouteParseException, IOException {
+    public void getLineRouteTest() throws TimetableNotFoundException, TimetableParseException, IOException {
         LineNumber lineNumber = new LineNumber(5);
         timetableProvider.getLineRoute(lineNumber, 1);
         verify(downloadUtilsMock).downloadJsoupDocument(eq("http://rozklady.mpk.krakow.pl/aktualne/0005/0005w001.htm"));

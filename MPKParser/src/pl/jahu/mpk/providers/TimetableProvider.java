@@ -3,7 +3,6 @@ package pl.jahu.mpk.providers;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.entities.Timetable;
 import pl.jahu.mpk.parsers.*;
-import pl.jahu.mpk.parsers.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 
@@ -36,17 +35,17 @@ public abstract class TimetableProvider {
         return linesListParser.parse(data);
     }
 
-    public List<StationData> getLineRoute(LineNumber lineNumber, int direction) throws LineRouteParseException, TimetableNotFoundException {
+    public List<StationData> getLineRoute(LineNumber lineNumber, int direction) throws TimetableNotFoundException, TimetableParseException {
         ParsableData data = getLineRouteDocument(lineNumber, direction);
         return lineRouteParser.parse(data);
     }
 
-    public String getLineRouteDestination(LineNumber lineNumber, int direction) throws LineRouteParseException, TimetableNotFoundException {
+    public String getLineRouteDestination(LineNumber lineNumber, int direction) throws TimetableNotFoundException, TimetableParseException {
         ParsableData data = getLineRouteDocument(lineNumber, direction);
         return lineRouteParser.retrieveDestination(data);
     }
 
-    public Timetable getTimetable(LineNumber lineNumber, String page) throws TimetableParseException, TimetableNotFoundException {
+    public Timetable getTimetable(LineNumber lineNumber, String page) throws TimetableNotFoundException, TimetableParseException {
         ParsableData data = getTimetableDocument(lineNumber, page);
         return timetableParser.parse(data, lineNumber);
     }

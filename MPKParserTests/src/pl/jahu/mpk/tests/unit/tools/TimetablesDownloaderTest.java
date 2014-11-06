@@ -9,8 +9,8 @@ import pl.jahu.mpk.AppModule;
 import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parsers.StationData;
-import pl.jahu.mpk.parsers.exceptions.LineRouteParseException;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
+import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 import pl.jahu.mpk.providers.TimetableProvider;
 import pl.jahu.mpk.tools.TimetablesDownloader;
 import pl.jahu.mpk.utils.DownloadUtils;
@@ -77,7 +77,7 @@ public class TimetablesDownloaderTest {
 
 
     @Test
-    public void directionsDownloadTest() throws TimetableNotFoundException, LineRouteParseException {
+    public void directionsDownloadTest() throws TimetableNotFoundException, TimetableParseException {
         when(timetableProviderMock.getLinesList()).thenReturn(buildLinesList(new int[]{1, 3, 4, 6, 7, 8, 10, 12, 15, 16, 21}));
         // there's no fifth direction, so exception should be thrown and download process finished
         doThrow(new TimetableNotFoundException()).when(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0016/0016w005.htm"), anyString());
@@ -93,7 +93,7 @@ public class TimetablesDownloaderTest {
     }
 
     @Test
-    public void routeDownloadTest() throws TimetableNotFoundException, LineRouteParseException {
+    public void routeDownloadTest() throws TimetableNotFoundException, TimetableParseException {
         when(timetableProviderMock.getLinesList()).thenReturn(buildLinesList(new int[]{1, 3, 4, 6, 7, 8, 10, 12, 15, 16, 21}));
         when(timetableProviderMock.getLineRoute(new LineNumber(8), 1)).thenReturn(buildRouteStationsList());
         // there's no second direction, so exception should be thrown and download process finished
