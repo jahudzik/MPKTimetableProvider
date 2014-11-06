@@ -28,7 +28,7 @@ import javax.inject.Singleton;
         overrides = true,
         includes = AppModule.class
 )
-public class TestModule {
+public class DefaultTestModule {
 
     public static final String FILES_LOCATION = "MPKParserTests/res";
 

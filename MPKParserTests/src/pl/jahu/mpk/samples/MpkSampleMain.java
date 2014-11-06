@@ -1,5 +1,6 @@
 package pl.jahu.mpk.samples;
 
+import pl.jahu.mpk.AppModule;
 import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.tools.TimetablesDownloader;
@@ -13,7 +14,7 @@ public class MpkSampleMain {
 
     public static void main(String args[]) {
 
-        DaggerApplication.init();
+        DaggerApplication.init(new AppModule());
 
         try {
             TimetablesDownloader.downloadInfo();

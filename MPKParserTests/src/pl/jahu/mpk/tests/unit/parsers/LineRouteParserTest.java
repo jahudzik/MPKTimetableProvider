@@ -2,7 +2,8 @@ package pl.jahu.mpk.tests.unit.parsers;
 
 import org.junit.Before;
 import org.junit.Test;
-import pl.jahu.mpk.DaggerTestApplication;
+import pl.jahu.mpk.DaggerApplication;
+import pl.jahu.mpk.DefaultTestModule;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parsers.StationData;
 import pl.jahu.mpk.parsers.exceptions.LineRouteParseException;
@@ -26,8 +27,8 @@ public class LineRouteParserTest {
 
     @Before
     public void setUp() {
-        DaggerTestApplication.init();
-        DaggerTestApplication.inject(this);
+        DaggerApplication.init(new DefaultTestModule());
+        DaggerApplication.inject(this);
     }
 
     /******************** TESTS ********************/

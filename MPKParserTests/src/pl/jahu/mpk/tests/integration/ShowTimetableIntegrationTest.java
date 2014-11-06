@@ -3,7 +3,8 @@ package pl.jahu.mpk.tests.integration;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
-import pl.jahu.mpk.DaggerTestApplication;
+import pl.jahu.mpk.DaggerApplication;
+import pl.jahu.mpk.DefaultTestModule;
 import pl.jahu.mpk.TransitBuilder;
 import pl.jahu.mpk.entities.Departure;
 import pl.jahu.mpk.entities.LineNumber;
@@ -44,7 +45,7 @@ public class ShowTimetableIntegrationTest {
 
     @Before
     public void setUp() {
-        DaggerTestApplication.inject(this);
+        DaggerApplication.init(new DefaultTestModule());
     }
 
     @Test

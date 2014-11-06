@@ -3,7 +3,6 @@ package pl.jahu.mpk.providers;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import pl.jahu.mpk.DaggerApplication;
-import pl.jahu.mpk.DaggerTestApplication;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parsers.exceptions.TimetableNotFoundException;
 import pl.jahu.mpk.utils.LineNumbersResolver;
@@ -31,7 +30,7 @@ public class FileTimetableProvider extends TimetableProvider {
 
 
     public FileTimetableProvider(String filesLocation) {
-        DaggerTestApplication.inject(this);
+        DaggerApplication.inject(this);
         this.filesLocation = filesLocation;
     }
 

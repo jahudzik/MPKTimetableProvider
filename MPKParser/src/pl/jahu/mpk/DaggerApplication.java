@@ -10,8 +10,8 @@ public class DaggerApplication {
 
     public static ObjectGraph graph;
 
-    public static void init() {
-        graph = ObjectGraph.create(new AppModule());
+    public static void init(Object module) {
+        graph = ObjectGraph.create(module);
         graph.injectStatics();
     }
 
