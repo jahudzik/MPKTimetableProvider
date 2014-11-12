@@ -32,15 +32,6 @@ public class TimetableParser {
     private Elements legendCells;
 
 
-    private String retrieveSpecificCell(Document document, String className, String contentDescription, String location) throws TimetableParseException {
-        Elements elementsByClass = document.getElementsByClass(className);
-        if (elementsByClass.size() == 0) {
-            throw new TimetableParseException("Could not parse " + contentDescription, location);
-        }
-        return elementsByClass.get(0).text();
-    }
-
-
     /**
      * Parser document and returns departures lists for each day type
      * @return Timetable object holding map with departures lists for each day type
@@ -104,6 +95,21 @@ public class TimetableParser {
         return new Timetable(station, lineNumber, destStation, departures);
     }
 
+
+    public static List<DayTypes> retrieveDayTypesConfiguration(Elements dayTypes, String location) throws TimetableParseException {
+        List<DayTypes> list = new ArrayList<DayTypes>();
+        for (Element dayType1 : dayTypes) {
+            String label = dayType1.text();
+            DayTypes dayType = ParserConstants.dayTypesNames.get(label);
+            if (dayType != null) {
+                list.add(dayType);
+            } else {
+                throw new TimetableParseException("Unsupported day type : '" + label + "'", location);
+            }
+        }
+        return list;
+    }
+
     /**
      * Returns list of departures for specified hour
      */
@@ -137,18 +143,12 @@ public class TimetableParser {
         return deps;
     }
 
-    public static List<DayTypes> retrieveDayTypesConfiguration(Elements dayTypes, String location) throws TimetableParseException {
-        List<DayTypes> list = new ArrayList<DayTypes>();
-        for (Element dayType1 : dayTypes) {
-            String label = dayType1.text();
-            DayTypes dayType = ParserConstants.dayTypesNames.get(label);
-            if (dayType != null) {
-                list.add(dayType);
-            } else {
-                throw new TimetableParseException("Unsupported day type : '" + label + "'", location);
-            }
+    private String retrieveSpecificCell(Document document, String className, String contentDescription, String location) throws TimetableParseException {
+        Elements elementsByClass = document.getElementsByClass(className);
+        if (elementsByClass.size() == 0) {
+            throw new TimetableParseException("Could not parse " + contentDescription, location);
         }
-        return list;
+        return elementsByClass.get(0).text();
     }
 
 

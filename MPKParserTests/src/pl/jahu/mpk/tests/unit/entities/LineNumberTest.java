@@ -249,9 +249,7 @@ public class LineNumberTest {
     }
 
 
-    /**
-     * *************** API *******************
-     */
+    /***************** API ********************/
 
     private void checkNumber(LineNumber lineNumber, int expectedNumeric, String expectedLiteral, boolean expectedIsNumeric) {
         assertEquals(expectedNumeric, lineNumber.getNumeric());

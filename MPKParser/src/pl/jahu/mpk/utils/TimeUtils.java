@@ -3,6 +3,7 @@ package pl.jahu.mpk.utils;
 import pl.jahu.mpk.enums.DayTypes;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by jahudzik on 2014-08-03.
@@ -40,6 +41,13 @@ public class TimeUtils {
 
     public static int timeValue(int hour, int min) {
         return hour * 60 + min;
+    }
+
+    public static Date buildDate(int day, int month, int year) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(0);
+        cal.set(year, month - 1, day);
+        return cal.getTime();
     }
 
 }
