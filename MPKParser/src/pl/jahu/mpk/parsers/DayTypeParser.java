@@ -62,11 +62,8 @@ public class DayTypeParser {
     }
 
     private static DayType merge(DayType dayType1, DayType dayType2, String location) throws TimetableParseException {
-        if (dayType1 == null) {
-            return dayType2;
-        }
-        if (dayType2 == null) {
-            return dayType1;
+        if (dayType1 == null || dayType2 == null) {
+            return (dayType1 == null) ? dayType2 : dayType1;
         }
         if (dayType1.getDaysOfWeek() == null || dayType2.getDaysOfWeek() == null) {
             throw new TimetableParseException("Cannot merge day types with dates: " + dayType1 + " & " + dayType2, location);

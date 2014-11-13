@@ -95,8 +95,8 @@ public class DayTypeTest {
     @Test
     public void matchesTest7() {
         DayType dayType = DayType.getInstance(new int[]{Calendar.THURSDAY}, false);
-        // matching with Thursday 02:15
-        assertFalse(dayType.matches(TimeUtils.buildDate(2, 15, 13, 11, 2014)));
+        // matching with Thursday 01:15
+        assertFalse(dayType.matches(TimeUtils.buildDate(1, 15, 13, 11, 2014)));
         // matching with Thursday 12:15
         assertTrue(dayType.matches(TimeUtils.buildDate(12, 15, 13, 11, 2014)));
     }
@@ -116,10 +116,17 @@ public class DayTypeTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void incorrectMatchingTimeTest() {
+    public void incorrectMatchingTimeTest1() {
         DayType dayType = DayType.getInstance(new int[]{Calendar.THURSDAY}, true);
         // matching nightly with 07:15
         assertFalse(dayType.matches(TimeUtils.buildDate(7, 15, 14, 11, 2014)));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void incorrectMatchingTimeTest2() {
+        DayType dayType = DayType.getInstance(new int[]{Calendar.THURSDAY}, false);
+        // matching daily with 02:15
+        assertFalse(dayType.matches(TimeUtils.buildDate(2, 15, 14, 11, 2014)));
     }
 
 

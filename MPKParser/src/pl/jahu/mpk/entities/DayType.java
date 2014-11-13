@@ -15,7 +15,7 @@ public class DayType {
 
     private final static int DAY_START = 3;
 
-    private final static int DAY_END = 2;
+    private final static int DAY_END = 1;
 
     private final static int NIGHT_START = 23;
 
@@ -28,10 +28,6 @@ public class DayType {
     private final Map<Integer, Boolean> daysOfWeek;
 
     private final boolean nightly;
-
-    public DayType(Map<Integer, Boolean> daysOfWeek) {
-        this(daysOfWeek, false);
-    }
 
     public DayType(Map<Integer, Boolean> daysOfWeek, boolean nightly) {
         this.startDate = null;
@@ -101,7 +97,7 @@ public class DayType {
                     return daysOfWeek.get(day);
                 }
                 if (hour <= DAY_END) {
-                    // any time between 00:00 and 02:59
+                    // any time between 00:00 and 01:59
                     return daysOfWeek.get(TimeUtils.previousDay(day));
                 }
                 throw new IllegalArgumentException("Incorrect time (" + hour + ":" + cal.get(Calendar.MINUTE)+ ") for daily day type");
