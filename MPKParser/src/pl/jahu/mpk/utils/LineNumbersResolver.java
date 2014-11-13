@@ -19,9 +19,9 @@ public class LineNumbersResolver {
     private Set<VehicleTypes> vehicleTypes;
 
     public LineNumbersResolver(boolean empty) {
-        this.areaTypes = new HashSet<AreaTypes>();
-        this.reasonTypes = new HashSet<ReasonTypes>();
-        this.vehicleTypes = new HashSet<VehicleTypes>();
+        this.areaTypes = new HashSet<>();
+        this.reasonTypes = new HashSet<>();
+        this.vehicleTypes = new HashSet<>();
         if (!empty) {
             this.areaTypes.add(AreaTypes.CITY);
             this.areaTypes.add(AreaTypes.AGGLOMERATION);

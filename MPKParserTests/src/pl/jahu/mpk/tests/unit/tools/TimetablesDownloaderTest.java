@@ -145,7 +145,7 @@ public class TimetablesDownloaderTest {
     /******************** API ********************/
 
     private List<LineNumber> buildLinesList(int[] numbers) {
-        List<LineNumber> linesList = new ArrayList<LineNumber>();
+        List<LineNumber> linesList = new ArrayList<>();
         for (int number : numbers) {
             linesList.add(new LineNumber(number));
         }
@@ -154,7 +154,7 @@ public class TimetablesDownloaderTest {
 
     private List<StationData> buildRouteStationsList() {
         LineNumber lineNumber = new LineNumber(8);
-        List<StationData> stationsList = new ArrayList<StationData>();
+        List<StationData> stationsList = new ArrayList<>();
         stationsList.add(new StationData("X1", lineNumber, 1));
         stationsList.add(new StationData("X2", lineNumber, 2));
         stationsList.add(new StationData("X3", lineNumber, 3));

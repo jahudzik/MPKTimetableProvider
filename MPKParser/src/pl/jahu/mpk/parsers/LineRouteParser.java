@@ -20,7 +20,7 @@ public class LineRouteParser {
      * @return list of stations on the route without destination station
      */
     public List<StationData> parse(LineNumber lineNumber, ParsableData parsableData) throws TimetableParseException {
-        List<StationData> list = new ArrayList<StationData>();
+        List<StationData> list = new ArrayList<>();
         Elements stations = parsableData.getDocument().getElementsByAttributeValue("target", "R");
         for (Element station : stations) {
             String stationName = station.text();

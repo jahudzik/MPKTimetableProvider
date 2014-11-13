@@ -45,13 +45,7 @@ public class ShowTimetableIntegrationTest {
     public void testShowingTimetable() {
         try {
             showTimetable(0, 1000, true, false);
-        } catch (ParsableDataNotFoundException e) {
-            e.printStackTrace();
-            fail();
-        } catch (TimetableParseException e) {
-            e.printStackTrace();
-            fail();
-        } catch (TransitValidationException e) {
+        } catch (ParsableDataNotFoundException | TimetableParseException | TransitValidationException e) {
             e.printStackTrace();
             fail();
         }
@@ -86,7 +80,7 @@ public class ShowTimetableIntegrationTest {
                     List<StationData> route = timetableProvider.getLineRoute(line, i);
                     assertNotNull(route);
                     assertTrue(route.size() > 0);
-                    List<Timetable> timetables = new ArrayList<Timetable>();
+                    List<Timetable> timetables = new ArrayList<>();
 
                     // for each station on the route...
                     for (StationData station : route) {

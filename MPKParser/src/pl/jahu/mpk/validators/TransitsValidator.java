@@ -27,7 +27,7 @@ public class TransitsValidator {
     }
 
     private static void validateTransitDurations(Map<DayType, List<Transit>> transitsMap) throws IncorrectTransitDurationException {
-        Map<String, Transit> durations = new HashMap<String, Transit>();
+        Map<String, Transit> durations = new HashMap<>();
         for (List<Transit> transits : transitsMap.values()) {
             for (Transit transit : transits) {
                 String key = transit.getStops().get(0).getStation() + "->" + transit.getDestStation();
@@ -46,7 +46,7 @@ public class TransitsValidator {
     }
 
     private static void validateDiffBetweenStops(Map<DayType, List<Transit>> transitsMap) throws IncorrectTimeDifferenceBetweenStopsException {
-        Map<String, DiffBetweenStopsInfo> durations = new HashMap<String, DiffBetweenStopsInfo>();
+        Map<String, DiffBetweenStopsInfo> durations = new HashMap<>();
         for (List<Transit> transits : transitsMap.values()) {
             for (Transit transit : transits) {
                 TransitStop prevStop = null;

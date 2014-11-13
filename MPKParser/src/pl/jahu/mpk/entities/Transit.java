@@ -20,7 +20,7 @@ public class Transit {
 
     public Transit(LineNumber line) {
         this.line = line;
-        stops = new ArrayList<TransitStop>();
+        stops = new ArrayList<>();
         stopsComparator = new TransitStopsComparator();
     }
 

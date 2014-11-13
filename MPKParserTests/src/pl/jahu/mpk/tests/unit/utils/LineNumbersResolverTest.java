@@ -5,7 +5,6 @@ import org.junit.Test;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.tests.TestUtils;
 import pl.jahu.mpk.utils.LineNumbersResolver;
-import pl.jahu.mpk.utils.UrlResolver;
 
 import java.util.Arrays;
 import java.util.List;

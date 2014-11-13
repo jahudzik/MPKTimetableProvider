@@ -141,10 +141,10 @@ public class TransitBuilderTest {
      * Builds timetable based on passed int values representing times (grouped by day type)
      */
     private Timetable buildTimetable(DayType[] dayTypes, int[][] timesMap, String station, int lineNo, String destStation) {
-        Map<DayType, List<Departure>> map = new HashMap<DayType, List<Departure>>();
+        Map<DayType, List<Departure>> map = new HashMap<>();
         for (int i = 0; i < dayTypes.length; i++) {
             int[] times = timesMap[i];
-            List<Departure> departures = new ArrayList<Departure>();
+            List<Departure> departures = new ArrayList<>();
             for (int j = 0; j < times.length; j+=2) {
                 departures.add(new Departure(times[j], times[j + 1]));
             }

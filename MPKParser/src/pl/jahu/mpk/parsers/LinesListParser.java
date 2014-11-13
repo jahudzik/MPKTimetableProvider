@@ -18,7 +18,7 @@ public class LinesListParser {
      *
      */
     public List<LineNumber> parse(ParsableData parsableData) {
-        List<LineNumber> lines = new ArrayList<LineNumber>();
+        List<LineNumber> lines = new ArrayList<>();
         Elements links = parsableData.getDocument().getElementsByTag("a");
         for (Element link : links) {
             // ensure this is a link to line details - it should have "[line_number]rw" substring (ex http://rozklady.mpk.krakow.pl/aktualne/0164/0164rw01.htm)

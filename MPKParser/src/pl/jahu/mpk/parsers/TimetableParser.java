@@ -37,7 +37,7 @@ public class TimetableParser {
      */
     public Timetable parse(ParsableData parsableData, LineNumber lineNumber) throws TimetableParseException {
         Document document = parsableData.getDocument();
-        Map<DayType, List<Departure>> departures = new HashMap<DayType, List<Departure>>();
+        Map<DayType, List<Departure>> departures = new HashMap<>();
         Elements rows = document.getElementsByClass(DEPARTURES_TABLE_CLASS).get(0).getElementsByTag("tr");
         if (rows.size() > 0) {
 
@@ -96,7 +96,7 @@ public class TimetableParser {
 
 
     public static List<DayType> retrieveDayTypeConfiguration(Elements dayTypes, boolean nightly, String location) throws TimetableParseException {
-        List<DayType> list = new ArrayList<DayType>();
+        List<DayType> list = new ArrayList<>();
         for (Element dayType1 : dayTypes) {
             String label = dayType1.text();
             DayType dayType = DayTypeParser.parse(label, nightly, location);
@@ -113,7 +113,7 @@ public class TimetableParser {
      * Returns list of departures for specified hour
      */
     private List<Departure> buildDeparturesList(int hour, String minuteString, String location) throws TimetableParseException {
-        List<Departure> deps = new ArrayList<Departure>();
+        List<Departure> deps = new ArrayList<>();
         String[] mins = minuteString.split(" ");
         for (String minString : mins) {
             try {

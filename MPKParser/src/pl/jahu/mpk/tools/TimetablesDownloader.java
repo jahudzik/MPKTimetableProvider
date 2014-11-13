@@ -65,9 +65,7 @@ public class TimetablesDownloader {
                     direction++;
                 }
             }
-        } catch (ParsableDataNotFoundException e) {
-            e.printStackTrace();
-        } catch (TimetableParseException e) {
+        } catch (ParsableDataNotFoundException | TimetableParseException e) {
             e.printStackTrace();
         }
 

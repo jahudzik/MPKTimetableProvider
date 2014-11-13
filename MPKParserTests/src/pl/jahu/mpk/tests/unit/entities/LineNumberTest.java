@@ -117,7 +117,7 @@ public class LineNumberTest {
 
     @Test
     public void testSorting1() {
-        List<LineNumber> numbers = new ArrayList<LineNumber>();
+        List<LineNumber> numbers = new ArrayList<>();
         numbers.add(new LineNumber(13));
         numbers.add(new LineNumber("6"));
 
@@ -127,7 +127,7 @@ public class LineNumberTest {
 
     @Test
     public void testSorting2() {
-        List<LineNumber> numbers = new ArrayList<LineNumber>();
+        List<LineNumber> numbers = new ArrayList<>();
         numbers.add(new LineNumber("6a"));
         numbers.add(new LineNumber("6"));
 
@@ -137,7 +137,7 @@ public class LineNumberTest {
 
     @Test
     public void testSorting3() {
-        List<LineNumber> numbers = new ArrayList<LineNumber>();
+        List<LineNumber> numbers = new ArrayList<>();
         numbers.add(new LineNumber(13));
         numbers.add(new LineNumber("Z6"));
 
@@ -148,7 +148,7 @@ public class LineNumberTest {
 
     @Test
     public void testSorting4() {
-        List<LineNumber> numbers = new ArrayList<LineNumber>();
+        List<LineNumber> numbers = new ArrayList<>();
         numbers.add(new LineNumber(16));
         numbers.add(new LineNumber("X"));
 
@@ -158,7 +158,7 @@ public class LineNumberTest {
 
     @Test
     public void testSorting5() {
-        List<LineNumber> numbers = new ArrayList<LineNumber>();
+        List<LineNumber> numbers = new ArrayList<>();
         numbers.add(new LineNumber("8c"));
         numbers.add(new LineNumber("8e"));
 
@@ -168,7 +168,7 @@ public class LineNumberTest {
 
     @Test
     public void testSorting6() {
-        List<LineNumber> numbers = new ArrayList<LineNumber>();
+        List<LineNumber> numbers = new ArrayList<>();
         numbers.add(new LineNumber("8c"));
         numbers.add(new LineNumber("E8"));
 
@@ -178,7 +178,7 @@ public class LineNumberTest {
 
     @Test
     public void testSorting7() {
-        List<LineNumber> numbers = new ArrayList<LineNumber>();
+        List<LineNumber> numbers = new ArrayList<>();
         numbers.add(new LineNumber("A"));
         numbers.add(new LineNumber("8e"));
 
@@ -188,7 +188,7 @@ public class LineNumberTest {
 
     @Test
     public void testSorting8() {
-        List<LineNumber> numbers = new ArrayList<LineNumber>();
+        List<LineNumber> numbers = new ArrayList<>();
         numbers.add(new LineNumber("Z2"));
         numbers.add(new LineNumber("Z1"));
 
@@ -198,7 +198,7 @@ public class LineNumberTest {
 
     @Test
     public void testSorting9() {
-        List<LineNumber> numbers = new ArrayList<LineNumber>();
+        List<LineNumber> numbers = new ArrayList<>();
         numbers.add(new LineNumber("M"));
         numbers.add(new LineNumber("M4"));
 
@@ -208,7 +208,7 @@ public class LineNumberTest {
 
     @Test
     public void testSorting10() {
-        List<LineNumber> numbers = new ArrayList<LineNumber>();
+        List<LineNumber> numbers = new ArrayList<>();
         numbers.add(new LineNumber("TM"));
         numbers.add(new LineNumber("P"));
 
@@ -219,7 +219,7 @@ public class LineNumberTest {
     
     @Test
     public void testSorting11() {
-        List<LineNumber> numbers = new ArrayList<LineNumber>();
+        List<LineNumber> numbers = new ArrayList<>();
         numbers.add(new LineNumber(13));
         numbers.add(new LineNumber("6"));
         numbers.add(new LineNumber("6a"));

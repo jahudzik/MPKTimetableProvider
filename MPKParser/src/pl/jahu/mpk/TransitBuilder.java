@@ -28,7 +28,7 @@ public class TransitBuilder {
      * Parses timetables of specified line in specified direction and builds list of transits.
      */
     public static Map<DayType, List<Transit>> parseAndBuild(LineNumber lineNo, int direction) throws ParsableDataNotFoundException, TimetableParseException, TransitValidationException {
-        List<Timetable> timetables = new ArrayList<Timetable>();
+        List<Timetable> timetables = new ArrayList<>();
         timetableProvider.getLineRoute(lineNo, direction);
         List<StationData> stations = timetableProvider.getLineRoute(lineNo, direction);
         for (StationData station : stations) {
@@ -55,7 +55,7 @@ public class TransitBuilder {
      * Converts list of timetables (all in common direction) into list of transits grouped by day types.
      */
     public static Map<DayType, List<Transit>> buildFromTimetables(List<Timetable> timetables) throws TransitValidationException {
-        Map<DayType, List<Transit>> resultMap = new HashMap<DayType, List<Transit>>();
+        Map<DayType, List<Transit>> resultMap = new HashMap<>();
         if (timetables != null) {
             Set<DayType> dayTypes = timetables.get(0).getDepartures().keySet();
             for (DayType dayType : dayTypes) {
