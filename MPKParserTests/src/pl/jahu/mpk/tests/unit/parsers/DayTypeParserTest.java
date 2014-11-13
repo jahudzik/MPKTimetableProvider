@@ -127,19 +127,38 @@ public class DayTypeParserTest {
     @Test
     public void nightTest1() throws TimetableParseException {
         DayType dayType = DayTypeParser.parse("Pt/Sob.", null);
-        checkDaysOfWeek(dayType, new int[]{Calendar.FRIDAY, Calendar.SATURDAY}, true);
+        checkDaysOfWeek(dayType, new int[]{Calendar.FRIDAY}, true);
     }
 
     @Test
     public void nightTest2() throws TimetableParseException {
         DayType dayType = DayTypeParser.parse("Sob./Św.", null);
-        checkDaysOfWeek(dayType, new int[]{Calendar.SATURDAY, Calendar.SUNDAY}, true);
+        checkDaysOfWeek(dayType, new int[]{Calendar.SATURDAY}, true);
     }
 
     @Test
     public void nightTest3() throws TimetableParseException {
         DayType dayType = DayTypeParser.parse("Pn/Wto", null);
-        checkDaysOfWeek(dayType, new int[]{Calendar.MONDAY, Calendar.TUESDAY}, true);
+        checkDaysOfWeek(dayType, new int[]{Calendar.MONDAY}, true);
+    }
+
+
+    @Test
+    public void mergeTest1() throws TimetableParseException {
+        DayType dayType = DayTypeParser.parse("Pt/Sob.,Sob./Św.", null);
+        checkDaysOfWeek(dayType, new int[]{Calendar.FRIDAY, Calendar.SATURDAY}, true);
+    }
+
+    @Test
+    public void mergeTest2() throws TimetableParseException {
+        DayType dayType = DayTypeParser.parse("Poniedziałek,Wtorek", null);
+        checkDaysOfWeek(dayType, new int[]{Calendar.MONDAY, Calendar.TUESDAY}, false);
+    }
+
+    @Test
+    public void mergeTest3() throws TimetableParseException {
+        DayType dayType = DayTypeParser.parse("Poniedziałek, Wtorek", null);
+        checkDaysOfWeek(dayType, new int[]{Calendar.MONDAY, Calendar.TUESDAY}, false);
     }
 
 
@@ -205,13 +224,13 @@ public class DayTypeParserTest {
             expectedValues[day] = true;
         }
         Map<Integer, Boolean> daysOfWeek = dayType.getDaysOfWeek();
-        assertEquals(expectedValues[Calendar.MONDAY], daysOfWeek.get(Calendar.MONDAY));
-        assertEquals(expectedValues[Calendar.TUESDAY], daysOfWeek.get(Calendar.TUESDAY));
-        assertEquals(expectedValues[Calendar.WEDNESDAY], daysOfWeek.get(Calendar.WEDNESDAY));
-        assertEquals(expectedValues[Calendar.THURSDAY], daysOfWeek.get(Calendar.THURSDAY));
-        assertEquals(expectedValues[Calendar.FRIDAY], daysOfWeek.get(Calendar.FRIDAY));
-        assertEquals(expectedValues[Calendar.SATURDAY], daysOfWeek.get(Calendar.SATURDAY));
-        assertEquals(expectedValues[Calendar.SUNDAY], daysOfWeek.get(Calendar.SUNDAY));
+        assertEquals(dayType.toString(), expectedValues[Calendar.MONDAY], daysOfWeek.get(Calendar.MONDAY));
+        assertEquals(dayType.toString(), expectedValues[Calendar.TUESDAY], daysOfWeek.get(Calendar.TUESDAY));
+        assertEquals(dayType.toString(), expectedValues[Calendar.WEDNESDAY], daysOfWeek.get(Calendar.WEDNESDAY));
+        assertEquals(dayType.toString(), expectedValues[Calendar.THURSDAY], daysOfWeek.get(Calendar.THURSDAY));
+        assertEquals(dayType.toString(), expectedValues[Calendar.FRIDAY], daysOfWeek.get(Calendar.FRIDAY));
+        assertEquals(dayType.toString(), expectedValues[Calendar.SATURDAY], daysOfWeek.get(Calendar.SATURDAY));
+        assertEquals(dayType.toString(), expectedValues[Calendar.SUNDAY], daysOfWeek.get(Calendar.SUNDAY));
         assertEquals(expectedNigtly, dayType.isNightly());
         assertNull(dayType.getStartDate());
         assertNull(dayType.getEndDate());

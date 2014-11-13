@@ -19,28 +19,63 @@ public class DayTypeParser {
 
 
     public static DayType parse(String literal, String location) throws TimetableParseException {
+        String[] entries = literal.replace(", ", ",").split(",");
+        if (entries.length == 1) {
+            return parseSingleDayType(literal, location);
+        } else {
+            // example: 'Pt/Sob.,Sob./Św.'
+            DayType mergedDayType = null;
+            for (String entry : entries) {
+                DayType singleDayType = parseSingleDayType(entry, location);
+                mergedDayType = merge(mergedDayType, singleDayType, location);
+            }
+            return mergedDayType;
+        }
+    }
 
+    private static DayType parseSingleDayType(String literal, String location) throws TimetableParseException {
+        // ex Poniedziałek, Dni powszednie, Święta, Wt.
         Map<Integer, Boolean> daysMap = parseDaysOfWeek(literal);
         if (daysMap != null) {
             return new DayType(daysMap, false);
         }
 
+        // ex Pn.-Czw., Sobota-Niedziela
         daysMap = parseDaysOfWeekPeriod(literal);
         if (daysMap != null) {
             return new DayType(daysMap, false);
         }
 
+        // ex Sob./Św., Czwartek/Piątek
         daysMap = parseNights(literal);
         if (daysMap != null) {
             return new DayType(daysMap, true);
         }
 
+        // ex 01.11.2014, 1-3.05.2015
         Date dates[] = parseDates(literal);
         if (dates != null) {
             return (dates.length == 1) ? new DayType(dates[0]) : new DayType(dates[0], dates[1]);
         }
 
         throw new TimetableParseException("Unsupported day type : '" + literal + "'", location);
+    }
+
+    private static DayType merge(DayType dayType1, DayType dayType2, String location) throws TimetableParseException {
+        if (dayType1 == null) {
+            return dayType2;
+        }
+        if (dayType2 == null) {
+            return dayType1;
+        }
+        if (dayType1.getDaysOfWeek() == null || dayType2.getDaysOfWeek() == null) {
+            throw new TimetableParseException("Cannot merge day types with dates: " + dayType1 + " & " + dayType2, location);
+        }
+        Map<Integer, Boolean> daysMap = new HashMap<>();
+        for (Integer day : dayType1.getDaysOfWeek().keySet()) {
+            daysMap.put(day, dayType1.getDaysOfWeek().get(day) || dayType2.getDaysOfWeek().get(day));
+        }
+        return new DayType(daysMap, dayType1.isNightly() && dayType2.isNightly());
     }
 
     private static Map<Integer, Boolean> parseDaysOfWeek(String literal) {
@@ -63,8 +98,15 @@ public class DayTypeParser {
         return parseTwoDaysCombined(literal, "-");
     }
 
+    /**
+     * For nightly 'A/B' (ex Sob./Św.) it should return map with just first day set for true
+     */
     private static Map<Integer, Boolean> parseNights(String literal) {
-        return parseTwoDaysCombined(literal, "/");
+        String[] values = literal.split("\\/");
+        if (values.length < 2) {
+            return null;
+        }
+        return parseDaysOfWeek(values[0]);
     }
 
     private static Date[] parseDates(String literal) {
