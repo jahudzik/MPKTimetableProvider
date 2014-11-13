@@ -83,6 +83,45 @@ public class DayTypeTest {
         assertFalse(dayType.matches(TimeUtils.buildDate(25, 12, 2014)));
     }
 
+    @Test
+    public void matchesTest6() {
+        DayType dayType = DayType.getInstance(new int[]{Calendar.THURSDAY}, false);
+        // matching with Friday 00:15
+        assertTrue(dayType.matches(TimeUtils.buildDate(0, 15, 14, 11, 2014)));
+        // matching with Friday 03:15
+        assertFalse(dayType.matches(TimeUtils.buildDate(3, 15, 14, 11, 2014)));
+    }
+
+    @Test
+    public void matchesTest7() {
+        DayType dayType = DayType.getInstance(new int[]{Calendar.THURSDAY}, false);
+        // matching with Thursday 02:15
+        assertFalse(dayType.matches(TimeUtils.buildDate(2, 15, 13, 11, 2014)));
+        // matching with Thursday 12:15
+        assertTrue(dayType.matches(TimeUtils.buildDate(12, 15, 13, 11, 2014)));
+    }
+
+    @Test
+    public void matchesNightTest1() {
+        DayType dayType = DayType.getInstance(new int[]{Calendar.THURSDAY}, true);
+        // matching with Thursday 23:15
+        assertTrue(dayType.matches(TimeUtils.buildDate(23, 15, 13, 11, 2014)));
+    }
+
+    @Test
+    public void matchesNightTest2() {
+        DayType dayType = DayType.getInstance(new int[]{Calendar.THURSDAY}, true);
+        // matching with Friday 03:15
+        assertTrue(dayType.matches(TimeUtils.buildDate(3, 15, 14, 11, 2014)));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void incorrectMatchingTimeTest() {
+        DayType dayType = DayType.getInstance(new int[]{Calendar.THURSDAY}, true);
+        // matching nightly with 07:15
+        assertFalse(dayType.matches(TimeUtils.buildDate(7, 15, 14, 11, 2014)));
+    }
+
 
     @Test
     public void toStringTest1() {

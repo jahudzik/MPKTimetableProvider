@@ -1,5 +1,7 @@
 package pl.jahu.mpk.entities;
 
+import pl.jahu.mpk.utils.TimeUtils;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,13 +13,20 @@ import java.util.Map;
  */
 public class DayType {
 
+    private final static int DAY_START = 3;
+
+    private final static int DAY_END = 2;
+
+    private final static int NIGHT_START = 23;
+
+    private final static int NIGHT_END = 6;
+
     private final Date startDate;
 
     private final Date endDate;
 
     private final Map<Integer, Boolean> daysOfWeek;
 
-    // TODO handle night day types
     private final boolean nightly;
 
     public DayType(Map<Integer, Boolean> daysOfWeek) {
@@ -73,8 +82,31 @@ public class DayType {
     public boolean matches(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+        int day = cal.get(Calendar.DAY_OF_WEEK);
         if (daysOfWeek != null) {
-            return daysOfWeek.get(cal.get(Calendar.DAY_OF_WEEK));
+            if (nightly) {
+                if (hour >= NIGHT_START) {
+                    // any time between 22:00 and 00:00
+                    return daysOfWeek.get(day);
+                }
+                if (hour <= NIGHT_END) {
+                    // any time between 00:00 and 06:59
+                    return daysOfWeek.get(TimeUtils.previousDay(day));
+                }
+                throw new IllegalArgumentException("Incorrect time (" + hour + ":" + cal.get(Calendar.MINUTE)+ ") for nightly day type");
+            } else {
+                if (hour >= DAY_START) {
+                    // any time between 03:00 and 00:00
+                    return daysOfWeek.get(day);
+                }
+                if (hour <= DAY_END) {
+                    // any time between 00:00 and 02:59
+                    return daysOfWeek.get(TimeUtils.previousDay(day));
+                }
+                throw new IllegalArgumentException("Incorrect time (" + hour + ":" + cal.get(Calendar.MINUTE)+ ") for daily day type");
+            }
+
         } else {
             return (date.compareTo(startDate) >= 0 && date.compareTo(endDate) <= 0);
         }

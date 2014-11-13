@@ -20,10 +20,18 @@ public class TimeUtils {
     }
 
     public static Date buildDate(int day, int month, int year) {
+        return buildDate(12, 0, day, month, year);
+    }
+
+    public static Date buildDate(int hour, int min, int day, int month, int year) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(0);
-        cal.set(year, month - 1, day);
+        cal.set(year, month - 1, day, hour, min);
         return cal.getTime();
+    }
+
+    public static int previousDay(int day) {
+        return (day != 1) ? day - 1 : 7;
     }
 
 }
