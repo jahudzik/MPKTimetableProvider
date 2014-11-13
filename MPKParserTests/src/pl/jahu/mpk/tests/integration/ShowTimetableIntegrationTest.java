@@ -6,11 +6,7 @@ import org.junit.Test;
 import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.DefaultTestModule;
 import pl.jahu.mpk.TransitBuilder;
-import pl.jahu.mpk.entities.Departure;
-import pl.jahu.mpk.entities.LineNumber;
-import pl.jahu.mpk.entities.Timetable;
-import pl.jahu.mpk.entities.Transit;
-import pl.jahu.mpk.enums.DayTypes;
+import pl.jahu.mpk.entities.*;
 import pl.jahu.mpk.parsers.data.StationData;
 import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
@@ -102,14 +98,14 @@ public class ShowTimetableIntegrationTest {
                         // parse and save timetable
                         actSequenceNumber = station.getSequenceNumber();
                         Timetable timetable = timetableProvider.getTimetable(line, station.getSequenceNumber());
-                        Map<DayTypes, List<Departure>> departures = timetable.getDepartures();
+                        Map<DayType, List<Departure>> departures = timetable.getDepartures();
                         assertNotNull(departures);
                         assertTrue(departures.size() > 0);
                         timetables.add(timetable);
                     }
 
                     // get list of all transits on the route (based on timetables)
-                    Map<DayTypes, List<Transit>> transitsMap = TransitBuilder.buildFromTimetables(timetables);
+                    Map<DayType, List<Transit>> transitsMap = TransitBuilder.buildFromTimetables(timetables);
                     assertNotNull(transitsMap);
                     assertTrue(transitsMap.size() > 0);
 
@@ -121,7 +117,7 @@ public class ShowTimetableIntegrationTest {
                     // prints general summary of each destination of each line
                     if (printGeneralOutput) {
                         StringBuilder sb = new StringBuilder();
-                        for (DayTypes dayType : transitsMap.keySet()) {
+                        for (DayType dayType : transitsMap.keySet()) {
                             List<Transit> transits = transitsMap.get(dayType);
                             sb.append(dayType).append("=").append(transits.size()).append(";");
                         }

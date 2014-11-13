@@ -1,7 +1,6 @@
 package pl.jahu.mpk;
 
 import pl.jahu.mpk.entities.*;
-import pl.jahu.mpk.enums.DayTypes;
 import pl.jahu.mpk.parsers.data.StationData;
 import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
@@ -28,21 +27,21 @@ public class TransitBuilder {
     /**
      * Parses timetables of specified line in specified direction and builds list of transits.
      */
-    public static Map<DayTypes, List<Transit>> parseAndBuild(LineNumber lineNo, int direction) throws ParsableDataNotFoundException, TimetableParseException, TransitValidationException {
+    public static Map<DayType, List<Transit>> parseAndBuild(LineNumber lineNo, int direction) throws ParsableDataNotFoundException, TimetableParseException, TransitValidationException {
         List<Timetable> timetables = new ArrayList<Timetable>();
         timetableProvider.getLineRoute(lineNo, direction);
         List<StationData> stations = timetableProvider.getLineRoute(lineNo, direction);
         for (StationData station : stations) {
             timetables.add(timetableProvider.getTimetable(lineNo, station.getSequenceNumber()));
         }
-        Map<DayTypes, List<Transit>> transitsMap = buildFromTimetables(timetables);
+        Map<DayType, List<Transit>> transitsMap = buildFromTimetables(timetables);
 
         printTransitsMap(transitsMap);
         return transitsMap;
     }
 
-    public static void printTransitsMap(Map<DayTypes, List<Transit>> transitsMap) {
-        for (DayTypes dayType : transitsMap.keySet()) {
+    public static void printTransitsMap(Map<DayType, List<Transit>> transitsMap) {
+        for (DayType dayType : transitsMap.keySet()) {
             System.out.println("* " + dayType + " :");
             for (Transit transit : transitsMap.get(dayType)) {
                 System.out.println(transit);
@@ -55,15 +54,15 @@ public class TransitBuilder {
     /**
      * Converts list of timetables (all in common direction) into list of transits grouped by day types.
      */
-    public static Map<DayTypes, List<Transit>> buildFromTimetables(List<Timetable> timetables) throws TransitValidationException {
-        Map<DayTypes, List<Transit>> resultMap = new HashMap<DayTypes, List<Transit>>();
+    public static Map<DayType, List<Transit>> buildFromTimetables(List<Timetable> timetables) throws TransitValidationException {
+        Map<DayType, List<Transit>> resultMap = new HashMap<DayType, List<Transit>>();
         if (timetables != null) {
-            Set<DayTypes> dayTypes = timetables.get(0).getDepartures().keySet();
-            for (DayTypes dayType : dayTypes) {
+            Set<DayType> dayTypes = timetables.get(0).getDepartures().keySet();
+            for (DayType dayType : dayTypes) {
                 resultMap.put(dayType, new ArrayList<Transit>());
             }
             for (Timetable timetable : timetables) {
-                for (DayTypes dayType : dayTypes) {
+                for (DayType dayType : dayTypes) {
                     List<Transit> transits = resultMap.get(dayType);
                     List<Departure> departures = timetable.getDepartures().get(dayType);
                     if (transits.size() == 0) {
@@ -118,7 +117,7 @@ public class TransitBuilder {
                 }
             }
 
-            for (DayTypes dayType : dayTypes) {
+            for (DayType dayType : dayTypes) {
                 for (Transit transit : resultMap.get(dayType)) {
                     if (transit.getDestStation() == null) {
                         transit.setDestStation(timetables.get(0).getDestStation());

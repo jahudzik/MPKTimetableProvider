@@ -1,7 +1,5 @@
 package pl.jahu.mpk.entities;
 
-import pl.jahu.mpk.enums.DayTypes;
-
 import java.util.List;
 import java.util.Map;
 
@@ -14,16 +12,16 @@ public class Timetable {
     private String station;
     private LineNumber line;
     private String destStation;
-    private Map<DayTypes, List<Departure>> departures;
+    private Map<DayType, List<Departure>> departures;
 
-    public Timetable(String station, LineNumber line, String destStation, Map<DayTypes, List<Departure>> departures) {
+    public Timetable(String station, LineNumber line, String destStation, Map<DayType, List<Departure>> departures) {
         this.station = station;
         this.line = line;
         this.destStation = destStation;
         this.departures = departures;
     }
 
-    public Map<DayTypes, List<Departure>> getDepartures() {
+    public Map<DayType, List<Departure>> getDepartures() {
         return departures;
     }
 

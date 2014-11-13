@@ -1,6 +1,6 @@
 package pl.jahu.mpk.validators.exceptions;
 
-import pl.jahu.mpk.enums.DayTypes;
+import pl.jahu.mpk.entities.DayType;
 import pl.jahu.mpk.utils.Time;
 
 /**
@@ -9,7 +9,7 @@ import pl.jahu.mpk.utils.Time;
  */
 public class UnhandledTimetableDepartureException extends TransitValidationException {
 
-    public UnhandledTimetableDepartureException(String line, String station, String destStation, DayTypes dayType, Time departureTime) {
+    public UnhandledTimetableDepartureException(String line, String station, String destStation, DayType dayType, Time departureTime) {
         super("Line: " + line + ", Station: " + station + ", Direction: " + destStation + ", Day type: " + dayType + ", Departure: " + departureTime);
     }
 

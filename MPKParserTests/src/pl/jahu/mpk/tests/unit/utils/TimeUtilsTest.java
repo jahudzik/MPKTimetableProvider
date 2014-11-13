@@ -1,12 +1,10 @@
 package pl.jahu.mpk.tests.unit.utils;
 
 import org.junit.Test;
-import pl.jahu.mpk.enums.DayTypes;
 import pl.jahu.mpk.utils.Time;
 import pl.jahu.mpk.utils.TimeUtils;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Calendar;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -17,64 +15,6 @@ import static org.junit.Assert.assertTrue;
  * Created by jahudzik on 2014-08-03.
  */
 public class TimeUtilsTest {
-
-
-    @Test
-    public void testSunday() {
-        assertTrue(TimeUtils.validateDayType(DayTypes.EVERYDAY, Calendar.SUNDAY));
-        assertFalse(TimeUtils.validateDayType(DayTypes.MONDAY_TO_THURSDAY, Calendar.SUNDAY));
-        assertFalse(TimeUtils.validateDayType(DayTypes.SATURDAY, Calendar.SUNDAY));
-        assertTrue(TimeUtils.validateDayType(DayTypes.SUNDAY, Calendar.SUNDAY));
-        assertFalse(TimeUtils.validateDayType(DayTypes.WEEKDAY, Calendar.SUNDAY));
-        assertTrue(TimeUtils.validateDayType(DayTypes.WEEKEND_NIGHTS, Calendar.SUNDAY));
-    }
-
-    @Test
-    public void testMonday() {
-        assertTrue(TimeUtils.validateDayType(DayTypes.EVERYDAY, Calendar.MONDAY));
-        assertTrue(TimeUtils.validateDayType(DayTypes.MONDAY_TO_THURSDAY, Calendar.MONDAY));
-        assertFalse(TimeUtils.validateDayType(DayTypes.SATURDAY, Calendar.MONDAY));
-        assertFalse(TimeUtils.validateDayType(DayTypes.SUNDAY, Calendar.MONDAY));
-        assertTrue(TimeUtils.validateDayType(DayTypes.WEEKDAY, Calendar.MONDAY));
-        assertFalse(TimeUtils.validateDayType(DayTypes.WEEKEND_NIGHTS, Calendar.MONDAY));
-    }
-
-    @Test
-    public void testThursday() {
-        assertTrue(TimeUtils.validateDayType(DayTypes.EVERYDAY, Calendar.THURSDAY));
-        assertTrue(TimeUtils.validateDayType(DayTypes.MONDAY_TO_THURSDAY, Calendar.THURSDAY));
-        assertFalse(TimeUtils.validateDayType(DayTypes.SATURDAY, Calendar.THURSDAY));
-        assertFalse(TimeUtils.validateDayType(DayTypes.SUNDAY, Calendar.THURSDAY));
-        assertTrue(TimeUtils.validateDayType(DayTypes.WEEKDAY, Calendar.THURSDAY));
-        assertFalse(TimeUtils.validateDayType(DayTypes.WEEKEND_NIGHTS, Calendar.THURSDAY));
-    }
-
-    @Test
-    public void testFriday() {
-        assertTrue(TimeUtils.validateDayType(DayTypes.EVERYDAY, Calendar.FRIDAY));
-        assertFalse(TimeUtils.validateDayType(DayTypes.MONDAY_TO_THURSDAY, Calendar.FRIDAY));
-        assertFalse(TimeUtils.validateDayType(DayTypes.SATURDAY, Calendar.FRIDAY));
-        assertFalse(TimeUtils.validateDayType(DayTypes.SUNDAY, Calendar.FRIDAY));
-        assertTrue(TimeUtils.validateDayType(DayTypes.WEEKDAY, Calendar.FRIDAY));
-        assertFalse(TimeUtils.validateDayType(DayTypes.WEEKEND_NIGHTS, Calendar.FRIDAY));
-    }
-
-
-    @Test
-    public void testSaturday() {
-        assertTrue(TimeUtils.validateDayType(DayTypes.EVERYDAY, Calendar.SATURDAY));
-        assertFalse(TimeUtils.validateDayType(DayTypes.MONDAY_TO_THURSDAY, Calendar.SATURDAY));
-        assertTrue(TimeUtils.validateDayType(DayTypes.SATURDAY, Calendar.SATURDAY));
-        assertFalse(TimeUtils.validateDayType(DayTypes.SUNDAY, Calendar.SATURDAY));
-        assertFalse(TimeUtils.validateDayType(DayTypes.WEEKDAY, Calendar.SATURDAY));
-        assertTrue(TimeUtils.validateDayType(DayTypes.WEEKEND_NIGHTS, Calendar.SATURDAY));
-    }
-
-    @Test
-    public void testNull() {
-        assertFalse(TimeUtils.validateDayType(null, Calendar.SATURDAY));
-    }
-
 
     @Test
     public void testMoreLessEqual1() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {

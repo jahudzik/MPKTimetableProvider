@@ -3,13 +3,12 @@ package pl.jahu.mpk.parsers;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import pl.jahu.mpk.entities.DayType;
 import pl.jahu.mpk.entities.Departure;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.entities.Timetable;
-import pl.jahu.mpk.enums.DayTypes;
 import pl.jahu.mpk.parsers.data.ParsableData;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
-import pl.jahu.mpk.utils.ParserConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,15 +37,15 @@ public class TimetableParser {
      */
     public Timetable parse(ParsableData parsableData, LineNumber lineNumber) throws TimetableParseException {
         Document document = parsableData.getDocument();
-        Map<DayTypes, List<Departure>> departures = new HashMap<DayTypes, List<Departure>>();
+        Map<DayType, List<Departure>> departures = new HashMap<DayType, List<Departure>>();
         Elements rows = document.getElementsByClass(DEPARTURES_TABLE_CLASS).get(0).getElementsByTag("tr");
         if (rows.size() > 0) {
 
             // parse day types
             Elements dayTypes = rows.get(0).children();
             if (dayTypes.size() > 0) {
-                List<DayTypes> dayTypesList = retrieveDayTypesConfiguration(dayTypes, parsableData.getLocation());
-                for (DayTypes type : dayTypesList) {
+                List<DayType> dayTypesList = retrieveDayTypeConfiguration(dayTypes, parsableData.getLocation());
+                for (DayType type : dayTypesList) {
                     departures.put(type, new ArrayList<Departure>());
                 }
 
@@ -96,11 +95,11 @@ public class TimetableParser {
     }
 
 
-    public static List<DayTypes> retrieveDayTypesConfiguration(Elements dayTypes, String location) throws TimetableParseException {
-        List<DayTypes> list = new ArrayList<DayTypes>();
+    public static List<DayType> retrieveDayTypeConfiguration(Elements dayTypes, String location) throws TimetableParseException {
+        List<DayType> list = new ArrayList<DayType>();
         for (Element dayType1 : dayTypes) {
             String label = dayType1.text();
-            DayTypes dayType = ParserConstants.dayTypesNames.get(label);
+            DayType dayType = DayTypeParser.parse(label, location);
             if (dayType != null) {
                 list.add(dayType);
             } else {

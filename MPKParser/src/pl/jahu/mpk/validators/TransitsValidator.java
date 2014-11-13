@@ -1,8 +1,8 @@
 package pl.jahu.mpk.validators;
 
+import pl.jahu.mpk.entities.DayType;
 import pl.jahu.mpk.entities.Transit;
 import pl.jahu.mpk.entities.TransitStop;
-import pl.jahu.mpk.enums.DayTypes;
 import pl.jahu.mpk.validators.exceptions.IncorrectTimeDifferenceBetweenStopsException;
 import pl.jahu.mpk.validators.exceptions.IncorrectTransitDurationException;
 import pl.jahu.mpk.validators.exceptions.TransitValidationException;
@@ -21,12 +21,12 @@ public class TransitsValidator {
     private static final int DIFF_BETWEEN_STOPS_MARGIN_OF_ERROR = 3;
 
 
-    public static void validate(Map<DayTypes, List<Transit>> transitsMap) throws TransitValidationException{
+    public static void validate(Map<DayType, List<Transit>> transitsMap) throws TransitValidationException{
         validateTransitDurations(transitsMap);
         validateDiffBetweenStops(transitsMap);
     }
 
-    private static void validateTransitDurations(Map<DayTypes, List<Transit>> transitsMap) throws IncorrectTransitDurationException {
+    private static void validateTransitDurations(Map<DayType, List<Transit>> transitsMap) throws IncorrectTransitDurationException {
         Map<String, Transit> durations = new HashMap<String, Transit>();
         for (List<Transit> transits : transitsMap.values()) {
             for (Transit transit : transits) {
@@ -45,7 +45,7 @@ public class TransitsValidator {
 
     }
 
-    private static void validateDiffBetweenStops(Map<DayTypes, List<Transit>> transitsMap) throws IncorrectTimeDifferenceBetweenStopsException {
+    private static void validateDiffBetweenStops(Map<DayType, List<Transit>> transitsMap) throws IncorrectTimeDifferenceBetweenStopsException {
         Map<String, DiffBetweenStopsInfo> durations = new HashMap<String, DiffBetweenStopsInfo>();
         for (List<Transit> transits : transitsMap.values()) {
             for (Transit transit : transits) {
