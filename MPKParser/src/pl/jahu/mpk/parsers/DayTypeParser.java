@@ -18,44 +18,44 @@ public class DayTypeParser {
     private static final int UNKNOWN = -1;
 
 
-    public static DayType parse(String literal, String location) throws TimetableParseException {
+    public static DayType parse(String literal, boolean nightly, String location) throws TimetableParseException {
         String[] entries = literal.replace(", ", ",").split(",");
         if (entries.length == 1) {
-            return parseSingleDayType(literal, location);
+            return parseSingleDayType(literal, nightly, location);
         } else {
             // example: 'Pt/Sob.,Sob./Św.'
             DayType mergedDayType = null;
             for (String entry : entries) {
-                DayType singleDayType = parseSingleDayType(entry, location);
+                DayType singleDayType = parseSingleDayType(entry, nightly, location);
                 mergedDayType = merge(mergedDayType, singleDayType, location);
             }
             return mergedDayType;
         }
     }
 
-    private static DayType parseSingleDayType(String literal, String location) throws TimetableParseException {
+    private static DayType parseSingleDayType(String literal, boolean nightly, String location) throws TimetableParseException {
         // ex Poniedziałek, Dni powszednie, Święta, Wt.
         Map<Integer, Boolean> daysMap = parseDaysOfWeek(literal);
         if (daysMap != null) {
-            return new DayType(daysMap, false);
+            return new DayType(daysMap, nightly);
         }
 
         // ex Pn.-Czw., Sobota-Niedziela
         daysMap = parseDaysOfWeekPeriod(literal);
         if (daysMap != null) {
-            return new DayType(daysMap, false);
+            return new DayType(daysMap, nightly);
         }
 
         // ex Sob./Św., Czwartek/Piątek
         daysMap = parseNights(literal);
         if (daysMap != null) {
-            return new DayType(daysMap, true);
+            return new DayType(daysMap, nightly);
         }
 
         // ex 01.11.2014, 1-3.05.2015
         Date dates[] = parseDates(literal);
         if (dates != null) {
-            return (dates.length == 1) ? new DayType(dates[0]) : new DayType(dates[0], dates[1]);
+            return (dates.length == 1) ? new DayType(dates[0], nightly) : new DayType(dates[0], dates[1], nightly);
         }
 
         throw new TimetableParseException("Unsupported day type : '" + literal + "'", location);

@@ -45,6 +45,10 @@ public class LineNumber implements Comparable<LineNumber> {
         return numericOnly;
     }
 
+    public boolean isNightly() {
+        return (literal.startsWith("6") || literal.startsWith("9"));
+    }
+
     @Override
     public int compareTo(LineNumber other) {
         boolean startWithNumberMe = Character.isDigit(literal.charAt(0));

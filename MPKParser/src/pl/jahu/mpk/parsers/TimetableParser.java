@@ -44,7 +44,7 @@ public class TimetableParser {
             // parse day types
             Elements dayTypes = rows.get(0).children();
             if (dayTypes.size() > 0) {
-                List<DayType> dayTypesList = retrieveDayTypeConfiguration(dayTypes, parsableData.getLocation());
+                List<DayType> dayTypesList = retrieveDayTypeConfiguration(dayTypes, lineNumber.isNightly(), parsableData.getLocation());
                 for (DayType type : dayTypesList) {
                     departures.put(type, new ArrayList<Departure>());
                 }
@@ -95,11 +95,11 @@ public class TimetableParser {
     }
 
 
-    public static List<DayType> retrieveDayTypeConfiguration(Elements dayTypes, String location) throws TimetableParseException {
+    public static List<DayType> retrieveDayTypeConfiguration(Elements dayTypes, boolean nightly, String location) throws TimetableParseException {
         List<DayType> list = new ArrayList<DayType>();
         for (Element dayType1 : dayTypes) {
             String label = dayType1.text();
-            DayType dayType = DayTypeParser.parse(label, location);
+            DayType dayType = DayTypeParser.parse(label, nightly, location);
             if (dayType != null) {
                 list.add(dayType);
             } else {
