@@ -1,7 +1,9 @@
-package pl.jahu.mpk;
+package pl.jahu.mpk.tools;
 
 import org.junit.Test;
+import pl.jahu.mpk.TestUtils;
 import pl.jahu.mpk.entities.*;
+import pl.jahu.mpk.tools.TransitBuilder;
 import pl.jahu.mpk.utils.TimeUtils;
 import pl.jahu.mpk.validators.exceptions.IncorrectTimeDifferenceBetweenStopsException;
 import pl.jahu.mpk.validators.exceptions.IncorrectTransitDurationException;

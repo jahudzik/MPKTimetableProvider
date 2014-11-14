@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.DefaultTestModule;
-import pl.jahu.mpk.TransitBuilder;
+import pl.jahu.mpk.tools.TransitBuilder;
 import pl.jahu.mpk.entities.*;
 import pl.jahu.mpk.parsers.data.StationData;
 import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
