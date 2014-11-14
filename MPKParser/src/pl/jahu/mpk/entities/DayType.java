@@ -125,6 +125,45 @@ public class DayType {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof DayType)) {
+            return false;
+        }
+        DayType otherDayType = (DayType) obj;
+        if (otherDayType.startDate != null && otherDayType.endDate != null) {
+            return startDate != null && endDate != null && startDate.equals(otherDayType.startDate) && endDate.equals(otherDayType.endDate);
+        } else {
+            // otherDayType.daysOfWeek != null
+            if (daysOfWeek == null) {
+                return false;
+            }
+            for (Integer dayOfWeek : daysOfWeek.keySet()) {
+                if (daysOfWeek.get(dayOfWeek) != otherDayType.daysOfWeek.get(dayOfWeek)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + ((startDate != null) ? startDate.hashCode() : 0);
+        result = 31 * result + ((endDate != null) ? endDate.hashCode() : 0);
+        result = 31 * result + (nightly ? 1 : 0);
+        if (daysOfWeek != null) {
+            for (int day = 1; day <= 7; day++) {
+                result = 31 * result + (daysOfWeek.get(day) ? 1 : 0);
+            }
+        }
+        return result;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
         if (startDate != null && endDate != null) {
@@ -164,45 +203,6 @@ public class DayType {
         }
         sb.append("]");
         return sb.toString();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
-        if (!(obj instanceof DayType)) {
-            return false;
-        }
-        DayType otherDayType = (DayType) obj;
-        if (otherDayType.startDate != null && otherDayType.endDate != null) {
-            return startDate != null && endDate != null && startDate.equals(otherDayType.startDate) && endDate.equals(otherDayType.endDate);
-        } else {
-            // otherDayType.daysOfWeek != null
-            if (daysOfWeek == null) {
-                return false;
-            }
-            for (Integer dayOfWeek : daysOfWeek.keySet()) {
-                if (daysOfWeek.get(dayOfWeek) != otherDayType.daysOfWeek.get(dayOfWeek)) {
-                    return false;
-                }
-            }
-            return true;
-        }
-    }
-
-    @Override
-    public int hashCode() {
-        int result = 17;
-        result = 31 * result + ((startDate != null) ? startDate.hashCode() : 0);
-        result = 31 * result + ((endDate != null) ? endDate.hashCode() : 0);
-        result = 31 * result + (nightly ? 1 : 0);
-        if (daysOfWeek != null) {
-            for (int day = 1; day <= 7; day++) {
-                result = 31 * result + (daysOfWeek.get(day) ? 1 : 0);
-            }
-        }
-        return result;
     }
 
 }

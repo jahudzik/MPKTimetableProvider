@@ -71,7 +71,23 @@ public class LineNumber implements Comparable<LineNumber> {
 
     @Override
     public boolean equals(Object obj) {
-        return (compareTo((LineNumber) obj) == 0);
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof LineNumber)) {
+            return false;
+        }
+        LineNumber other = (LineNumber)obj;
+        return (numeric.equals(other.numeric) && literal.equals(other.literal) && numericOnly == other.numericOnly);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + ((numeric != null) ? numeric : 0);
+        result = 31 * result + ((literal != null) ? literal.hashCode() : 0);
+        result = 31 * result + ((numericOnly) ? 1 : 0);
+        return result;
     }
 
     @Override

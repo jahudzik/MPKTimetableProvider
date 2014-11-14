@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * MPK Timetable Parser
@@ -245,6 +244,82 @@ public class LineNumberTest {
                 new LineNumber("Z6"),
                 new LineNumber("Z7")}
         );
+    }
+
+    @Test
+    public void equalsTest1() {
+        LineNumber lineNumber = new LineNumber(4);
+        assertFalse(lineNumber.equals(null));
+    }
+
+    @Test
+    public void equalsTest2() {
+        LineNumber lineNumber = new LineNumber(4);
+        assertTrue(lineNumber.equals(lineNumber));
+    }
+
+    @Test
+    public void equalsTest3() {
+        LineNumber lineNumber = new LineNumber(4);
+        String literal = "some string";
+        assertFalse(lineNumber.equals(literal));
+    }
+
+    @Test
+    public void equalsTest4() {
+        LineNumber lineNumber1 = new LineNumber(4);
+        LineNumber lineNumber2 = new LineNumber("4");
+        assertTrue(lineNumber1.equals(lineNumber2));
+        assertTrue(lineNumber2.equals(lineNumber1));
+    }
+
+    @Test
+    public void equalsTest5() {
+        LineNumber lineNumber1 = new LineNumber("4");
+        LineNumber lineNumber2 = new LineNumber("41");
+        assertFalse(lineNumber1.equals(lineNumber2));
+        assertFalse(lineNumber2.equals(lineNumber1));
+    }
+
+    @Test
+    public void equalsTest6() {
+        LineNumber lineNumber1 = new LineNumber(4);
+        LineNumber lineNumber2 = new LineNumber(41);
+        assertFalse(lineNumber1.equals(lineNumber2));
+        assertFalse(lineNumber2.equals(lineNumber1));
+    }
+
+    @Test
+    public void hashCodeTest1() {
+        LineNumber lineNumber1 = new LineNumber(4);
+        LineNumber lineNumber2 = new LineNumber(4);
+        assertEquals(lineNumber1.hashCode(), lineNumber2.hashCode());
+    }
+
+    @Test
+    public void hashCodeTest2() {
+        LineNumber lineNumber1 = new LineNumber(4);
+        LineNumber lineNumber2 = new LineNumber("4");
+        assertEquals(lineNumber1.hashCode(), lineNumber2.hashCode());
+    }
+
+    @Test
+    public void hashCodeTest3() {
+        LineNumber lineNumber1 = new LineNumber(4);
+        LineNumber lineNumber2 = new LineNumber(41);
+        assertNotEquals(lineNumber1.hashCode(), lineNumber2.hashCode());
+    }
+
+    @Test
+    public void toStringTest1() {
+        LineNumber lineNumber = new LineNumber("69A");
+        assertEquals("69A", lineNumber.toString());
+    }
+
+    @Test
+    public void toStringTest2() {
+        LineNumber lineNumber = new LineNumber(14);
+        assertEquals("14", lineNumber.toString());
     }
 
 
