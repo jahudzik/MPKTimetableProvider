@@ -24,17 +24,17 @@ public class UrlTimetableProvider extends TimetableProvider {
     }
 
     @Override
-    ParsableData getLinesListDocument() throws ParsableDataNotFoundException {
+    public ParsableData getLinesListDocument() throws ParsableDataNotFoundException {
         return retrieveDocumentFromUrl(UrlResolver.LINES_LIST_URL);
     }
 
     @Override
-    ParsableData getLineRouteDocument(LineNumber lineNumber, int direction) throws ParsableDataNotFoundException {
+    public ParsableData getLineRouteDocument(LineNumber lineNumber, int direction) throws ParsableDataNotFoundException {
         return retrieveDocumentFromUrl(UrlResolver.getLineRouteUrl(lineNumber, direction));
     }
 
     @Override
-    ParsableData getTimetableDocument(LineNumber lineNumber, int sequenceNumber) throws ParsableDataNotFoundException {
+    public ParsableData getTimetableDocument(LineNumber lineNumber, int sequenceNumber) throws ParsableDataNotFoundException {
         return retrieveDocumentFromUrl(UrlResolver.getStationTimetableUrl(lineNumber, sequenceNumber));
     }
 

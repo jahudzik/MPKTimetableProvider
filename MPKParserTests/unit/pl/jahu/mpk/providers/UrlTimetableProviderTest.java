@@ -6,20 +6,23 @@ import org.junit.Before;
 import org.junit.Test;
 import pl.jahu.mpk.AppModule;
 import pl.jahu.mpk.DaggerApplication;
+import pl.jahu.mpk.TestUtils;
+import pl.jahu.mpk.entities.DayType;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parsers.LineRouteParser;
 import pl.jahu.mpk.parsers.LinesListParser;
-import pl.jahu.mpk.parsers.data.ParsableData;
 import pl.jahu.mpk.parsers.TimetableParser;
+import pl.jahu.mpk.parsers.data.ParsableData;
 import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
-import pl.jahu.mpk.providers.TimetableProvider;
-import pl.jahu.mpk.providers.UrlTimetableProvider;
 import pl.jahu.mpk.utils.DownloadUtils;
+import pl.jahu.mpk.utils.TimeUtils;
 import pl.jahu.mpk.utils.UrlResolver;
 
 import javax.inject.Singleton;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
@@ -111,9 +114,17 @@ public class UrlTimetableProviderTest {
     @Test
     public void getTimetableTest() throws TimetableParseException, ParsableDataNotFoundException, IOException {
         LineNumber lineNumber = new LineNumber(605);
-        timetableProvider.getTimetable(lineNumber, 17);
+        List<DayType> dayTypeList = Arrays.asList(TestUtils.WEEKDAY_TYPE, TestUtils.SATURDAY_TYPE, TestUtils.SUNDAY_TYPE);
+        when(timetableParserMock.parseDayTypes(any(ParsableData.class), eq(lineNumber))).thenReturn(dayTypeList);
+
+        timetableProvider.getTimetable(TimeUtils.buildDate(14, 11, 2014), lineNumber, 17);
+
+        // should download specific timetable
         verify(downloadUtilsMock).downloadJsoupDocument(eq("http://rozklady.mpk.krakow.pl/aktualne/0605/0605t017.htm"));
-        verify(timetableParserMock).parse(parsableDataMock, lineNumber);
+        // should parse day types and return dayTypeList (defined above)
+        verify(timetableParserMock).parseDayTypes(eq(parsableDataMock), eq(lineNumber));
+        // should match passed date (Thursday) with first element (WEEKDAY_TYPE) on dayTypeList and pass its index to parse() method
+        verify(timetableParserMock).parseDepartures(eq(parsableDataMock), eq(dayTypeList), eq(0), eq(lineNumber));
     }
 
 }

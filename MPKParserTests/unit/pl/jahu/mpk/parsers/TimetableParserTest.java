@@ -4,20 +4,20 @@ import org.junit.Before;
 import org.junit.Test;
 import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.DefaultTestModule;
+import pl.jahu.mpk.TestUtils;
 import pl.jahu.mpk.entities.DayType;
 import pl.jahu.mpk.entities.Departure;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.entities.Timetable;
+import pl.jahu.mpk.parsers.data.ParsableData;
 import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 import pl.jahu.mpk.providers.TimetableProvider;
-import pl.jahu.mpk.TestUtils;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -26,137 +26,168 @@ public class TimetableParserTest {
     @Inject
     TimetableProvider timetableProvider;
 
+    private TimetableParser timetableParser;
+
 
     @Before
     public void setUp() {
         DaggerApplication.init(new DefaultTestModule());
         DaggerApplication.inject(this);
+        timetableParser = new TimetableParser();
     }
 
 
     /******************** TESTS ********************/
 
-
     @Test
-    public void testTimetable1Standard() throws TimetableParseException, ParsableDataNotFoundException {
-        Timetable timetable = timetableProvider.getTimetable(new LineNumber(1), 1);
-        checkTimetableGeneralInfo(timetable, "Wzgórza Krzesławickie", "SALWATOR", 1);
+    public void parseStandardDayTypesTest() throws ParsableDataNotFoundException, TimetableParseException {
+        LineNumber lineNumber = new LineNumber(1);
+        ParsableData timetableDocument = timetableProvider.getTimetableDocument(lineNumber, 1);
 
-        Map<DayType, List<Departure>> departures = timetable.getDepartures();
+        List<DayType> dayTypes = timetableParser.parseDayTypes(timetableDocument, lineNumber);
 
-        
-        checkDayTypeWithSizes(departures, new DayType[]{TestUtils.WEEKDAY_TYPE, TestUtils.SATURDAY_TYPE, TestUtils.SUNDAY_TYPE}, new int[]{76, 53, 50});
-
-        checkDeparture(departures.get(TestUtils.WEEKDAY_TYPE).get(0), 4, 37, null);
-        checkDeparture(departures.get(TestUtils.WEEKDAY_TYPE).get(75), 22, 37, null);
-        checkDeparture(departures.get(TestUtils.SATURDAY_TYPE).get(0), 4, 59, null);
-        checkDeparture(departures.get(TestUtils.SATURDAY_TYPE).get(52), 22, 47, null);
-        checkDeparture(departures.get(TestUtils.SUNDAY_TYPE).get(0), 5, 20, null);
-        checkDeparture(departures.get(TestUtils.SUNDAY_TYPE).get(49), 22, 47, null);
+        checkDayType(dayTypes, new DayType[]{TestUtils.WEEKDAY_TYPE, TestUtils.SATURDAY_TYPE, TestUtils.SUNDAY_TYPE});
     }
 
-
     @Test
-    public void testTimetable2WithLegend() throws ParsableDataNotFoundException, TimetableParseException {
-        Timetable timetable = timetableProvider.getTimetable(new LineNumber(22), 1);
-        checkTimetableGeneralInfo(timetable, "Borek Fałęcki", "WALCOWNIA", 22);
+    public void parseEverydayNightDayTypesTest() throws ParsableDataNotFoundException, TimetableParseException {
+        LineNumber lineNumber = new LineNumber(601);
+        ParsableData timetableDocument = timetableProvider.getTimetableDocument(lineNumber, 1);
 
-        Map<DayType, List<Departure>> departures = timetable.getDepartures();
-        checkDayTypeWithSizes(departures, new DayType[]{TestUtils.WEEKDAY_TYPE, TestUtils.SATURDAY_TYPE, TestUtils.SUNDAY_TYPE}, new int[]{62, 54, 51});
+        List<DayType> dayTypes = timetableParser.parseDayTypes(timetableDocument, lineNumber);
 
-        String expectedLegend = "Kurs do przystanku: Kombinat";
-        checkDeparture(departures.get(TestUtils.WEEKDAY_TYPE).get(0), 5, 0, null);
-        checkDeparture(departures.get(TestUtils.WEEKDAY_TYPE).get(61), 23, 36, new String[]{expectedLegend});
-        checkDeparture(departures.get(TestUtils.SATURDAY_TYPE).get(0), 5, 3, null);
-        checkDeparture(departures.get(TestUtils.SATURDAY_TYPE).get(53), 23, 4, new String[]{expectedLegend});
-        checkDeparture(departures.get(TestUtils.SUNDAY_TYPE).get(0), 5, 3, null);
-        checkDeparture(departures.get(TestUtils.SUNDAY_TYPE).get(50), 23, 6, new String[]{expectedLegend});
+        checkDayType(dayTypes, new DayType[]{TestUtils.EVERYDAY_NIGHT_TYPE});
     }
 
-
     @Test
-    public void testTimetable3WithEverydayType() throws TimetableParseException, ParsableDataNotFoundException {
-        Timetable timetable = timetableProvider.getTimetable(new LineNumber(601), 1);
-        checkTimetableGeneralInfo(timetable, "Mydlniki", "CZYŻYNY DWORZEC", 601);
-
-        Map<DayType, List<Departure>> departures = timetable.getDepartures();
-        checkDayTypeWithSizes(departures, new DayType[]{TestUtils.EVERYDAY_NIGHT_TYPE}, new int[]{6});
-
-        checkDeparture(departures.get(TestUtils.EVERYDAY_NIGHT_TYPE).get(0), 23, 30, null);
-    }
-
-
-    @Test
-     public void testTimetable4WithWeekendSpecificDayType() throws TimetableParseException, ParsableDataNotFoundException {
-        Timetable timetable = timetableProvider.getTimetable(new LineNumber(605), 1);
-        checkTimetableGeneralInfo(timetable, "Zajezdnia Płaszów", "BIELANY", 605);
-
-        Map<DayType, List<Departure>> departures = timetable.getDepartures();
+    public void parseSpecificNightDayTypesTest() throws ParsableDataNotFoundException, TimetableParseException {
+        LineNumber lineNumber = new LineNumber(605);
+        ParsableData timetableDocument = timetableProvider.getTimetableDocument(lineNumber, 1);
         DayType mondayThursdayType = DayType.getInstance(new int[]{Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY}, true);
         DayType weekendNightType = DayType.getInstance(new int[]{Calendar.FRIDAY, Calendar.SATURDAY}, true);
-        checkDayTypeWithSizes(departures, new DayType[]{mondayThursdayType, weekendNightType, TestUtils.SUNDAY_NIGHT_TYPE}, new int[]{5, 5, 5});
+        DayType sundayNightType = DayType.getInstance(new int[]{Calendar.SUNDAY}, true);
 
-        String expectedLegend = "Kurs do przystanku: Dworzec Główny";
-        checkDeparture(departures.get(mondayThursdayType).get(0), 23, 32, new String[]{expectedLegend});
-        checkDeparture(departures.get(weekendNightType).get(1), 0, 32, null);
-        checkDeparture(departures.get(TestUtils.SUNDAY_NIGHT_TYPE).get(0), 23, 32, new String[]{expectedLegend});
+        List<DayType> dayTypes = timetableParser.parseDayTypes(timetableDocument, lineNumber);
+
+        checkDayType(dayTypes, new DayType[]{mondayThursdayType, weekendNightType, sundayNightType});
     }
 
 
+
+
     @Test
-    public void testTimetable5WithTwoLegendEntries() throws TimetableParseException, ParsableDataNotFoundException {
-        Timetable timetable = timetableProvider.getTimetable(new LineNumber(183), 1);
-        checkTimetableGeneralInfo(timetable, "Złocień", "DOM SPOKOJNEJ STAROŚCI", 183);
+    public void parseWeekdayDeparturesTest() throws ParsableDataNotFoundException, TimetableParseException {
+        LineNumber lineNumber = new LineNumber(1);
+        ParsableData timetableDocument = timetableProvider.getTimetableDocument(lineNumber, 1);
+        List<DayType> dayTypes = Arrays.asList(TestUtils.WEEKDAY_TYPE, TestUtils.SATURDAY_TYPE, TestUtils.SUNDAY_TYPE);
 
-        Map<DayType, List<Departure>> departures = timetable.getDepartures();
-        checkDayTypeWithSizes(departures, new DayType[]{TestUtils.WEEKDAY_TYPE, TestUtils.SATURDAY_TYPE, TestUtils.SUNDAY_TYPE}, new int[]{37, 32, 30});
+        Timetable timetable = timetableParser.parseDepartures(timetableDocument, dayTypes, 0, lineNumber);
 
-        String expectedLegend1 = "Kurs do przystanku: Wydział Farmaceutyczny UJ";
-        String expectedLegend2 = "Kurs do przystanku: Prokocim Szpital";
-        checkDeparture(departures.get(TestUtils.WEEKDAY_TYPE).get(0), 4, 41, null);
-        checkDeparture(departures.get(TestUtils.WEEKDAY_TYPE).get(35), 22, 8, new String[]{expectedLegend1});
-        checkDeparture(departures.get(TestUtils.WEEKDAY_TYPE).get(36), 23, 5, new String[]{expectedLegend2});
-        checkDeparture(departures.get(TestUtils.SUNDAY_TYPE).get(0), 4, 40, null);
-        checkDeparture(departures.get(TestUtils.SUNDAY_TYPE).get(28), 22, 49, new String[]{expectedLegend1});
-        checkDeparture(departures.get(TestUtils.SUNDAY_TYPE).get(29), 23, 35, new String[]{expectedLegend2});
+        checkTimetableGeneralInfo(timetable, TestUtils.WEEKDAY_TYPE, lineNumber, "Wzgórza Krzesławickie", "SALWATOR", 76);
+        checkDeparture(timetable.getDepartures().get(0), 4, 37, null);
+        checkDeparture(timetable.getDepartures().get(75), 22, 37, null);
     }
 
+    @Test
+    public void parseSaturdayDeparturesTest() throws ParsableDataNotFoundException, TimetableParseException {
+        LineNumber lineNumber = new LineNumber(1);
+        ParsableData timetableDocument = timetableProvider.getTimetableDocument(lineNumber, 1);
+        List<DayType> dayTypes = Arrays.asList(TestUtils.WEEKDAY_TYPE, TestUtils.SATURDAY_TYPE, TestUtils.SUNDAY_TYPE);
+
+        Timetable timetable = timetableParser.parseDepartures(timetableDocument, dayTypes, 1, lineNumber);
+
+        checkTimetableGeneralInfo(timetable, TestUtils.SATURDAY_TYPE, lineNumber, "Wzgórza Krzesławickie", "SALWATOR", 53);
+        checkDeparture(timetable.getDepartures().get(0), 4, 59, null);
+        checkDeparture(timetable.getDepartures().get(52), 22, 47, null);
+    }
 
     @Test
-    public void testTimetable6WithTwoLegendEntriesForOneDeparture() throws TimetableParseException, ParsableDataNotFoundException {
-        Timetable timetable = timetableProvider.getTimetable(new LineNumber(248), 1);
-        checkTimetableGeneralInfo(timetable, "Bronowice Małe", "ZELKÓW", 248);
+    public void parseSundayDeparturesTest() throws ParsableDataNotFoundException, TimetableParseException {
+        LineNumber lineNumber = new LineNumber(1);
+        ParsableData timetableDocument = timetableProvider.getTimetableDocument(lineNumber, 1);
+        List<DayType> dayTypes = Arrays.asList(TestUtils.WEEKDAY_TYPE, TestUtils.SATURDAY_TYPE, TestUtils.SUNDAY_TYPE);
 
-        Map<DayType, List<Departure>> departures = timetable.getDepartures();
-        checkDayTypeWithSizes(departures, new DayType[]{TestUtils.WEEKDAY_TYPE, TestUtils.SATURDAY_TYPE, TestUtils.SUNDAY_TYPE}, new int[]{16, 12, 12});
+        Timetable timetable = timetableParser.parseDepartures(timetableDocument, dayTypes, 2, lineNumber);
 
+        checkTimetableGeneralInfo(timetable, TestUtils.SUNDAY_TYPE, lineNumber, "Wzgórza Krzesławickie", "SALWATOR", 50);
+        checkDeparture(timetable.getDepartures().get(0), 5, 20, null);
+        checkDeparture(timetable.getDepartures().get(49), 22, 47, null);
+    }
+
+    @Test
+    public void parseEverydayNightDeparturesTest() throws ParsableDataNotFoundException, TimetableParseException {
+        LineNumber lineNumber = new LineNumber(601);
+        ParsableData timetableDocument = timetableProvider.getTimetableDocument(lineNumber, 1);
+        List<DayType> dayTypes = Arrays.asList(TestUtils.EVERYDAY_NIGHT_TYPE);
+
+        Timetable timetable = timetableParser.parseDepartures(timetableDocument, dayTypes, 0, lineNumber);
+
+        checkTimetableGeneralInfo(timetable, TestUtils.EVERYDAY_NIGHT_TYPE, lineNumber, "Mydlniki", "CZYŻYNY DWORZEC", 6);
+        checkDeparture(timetable.getDepartures().get(0), 23, 30, null);
+        checkDeparture(timetable.getDepartures().get(5),  4, 30, null);
+    }
+
+    @Test
+    public void parseDeparturesWithOneLegendTest() throws ParsableDataNotFoundException, TimetableParseException {
+        LineNumber lineNumber = new LineNumber(22);
+        String expectedLegend = "Kurs do przystanku: Kombinat";
+        ParsableData timetableDocument = timetableProvider.getTimetableDocument(lineNumber, 1);
+        List<DayType> dayTypes = Arrays.asList(TestUtils.WEEKDAY_TYPE, TestUtils.SATURDAY_TYPE, TestUtils.SUNDAY_TYPE);
+
+        Timetable timetable = timetableParser.parseDepartures(timetableDocument, dayTypes, 0, lineNumber);
+
+        checkTimetableGeneralInfo(timetable, TestUtils.WEEKDAY_TYPE, lineNumber, "Borek Fałęcki", "WALCOWNIA", 62);
+        checkDeparture(timetable.getDepartures().get(0), 5, 0, null);
+        checkDeparture(timetable.getDepartures().get(61), 23, 36, new String[]{expectedLegend});
+    }
+
+    @Test
+    public void parseDeparturesWithTwoLegendsForOneDepartureTest() throws ParsableDataNotFoundException, TimetableParseException {
+        LineNumber lineNumber = new LineNumber(248);
         String expectedLegend1 = "Kurs do przystanku: Bolechowice przez: Kraków Business Park";
         String expectedLegend2 = "w dni nauki szkolnej do Bolechowic, w pozostałe dni powszednie do Zelkowa";
-        checkDeparture(departures.get(TestUtils.WEEKDAY_TYPE).get(2), 6, 28, new String[]{expectedLegend1, expectedLegend2});
+        ParsableData timetableDocument = timetableProvider.getTimetableDocument(lineNumber, 1);
+        List<DayType> dayTypes = Arrays.asList(TestUtils.WEEKDAY_TYPE, TestUtils.SATURDAY_TYPE, TestUtils.SUNDAY_TYPE);
+
+        Timetable timetable = timetableParser.parseDepartures(timetableDocument, dayTypes, 0, lineNumber);
+
+        checkTimetableGeneralInfo(timetable, TestUtils.WEEKDAY_TYPE, lineNumber, "Bronowice Małe", "ZELKÓW", 16);
+        checkDeparture(timetable.getDepartures().get(2), 6, 28, new String[]{expectedLegend1, expectedLegend2});
+    }
+
+    @Test
+    public void parseDeparturesWithTwoLegendsTest() throws ParsableDataNotFoundException, TimetableParseException {
+        LineNumber lineNumber = new LineNumber(183);
+        String expectedLegend1 = "Kurs do przystanku: Wydział Farmaceutyczny UJ";
+        String expectedLegend2 = "Kurs do przystanku: Prokocim Szpital";
+        ParsableData timetableDocument = timetableProvider.getTimetableDocument(lineNumber, 1);
+        List<DayType> dayTypes = Arrays.asList(TestUtils.WEEKDAY_TYPE, TestUtils.SATURDAY_TYPE, TestUtils.SUNDAY_TYPE);
+
+        Timetable timetable = timetableParser.parseDepartures(timetableDocument, dayTypes, 0, lineNumber);
+
+        checkTimetableGeneralInfo(timetable, TestUtils.WEEKDAY_TYPE, lineNumber, "Złocień", "DOM SPOKOJNEJ STAROŚCI", 37);
+        checkDeparture(timetable.getDepartures().get(0), 4, 41, null);
+        checkDeparture(timetable.getDepartures().get(35), 22, 8, new String[]{expectedLegend1});
+        checkDeparture(timetable.getDepartures().get(36), 23, 5, new String[]{expectedLegend2});
     }
 
 
     /****************** API ********************/
 
-    private void checkTimetableGeneralInfo(Timetable timetable, String expectedStation, String expectedDestination, int expectedLineNumber) {
+    private void checkTimetableGeneralInfo(Timetable timetable, DayType expectedDayType, LineNumber expectedLineNumber,
+                                           String expectedStation, String expectedDestination, int expectedDeparturesNumber ) {
         assertNotNull(timetable);
+        assertEquals(expectedDayType, timetable.getDayType());
         assertEquals(expectedStation, timetable.getStation());
         assertEquals(expectedDestination, timetable.getDestStation());
-        assertEquals(expectedLineNumber, timetable.getLine().getNumeric());
+        assertEquals(expectedLineNumber, timetable.getLine());
+        assertEquals(expectedDeparturesNumber, timetable.getDepartures().size());
     }
 
-    private void checkDayTypeWithSizes(Map<DayType, List<Departure>> departures, DayType[] expectedDayType, int[] expectedSizes) {
-        checkDayType(departures.keySet(), expectedDayType);
-        assertEquals(expectedSizes.length, departures.keySet().size());
-        for (int i = 0; i < expectedDayType.length; i++) {
-            assertEquals(departures.get(expectedDayType[i]).size(), expectedSizes[i]);
-        }
-    }
-
-    private void checkDayType(Set<DayType> dayTypes, DayType[] expectedDayTypes) {
+    private void checkDayType(List<DayType> dayTypes, DayType[] expectedDayTypes) {
         TestUtils.checkCollectionSize(dayTypes, expectedDayTypes.length);
         for (DayType expectedDayType : expectedDayTypes) {
-            assertTrue("Expected to find " + expectedDayType.toString(), dayTypes.contains(expectedDayType));
+            assertTrue("Expected to find " + expectedDayType.toString() + " in " + TimetableProvider.dayTypesListToString(dayTypes), dayTypes.contains(expectedDayType));
         }
     }
 

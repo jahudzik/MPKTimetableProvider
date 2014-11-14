@@ -11,9 +11,7 @@ import pl.jahu.mpk.parsers.data.ParsableData;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  *  Created by jahudzik on 2014-07-13.
@@ -30,52 +28,51 @@ public class TimetableParser {
 
     private Elements legendCells;
 
+    public List<DayType> parseDayTypes(ParsableData parsableData, LineNumber lineNumber) throws TimetableParseException {
+        Document document = parsableData.getDocument();
+        Elements rows = document.getElementsByClass(DEPARTURES_TABLE_CLASS).get(0).getElementsByTag("tr");
+        Elements dayTypes = rows.get(0).children();
+        if (dayTypes.size() == 0) {
+            throw new TimetableParseException("No day type info found on the timetable", parsableData.getLocation());
+        }
+        return retrieveDayTypeConfiguration(dayTypes, lineNumber.isNightly(), parsableData.getLocation());
+    }
+
 
     /**
-     * Parser document and returns departures lists for each day type
-     * @return Timetable object holding map with departures lists for each day type
+     * Parses document and returns departures lists for one day type from the dayTypesList pointed by dayTypeIndex
+     * @return Timetable object holding map with departures lists for chosen day type
      */
-    public Timetable parse(ParsableData parsableData, LineNumber lineNumber) throws TimetableParseException {
+    public Timetable parseDepartures(ParsableData parsableData, List<DayType> dayTypesList, int dayTypeIndex, LineNumber lineNumber) throws TimetableParseException {
         Document document = parsableData.getDocument();
-        Map<DayType, List<Departure>> departures = new HashMap<>();
+        List<Departure> departures = new ArrayList<>();
         Elements rows = document.getElementsByClass(DEPARTURES_TABLE_CLASS).get(0).getElementsByTag("tr");
         if (rows.size() > 0) {
 
-            // parse day types
-            Elements dayTypes = rows.get(0).children();
-            if (dayTypes.size() > 0) {
-                List<DayType> dayTypesList = retrieveDayTypeConfiguration(dayTypes, lineNumber.isNightly(), parsableData.getLocation());
-                for (DayType type : dayTypesList) {
-                    departures.put(type, new ArrayList<Departure>());
-                }
+            // get legend
+            legendCells = rows.get(rows.size() - 1).getElementsByClass(LEGEND_CELL_CLASS);
 
-                // get legend
-                legendCells = rows.get(rows.size() - 1).getElementsByClass(LEGEND_CELL_CLASS);
-
-                // first row is for day types, last row is for extra info - parse the rest (actual timetables)
-                for (int i = 1; i < rows.size() - 1; i++) {
-                    Elements hourCells = rows.get(i).getElementsByClass(HOUR_CELL_CLASS);
-                    if (hourCells.size() > 0) {
-                        int hour = new Integer(hourCells.get(0).text());
-                        Elements minCells = rows.get(i).getElementsByClass(MINUTE_CELL_CLASS);
-                        if (minCells.size() == dayTypesList.size()) {
-                            for (int j = 0; j < dayTypes.size(); j++) {
-                                String minuteString = minCells.get(j).text();
-                                if (!minuteString.equals(NO_MINUTES_PATTERN)) {
-                                    List<Departure> deps = buildDeparturesList(hour, minuteString, parsableData.getLocation());
-                                    departures.get(dayTypesList.get(j)).addAll(deps);
-                                }
-                            }
-                        } else {
-                            throw new TimetableParseException("No minute cell found", parsableData.getLocation());
+            // first row is for day types, last row is for extra info - parse the rest (actual timetables)
+            for (int i = 1; i < rows.size() - 1; i++) {
+                Elements hourCells = rows.get(i).getElementsByClass(HOUR_CELL_CLASS);
+                if (hourCells.size() > 0) {
+                    int hour = new Integer(hourCells.get(0).text());
+                    Elements minCells = rows.get(i).getElementsByClass(MINUTE_CELL_CLASS);
+                    if (minCells.size() == dayTypesList.size()) {
+                        // get minute cells only from day type column pointed by dayTypeIndex
+                        String minuteString = minCells.get(dayTypeIndex).text();
+                        if (!minuteString.equals(NO_MINUTES_PATTERN)) {
+                            List<Departure> deps = buildDeparturesList(hour, minuteString, parsableData.getLocation());
+                            departures.addAll(deps);
                         }
                     } else {
-                        throw new TimetableParseException("No hour cell found", parsableData.getLocation());
+                        throw new TimetableParseException("No minute cell found", parsableData.getLocation());
                     }
+                } else {
+                    throw new TimetableParseException("No hour cell found", parsableData.getLocation());
                 }
-            } else {
-                throw new TimetableParseException("No day type info found on the timetable", parsableData.getLocation());
             }
+
         } else {
             throw new TimetableParseException("No departure info found on the timetable", parsableData.getLocation());
         }
@@ -91,7 +88,7 @@ public class TimetableParser {
 
         String station = retrieveSpecificCell(document, STOP_NAME_CLASS, "stop name", parsableData.getLocation());
 
-        return new Timetable(station, lineNumber, destStation, departures);
+        return new Timetable(station, lineNumber, destStation, dayTypesList.get(dayTypeIndex), departures);
     }
 
 

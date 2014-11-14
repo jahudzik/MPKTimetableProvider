@@ -5,19 +5,20 @@ import org.junit.Before;
 import org.junit.Test;
 import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.DefaultTestModule;
-import pl.jahu.mpk.tools.TransitBuilder;
 import pl.jahu.mpk.entities.*;
 import pl.jahu.mpk.parsers.data.StationData;
 import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 import pl.jahu.mpk.providers.TimetableProvider;
+import pl.jahu.mpk.tools.TransitBuilder;
 import pl.jahu.mpk.utils.LineNumbersResolver;
+import pl.jahu.mpk.utils.TimeUtils;
 import pl.jahu.mpk.validators.exceptions.TransitValidationException;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -32,6 +33,7 @@ public class ShowTimetableIntegrationTest {
     private static String destination;
     private static int actSequenceNumber;
     private static boolean printGeneralOutput;
+    private static Date testDate;
 
     @Inject
     static TimetableProvider timetableProvider;
@@ -39,6 +41,7 @@ public class ShowTimetableIntegrationTest {
     @Before
     public void setUp() {
         DaggerApplication.init(new DefaultTestModule());
+        testDate = TimeUtils.buildDate(12, 11, 2014);
     }
 
     @Test
@@ -91,30 +94,28 @@ public class ShowTimetableIntegrationTest {
 
                         // parse and save timetable
                         actSequenceNumber = station.getSequenceNumber();
-                        Timetable timetable = timetableProvider.getTimetable(line, station.getSequenceNumber());
-                        Map<DayType, List<Departure>> departures = timetable.getDepartures();
+                        Timetable timetable = timetableProvider.getTimetable(testDate, line, station.getSequenceNumber());
+                        List<Departure> departures = timetable.getDepartures();
                         assertNotNull(departures);
                         assertTrue(departures.size() > 0);
                         timetables.add(timetable);
                     }
 
                     // get list of all transits on the route (based on timetables)
-                    Map<DayType, List<Transit>> transitsMap = TransitBuilder.buildFromTimetables(timetables);
-                    assertNotNull(transitsMap);
-                    assertTrue(transitsMap.size() > 0);
+                    List<Transit> transits = TransitBuilder.buildFromTimetables(timetables);
+                    assertNotNull(transits);
+                    assertTrue(transits.size() > 0);
 
+                    DayType dayType = timetables.get(0).getDayType();
                     // prints all transits
                     if (printDetailedOutput) {
-                        TransitBuilder.printTransitsMap(transitsMap);
+                        TransitBuilder.printTransitsList(dayType, transits);
                     }
 
                     // prints general summary of each destination of each line
                     if (printGeneralOutput) {
                         StringBuilder sb = new StringBuilder();
-                        for (DayType dayType : transitsMap.keySet()) {
-                            List<Transit> transits = transitsMap.get(dayType);
-                            sb.append(dayType).append("=").append(transits.size()).append(";");
-                        }
+                        sb.append(dayType).append("=").append(transits.size()).append(";");
                         System.out.println("PASSED: {line=" + line + ", route='" + route.get(0).getName() + "'->'" + destination + "', stations=" + route.size() + ", departures={" + sb.toString() + "} }");
                     }
                 } catch (ParsableDataNotFoundException e) {
