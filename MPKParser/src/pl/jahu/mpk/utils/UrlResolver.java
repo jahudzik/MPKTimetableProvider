@@ -35,15 +35,11 @@ public class UrlResolver {
 
 
     public static String getLineLiteral(LineNumber lineNo)  {
-        return (lineNo.isNumericOnly()) ? getNumberLiteral(lineNo.getNumeric()) : getStringNumberLiteral(lineNo);
+        return getLineNumberLiteral(lineNo);
     }
 
-    private static String getNumberLiteral(Integer value) {
-        return (value < 10) ? "000" + value.toString() : (value < 100) ? "00" + value.toString() : "0" + value.toString();
-    }
-
-    private static String getStringNumberLiteral(LineNumber lineNo) {
-        switch (lineNo.getLiteral().length()) {
+    private static String getLineNumberLiteral(LineNumber lineNo) {
+        switch (lineNo.getValue().length()) {
             case 1:
                 return "000" + lineNo.toString();
             case 2:

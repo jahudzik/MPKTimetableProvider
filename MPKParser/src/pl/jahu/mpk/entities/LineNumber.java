@@ -4,32 +4,32 @@ package pl.jahu.mpk.entities;
  * MPK Timetable Parser
  * Created by jahudzik on 2014-09-05.
  */
-public class LineNumber implements Comparable<LineNumber> {
-    private Integer numeric = -1;
-    private String literal;
-    private boolean numericOnly;
+public final class LineNumber implements Comparable<LineNumber> {
 
-    public LineNumber(int numeric)  {
-        if (numeric < 0 || numeric > 9999) {
-            throw new IllegalArgumentException("Incorrect line number: " + Integer.toString(numeric));
+    private final Integer numeric;
+
+    private final String value;
+
+    public LineNumber(int numericValue)  {
+        if (numericValue < 0 || numericValue > 9999) {
+            throw new IllegalArgumentException("Incorrect line number: " + Integer.toString(numericValue));
         }
-        this.numeric = numeric;
-        this.literal = Integer.toString(numeric);
-        this.numericOnly = true;
+        this.numeric = numericValue;
+        this.value = Integer.toString(numericValue);
     }
 
-    public LineNumber(String literal)  {
-        if (literal == null || literal.equals("") || literal.length() > 4) {
-            throw new IllegalArgumentException("Incorrect line number: '" + literal + "'");
+    public LineNumber(String value)  {
+        if (value == null || value.equals("") || value.length() > 4) {
+            throw new IllegalArgumentException("Incorrect line number: '" + value + "'");
         }
-        this.literal = literal;
-        try {
-            this.numeric = Integer.parseInt(literal);
-            this.numericOnly = true;
-        } catch (NumberFormatException e) {
-            String strippedLiteral = literal.replaceAll("[\\D]", "");
+        this.value = value;
+
+        if (value.matches("\\d+")) {
+            this.numeric = Integer.parseInt(value);
+        } else {
+            // remove all non-digits
+            String strippedLiteral = value.replaceAll("[\\D]", "");
             this.numeric = ("".equals(strippedLiteral)) ? -1 : Integer.parseInt(strippedLiteral);
-            this.numericOnly = false;
         }
     }
 
@@ -37,33 +37,29 @@ public class LineNumber implements Comparable<LineNumber> {
         return numeric;
     }
 
-    public String getLiteral() {
-        return literal;
-    }
-
-    public boolean isNumericOnly() {
-        return numericOnly;
+    public String getValue() {
+        return value;
     }
 
     public boolean isNightly() {
-        return (literal.startsWith("6") || literal.startsWith("9"));
+        return (value.startsWith("6") || value.startsWith("9"));
     }
 
     @Override
     public int compareTo(LineNumber other) {
-        boolean startWithNumberMe = Character.isDigit(literal.charAt(0));
-        boolean startWithNumverOther = Character.isDigit(other.literal.charAt(0));
+        boolean startWithNumberMe = Character.isDigit(value.charAt(0));
+        boolean startWithNumverOther = Character.isDigit(other.value.charAt(0));
 
         if (startWithNumberMe && startWithNumverOther) {
             // both start with numbers, but may have string suffixes - compare numbers, if equal compare strings
             int numDiff = numeric.compareTo(other.numeric);
-            return (numDiff == 0) ? literal.compareTo(other.literal) : numDiff;
+            return (numDiff == 0) ? value.compareTo(other.value) : numDiff;
         } else {
             if (!startWithNumberMe && !startWithNumverOther) {
                 // both start with literals - compare strings
-                return literal.compareTo(other.literal);
+                return value.compareTo(other.value);
             } else {
-                // one starts with number, second with literal - number is smaller than literal
+                // one starts with number, second with letter - number is smaller than literal value
                 return (startWithNumberMe) ? -1 : 1;
             }
         }
@@ -77,22 +73,17 @@ public class LineNumber implements Comparable<LineNumber> {
         if (!(obj instanceof LineNumber)) {
             return false;
         }
-        LineNumber other = (LineNumber)obj;
-        return (numeric.equals(other.numeric) && literal.equals(other.literal) && numericOnly == other.numericOnly);
+        return value.equals(((LineNumber)obj).value);
     }
 
     @Override
     public int hashCode() {
-        int result = 17;
-        result = 31 * result + ((numeric != null) ? numeric : 0);
-        result = 31 * result + ((literal != null) ? literal.hashCode() : 0);
-        result = 31 * result + ((numericOnly) ? 1 : 0);
-        return result;
+        return value.hashCode();
     }
 
     @Override
     public String toString() {
-        return literal;
+        return value;
     }
 
 }

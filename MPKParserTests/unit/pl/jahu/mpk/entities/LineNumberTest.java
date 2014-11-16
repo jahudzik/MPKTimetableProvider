@@ -33,22 +33,22 @@ public class LineNumberTest {
 
     @Test
     public void testLiteralConstructor4() {
-        checkNumber(new LineNumber(16), 16, "16", true);
+        checkNumber(new LineNumber(16), 16, "16");
     }
 
     @Test
     public void testLiteralConstructor5() {
-        checkNumber(new LineNumber("Z8"), 8, "Z8", false);
+        checkNumber(new LineNumber("Z8"), 8, "Z8");
     }
 
     @Test
     public void testLiteralConstructor6() {
-        checkNumber(new LineNumber("62A"), 62, "62A", false);
+        checkNumber(new LineNumber("62A"), 62, "62A");
     }
 
     @Test
     public void testLiteralConstructor7() {
-        checkNumber(new LineNumber("D"), -1, "D", false);
+        checkNumber(new LineNumber("D"), -1, "D");
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -63,7 +63,7 @@ public class LineNumberTest {
 
     @Test
     public void testNumericConstructor3() {
-        checkNumber(new LineNumber(3), 3, "3", true);
+        checkNumber(new LineNumber(3), 3, "3");
     }
 
 
@@ -325,10 +325,9 @@ public class LineNumberTest {
 
     /***************** API ********************/
 
-    private void checkNumber(LineNumber lineNumber, int expectedNumeric, String expectedLiteral, boolean expectedIsNumeric) {
+    private void checkNumber(LineNumber lineNumber, int expectedNumeric, String expectedLiteral) {
         assertEquals(expectedNumeric, lineNumber.getNumeric());
-        assertEquals(expectedLiteral, lineNumber.getLiteral());
-        assertEquals(expectedIsNumeric, lineNumber.isNumericOnly());
+        assertEquals(expectedLiteral, lineNumber.getValue());
     }
 
     private void checkDifferentNumbersComparison(LineNumber smallerNumber, LineNumber biggerNumber) {
