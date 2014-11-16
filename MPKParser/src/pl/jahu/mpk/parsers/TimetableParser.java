@@ -72,7 +72,6 @@ public class TimetableParser {
                     throw new TimetableParseException("No hour cell found", parsableData.getLocation());
                 }
             }
-
         } else {
             throw new TimetableParseException("No departure info found on the timetable", parsableData.getLocation());
         }
@@ -115,7 +114,7 @@ public class TimetableParser {
         for (String minString : mins) {
             try {
                 int min = Integer.parseInt(minString);
-                deps.add(new Departure(hour, min));
+                deps.add(new Departure(hour, min, null));
             } catch (NumberFormatException e) {
                 int min = Integer.parseInt(minString.substring(0, 2));
                 String legendLetters = minString.substring(2);

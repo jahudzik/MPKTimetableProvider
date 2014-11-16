@@ -6,13 +6,13 @@ import pl.jahu.mpk.entities.LineNumber;
  * MPK Timetable Parser
  * Created by jahudzik on 2014-10-21.
  */
-public class StationData {
+public final class StationData {
 
-    private String name;
+    private final String name;
 
-    private LineNumber lineNumber;
+    private final LineNumber lineNumber;
 
-    private int sequenceNumber;
+    private final int sequenceNumber;
 
     public StationData(String name, LineNumber lineNumber, int sequenceNumber) {
         this.name = name;

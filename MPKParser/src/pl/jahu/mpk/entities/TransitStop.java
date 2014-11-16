@@ -6,10 +6,11 @@ import pl.jahu.mpk.utils.Time;
  * MPK Timetable Parser
  * Created by jahudzik on 2014-08-31.
  */
-public class TransitStop {
+public final class TransitStop {
 
-    private Time time;
-    private String station;
+    private final Time time;
+
+    private final String station;
 
     public TransitStop(Time time, String station) {
         this.time = time;

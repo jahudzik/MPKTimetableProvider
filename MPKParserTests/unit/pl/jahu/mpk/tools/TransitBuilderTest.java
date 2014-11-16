@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 /**
  * MPK Timetable Parser
@@ -125,7 +124,7 @@ public class TransitBuilderTest {
     private Timetable buildTimetable(DayType dayType, int[] times, String station, int lineNo, String destStation) {
         ArrayList<Departure> departures = new ArrayList<>();
         for (int j = 0; j < times.length; j += 2) {
-            departures.add(new Departure(times[j], times[j + 1]));
+            departures.add(new Departure(times[j], times[j + 1], null));
         }
         return new Timetable(station, new LineNumber(lineNo), destStation, dayType, departures);
     }

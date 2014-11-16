@@ -11,14 +11,11 @@ import java.util.Map;
  * MPK Timetable Parser
  * Created by jahudzik on 2014-11-07.
  */
-public class DayType {
+public final class DayType {
 
     private final static int DAY_START = 3;
-
     private final static int DAY_END = 1;
-
     private final static int NIGHT_START = 23;
-
     private final static int NIGHT_END = 6;
 
     private final Date startDate;
