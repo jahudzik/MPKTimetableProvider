@@ -1,5 +1,6 @@
 package pl.jahu.mpk.tools;
 
+import pl.jahu.mpk.entities.Line;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parsers.data.StationData;
 import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
@@ -50,16 +51,16 @@ public class TimetablesDownloader {
      */
     public static void downloadTimetables(LineNumber firstLine, LineNumber lastLine) {
         try {
-            List<LineNumber> lines = timetableProvider.getLinesList();
+            List<Line> lines = timetableProvider.getLinesList();
 
             int[] linesRange = LineNumbersResolver.getLinesFromRange(lines, firstLine, lastLine);
             for (int i = linesRange[0]; i <= linesRange[1]; i++) {
-                LineNumber line = lines.get(i);
+                Line line = lines.get(i);
                 int direction = 1;
                 while (downloadLineRouteData(line, direction)) {
-                    List<StationData> route = timetableProvider.getLineRoute(line, direction);
+                    List<StationData> route = timetableProvider.getLineRoute(line.getNumber(), direction);
                     for (StationData station : route) {
-                        String url = UrlResolver.getStationTimetableUrl(line, station.getSequenceNumber());
+                        String url = UrlResolver.getStationTimetableUrl(line.getNumber(), station.getSequenceNumber());
                         downloadUtils.downloadUrl(url, TIMETABLES_LOCATION + getPageName(url));
                     }
                     direction++;
@@ -71,8 +72,8 @@ public class TimetablesDownloader {
 
     }
 
-    private static boolean downloadLineRouteData(LineNumber line, int direction) {
-        String lineRouteUrl = UrlResolver.getLineRouteUrl(line, direction);
+    private static boolean downloadLineRouteData(Line line, int direction) {
+        String lineRouteUrl = UrlResolver.getLineRouteUrl(line.getNumber(), direction);
         return downloadUtils.downloadUrl(lineRouteUrl, TIMETABLES_LOCATION + getPageName(lineRouteUrl));
     }
 

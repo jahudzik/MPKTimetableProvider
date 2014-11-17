@@ -1,6 +1,7 @@
 package pl.jahu.mpk.providers;
 
 import pl.jahu.mpk.entities.DayType;
+import pl.jahu.mpk.entities.Line;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.entities.Timetable;
 import pl.jahu.mpk.parsers.LineRouteParser;
@@ -36,12 +37,12 @@ public abstract class TimetableProvider {
 
     abstract public ParsableData getTimetableDocument(LineNumber lineNumber, int stationSequenceNumber) throws ParsableDataNotFoundException;
 
-    public List<LineNumber> getLinesList() throws ParsableDataNotFoundException {
+    public List<Line> getLinesList() throws ParsableDataNotFoundException {
         ParsableData data = getLinesListDocument();
         return linesListParser.parseAll(data);
     }
 
-    public List<LineNumber> getChangedLinesList() throws ParsableDataNotFoundException {
+    public List<Line> getChangedLinesList() throws ParsableDataNotFoundException {
         ParsableData data = getLinesListDocument();
         return linesListParser.parseChanged(data);
     }

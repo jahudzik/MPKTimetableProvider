@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import pl.jahu.mpk.AppModule;
 import pl.jahu.mpk.DaggerApplication;
+import pl.jahu.mpk.entities.Line;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parsers.data.StationData;
 import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
@@ -144,10 +145,11 @@ public class TimetablesDownloaderTest {
 
     /******************** API ********************/
 
-    private List<LineNumber> buildLinesList(int[] numbers) {
-        List<LineNumber> linesList = new ArrayList<>();
+    private List<Line> buildLinesList(int[] numbers) {
+        List<Line> linesList = new ArrayList<>();
         for (int number : numbers) {
-            linesList.add(new LineNumber(number));
+            LineNumber lineNumber = new LineNumber(number);
+            linesList.add(new Line(lineNumber));
         }
         return linesList;
     }

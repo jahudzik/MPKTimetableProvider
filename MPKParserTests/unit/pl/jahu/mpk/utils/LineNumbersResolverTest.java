@@ -2,6 +2,7 @@ package pl.jahu.mpk.utils;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import pl.jahu.mpk.entities.Line;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.TestUtils;
 
@@ -17,21 +18,21 @@ import static org.junit.Assert.assertTrue;
  */
 public class LineNumbersResolverTest {
 
-    private static List<LineNumber> allLinesNumeric;
-    private static List<LineNumber> allLinesWithLiteral;
+    private static List<Line> allLinesNumeric;
+    private static List<Line> allLinesWithLiteral;
 
     @BeforeClass
     public static void setUp() {
-        LineNumber line1 = new LineNumber(2);
-        LineNumber line2 = new LineNumber(3);
-        LineNumber line3 = new LineNumber(6);
-        LineNumber line4 = new LineNumber(7);
-        LineNumber line5 = new LineNumber(10);
+        Line line1 = new Line(new LineNumber(2));
+        Line line2 = new Line(new LineNumber(3));
+        Line line3 = new Line(new LineNumber(6));
+        Line line4 = new Line(new LineNumber(7));
+        Line line5 = new Line(new LineNumber(10));
         allLinesNumeric = Arrays.asList(line1, line2, line3, line4, line5); // 2, 3, 6, 7, 10
 
-        LineNumber line6 = new LineNumber("6a");
-        LineNumber line7 = new LineNumber("6b");
-        LineNumber line8 = new LineNumber("X");
+        Line line6 = new Line(new LineNumber("6a"));
+        Line line7 = new Line(new LineNumber("6b"));
+        Line line8 = new Line(new LineNumber("X"));
         allLinesWithLiteral = Arrays.asList(line1, line2, line3, line6, line7, line4, line5, line8); // 2, 3, 6, 6a, 6b, 7, 10, X
     }
 

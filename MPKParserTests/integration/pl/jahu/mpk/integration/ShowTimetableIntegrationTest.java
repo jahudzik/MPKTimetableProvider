@@ -29,7 +29,7 @@ import static org.junit.Assert.*;
  */
 public class ShowTimetableIntegrationTest {
 
-    private static LineNumber actLine;
+    private static Line actLine;
     private static String destination;
     private static int actSequenceNumber;
     private static boolean printGeneralOutput;
@@ -63,7 +63,7 @@ public class ShowTimetableIntegrationTest {
 
     public static void showTimetable(int firstLine, int lastLine, boolean printGeneralOutput, boolean printDetailedOutput) throws ParsableDataNotFoundException, TimetableParseException, TransitValidationException {
         ShowTimetableIntegrationTest.printGeneralOutput = printGeneralOutput;
-        List<LineNumber> lines = timetableProvider.getLinesList();
+        List<Line> lines = timetableProvider.getLinesList();
         assertNotNull(lines);
         assertTrue(lines.size() > 0);
 
@@ -71,16 +71,16 @@ public class ShowTimetableIntegrationTest {
 
         // for each line...
         for (int k = linesRange[0]; k <= linesRange[1]; k++) {
-            LineNumber line = lines.get(k);
+            Line line = lines.get(k);
             actLine = line;
 
             // for each destination...
             for (int i = 1; i < 10; i++) {
                 try {
-                    destination = timetableProvider.getLineRouteDestination(line, i);
+                    destination = timetableProvider.getLineRouteDestination(line.getNumber(), i);
 
                     // get all stations on the route
-                    List<StationData> route = timetableProvider.getLineRoute(line, i);
+                    List<StationData> route = timetableProvider.getLineRoute(line.getNumber(), i);
                     assertNotNull(route);
                     assertTrue(route.size() > 0);
                     List<Timetable> timetables = new ArrayList<>();
@@ -94,7 +94,7 @@ public class ShowTimetableIntegrationTest {
 
                         // parse and save timetable
                         actSequenceNumber = station.getSequenceNumber();
-                        Timetable timetable = timetableProvider.getTimetable(testDate, line, station.getSequenceNumber());
+                        Timetable timetable = timetableProvider.getTimetable(testDate, line.getNumber(), station.getSequenceNumber());
                         List<Departure> departures = timetable.getDepartures();
                         assertNotNull(departures);
                         assertTrue(departures.size() > 0);
