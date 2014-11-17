@@ -42,9 +42,6 @@ public class LineNumbersResolver {
     public List<Integer> getLineNumbersCandidates() {
         LinesList lines = new LinesList();
         if (vehicleTypes.contains(VehicleTypes.TRAM)) {
-            if (reasonTypes.contains(ReasonTypes.SPECIAL)) {
-                lines.add(0);
-            }
             if (reasonTypes.contains(ReasonTypes.STANDARD)) {
                 lines.addRange(1, 59);
             }
@@ -53,6 +50,10 @@ public class LineNumbersResolver {
             }
             if (reasonTypes.contains(ReasonTypes.REPLACEMENT)) {
                 lines.addRange(70, 79);
+            }
+            if (reasonTypes.contains(ReasonTypes.SPECIAL)) {
+                lines.addRange(80, 89);
+                lines.add(0);
             }
         }
         if (vehicleTypes.contains(VehicleTypes.BUS)) {
@@ -71,6 +72,9 @@ public class LineNumbersResolver {
                 }
                 if (reasonTypes.contains(ReasonTypes.REPLACEMENT)) {
                     lines.addRange(700, 799);
+                }
+                if (reasonTypes.contains(ReasonTypes.SPECIAL)) {
+                    lines.addRange(800, 899);
                 }
             }
             if (areaTypes.contains(AreaTypes.AGGLOMERATION)) {
