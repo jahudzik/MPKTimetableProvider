@@ -16,7 +16,10 @@ public final class LineType {
 
     private final VehicleTypes vehicleType;
 
-    public LineType(AreaTypes areaType, ReasonTypes reasonType, VehicleTypes vehicleType) {
+    public LineType(VehicleTypes vehicleType, ReasonTypes reasonType, AreaTypes areaType) {
+        if (areaType == null || reasonType == null || vehicleType == null) {
+            throw new IllegalArgumentException("Null parameter in constructor");
+        }
         this.areaType = areaType;
         this.reasonType = reasonType;
         this.vehicleType = vehicleType;
@@ -37,9 +40,9 @@ public final class LineType {
     @Override
     public int hashCode() {
         int result = 17;
-        result = 31 * result + ((areaType != null) ? areaType.hashCode() : 0);
-        result = 31 * result + ((reasonType != null) ? reasonType.hashCode() : 0);
-        result = 31 * result + ((vehicleType != null) ? vehicleType.hashCode() : 0);
+        result = 31 * result + areaType.hashCode();
+        result = 31 * result + reasonType.hashCode();
+        result = 31 * result + vehicleType.hashCode();
         return result;
     }
 

@@ -15,74 +15,62 @@ public class LineTypeTest {
 
     @Test
     public void equals_test1() {
-        LineType lineType = new LineType(AreaTypes.CITY, ReasonTypes.STANDARD, VehicleTypes.BUS);
+        LineType lineType = new LineType(VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.CITY);
         assertTrue(lineType.equals(lineType));
     }
 
     @Test
     public void equals_test2() {
-        LineType lineType1 = new LineType(AreaTypes.CITY, ReasonTypes.STANDARD, VehicleTypes.BUS);
-        LineType lineType2 = new LineType(AreaTypes.CITY, ReasonTypes.STANDARD, VehicleTypes.BUS);
+        LineType lineType1 = new LineType(VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.CITY);
+        LineType lineType2 = new LineType(VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.CITY);
         assertTrue(lineType1.equals(lineType2));
         assertTrue(lineType2.equals(lineType1));
     }
 
     @Test
     public void equals_test3() {
-        LineType lineType = new LineType(AreaTypes.CITY, ReasonTypes.STANDARD, VehicleTypes.BUS);
+        LineType lineType = new LineType(VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.CITY);
         assertFalse(lineType.equals(null));
     }
 
     @Test
+    @SuppressWarnings("EqualsBetweenInconvertibleTypes")
     public void equals_test4() {
-        LineType lineType = new LineType(AreaTypes.CITY, ReasonTypes.STANDARD, VehicleTypes.BUS);
+        LineType lineType = new LineType(VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.CITY);
         LineNumber lineNumber = new LineNumber(9);
         assertFalse(lineType.equals(lineNumber));
     }
 
     @Test
     public void equals_test5() {
-        LineType lineType1 = new LineType(AreaTypes.CITY, ReasonTypes.STANDARD, VehicleTypes.BUS);
-        LineType lineType2 = new LineType(AreaTypes.AGGLOMERATION, ReasonTypes.STANDARD, VehicleTypes.BUS);
+        LineType lineType1 = new LineType(VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.CITY);
+        LineType lineType2 = new LineType(VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.AGGLOMERATION);
         assertFalse(lineType1.equals(lineType2));
         assertFalse(lineType2.equals(lineType1));
     }
 
     @Test
     public void equals_test6() {
-        LineType lineType1 = new LineType(AreaTypes.CITY, ReasonTypes.STANDARD, VehicleTypes.BUS);
-        LineType lineType2 = new LineType(AreaTypes.CITY, ReasonTypes.STANDARD, VehicleTypes.TRAM);
+        LineType lineType1 = new LineType(VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.CITY);
+        LineType lineType2 = new LineType(VehicleTypes.TRAM, ReasonTypes.STANDARD, AreaTypes.CITY);
         assertFalse(lineType1.equals(lineType2));
         assertFalse(lineType2.equals(lineType1));
     }
 
-    @Test
-    public void equals_test7() {
-        LineType lineType1 = new LineType(AreaTypes.CITY, ReasonTypes.STANDARD, VehicleTypes.BUS);
-        LineType lineType2 = new LineType(AreaTypes.CITY, ReasonTypes.STANDARD, null);
-        assertFalse(lineType1.equals(lineType2));
-        assertFalse(lineType2.equals(lineType1));
-    }
 
 
     @Test
     public void hashCode_test1() {
-        LineType lineType1 = new LineType(AreaTypes.CITY, ReasonTypes.STANDARD, VehicleTypes.BUS);
-        LineType lineType2 = new LineType(AreaTypes.CITY, ReasonTypes.STANDARD, VehicleTypes.BUS);
+        LineType lineType1 = new LineType(VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.CITY);
+        LineType lineType2 = new LineType(VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.CITY);
         assertEquals(lineType1.hashCode(), lineType2.hashCode());
     }
 
-    @Test
-    public void hashCode_test2() {
-        LineType lineType1 = new LineType(AreaTypes.CITY, ReasonTypes.STANDARD, VehicleTypes.BUS);
-        LineType lineType2 = new LineType(AreaTypes.CITY, ReasonTypes.STANDARD, null);
-        assertNotEquals(lineType1.hashCode(), lineType2.hashCode());
-    }
 
     @Test
-    public void hashCode_test3() {
-        LineType lineType1 = new LineType(AreaTypes.CITY, ReasonTypes.STANDARD, VehicleTypes.BUS);
-        LineType lineType2 = new LineType(AreaTypes.CITY, ReasonTypes.STANDARD, VehicleTypes.TRAM);
+    public void hashCode_test2() {
+        LineType lineType1 = new LineType(VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.CITY);
+        LineType lineType2 = new LineType(VehicleTypes.TRAM, ReasonTypes.STANDARD, AreaTypes.CITY);
         assertNotEquals(lineType1.hashCode(), lineType2.hashCode());
     }
 
