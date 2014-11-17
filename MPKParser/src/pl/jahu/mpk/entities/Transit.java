@@ -13,12 +13,12 @@ import java.util.List;
  */
 public class Transit {
 
-    private LineNumber line;
+    private Line line;
     private String destStation;
     private List<TransitStop> stops;
     private Comparator<TransitStop> stopsComparator;
 
-    public Transit(LineNumber line) {
+    public Transit(Line line) {
         this.line = line;
         stops = new ArrayList<>();
         stopsComparator = new TransitStopsComparator();

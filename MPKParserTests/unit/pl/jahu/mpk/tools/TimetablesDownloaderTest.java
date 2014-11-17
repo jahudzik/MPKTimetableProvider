@@ -7,8 +7,8 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import pl.jahu.mpk.AppModule;
 import pl.jahu.mpk.DaggerApplication;
+import pl.jahu.mpk.TestUtils;
 import pl.jahu.mpk.entities.Line;
-import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parsers.data.StationData;
 import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
@@ -97,7 +97,7 @@ public class TimetablesDownloaderTest {
     @Test
     public void downloadTimetables_route() throws ParsableDataNotFoundException, TimetableParseException {
         when(timetableProviderMock.getLinesList()).thenReturn(buildLinesList(new int[]{1, 3, 4, 6, 7, 8, 10, 12, 15, 16, 21}));
-        when(timetableProviderMock.getLineRoute(new LineNumber(8), 1)).thenReturn(buildRouteStationsList());
+        when(timetableProviderMock.getLineRoute(new Line(8, TestUtils.EXAMPLE_LINE_TYPE), 1)).thenReturn(buildRouteStationsList());
         // just one direction
         when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0008/0008w001.htm"), anyString())).thenReturn(true);
         when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0008/0008w002.htm"), anyString())).thenReturn(false);
@@ -148,19 +148,18 @@ public class TimetablesDownloaderTest {
     private List<Line> buildLinesList(int[] numbers) {
         List<Line> linesList = new ArrayList<>();
         for (int number : numbers) {
-            LineNumber lineNumber = new LineNumber(number);
-            linesList.add(new Line(lineNumber));
+            linesList.add(new Line(number, TestUtils.EXAMPLE_LINE_TYPE));
         }
         return linesList;
     }
 
     private List<StationData> buildRouteStationsList() {
-        LineNumber lineNumber = new LineNumber(8);
+        Line line = new Line(8, TestUtils.EXAMPLE_LINE_TYPE);
         List<StationData> stationsList = new ArrayList<>();
-        stationsList.add(new StationData("X1", lineNumber, 1));
-        stationsList.add(new StationData("X2", lineNumber, 2));
-        stationsList.add(new StationData("X3", lineNumber, 3));
-        stationsList.add(new StationData("X4", lineNumber, 4));
+        stationsList.add(new StationData("X1", line, 1));
+        stationsList.add(new StationData("X2", line, 2));
+        stationsList.add(new StationData("X3", line, 3));
+        stationsList.add(new StationData("X4", line, 4));
         return stationsList;
     }
 

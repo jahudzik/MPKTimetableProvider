@@ -77,10 +77,10 @@ public class ShowTimetableIntegrationTest {
             // for each destination...
             for (int i = 1; i < 10; i++) {
                 try {
-                    destination = timetableProvider.getLineRouteDestination(line.getNumber(), i);
+                    destination = timetableProvider.getLineRouteDestination(line, i);
 
                     // get all stations on the route
-                    List<StationData> route = timetableProvider.getLineRoute(line.getNumber(), i);
+                    List<StationData> route = timetableProvider.getLineRoute(line, i);
                     assertNotNull(route);
                     assertTrue(route.size() > 0);
                     List<Timetable> timetables = new ArrayList<>();
@@ -89,12 +89,12 @@ public class ShowTimetableIntegrationTest {
                     for (StationData station : route) {
                         assertNotNull(station);
                         assertNotNull(station.getName());
-                        assertNotNull(station.getLineNumber());
+                        assertNotNull(station.getLine());
                         assertNotNull(station.getSequenceNumber());
 
                         // parse and save timetable
                         actSequenceNumber = station.getSequenceNumber();
-                        Timetable timetable = timetableProvider.getTimetable(testDate, line.getNumber(), station.getSequenceNumber());
+                        Timetable timetable = timetableProvider.getTimetable(testDate, line, station.getSequenceNumber());
                         List<Departure> departures = timetable.getDepartures();
                         assertNotNull(departures);
                         assertTrue(departures.size() > 0);

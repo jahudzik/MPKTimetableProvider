@@ -27,12 +27,12 @@ public class TransitBuilder {
     /**
      * Parses timetables of specified line in specified direction and builds list of transits.
      */
-    public static List<Transit> parseAndBuild(Date date, LineNumber lineNo, int direction) throws ParsableDataNotFoundException, TimetableParseException, TransitValidationException {
+    public static List<Transit> parseAndBuild(Date date, Line line, int direction) throws ParsableDataNotFoundException, TimetableParseException, TransitValidationException {
         List<Timetable> timetables = new ArrayList<>();
-        timetableProvider.getLineRoute(lineNo, direction);
-        List<StationData> stations = timetableProvider.getLineRoute(lineNo, direction);
+        timetableProvider.getLineRoute(line, direction);
+        List<StationData> stations = timetableProvider.getLineRoute(line, direction);
         for (StationData station : stations) {
-            timetables.add(timetableProvider.getTimetable(date, lineNo, station.getSequenceNumber()));
+            timetables.add(timetableProvider.getTimetable(date, line, station.getSequenceNumber()));
         }
         return buildFromTimetables(timetables);
     }

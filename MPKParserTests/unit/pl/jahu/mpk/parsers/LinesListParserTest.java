@@ -5,7 +5,6 @@ import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.DefaultTestModule;
 import pl.jahu.mpk.TestUtils;
 import pl.jahu.mpk.entities.Line;
-import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.entities.LineType;
 import pl.jahu.mpk.enums.AreaTypes;
 import pl.jahu.mpk.enums.ReasonTypes;
@@ -16,7 +15,6 @@ import pl.jahu.mpk.providers.TimetableProvider;
 import javax.inject.Inject;
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -191,11 +189,11 @@ public class LinesListParserTest {
     }
 
     private void checkExpectedLine(List<Line> lines, int expectedNumber, VehicleTypes expectedVehicleType, ReasonTypes expectedReasonType, AreaTypes expectedAreaType) {
-        assertTrue("Didn't find expected line number [" + expectedNumber + "]", lines.contains(new Line(new LineNumber(expectedNumber), new LineType(expectedVehicleType, expectedReasonType, expectedAreaType))));
+        assertTrue("Didn't find expected line number [" + expectedNumber + "]", lines.contains(new Line(expectedNumber, new LineType(expectedVehicleType, expectedReasonType, expectedAreaType))));
     }
 
     private void checkExpectedLine(List<Line> lines, String expectedNumber, VehicleTypes expectedVehicleType, ReasonTypes expectedReasonType, AreaTypes expectedAreaType) {
-        assertTrue("Didn't find expected line number [" + expectedNumber + "]", lines.contains(new Line(new LineNumber(expectedNumber), new LineType(expectedVehicleType, expectedReasonType, expectedAreaType))));
+        assertTrue("Didn't find expected line number [" + expectedNumber + "]", lines.contains(new Line(expectedNumber, new LineType(expectedVehicleType, expectedReasonType, expectedAreaType))));
     }
 
 }

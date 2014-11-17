@@ -23,16 +23,16 @@ public class LineNumbersResolverTest {
 
     @BeforeClass
     public static void setUp() {
-        Line line1 = new Line(new LineNumber(2));
-        Line line2 = new Line(new LineNumber(3));
-        Line line3 = new Line(new LineNumber(6));
-        Line line4 = new Line(new LineNumber(7));
-        Line line5 = new Line(new LineNumber(10));
+        Line line1 = new Line(2, TestUtils.EXAMPLE_LINE_TYPE);
+        Line line2 = new Line(3, TestUtils.EXAMPLE_LINE_TYPE);
+        Line line3 = new Line(6, TestUtils.EXAMPLE_LINE_TYPE);
+        Line line4 = new Line(7, TestUtils.EXAMPLE_LINE_TYPE);
+        Line line5 = new Line(10, TestUtils.EXAMPLE_LINE_TYPE);
         allLinesNumeric = Arrays.asList(line1, line2, line3, line4, line5); // 2, 3, 6, 7, 10
 
-        Line line6 = new Line(new LineNumber("6a"));
-        Line line7 = new Line(new LineNumber("6b"));
-        Line line8 = new Line(new LineNumber("X"));
+        Line line6 = new Line("6a", TestUtils.EXAMPLE_LINE_TYPE);
+        Line line7 = new Line("6b", TestUtils.EXAMPLE_LINE_TYPE);
+        Line line8 = new Line("X", TestUtils.EXAMPLE_LINE_TYPE);
         allLinesWithLiteral = Arrays.asList(line1, line2, line3, line6, line7, line4, line5, line8); // 2, 3, 6, 6a, 6b, 7, 10, X
     }
 

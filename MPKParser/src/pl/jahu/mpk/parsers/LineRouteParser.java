@@ -2,7 +2,7 @@ package pl.jahu.mpk.parsers;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import pl.jahu.mpk.entities.LineNumber;
+import pl.jahu.mpk.entities.Line;
 import pl.jahu.mpk.parsers.data.ParsableData;
 import pl.jahu.mpk.parsers.data.StationData;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
@@ -19,7 +19,7 @@ public class LineRouteParser {
      * Parses chosen line route page
      * @return list of stations on the route without destination station
      */
-    public List<StationData> parse(LineNumber lineNumber, ParsableData parsableData) throws TimetableParseException {
+    public List<StationData> parse(Line line, ParsableData parsableData) throws TimetableParseException {
         List<StationData> list = new ArrayList<>();
         Elements stations = parsableData.getDocument().getElementsByAttributeValue("target", "R");
         for (Element station : stations) {
@@ -35,7 +35,7 @@ public class LineRouteParser {
             if (sequenceNumber == -1) {
                 throw new TimetableParseException("Could not retrieve station sequence number from '" + url + "'", parsableData.getLocation());
             }
-            list.add(new StationData(stationName, lineNumber, sequenceNumber));
+            list.add(new StationData(stationName, line, sequenceNumber));
         }
 
         return list;

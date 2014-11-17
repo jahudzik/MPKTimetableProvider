@@ -49,16 +49,16 @@ public class TimetablesDownloader {
     /**
      * Downloads timetables for lines from specified range [firstLine, lastLine] and saves them locally
      */
-    public static void downloadTimetables(LineNumber firstLine, LineNumber lastLine) {
+    public static void downloadTimetables(LineNumber firstLineNumber, LineNumber lastLineNumber) {
         try {
             List<Line> lines = timetableProvider.getLinesList();
 
-            int[] linesRange = LineNumbersResolver.getLinesFromRange(lines, firstLine, lastLine);
+            int[] linesRange = LineNumbersResolver.getLinesFromRange(lines, firstLineNumber, lastLineNumber);
             for (int i = linesRange[0]; i <= linesRange[1]; i++) {
                 Line line = lines.get(i);
                 int direction = 1;
                 while (downloadLineRouteData(line, direction)) {
-                    List<StationData> route = timetableProvider.getLineRoute(line.getNumber(), direction);
+                    List<StationData> route = timetableProvider.getLineRoute(line, direction);
                     for (StationData station : route) {
                         String url = UrlResolver.getStationTimetableUrl(line.getNumber(), station.getSequenceNumber());
                         downloadUtils.downloadUrl(url, TIMETABLES_LOCATION + getPageName(url));

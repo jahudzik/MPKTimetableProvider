@@ -129,7 +129,7 @@ public class TransitBuilderTest {
         for (int j = 0; j < times.length; j += 2) {
             departures.add(new Departure(times[j], times[j + 1], null));
         }
-        return new Timetable(station, new LineNumber(lineNo), destStation, dayType, departures);
+        return new Timetable(station, new Line(lineNo, TestUtils.EXAMPLE_LINE_TYPE), destStation, dayType, departures);
     }
 
     private void checkTransit(Transit transit, int expectedStopsCount, int expectedDuration, String expectedDestination,

@@ -34,20 +34,20 @@ public class UrlResolver {
     }
 
 
-    public static String getLineLiteral(LineNumber lineNo)  {
-        return getLineNumberLiteral(lineNo);
+    public static String getLineLiteral(LineNumber lineNumber)  {
+        return getLineNumberLiteral(lineNumber);
     }
 
-    private static String getLineNumberLiteral(LineNumber lineNo) {
-        switch (lineNo.getValue().length()) {
+    private static String getLineNumberLiteral(LineNumber lineNumber) {
+        switch (lineNumber.getValue().length()) {
             case 1:
-                return "000" + lineNo.toString();
+                return "000" + lineNumber.toString();
             case 2:
-                return "00" + lineNo.toString();
+                return "00" + lineNumber.toString();
             case 3:
-                return "0" + lineNo.toString();
+                return "0" + lineNumber.toString();
             case 4:
-                return lineNo.toString();
+                return lineNumber.toString();
             default:
                 return null;
         }

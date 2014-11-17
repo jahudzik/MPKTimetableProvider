@@ -25,6 +25,18 @@ public final class LineType {
         this.vehicleType = vehicleType;
     }
 
+    public AreaTypes getAreaType() {
+        return areaType;
+    }
+
+    public ReasonTypes getReasonType() {
+        return reasonType;
+    }
+
+    public VehicleTypes getVehicleType() {
+        return vehicleType;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {

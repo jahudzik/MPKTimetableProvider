@@ -41,10 +41,6 @@ public final class LineNumber implements Comparable<LineNumber> {
         return value;
     }
 
-    public boolean isNightly() {
-        return (value.startsWith("6") || value.startsWith("9"));
-    }
-
     @Override
     public int compareTo(LineNumber other) {
         boolean startWithNumberMe = Character.isDigit(value.charAt(0));
@@ -67,13 +63,7 @@ public final class LineNumber implements Comparable<LineNumber> {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
-        if (!(obj instanceof LineNumber)) {
-            return false;
-        }
-        return value.equals(((LineNumber)obj).value);
+        return (obj == this) || (obj instanceof LineNumber && value.equals(((LineNumber) obj).value));
     }
 
     @Override

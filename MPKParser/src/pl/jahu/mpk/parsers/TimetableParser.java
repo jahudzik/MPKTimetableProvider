@@ -5,7 +5,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import pl.jahu.mpk.entities.DayType;
 import pl.jahu.mpk.entities.Departure;
-import pl.jahu.mpk.entities.LineNumber;
+import pl.jahu.mpk.entities.Line;
 import pl.jahu.mpk.entities.Timetable;
 import pl.jahu.mpk.parsers.data.ParsableData;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
@@ -28,14 +28,14 @@ public class TimetableParser {
 
     private Elements legendCells;
 
-    public List<DayType> parseDayTypes(ParsableData parsableData, LineNumber lineNumber) throws TimetableParseException {
+    public List<DayType> parseDayTypes(ParsableData parsableData, boolean nightly) throws TimetableParseException {
         Document document = parsableData.getDocument();
         Elements rows = document.getElementsByClass(DEPARTURES_TABLE_CLASS).get(0).getElementsByTag("tr");
         Elements dayTypes = rows.get(0).children();
         if (dayTypes.size() == 0) {
             throw new TimetableParseException("No day type info found on the timetable", parsableData.getLocation());
         }
-        return retrieveDayTypeConfiguration(dayTypes, lineNumber.isNightly(), parsableData.getLocation());
+        return retrieveDayTypeConfiguration(dayTypes, nightly, parsableData.getLocation());
     }
 
 
@@ -43,7 +43,7 @@ public class TimetableParser {
      * Parses document and returns departures lists for one day type from the dayTypesList pointed by dayTypeIndex
      * @return Timetable object holding map with departures lists for chosen day type
      */
-    public Timetable parseDepartures(ParsableData parsableData, List<DayType> dayTypesList, int dayTypeIndex, LineNumber lineNumber) throws TimetableParseException {
+    public Timetable parseDepartures(ParsableData parsableData, List<DayType> dayTypesList, int dayTypeIndex, Line line) throws TimetableParseException {
         Document document = parsableData.getDocument();
         List<Departure> departures = new ArrayList<>();
         Elements rows = document.getElementsByClass(DEPARTURES_TABLE_CLASS).get(0).getElementsByTag("tr");
@@ -87,7 +87,7 @@ public class TimetableParser {
 
         String station = retrieveSpecificCell(document, STOP_NAME_CLASS, "stop name", parsableData.getLocation());
 
-        return new Timetable(station, lineNumber, destStation, dayTypesList.get(dayTypeIndex), departures);
+        return new Timetable(station, line, destStation, dayTypesList.get(dayTypeIndex), departures);
     }
 
 

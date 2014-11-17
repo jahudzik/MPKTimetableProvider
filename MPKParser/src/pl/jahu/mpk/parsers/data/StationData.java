@@ -1,6 +1,6 @@
 package pl.jahu.mpk.parsers.data;
 
-import pl.jahu.mpk.entities.LineNumber;
+import pl.jahu.mpk.entities.Line;
 
 /**
  * MPK Timetable Parser
@@ -10,13 +10,13 @@ public final class StationData {
 
     private final String name;
 
-    private final LineNumber lineNumber;
+    private final Line line;
 
     private final int sequenceNumber;
 
-    public StationData(String name, LineNumber lineNumber, int sequenceNumber) {
+    public StationData(String name, Line line, int sequenceNumber) {
         this.name = name;
-        this.lineNumber = lineNumber;
+        this.line = line;
         this.sequenceNumber = sequenceNumber;
     }
 
@@ -24,8 +24,8 @@ public final class StationData {
         return name;
     }
 
-    public LineNumber getLineNumber() {
-        return lineNumber;
+    public Line getLine() {
+        return line;
     }
 
     public int getSequenceNumber() {

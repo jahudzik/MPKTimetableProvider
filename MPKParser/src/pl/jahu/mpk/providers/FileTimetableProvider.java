@@ -34,8 +34,8 @@ public class FileTimetableProvider extends TimetableProvider {
     }
 
     @Override
-    public ParsableData getLineRouteDocument(LineNumber lineNo, int direction) throws ParsableDataNotFoundException {
-        return getDocumentFromFile(UrlResolver.getLineRouteFileName(lineNo, direction));
+    public ParsableData getLineRouteDocument(LineNumber lineNumber, int direction) throws ParsableDataNotFoundException {
+        return getDocumentFromFile(UrlResolver.getLineRouteFileName(lineNumber, direction));
     }
 
     @Override

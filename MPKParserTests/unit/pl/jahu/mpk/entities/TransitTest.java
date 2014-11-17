@@ -1,6 +1,7 @@
 package pl.jahu.mpk.entities;
 
 import org.junit.Test;
+import pl.jahu.mpk.TestUtils;
 import pl.jahu.mpk.utils.Time;
 
 import static org.junit.Assert.assertEquals;
@@ -15,14 +16,14 @@ public class TransitTest {
 
     @Test
     public void constructor_test() {
-        Transit transit = new Transit(new LineNumber(123));
+        Transit transit = new Transit(new Line(123, TestUtils.EXAMPLE_LINE_TYPE));
         checkStopsList(transit, new TransitStop[]{});
     }
 
 
     @Test
     public void addStop_test() {
-        Transit transit = new Transit(new LineNumber(123));
+        Transit transit = new Transit(new Line(123, TestUtils.EXAMPLE_LINE_TYPE));
         TransitStop stop1 = new TransitStop(new Time(15, 20), "station1");
         TransitStop stop2 = new TransitStop(new Time(15, 30), "station2");
         TransitStop stop3 = new TransitStop(new Time(15, 25), "station3");
@@ -39,19 +40,19 @@ public class TransitTest {
 
     @Test
     public void getDirections_test() {
-        Transit transit = new Transit(new LineNumber(1));
+        Transit transit = new Transit(new Line(1, TestUtils.EXAMPLE_LINE_TYPE));
         assertEquals("[empty]", transit.getDirections());
     }
 
     @Test
     public void toString_test1() {
-        Transit transit = new Transit(new LineNumber(1));
+        Transit transit = new Transit(new Line(1, TestUtils.EXAMPLE_LINE_TYPE));
         assertEquals("[empty]", transit.toString());
     }
 
     @Test
     public void toString_test2() {
-        Transit transit = new Transit(new LineNumber(1));
+        Transit transit = new Transit(new Line(1, TestUtils.EXAMPLE_LINE_TYPE));
         transit.addStop(new TransitStop(new Time(10, 13), "station1"));
         transit.addStop(new TransitStop(new Time(10, 16), "station2"));
         transit.addStop(new TransitStop(new Time(10, 18), "station3"));

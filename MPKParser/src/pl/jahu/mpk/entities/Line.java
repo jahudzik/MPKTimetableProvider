@@ -10,12 +10,13 @@ public final class Line implements Comparable<Line> {
 
     private final LineType type;
 
-    public Line(LineNumber number) {
-        this(number, null);
+    public Line(int numberValue, LineType type) {
+        this.number = new LineNumber(numberValue);
+        this.type = type;
     }
 
-    public Line(LineNumber number, LineType type) {
-        this.number = number;
+    public Line(String numberValue, LineType type) {
+        this.number = new LineNumber(numberValue);
         this.type = type;
     }
 

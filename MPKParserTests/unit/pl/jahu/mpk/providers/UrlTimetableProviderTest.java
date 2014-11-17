@@ -8,7 +8,11 @@ import pl.jahu.mpk.AppModule;
 import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.TestUtils;
 import pl.jahu.mpk.entities.DayType;
-import pl.jahu.mpk.entities.LineNumber;
+import pl.jahu.mpk.entities.Line;
+import pl.jahu.mpk.entities.LineType;
+import pl.jahu.mpk.enums.AreaTypes;
+import pl.jahu.mpk.enums.ReasonTypes;
+import pl.jahu.mpk.enums.VehicleTypes;
 import pl.jahu.mpk.parsers.LineRouteParser;
 import pl.jahu.mpk.parsers.LinesListParser;
 import pl.jahu.mpk.parsers.TimetableParser;
@@ -114,28 +118,28 @@ public class UrlTimetableProviderTest {
 
     @Test
     public void getLineRoute_test() throws ParsableDataNotFoundException, TimetableParseException, IOException {
-        LineNumber lineNumber = new LineNumber(5);
+        Line line = new Line(5, TestUtils.EXAMPLE_LINE_TYPE);
 
-        timetableProvider.getLineRoute(lineNumber, 1);
+        timetableProvider.getLineRoute(line, 1);
 
         verify(downloadUtilsMock).downloadJsoupDocument(eq("http://rozklady.mpk.krakow.pl/aktualne/0005/0005w001.htm"));
-        verify(lineRouteParserMock).parse(lineNumber, parsableDataMock);
+        verify(lineRouteParserMock).parse(line, parsableDataMock);
     }
 
     @Test
     public void getTimetable_test() throws TimetableParseException, ParsableDataNotFoundException, IOException {
-        LineNumber lineNumber = new LineNumber(605);
+        Line line = new Line(605, new LineType(VehicleTypes.BUS, ReasonTypes.NIGHTLY, AreaTypes.CITY));
         List<DayType> dayTypeList = Arrays.asList(TestUtils.WEEKDAY_TYPE, TestUtils.SATURDAY_TYPE, TestUtils.SUNDAY_TYPE);
-        when(timetableParserMock.parseDayTypes(any(ParsableData.class), eq(lineNumber))).thenReturn(dayTypeList);
+        when(timetableParserMock.parseDayTypes(any(ParsableData.class), anyBoolean())).thenReturn(dayTypeList);
 
-        timetableProvider.getTimetable(TimeUtils.buildDate(14, 11, 2014), lineNumber, 17);
+        timetableProvider.getTimetable(TimeUtils.buildDate(14, 11, 2014), line, 17);
 
         // should download specific timetable
         verify(downloadUtilsMock).downloadJsoupDocument(eq("http://rozklady.mpk.krakow.pl/aktualne/0605/0605t017.htm"));
         // should parse day types and return dayTypeList (defined above)
-        verify(timetableParserMock).parseDayTypes(eq(parsableDataMock), eq(lineNumber));
+        verify(timetableParserMock).parseDayTypes(eq(parsableDataMock), eq(true));
         // should match passed date (Thursday) with first element (WEEKDAY_TYPE) on dayTypeList and pass its index to parse() method
-        verify(timetableParserMock).parseDepartures(eq(parsableDataMock), eq(dayTypeList), eq(0), eq(lineNumber));
+        verify(timetableParserMock).parseDepartures(eq(parsableDataMock), eq(dayTypeList), eq(0), eq(line));
     }
 
 }

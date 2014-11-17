@@ -10,7 +10,7 @@ public final class Timetable {
 
     private final String station;
 
-    private final LineNumber line;
+    private final Line line;
 
     private final String destStation;
 
@@ -19,7 +19,7 @@ public final class Timetable {
     private final List<Departure> departures;
 
 
-    public Timetable(String station, LineNumber line, String destStation, DayType dayType, List<Departure> departures) {
+    public Timetable(String station, Line line, String destStation, DayType dayType, List<Departure> departures) {
         this.station = station;
         this.line = line;
         this.destStation = destStation;
@@ -39,7 +39,7 @@ public final class Timetable {
         return station;
     }
 
-    public LineNumber getLine() {
+    public Line getLine() {
         return line;
     }
 

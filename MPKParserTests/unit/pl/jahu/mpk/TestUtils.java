@@ -1,6 +1,10 @@
 package pl.jahu.mpk;
 
 import pl.jahu.mpk.entities.DayType;
+import pl.jahu.mpk.entities.LineType;
+import pl.jahu.mpk.enums.AreaTypes;
+import pl.jahu.mpk.enums.ReasonTypes;
+import pl.jahu.mpk.enums.VehicleTypes;
 
 import java.util.Calendar;
 import java.util.Collection;
@@ -19,6 +23,8 @@ public class TestUtils {
     public static final DayType SUNDAY_TYPE = DayType.getInstance(new int[]{Calendar.SUNDAY}, false);
     public static final DayType SUNDAY_NIGHT_TYPE = DayType.getInstance(new int[]{Calendar.SUNDAY}, true);
     public static final DayType EVERYDAY_NIGHT_TYPE = DayType.getInstance(new int[]{Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY, Calendar.FRIDAY, Calendar.SATURDAY, Calendar.SUNDAY}, true);
+
+    public static final LineType EXAMPLE_LINE_TYPE = new LineType(VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.CITY);
 
 
     public static void checkCollectionSize(Collection collection, int expectedSize) {
