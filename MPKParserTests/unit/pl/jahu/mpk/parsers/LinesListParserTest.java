@@ -22,57 +22,94 @@ public class LinesListParserTest {
     @Inject
     TimetableProvider timetableProvider;
 
-    @Before
-    public void setUp() throws ParsableDataNotFoundException {
-        DaggerApplication.init(new DefaultTestModule());
-        DaggerApplication.inject(this);
-    }
-
     /******************** TESTS ********************/
 
     @Test
-    public void getLinesList_test() throws ParsableDataNotFoundException {
+    public void getLinesList_numbericOnly() throws ParsableDataNotFoundException {
+        initModule("default");
+
         List<LineNumber> lines = timetableProvider.getLinesList();
 
         TestUtils.checkCollectionSize(lines, 169);
-
-        assertTrue(lines.contains(new LineNumber(0)));
-        assertTrue(lines.contains((new LineNumber(1))));
-        assertTrue(lines.contains((new LineNumber(72))));
-        assertTrue(lines.contains((new LineNumber(301))));
-        assertTrue(lines.contains((new LineNumber(352))));
-        assertTrue(lines.contains((new LineNumber(238))));
-        assertTrue(lines.contains((new LineNumber(915))));
-
-        assertFalse(lines.contains((new LineNumber(303))));
-        assertFalse(lines.contains((new LineNumber(5))));
-        assertFalse(lines.contains((new LineNumber(298))));
-        assertFalse(lines.contains((new LineNumber(1000))));
+        checkExpectedLines(lines, 0, 1, 72, 301, 352, 238, 915);
+        checkUnexpectedLines(lines, 5, 298, 303, 1000);
     }
 
     @Test
-    public void getChangedLinesList_test() throws ParsableDataNotFoundException {
+    public void getLinesList_literals() throws ParsableDataNotFoundException {
+        initModule("2014-10-17");
+
+        List<LineNumber> lines = timetableProvider.getLinesList();
+
+        TestUtils.checkCollectionSize(lines, 184);
+        checkExpectedLines(lines, 62, 79, 100);
+        checkExpectedLines(lines, "62a", "64a", "69a");
+    }
+
+    @Test
+    public void getChangedLinesList_test1() throws ParsableDataNotFoundException {
+        initModule("default");
+
         List<LineNumber> lines = timetableProvider.getChangedLinesList();
 
         TestUtils.checkCollectionSize(lines, 11);
+        checkExpectedLines(lines, 62, 102, 109, 120, 138, 142, 159, 193, 301, 304, 502);
+        checkUnexpectedLines(lines, 1, 72, 601, 602, 1000);
+    }
 
-        assertTrue(lines.contains(new LineNumber(62)));
-        assertTrue(lines.contains((new LineNumber(102))));
-        assertTrue(lines.contains((new LineNumber(109))));
-        assertTrue(lines.contains((new LineNumber(120))));
-        assertTrue(lines.contains((new LineNumber(138))));
-        assertTrue(lines.contains((new LineNumber(142))));
-        assertTrue(lines.contains((new LineNumber(159))));
-        assertTrue(lines.contains((new LineNumber(193))));
-        assertTrue(lines.contains((new LineNumber(301))));
-        assertTrue(lines.contains((new LineNumber(304))));
-        assertTrue(lines.contains((new LineNumber(502))));
+    @Test
+    public void getChangedLinesList_test2() throws ParsableDataNotFoundException {
+        initModule("2014-11-01");
 
-        assertFalse(lines.contains((new LineNumber(1))));
-        assertFalse(lines.contains((new LineNumber(72))));
-        assertFalse(lines.contains((new LineNumber(601))));
-        assertFalse(lines.contains((new LineNumber(602))));
-        assertFalse(lines.contains((new LineNumber(1000))));
+        List<LineNumber> lines = timetableProvider.getChangedLinesList();
+
+        TestUtils.checkCollectionSize(lines, 47);
+        checkExpectedLines(lines, 1, 2, 81, 87, 100, 139, 424, 503, 801, 802, 884);
+    }
+
+    @Test
+    public void getChangedLinesList_oneChangeOnly() throws ParsableDataNotFoundException {
+        initModule("2014-10-17");
+
+        List<LineNumber> lines = timetableProvider.getChangedLinesList();
+
+        TestUtils.checkCollectionSize(lines, 1);
+        checkExpectedLines(lines, "64a");
+    }
+
+    @Test
+    public void getChangedLinesList_noChanges() throws ParsableDataNotFoundException {
+        initModule("no_changes");
+
+        List<LineNumber> lines = timetableProvider.getChangedLinesList();
+
+        TestUtils.checkCollectionSize(lines, 0);
+    }
+
+
+    /******************** API ********************/
+
+    private void initModule(String filesLocation) {
+        DaggerApplication.init(new DefaultTestModule(filesLocation));
+        DaggerApplication.inject(this);
+    }
+
+    private void checkExpectedLines(List<LineNumber> lines, int... expectedNumbers) {
+        for (int expectedNumber : expectedNumbers) {
+            assertTrue("Didn't find expected line number [" + expectedNumber + "]", lines.contains(new LineNumber(expectedNumber)));
+        }
+    }
+
+    private void checkExpectedLines(List<LineNumber> lines, String... expectedNumbers) {
+        for (String expectedNumber : expectedNumbers) {
+            assertTrue("Didn't find expected line number [" + expectedNumber + "]",lines.contains(new LineNumber(expectedNumber)));
+        }
+    }
+
+    private void checkUnexpectedLines(List<LineNumber> lines, int... expectedNumbers) {
+        for (int expectedNumber : expectedNumbers) {
+            assertFalse("Found unexpected line number [" + expectedNumber + "]", lines.contains(new LineNumber(expectedNumber)));
+        }
     }
 
 }

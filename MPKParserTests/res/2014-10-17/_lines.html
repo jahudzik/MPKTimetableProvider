@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html >
+ <HEAD> 
+  <META http-equiv="content-type" content="text/html; charset=iso-8859-2">
+  <META http-equiv="Cache-Control" content="no-store">
+  <META http-equiv="Cache-Control" content="no-cache">
+  <META http-equiv="Cache-Control" content="max-age=0">
+  <META http-equiv="pragma" content="no-cache">
+  <META http-equiv="Expires" content="now">
+  <STYLE type="text/css">   
+    table {border-width: 0px 0px 0px 0px;}
+    td.whitebg {background-color: white;}
+    a.special {background-color: lightskyblue;}
+    a.objazd {background-color: yellow;}
+    a.niezmiana {background-color: #FCB6B6;}
+    td.special {background-color: lightskyblue;}
+    td.objazd {background-color: yellow;}
+    td.niezmiana {background-color: #FCB6B6;}
+    td.lt {background-color:#EFF7FF; text-align: left;}
+  </STYLE>
+ </HEAD>
+ <BODY BGCOLOR="white" link="blue" vlink="blue">
+  <center>     
+  <table width="100%">
+<tr><th><img src="img/tramwaj.gif" style="padding:10px 0px;"><div style="border-top:3px solid #6e6e6e; height:3px; display:block;"> &nbsp;</div>Linie tramwajowe:</th></tr>
+<tr><td>
+<A HREF="aktualne/0001/0001rw01.htm" CLASS="objazd">1</A>&nbsp;
+<A HREF="aktualne/0002/0002rw01.htm">2</A>&nbsp;
+<A HREF="aktualne/0003/0003rw01.htm">3</A>&nbsp;
+<A HREF="aktualne/0004/0004rw01.htm" CLASS="objazd">4</A>&nbsp;
+<A HREF="aktualne/0006/0006rw01.htm">6</A>&nbsp;
+<A HREF="aktualne/0008/0008rw01.htm">8</A>&nbsp;
+<A HREF="aktualne/0010/0010rw01.htm" CLASS="objazd">10</A>&nbsp;
+<A HREF="aktualne/0011/0011rw01.htm">11</A>&nbsp;
+<A HREF="aktualne/0013/0013rw01.htm">13</A>&nbsp;
+<A HREF="aktualne/0014/0014rw01.htm" CLASS="objazd">14</A>&nbsp;
+<A HREF="aktualne/0016/0016rw01.htm" CLASS="objazd">16</A>&nbsp;
+<A HREF="aktualne/0018/0018rw01.htm">18</A>&nbsp;
+<A HREF="aktualne/0019/0019rw01.htm">19</A>&nbsp;
+<A HREF="aktualne/0020/0020rw01.htm">20</A>&nbsp;
+<A HREF="aktualne/0021/0021rw01.htm">21</A>&nbsp;
+<A HREF="aktualne/0022/0022rw01.htm" CLASS="objazd">22</A>&nbsp;
+<A HREF="aktualne/0023/0023rw01.htm">23</A>&nbsp;
+<A HREF="aktualne/0024/0024rw01.htm">24</A>&nbsp;
+<A HREF="aktualne/0050/0050rw01.htm">50</A>&nbsp;
+<A HREF="aktualne/0052/0052rw01.htm">52</A>&nbsp;
+</td></tr></table>
+<br>
+<table width="100%">
+<tr><th>Linie tramwajowe zastepcze:</th></tr>
+<tr><td>
+<A HREF="aktualne/0072/0072rw01.htm">72</A>&nbsp;
+<A HREF="aktualne/0077/0077rw01.htm">77</A>&nbsp;
+<A HREF="aktualne/0079/0079rw01.htm">79</A>&nbsp;
+</td></tr></table>
+<br>
+<table width="100%">
+<tr><th>Linie tramwajowe nocne:</th></tr>
+<tr><td>
+<A HREF="aktualne/0062/0062rw01.htm" CLASS="objazd">62</A>&nbsp;
+<A HREF="aktualne/062a/062arw01.htm" CLASS="objazd">62a</A>&nbsp;
+<A HREF="aktualne/064a/064arw01.htm" CLASS="special">64a</A>&nbsp;
+<A HREF="aktualne/069a/069arw01.htm" CLASS="objazd">69a</A>&nbsp;
+</td></tr></table>
+<br>
+<table width="100%">
+<tr><th><img src="img/autobus.gif" style="padding:10px 0px;"><div style="border-top:3px solid #6e6e6e; height:3px; display:block;">&nbsp;</div>Linie autobusowe miejskie:</th></tr>
+<tr><td>
+<A HREF="aktualne/0100/0100rw01.htm">100</A>&nbsp;
+<A HREF="aktualne/0101/0101rw01.htm">101</A>&nbsp;
+<A HREF="aktualne/0102/0102rw01.htm">102</A>&nbsp;
+<A HREF="aktualne/0105/0105rw01.htm">105</A>&nbsp;
+<A HREF="aktualne/0106/0106rw01.htm">106</A>&nbsp;
+<A HREF="aktualne/0107/0107rw01.htm">107</A>&nbsp;
+<A HREF="aktualne/0109/0109rw01.htm">109</A>&nbsp;
+<A HREF="aktualne/0110/0110rw01.htm">110</A>&nbsp;
+<A HREF="aktualne/0111/0111rw01.htm">111</A>&nbsp;
+<A HREF="aktualne/0112/0112rw01.htm">112</A>&nbsp;
+<A HREF="aktualne/0113/0113rw01.htm">113</A>&nbsp;
+<A HREF="aktualne/0115/0115rw01.htm">115</A>&nbsp;
+<A HREF="aktualne/0117/0117rw01.htm">117</A>&nbsp;
+<A HREF="aktualne/0118/0118rw01.htm">118</A>&nbsp;
+<A HREF="aktualne/0120/0120rw01.htm" CLASS="objazd">120</A>&nbsp;
+<A HREF="aktualne/0122/0122rw01.htm">122</A>&nbsp;
+<A HREF="aktualne/0123/0123rw01.htm">123</A>&nbsp;
+<A HREF="aktualne/0124/0124rw01.htm" CLASS="objazd">124</A>&nbsp;
+<A HREF="aktualne/0125/0125rw01.htm">125</A>&nbsp;
+<A HREF="aktualne/0127/0127rw01.htm">127</A>&nbsp;
+<A HREF="aktualne/0128/0128rw01.htm" CLASS="objazd">128</A>&nbsp;
+<A HREF="aktualne/0129/0129rw01.htm">129</A>&nbsp;
+<A HREF="aktualne/0130/0130rw01.htm">130</A>&nbsp;
+<A HREF="aktualne/0131/0131rw01.htm">131</A>&nbsp;
+<A HREF="aktualne/0132/0132rw01.htm">132</A>&nbsp;
+<A HREF="aktualne/0133/0133rw01.htm">133</A>&nbsp;
+<A HREF="aktualne/0134/0134rw01.htm">134</A>&nbsp;
+<A HREF="aktualne/0135/0135rw01.htm">135</A>&nbsp;
+<A HREF="aktualne/0137/0137rw01.htm">137</A>&nbsp;
+<A HREF="aktualne/0138/0138rw01.htm">138</A>&nbsp;
+<A HREF="aktualne/0139/0139rw01.htm">139</A>&nbsp;
+<A HREF="aktualne/0141/0141rw01.htm">141</A>&nbsp;
+<A HREF="aktualne/0142/0142rw01.htm">142</A>&nbsp;
+<A HREF="aktualne/0143/0143rw01.htm">143</A>&nbsp;
+<A HREF="aktualne/0144/0144rw01.htm">144</A>&nbsp;
+<A HREF="aktualne/0145/0145rw01.htm" CLASS="objazd">145</A>&nbsp;
+<A HREF="aktualne/0151/0151rw01.htm">151</A>&nbsp;
+<A HREF="aktualne/0152/0152rw01.htm">152</A>&nbsp;
+<A HREF="aktualne/0153/0153rw01.htm">153</A>&nbsp;
+<A HREF="aktualne/0154/0154rw01.htm">154</A>&nbsp;
+<A HREF="aktualne/0155/0155rw01.htm">155</A>&nbsp;
+<A HREF="aktualne/0158/0158rw01.htm">158</A>&nbsp;
+<A HREF="aktualne/0159/0159rw01.htm">159</A>&nbsp;
+<A HREF="aktualne/0161/0161rw01.htm">161</A>&nbsp;
+<A HREF="aktualne/0162/0162rw01.htm">162</A>&nbsp;
+<A HREF="aktualne/0163/0163rw01.htm" CLASS="objazd">163</A>&nbsp;
+<A HREF="aktualne/0164/0164rw01.htm">164</A>&nbsp;
+<A HREF="aktualne/0166/0166rw01.htm">166</A>&nbsp;
+<A HREF="aktualne/0168/0168rw01.htm">168</A>&nbsp;
+<A HREF="aktualne/0169/0169rw01.htm">169</A>&nbsp;
+<A HREF="aktualne/0171/0171rw01.htm">171</A>&nbsp;
+<A HREF="aktualne/0172/0172rw01.htm">172</A>&nbsp;
+<A HREF="aktualne/0173/0173rw01.htm">173</A>&nbsp;
+<A HREF="aktualne/0174/0174rw01.htm" CLASS="objazd">174</A>&nbsp;
+<A HREF="aktualne/0175/0175rw01.htm">175</A>&nbsp;
+<A HREF="aktualne/0178/0178rw01.htm">178</A>&nbsp;
+<A HREF="aktualne/0179/0179rw01.htm">179</A>&nbsp;
+<A HREF="aktualne/0181/0181rw01.htm">181</A>&nbsp;
+<A HREF="aktualne/0182/0182rw01.htm">182</A>&nbsp;
+<A HREF="aktualne/0183/0183rw01.htm">183</A>&nbsp;
+<A HREF="aktualne/0184/0184rw01.htm">184</A>&nbsp;
+<A HREF="aktualne/0193/0193rw01.htm" CLASS="objazd">193</A>&nbsp;
+<A HREF="aktualne/0194/0194rw01.htm">194</A>&nbsp;
+</td></tr></table>
+<br>
+<table width="100%">
+<tr><th>Linie autobusowe aglomeracyjne:</th></tr>
+<tr><td>
+<A HREF="aktualne/0201/0201rw01.htm">201</A>&nbsp;
+<A HREF="aktualne/0202/0202rw01.htm" CLASS="objazd">202</A>&nbsp;
+<A HREF="aktualne/0203/0203rw01.htm">203</A>&nbsp;
+<A HREF="aktualne/0204/0204rw01.htm">204</A>&nbsp;
+<A HREF="aktualne/0207/0207rw01.htm">207</A>&nbsp;
+<A HREF="aktualne/0208/0208rw01.htm">208</A>&nbsp;
+<A HREF="aktualne/0209/0209rw01.htm">209</A>&nbsp;
+<A HREF="aktualne/0210/0210rw01.htm">210</A>&nbsp;
+<A HREF="aktualne/0211/0211rw01.htm">211</A>&nbsp;
+<A HREF="aktualne/0212/0212rw01.htm" CLASS="objazd">212</A>&nbsp;
+<A HREF="aktualne/0213/0213rw01.htm">213</A>&nbsp;
+<A HREF="aktualne/0214/0214rw01.htm">214</A>&nbsp;
+<A HREF="aktualne/0215/0215rw01.htm">215</A>&nbsp;
+<A HREF="aktualne/0217/0217rw01.htm">217</A>&nbsp;
+<A HREF="aktualne/0218/0218rw01.htm">218</A>&nbsp;
+<A HREF="aktualne/0220/0220rw01.htm">220</A>&nbsp;
+<A HREF="aktualne/0221/0221rw01.htm">221</A>&nbsp;
+<A HREF="aktualne/0222/0222rw01.htm" CLASS="objazd">222</A>&nbsp;
+<A HREF="aktualne/0223/0223rw01.htm">223</A>&nbsp;
+<A HREF="aktualne/0224/0224rw01.htm">224</A>&nbsp;
+<A HREF="aktualne/0225/0225rw01.htm">225</A>&nbsp;
+<A HREF="aktualne/0226/0226rw01.htm">226</A>&nbsp;
+<A HREF="aktualne/0227/0227rw01.htm">227</A>&nbsp;
+<A HREF="aktualne/0229/0229rw01.htm">229</A>&nbsp;
+<A HREF="aktualne/0230/0230rw01.htm">230</A>&nbsp;
+<A HREF="aktualne/0232/0232rw01.htm" CLASS="objazd">232</A>&nbsp;
+<A HREF="aktualne/0233/0233rw01.htm">233</A>&nbsp;
+<A HREF="aktualne/0234/0234rw01.htm">234</A>&nbsp;
+<A HREF="aktualne/0235/0235rw01.htm">235</A>&nbsp;
+<A HREF="aktualne/0237/0237rw01.htm">237</A>&nbsp;
+<A HREF="aktualne/0238/0238rw01.htm">238</A>&nbsp;
+<A HREF="aktualne/0239/0239rw01.htm">239</A>&nbsp;
+<A HREF="aktualne/0240/0240rw01.htm">240</A>&nbsp;
+<A HREF="aktualne/0242/0242rw01.htm">242</A>&nbsp;
+<A HREF="aktualne/0243/0243rw01.htm">243</A>&nbsp;
+<A HREF="aktualne/0244/0244rw01.htm">244</A>&nbsp;
+<A HREF="aktualne/0245/0245rw01.htm">245</A>&nbsp;
+<A HREF="aktualne/0247/0247rw01.htm">247</A>&nbsp;
+<A HREF="aktualne/0248/0248rw01.htm">248</A>&nbsp;
+<A HREF="aktualne/0249/0249rw01.htm">249</A>&nbsp;
+<A HREF="aktualne/0250/0250rw01.htm">250</A>&nbsp;
+<A HREF="aktualne/0252/0252rw01.htm">252</A>&nbsp;
+<A HREF="aktualne/0253/0253rw01.htm">253</A>&nbsp;
+<A HREF="aktualne/0255/0255rw01.htm">255</A>&nbsp;
+<A HREF="aktualne/0257/0257rw01.htm">257</A>&nbsp;
+<A HREF="aktualne/0258/0258rw01.htm">258</A>&nbsp;
+<A HREF="aktualne/0259/0259rw01.htm">259</A>&nbsp;
+<A HREF="aktualne/0260/0260rw01.htm">260</A>&nbsp;
+<A HREF="aktualne/0263/0263rw01.htm">263</A>&nbsp;
+<A HREF="aktualne/0265/0265rw01.htm">265</A>&nbsp;
+<A HREF="aktualne/0267/0267rw01.htm">267</A>&nbsp;
+<A HREF="aktualne/0268/0268rw01.htm">268</A>&nbsp;
+<A HREF="aktualne/0269/0269rw01.htm">269</A>&nbsp;
+<A HREF="aktualne/0270/0270rw01.htm">270</A>&nbsp;
+<A HREF="aktualne/0273/0273rw01.htm">273</A>&nbsp;
+<A HREF="aktualne/0275/0275rw01.htm">275</A>&nbsp;
+<A HREF="aktualne/0277/0277rw01.htm">277</A>&nbsp;
+<A HREF="aktualne/0278/0278rw01.htm">278</A>&nbsp;
+<A HREF="aktualne/0280/0280rw01.htm">280</A>&nbsp;
+<A HREF="aktualne/0283/0283rw01.htm">283</A>&nbsp;
+<A HREF="aktualne/0285/0285rw01.htm">285</A>&nbsp;
+<A HREF="aktualne/0287/0287rw01.htm">287</A>&nbsp;
+<A HREF="aktualne/0292/0292rw01.htm">292</A>&nbsp;
+<A HREF="aktualne/0297/0297rw01.htm">297</A>&nbsp;
+</td></tr></table>
+<br>
+<table width="100%">
+<tr><th>Linie autobusowe aglomeracyjne przyspieszone:</th></tr>
+<tr><td>
+<A HREF="aktualne/0301/0301rw01.htm">301</A>&nbsp;
+<A HREF="aktualne/0304/0304rw01.htm">304</A>&nbsp;
+</td></tr></table>
+<br>
+<table width="100%">
+<tr><th>Linie autobusowe miejskie wspomagajace:</th></tr>
+<tr><td>
+<A HREF="aktualne/0405/0405rw01.htm">405</A>&nbsp;
+<A HREF="aktualne/0409/0409rw01.htm">409</A>&nbsp;
+<A HREF="aktualne/0412/0412rw01.htm">412</A>&nbsp;
+<A HREF="aktualne/0422/0422rw01.htm">422</A>&nbsp;
+<A HREF="aktualne/0424/0424rw01.htm" CLASS="objazd">424</A>&nbsp;
+<A HREF="aktualne/0429/0429rw01.htm">429</A>&nbsp;
+<A HREF="aktualne/0439/0439rw01.htm">439</A>&nbsp;
+<A HREF="aktualne/0451/0451rw01.htm">451</A>&nbsp;
+<A HREF="aktualne/0482/0482rw01.htm">482</A>&nbsp;
+</td></tr></table>
+<br>
+<table width="100%">
+<tr><th>Linie autobusowe miejskie przyspieszone:</th></tr>
+<tr><td>
+<A HREF="aktualne/0501/0501rw01.htm">501</A>&nbsp;
+<A HREF="aktualne/0502/0502rw01.htm" CLASS="objazd">502</A>&nbsp;
+<A HREF="aktualne/0503/0503rw01.htm">503</A>&nbsp;
+<A HREF="aktualne/0504/0504rw01.htm">504</A>&nbsp;
+<A HREF="aktualne/0572/0572rw01.htm">572</A>&nbsp;
+</td></tr></table>
+<br>
+<table width="100%">
+<tr><th><img src="img/autobus_noc.gif" style="padding:0px 10px 10px 0px;"><div style="border-top:3px solid #6e6e6e; height:3px; display:block;">&nbsp;</div>Linie autobusowe miejskie nocne:</th></tr>
+<tr><td>
+<A HREF="aktualne/0601/0601rw01.htm">601</A>&nbsp;
+<A HREF="aktualne/0605/0605rw01.htm" CLASS="objazd">605</A>&nbsp;
+<A HREF="aktualne/0608/0608rw01.htm">608</A>&nbsp;
+<A HREF="aktualne/0610/0610rw01.htm">610</A>&nbsp;
+<A HREF="aktualne/0618/0618rw01.htm">618</A>&nbsp;
+<A HREF="aktualne/0637/0637rw01.htm">637</A>&nbsp;
+<A HREF="aktualne/0642/0642rw01.htm" CLASS="objazd">642</A>&nbsp;
+<A HREF="aktualne/0643/0643rw01.htm">643</A>&nbsp;
+</td></tr></table>
+<br>
+<table width="100%">
+<tr><th>Linie autobusowe zastepcze:</th></tr>
+<tr><td>
+<A HREF="aktualne/0714/0714rw01.htm">714</A>&nbsp;
+<A HREF="aktualne/0774/0774rw01.htm">774</A>&nbsp;
+</td></tr></table>
+<br>
+<table width="100%">
+<tr><th>Linie aglomeracyjne nocne:</th></tr>
+<tr><td>
+<A HREF="aktualne/0902/0902rw01.htm">902</A>&nbsp;
+<A HREF="aktualne/0903/0903rw01.htm">903</A>&nbsp;
+<A HREF="aktualne/0904/0904rw01.htm">904</A>&nbsp;
+<A HREF="aktualne/0915/0915rw01.htm">915</A>&nbsp;
+</td></tr></table>
+<br>
+    
+    <table width="80%">
+      <tr>
+        <td class="whitebg">
+                       
+                       
+            LEGENDA: 
+            <br>
+            <table width="100%">
+                <tr><td nowrap class="special">&nbsp;nr linii&nbsp;</td><td class="lt">oznacza nową linię lub linię, dla której  nastąpiła zmiana rozkładu jazdy</td></tr>
+                <tr><td nowrap class="objazd">&nbsp;nr linii&nbsp;</td><td class="lt">oznacza linię, która nie kursuje po swojej stałej trasie</td></tr>
+                <tr><td nowrap class="niezmiana">&nbsp;nr linii&nbsp;</td><td class="lt">oznacza linię, która kursuje na trasie objazdowej lub skróconej bez zmiany rozkładu jazdy - należy zapoznać się z <a href='http://mpk.krakow.pl/pl/import-komunikaty/' target='_blank'><u>komunikatami MPK SA</u></a></td></tr>
+            </table>
+            <br>
+            <font size=2>
+                Rozkłady jazdy MPK S.A. są informacją dla pasażerów i nie stanowią
+                oferty w rozumieniu prawa handlowego.
+            </font>
+        </td>
+     </tr>
+   </table>
+  </center>
+  </BODY>
+</HTML><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	<link rel="stylesheet" type="text/css" href="a.css"/>
