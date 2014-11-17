@@ -101,7 +101,15 @@ public class UrlTimetableProviderTest {
         timetableProvider.getLinesList();
 
         verify(downloadUtilsMock).downloadJsoupDocument(eq(UrlResolver.LINES_LIST_URL));
-        verify(linesListParserMock).parse(parsableDataMock);
+        verify(linesListParserMock).parseAll(parsableDataMock);
+    }
+
+    @Test
+    public void getChangedLinesList_test() throws ParsableDataNotFoundException, IOException {
+        timetableProvider.getChangedLinesList();
+
+        verify(downloadUtilsMock).downloadJsoupDocument(eq(UrlResolver.LINES_LIST_URL));
+        verify(linesListParserMock).parseChanged(parsableDataMock);
     }
 
     @Test

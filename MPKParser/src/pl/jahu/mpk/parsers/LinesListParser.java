@@ -17,9 +17,18 @@ public class LinesListParser {
      * Parses lines list page and return list of lines
      *
      */
-    public List<LineNumber> parse(ParsableData parsableData) {
-        List<LineNumber> lines = new ArrayList<>();
+    public List<LineNumber> parseAll(ParsableData parsableData) {
         Elements links = parsableData.getDocument().getElementsByTag("a");
+        return getLineNumbers(links);
+    }
+
+    public List<LineNumber> parseChanged(ParsableData parsableData) {
+        Elements changedLines = parsableData.getDocument().getElementsByClass("special");
+        return getLineNumbers(changedLines);
+    }
+
+    private List<LineNumber> getLineNumbers(Elements links) {
+        List<LineNumber> lines = new ArrayList<>();
         for (Element link : links) {
             // ensure this is a link to line details - it should have "[line_number]rw" substring (ex http://rozklady.mpk.krakow.pl/aktualne/0164/0164rw01.htm)
             String href = link.attr("href");

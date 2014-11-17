@@ -12,8 +12,7 @@ import pl.jahu.mpk.TestUtils;
 import javax.inject.Inject;
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created by hudzj on 8/1/2014.
@@ -23,99 +22,57 @@ public class LinesListParserTest {
     @Inject
     TimetableProvider timetableProvider;
 
-    private List<LineNumber> lines;
-
     @Before
     public void setUp() throws ParsableDataNotFoundException {
         DaggerApplication.init(new DefaultTestModule());
         DaggerApplication.inject(this);
-
-        lines = timetableProvider.getLinesList();
-        TestUtils.checkCollectionSize(lines, 169);
     }
 
     /******************** TESTS ********************/
 
     @Test
-    public void contains_test1() {
-        checkIfContains(new LineNumber(0));
+    public void getLinesList_test() throws ParsableDataNotFoundException {
+        List<LineNumber> lines = timetableProvider.getLinesList();
+
+        TestUtils.checkCollectionSize(lines, 169);
+
+        assertTrue(lines.contains(new LineNumber(0)));
+        assertTrue(lines.contains((new LineNumber(1))));
+        assertTrue(lines.contains((new LineNumber(72))));
+        assertTrue(lines.contains((new LineNumber(301))));
+        assertTrue(lines.contains((new LineNumber(352))));
+        assertTrue(lines.contains((new LineNumber(238))));
+        assertTrue(lines.contains((new LineNumber(915))));
+
+        assertFalse(lines.contains((new LineNumber(303))));
+        assertFalse(lines.contains((new LineNumber(5))));
+        assertFalse(lines.contains((new LineNumber(298))));
+        assertFalse(lines.contains((new LineNumber(1000))));
     }
 
     @Test
-    public void contains_test2() {
-        checkIfContains(new LineNumber(1));
-    }
+    public void getChangedLinesList_test() throws ParsableDataNotFoundException {
+        List<LineNumber> lines = timetableProvider.getChangedLinesList();
 
-    @Test
-    public void contains_test3() {
-        checkIfContains(new LineNumber(72));
-    }
+        TestUtils.checkCollectionSize(lines, 11);
 
-    @Test
-    public void contains_test4() {
-        checkIfContains(new LineNumber(301));
-    }
+        assertTrue(lines.contains(new LineNumber(62)));
+        assertTrue(lines.contains((new LineNumber(102))));
+        assertTrue(lines.contains((new LineNumber(109))));
+        assertTrue(lines.contains((new LineNumber(120))));
+        assertTrue(lines.contains((new LineNumber(138))));
+        assertTrue(lines.contains((new LineNumber(142))));
+        assertTrue(lines.contains((new LineNumber(159))));
+        assertTrue(lines.contains((new LineNumber(193))));
+        assertTrue(lines.contains((new LineNumber(301))));
+        assertTrue(lines.contains((new LineNumber(304))));
+        assertTrue(lines.contains((new LineNumber(502))));
 
-    @Test
-    public void contains_test5() {
-        checkIfContains(new LineNumber(352));
-    }
-
-    @Test
-    public void contains_test6() {
-        checkIfContains(new LineNumber(238));
-    }
-
-    @Test
-    public void contains_test7() {
-        checkIfContains(new LineNumber(915));
-    }
-
-
-    @Test
-    public void doesntContain_test1() {
-        checkIfDoesntContain(new LineNumber(303));
-    }
-
-    @Test
-    public void doesntContain_test2() {
-        checkIfDoesntContain(new LineNumber(5));
-    }
-
-    @Test
-    public void doesntContain_test3() {
-        checkIfDoesntContain(new LineNumber(298));
-    }
-
-    @Test
-    public void doesntContain_test4() {
-        checkIfDoesntContain(new LineNumber(999));
-    }
-
-    @Test
-    public void doesntContain_test5() {
-        checkIfDoesntContain(new LineNumber("A"));
-    }
-
-    @Test
-    public void doesntContain_test6() {
-        checkIfDoesntContain(new LineNumber("69a"));
-    }
-
-    @Test
-    public void doesntContain_test7() {
-        checkIfDoesntContain(new LineNumber("Z8"));
-    }
-
-
-    /******************* API ********************/
-
-    private void checkIfContains(LineNumber lineNumber) {
-        assertTrue(lines.contains(lineNumber));
-    }
-
-    private void checkIfDoesntContain(LineNumber lineNumber) {
-        assertFalse(lines.contains(lineNumber));
+        assertFalse(lines.contains((new LineNumber(1))));
+        assertFalse(lines.contains((new LineNumber(72))));
+        assertFalse(lines.contains((new LineNumber(601))));
+        assertFalse(lines.contains((new LineNumber(602))));
+        assertFalse(lines.contains((new LineNumber(1000))));
     }
 
 }

@@ -38,7 +38,12 @@ public abstract class TimetableProvider {
 
     public List<LineNumber> getLinesList() throws ParsableDataNotFoundException {
         ParsableData data = getLinesListDocument();
-        return linesListParser.parse(data);
+        return linesListParser.parseAll(data);
+    }
+
+    public List<LineNumber> getChangedLinesList() throws ParsableDataNotFoundException {
+        ParsableData data = getLinesListDocument();
+        return linesListParser.parseChanged(data);
     }
 
     public List<StationData> getLineRoute(LineNumber lineNumber, int direction) throws ParsableDataNotFoundException, TimetableParseException {
