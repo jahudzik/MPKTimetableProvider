@@ -6,6 +6,10 @@ import pl.jahu.mpk.DefaultTestModule;
 import pl.jahu.mpk.TestUtils;
 import pl.jahu.mpk.entities.Line;
 import pl.jahu.mpk.entities.LineNumber;
+import pl.jahu.mpk.entities.LineType;
+import pl.jahu.mpk.enums.AreaTypes;
+import pl.jahu.mpk.enums.ReasonTypes;
+import pl.jahu.mpk.enums.VehicleTypes;
 import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
 import pl.jahu.mpk.providers.TimetableProvider;
 
@@ -28,63 +32,154 @@ public class LinesListParserTest {
     @Test
     public void getLinesList_numbericOnly() throws ParsableDataNotFoundException {
         initModule("default");
-
         List<Line> lines = timetableProvider.getLinesList();
-
         TestUtils.checkCollectionSize(lines, 169);
-        checkExpectedLines(lines, 0, 1, 72, 301, 352, 238, 915);
-        checkUnexpectedLines(lines, 5, 298, 303, 1000);
     }
 
     @Test
     public void getLinesList_literals() throws ParsableDataNotFoundException {
         initModule("2014-10-17");
-
         List<Line> lines = timetableProvider.getLinesList();
-
         TestUtils.checkCollectionSize(lines, 184);
-        checkExpectedLines(lines, 62, 79, 100);
-        checkExpectedLines(lines, "62a", "64a", "69a");
     }
+
 
     @Test
     public void getChangedLinesList_test1() throws ParsableDataNotFoundException {
         initModule("default");
-
         List<Line> lines = timetableProvider.getChangedLinesList();
-
         TestUtils.checkCollectionSize(lines, 11);
-        checkExpectedLines(lines, 62, 102, 109, 120, 138, 142, 159, 193, 301, 304, 502);
-        checkUnexpectedLines(lines, 1, 72, 601, 602, 1000);
     }
 
     @Test
     public void getChangedLinesList_test2() throws ParsableDataNotFoundException {
         initModule("2014-11-01");
-
         List<Line> lines = timetableProvider.getChangedLinesList();
-
         TestUtils.checkCollectionSize(lines, 47);
-        checkExpectedLines(lines, 1, 2, 81, 87, 100, 139, 424, 503, 801, 802, 884);
     }
 
     @Test
     public void getChangedLinesList_oneChangeOnly() throws ParsableDataNotFoundException {
         initModule("2014-10-17");
-
         List<Line> lines = timetableProvider.getChangedLinesList();
-
         TestUtils.checkCollectionSize(lines, 1);
-        checkExpectedLines(lines, "64a");
     }
 
     @Test
     public void getChangedLinesList_noChanges() throws ParsableDataNotFoundException {
         initModule("no_changes");
-
         List<Line> lines = timetableProvider.getChangedLinesList();
-
         TestUtils.checkCollectionSize(lines, 0);
+    }
+
+
+    @Test
+    public void getLinesList_tramStandardCity() throws ParsableDataNotFoundException {
+        initModule("default");
+        List<Line> lines = timetableProvider.getLinesList();
+        checkExpectedLine(lines, 1, VehicleTypes.TRAM, ReasonTypes.STANDARD, AreaTypes.CITY);
+        checkExpectedLine(lines, 52, VehicleTypes.TRAM, ReasonTypes.STANDARD, AreaTypes.CITY);
+    }
+
+    @Test
+    public void getLinesList_tramReplacementCity() throws ParsableDataNotFoundException {
+        initModule("default");
+        List<Line> lines = timetableProvider.getLinesList();
+        checkExpectedLine(lines, 72, VehicleTypes.TRAM, ReasonTypes.REPLACEMENT, AreaTypes.CITY);
+    }
+
+    @Test
+    public void getLinesList_tramSpecialCity1() throws ParsableDataNotFoundException {
+        initModule("default");
+        List<Line> lines = timetableProvider.getLinesList();
+        checkExpectedLine(lines, 0, VehicleTypes.TRAM, ReasonTypes.SPECIAL, AreaTypes.CITY);
+    }
+
+    @Test
+    public void getLinesList_tramSpecialCity2() throws ParsableDataNotFoundException {
+        initModule("2014-11-01");
+        List<Line> lines = timetableProvider.getLinesList();
+        checkExpectedLine(lines, 86, VehicleTypes.TRAM, ReasonTypes.SPECIAL, AreaTypes.CITY);
+    }
+
+    @Test
+    public void getLinesList_tramNightlyCity1() throws ParsableDataNotFoundException {
+        initModule("default");
+        List<Line> lines = timetableProvider.getLinesList();
+        checkExpectedLine(lines, 62, VehicleTypes.TRAM, ReasonTypes.NIGHTLY, AreaTypes.CITY);
+        checkExpectedLine(lines, 69, VehicleTypes.TRAM, ReasonTypes.NIGHTLY, AreaTypes.CITY);
+    }
+
+    @Test
+    public void getLinesList_tramNightlyCity2() throws ParsableDataNotFoundException {
+        initModule("2014-11-01");
+        List<Line> lines = timetableProvider.getLinesList();
+        checkExpectedLine(lines, "64a", VehicleTypes.TRAM, ReasonTypes.NIGHTLY, AreaTypes.CITY);
+    }
+
+    @Test
+    public void getLinesList_busStandardCity() throws ParsableDataNotFoundException {
+        initModule("default");
+        List<Line> lines = timetableProvider.getLinesList();
+        checkExpectedLine(lines, 100, VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.CITY);
+        checkExpectedLine(lines, 159, VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.CITY);
+        checkExpectedLine(lines, 179, VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.CITY);
+    }
+
+    @Test
+    public void getLinesList_busStandardAgglomeration() throws ParsableDataNotFoundException {
+        initModule("default");
+        List<Line> lines = timetableProvider.getLinesList();
+        checkExpectedLine(lines, 201, VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.AGGLOMERATION);
+        checkExpectedLine(lines, 202, VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.AGGLOMERATION);
+    }
+
+    @Test
+    public void getLinesList_busRapidAgglomeration() throws ParsableDataNotFoundException {
+        initModule("default");
+        List<Line> lines = timetableProvider.getLinesList();
+        checkExpectedLine(lines, 301, VehicleTypes.BUS, ReasonTypes.RAPID, AreaTypes.AGGLOMERATION);
+        checkExpectedLine(lines, 352, VehicleTypes.BUS, ReasonTypes.RAPID, AreaTypes.AGGLOMERATION);
+    }
+
+    @Test
+    public void getLinesList_busAdditionalCity() throws ParsableDataNotFoundException {
+        initModule("default");
+        List<Line> lines = timetableProvider.getLinesList();
+        checkExpectedLine(lines, 405, VehicleTypes.BUS, ReasonTypes.ADDITIONAL, AreaTypes.CITY);
+        checkExpectedLine(lines, 422, VehicleTypes.BUS, ReasonTypes.ADDITIONAL, AreaTypes.CITY);
+    }
+
+    @Test
+    public void getLinesList_busRapidCity() throws ParsableDataNotFoundException {
+        initModule("default");
+        List<Line> lines = timetableProvider.getLinesList();
+        checkExpectedLine(lines, 502, VehicleTypes.BUS, ReasonTypes.RAPID, AreaTypes.CITY);
+        checkExpectedLine(lines, 572, VehicleTypes.BUS, ReasonTypes.RAPID, AreaTypes.CITY);
+    }
+
+    @Test
+    public void getLinesList_busNightlyCity() throws ParsableDataNotFoundException {
+        initModule("default");
+        List<Line> lines = timetableProvider.getLinesList();
+        checkExpectedLine(lines, 601, VehicleTypes.BUS, ReasonTypes.NIGHTLY, AreaTypes.CITY);
+        checkExpectedLine(lines, 605, VehicleTypes.BUS, ReasonTypes.NIGHTLY, AreaTypes.CITY);
+    }
+
+    @Test
+    public void getLinesList_busReplacementCity() throws ParsableDataNotFoundException {
+        initModule("default");
+        List<Line> lines = timetableProvider.getLinesList();
+        checkExpectedLine(lines, 704, VehicleTypes.BUS, ReasonTypes.REPLACEMENT, AreaTypes.CITY);
+        checkExpectedLine(lines, 724, VehicleTypes.BUS, ReasonTypes.REPLACEMENT, AreaTypes.CITY);
+    }
+
+    @Test
+    public void getLinesList_busNightlyAgglomeration() throws ParsableDataNotFoundException {
+        initModule("default");
+        List<Line> lines = timetableProvider.getLinesList();
+        checkExpectedLine(lines, 902, VehicleTypes.BUS, ReasonTypes.NIGHTLY, AreaTypes.AGGLOMERATION);
+        checkExpectedLine(lines, 904, VehicleTypes.BUS, ReasonTypes.NIGHTLY, AreaTypes.AGGLOMERATION);
     }
 
 
@@ -95,25 +190,12 @@ public class LinesListParserTest {
         DaggerApplication.inject(this);
     }
 
-    private void checkExpectedLines(List<Line> lines, int... expectedNumbers) {
-        for (int expectedNumber : expectedNumbers) {
-            LineNumber lineNumber = new LineNumber(expectedNumber);
-            assertTrue("Didn't find expected line number [" + expectedNumber + "]", lines.contains(new Line(lineNumber)));
-        }
+    private void checkExpectedLine(List<Line> lines, int expectedNumber, VehicleTypes expectedVehicleType, ReasonTypes expectedReasonType, AreaTypes expectedAreaType) {
+        assertTrue("Didn't find expected line number [" + expectedNumber + "]", lines.contains(new Line(new LineNumber(expectedNumber), new LineType(expectedVehicleType, expectedReasonType, expectedAreaType))));
     }
 
-    private void checkExpectedLines(List<Line> lines, String... expectedNumbers) {
-        for (String expectedNumber : expectedNumbers) {
-            LineNumber lineNumber = new LineNumber(expectedNumber);
-            assertTrue("Didn't find expected line number [" + expectedNumber + "]",lines.contains(new Line(lineNumber)));
-        }
-    }
-
-    private void checkUnexpectedLines(List<Line> lines, int... expectedNumbers) {
-        for (int expectedNumber : expectedNumbers) {
-            LineNumber lineNumber = new LineNumber(expectedNumber);
-            assertFalse("Found unexpected line number [" + expectedNumber + "]", lines.contains(new Line(lineNumber)));
-        }
+    private void checkExpectedLine(List<Line> lines, String expectedNumber, VehicleTypes expectedVehicleType, ReasonTypes expectedReasonType, AreaTypes expectedAreaType) {
+        assertTrue("Didn't find expected line number [" + expectedNumber + "]", lines.contains(new Line(new LineNumber(expectedNumber), new LineType(expectedVehicleType, expectedReasonType, expectedAreaType))));
     }
 
 }
