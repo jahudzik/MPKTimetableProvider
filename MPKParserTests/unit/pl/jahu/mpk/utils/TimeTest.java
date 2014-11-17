@@ -13,38 +13,38 @@ public class TimeTest {
     /******************** TESTS ********************/
 
     @Test
-    public void testCompare1() {
+    public void compareTo_test1() {
         checkTimeDifference(new Time(05, 10), new Time(05, 20), -10, 10);
     }
 
     @Test
-    public void testCompare2() {
+    public void compareTo_test2() {
         checkTimeDifference(new Time(15, 45), new Time(16, 05), -20, 20);
     }
 
     @Test
-    public void testCompare3() {
+    public void compareTo_test3() {
         checkTimeDifference(new Time(12, 45), new Time(12, 45), 0, 0);
     }
 
     @Test
-    public void testCompare4() {
+    public void compareTo_test4() {
         checkTimeDifference(new Time(23, 50), new Time(0, 05), -15, 15);
     }
 
     @Test
-    public void testCompare5() {
+    public void compareTo_test5() {
         checkTimeDifference(new Time(12, 05), new Time(0, 0), -715, 715);
     }
 
     @Test
-    public void testCompareDaytime() {
+    public void compareTo_testDaytime() {
         checkDaytimeDifference(new Time(23, 50), new Time(0, 05), -15, 15);
     }
 
 
     @Test
-    public void testToString1() {
+    public void toString_test() {
         Time time1 = new Time(4, 5);
         assertEquals(time1.toString(), "04:05");
     }

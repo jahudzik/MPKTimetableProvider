@@ -17,104 +17,104 @@ public class LineNumberTest {
     /******************** TESTS ********************/
 
     @Test(expected = IllegalArgumentException.class)
-    public void testLiteralConstructor1() {
+    public void constructor_literal1() {
         new LineNumber("");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testLiteralConstructor2() {
+    public void constructor_literal2() {
         new LineNumber(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testLiteralConstructor3() {
+    public void constructor_literal3() {
         new LineNumber("12345");
     }
 
     @Test
-    public void testLiteralConstructor4() {
+    public void constructor_literal4() {
         checkNumber(new LineNumber(16), 16, "16");
     }
 
     @Test
-    public void testLiteralConstructor5() {
+    public void constructor_literal5() {
         checkNumber(new LineNumber("Z8"), 8, "Z8");
     }
 
     @Test
-    public void testLiteralConstructor6() {
+    public void constructor_literal6() {
         checkNumber(new LineNumber("62A"), 62, "62A");
     }
 
     @Test
-    public void testLiteralConstructor7() {
+    public void constructor_literal7() {
         checkNumber(new LineNumber("D"), -1, "D");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testNumericConstructor1() {
+    public void constructor_numeric1() {
         new LineNumber(-1);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testNumericConstructor2() {
+    public void constructor_numeric2() {
         new LineNumber(10771);
     }
 
     @Test
-    public void testNumericConstructor3() {
+    public void constructor_numeric3() {
         checkNumber(new LineNumber(3), 3, "3");
     }
 
 
     @Test
-    public void testComparator1() {
+    public void compareTo_test1() {
         checkDifferentNumbersComparison(new LineNumber("3"), new LineNumber("7"));
     }
 
     @Test
-    public void testComparator2() {
+    public void compareTo_test2() {
         checkDifferentNumbersComparison(new LineNumber("3A"), new LineNumber("7"));
     }
 
     @Test
-    public void testComparator3() {
+    public void compareTo_test3() {
         checkDifferentNumbersComparison(new LineNumber("3"), new LineNumber("3B"));
     }
 
     @Test
-    public void testComparator4() {
+    public void compareTo_test4() {
         checkDifferentNumbersComparison(new LineNumber("B"), new LineNumber("C2"));
     }
 
 
     @Test
-    public void testComparator5() {
+    public void compareTo_test5() {
         checkDifferentNumbersComparison(new LineNumber("D"), new LineNumber("L"));
     }
 
     @Test
-    public void testComparator6() {
+    public void compareTo_test6() {
         checkDifferentNumbersComparison(new LineNumber("5A"), new LineNumber("5B"));
     }
 
     @Test
-    public void testEquals1() {
+    public void compareTo_test7() {
         checkEqualNumbersComparison(new LineNumber("5"), new LineNumber("5"), true);
     }
 
     @Test
-    public void testEquals2() {
+    public void compareTo_test8() {
         checkEqualNumbersComparison(new LineNumber(5), new LineNumber("5"), true);
     }
 
     @Test
-    public void testEquals3() {
+    public void compareTo_test9() {
         checkEqualNumbersComparison(new LineNumber("5"), new LineNumber("5A"), false);
     }
 
     @Test
-    public void testSorting1() {
+    public void sort_test1() {
         List<LineNumber> numbers = new ArrayList<>();
         numbers.add(new LineNumber(13));
         numbers.add(new LineNumber("6"));
@@ -124,7 +124,7 @@ public class LineNumberTest {
     }
 
     @Test
-    public void testSorting2() {
+    public void sort_test2() {
         List<LineNumber> numbers = new ArrayList<>();
         numbers.add(new LineNumber("6a"));
         numbers.add(new LineNumber("6"));
@@ -134,7 +134,7 @@ public class LineNumberTest {
     }
 
     @Test
-    public void testSorting3() {
+    public void sort_test3() {
         List<LineNumber> numbers = new ArrayList<>();
         numbers.add(new LineNumber(13));
         numbers.add(new LineNumber("Z6"));
@@ -145,7 +145,7 @@ public class LineNumberTest {
 
 
     @Test
-    public void testSorting4() {
+    public void sort_test4() {
         List<LineNumber> numbers = new ArrayList<>();
         numbers.add(new LineNumber(16));
         numbers.add(new LineNumber("X"));
@@ -155,7 +155,7 @@ public class LineNumberTest {
     }
 
     @Test
-    public void testSorting5() {
+    public void sort_test5() {
         List<LineNumber> numbers = new ArrayList<>();
         numbers.add(new LineNumber("8c"));
         numbers.add(new LineNumber("8e"));
@@ -165,7 +165,7 @@ public class LineNumberTest {
     }
 
     @Test
-    public void testSorting6() {
+    public void sort_test6() {
         List<LineNumber> numbers = new ArrayList<>();
         numbers.add(new LineNumber("8c"));
         numbers.add(new LineNumber("E8"));
@@ -175,7 +175,7 @@ public class LineNumberTest {
     }
 
     @Test
-    public void testSorting7() {
+    public void sort_test7() {
         List<LineNumber> numbers = new ArrayList<>();
         numbers.add(new LineNumber("A"));
         numbers.add(new LineNumber("8e"));
@@ -185,7 +185,7 @@ public class LineNumberTest {
     }
 
     @Test
-    public void testSorting8() {
+    public void sort_test8() {
         List<LineNumber> numbers = new ArrayList<>();
         numbers.add(new LineNumber("Z2"));
         numbers.add(new LineNumber("Z1"));
@@ -195,7 +195,7 @@ public class LineNumberTest {
     }
 
     @Test
-    public void testSorting9() {
+    public void sort_test9() {
         List<LineNumber> numbers = new ArrayList<>();
         numbers.add(new LineNumber("M"));
         numbers.add(new LineNumber("M4"));
@@ -205,7 +205,7 @@ public class LineNumberTest {
     }
 
     @Test
-    public void testSorting10() {
+    public void sort_test10() {
         List<LineNumber> numbers = new ArrayList<>();
         numbers.add(new LineNumber("TM"));
         numbers.add(new LineNumber("P"));
@@ -216,7 +216,7 @@ public class LineNumberTest {
 
     
     @Test
-    public void testSorting11() {
+    public void sort_test11() {
         List<LineNumber> numbers = new ArrayList<>();
         numbers.add(new LineNumber(13));
         numbers.add(new LineNumber("6"));
@@ -247,26 +247,27 @@ public class LineNumberTest {
     }
 
     @Test
-    public void equalsTest1() {
+    public void equals_test1() {
         LineNumber lineNumber = new LineNumber(4);
         assertFalse(lineNumber.equals(null));
     }
 
     @Test
-    public void equalsTest2() {
+    public void equals_test2() {
         LineNumber lineNumber = new LineNumber(4);
         assertTrue(lineNumber.equals(lineNumber));
     }
 
     @Test
-    public void equalsTest3() {
+    @SuppressWarnings("EqualsBetweenInconvertibleTypes")
+    public void equals_test3() {
         LineNumber lineNumber = new LineNumber(4);
         String literal = "some string";
         assertFalse(lineNumber.equals(literal));
     }
 
     @Test
-    public void equalsTest4() {
+    public void equals_test4() {
         LineNumber lineNumber1 = new LineNumber(4);
         LineNumber lineNumber2 = new LineNumber("4");
         assertTrue(lineNumber1.equals(lineNumber2));
@@ -274,7 +275,7 @@ public class LineNumberTest {
     }
 
     @Test
-    public void equalsTest5() {
+    public void equals_test5() {
         LineNumber lineNumber1 = new LineNumber("4");
         LineNumber lineNumber2 = new LineNumber("41");
         assertFalse(lineNumber1.equals(lineNumber2));
@@ -282,7 +283,7 @@ public class LineNumberTest {
     }
 
     @Test
-    public void equalsTest6() {
+    public void equals_test6() {
         LineNumber lineNumber1 = new LineNumber(4);
         LineNumber lineNumber2 = new LineNumber(41);
         assertFalse(lineNumber1.equals(lineNumber2));
@@ -290,34 +291,34 @@ public class LineNumberTest {
     }
 
     @Test
-    public void hashCodeTest1() {
+    public void hashCode_test1() {
         LineNumber lineNumber1 = new LineNumber(4);
         LineNumber lineNumber2 = new LineNumber(4);
         assertEquals(lineNumber1.hashCode(), lineNumber2.hashCode());
     }
 
     @Test
-    public void hashCodeTest2() {
+    public void hashCode_test2() {
         LineNumber lineNumber1 = new LineNumber(4);
         LineNumber lineNumber2 = new LineNumber("4");
         assertEquals(lineNumber1.hashCode(), lineNumber2.hashCode());
     }
 
     @Test
-    public void hashCodeTest3() {
+    public void hashCode_test3() {
         LineNumber lineNumber1 = new LineNumber(4);
         LineNumber lineNumber2 = new LineNumber(41);
         assertNotEquals(lineNumber1.hashCode(), lineNumber2.hashCode());
     }
 
     @Test
-    public void toStringTest1() {
+    public void toString_test1() {
         LineNumber lineNumber = new LineNumber("69A");
         assertEquals("69A", lineNumber.toString());
     }
 
     @Test
-    public void toStringTest2() {
+    public void toString_test2() {
         LineNumber lineNumber = new LineNumber(14);
         assertEquals("14", lineNumber.toString());
     }

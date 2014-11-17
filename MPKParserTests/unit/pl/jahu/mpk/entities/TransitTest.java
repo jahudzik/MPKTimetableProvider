@@ -14,14 +14,14 @@ public class TransitTest {
     /******************** TESTS ********************/
 
     @Test
-    public void testInitialization() {
+    public void constructor_test() {
         Transit transit = new Transit(new LineNumber(123));
         checkStopsList(transit, new TransitStop[]{});
     }
 
 
     @Test
-    public void testAddingStops() {
+    public void addStop_test() {
         Transit transit = new Transit(new LineNumber(123));
         TransitStop stop1 = new TransitStop(new Time(15, 20), "station1");
         TransitStop stop2 = new TransitStop(new Time(15, 30), "station2");
@@ -38,19 +38,19 @@ public class TransitTest {
     }
 
     @Test
-    public void getDirectionsTest() {
+    public void getDirections_test() {
         Transit transit = new Transit(new LineNumber(1));
         assertEquals("[empty]", transit.getDirections());
     }
 
     @Test
-    public void toStringTest1() {
+    public void toString_test1() {
         Transit transit = new Transit(new LineNumber(1));
         assertEquals("[empty]", transit.toString());
     }
 
     @Test
-    public void toStringTest2() {
+    public void toString_test2() {
         Transit transit = new Transit(new LineNumber(1));
         transit.addStop(new TransitStop(new Time(10, 13), "station1"));
         transit.addStop(new TransitStop(new Time(10, 16), "station2"));

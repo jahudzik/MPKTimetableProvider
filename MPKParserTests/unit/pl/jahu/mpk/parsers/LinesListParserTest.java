@@ -37,73 +37,73 @@ public class LinesListParserTest {
     /******************** TESTS ********************/
 
     @Test
-    public void testExpectedNumber1() {
+    public void contains_test1() {
         checkIfContains(new LineNumber(0));
     }
 
     @Test
-    public void testExpectedNumber2() {
+    public void contains_test2() {
         checkIfContains(new LineNumber(1));
     }
 
     @Test
-    public void testExpectedNumber3() {
+    public void contains_test3() {
         checkIfContains(new LineNumber(72));
     }
 
     @Test
-    public void testExpectedNumber4() {
+    public void contains_test4() {
         checkIfContains(new LineNumber(301));
     }
 
     @Test
-    public void testExpectedNumber5() {
+    public void contains_test5() {
         checkIfContains(new LineNumber(352));
     }
 
     @Test
-    public void testExpectedNumber6() {
+    public void contains_test6() {
         checkIfContains(new LineNumber(238));
     }
 
     @Test
-    public void testExpectedNumber7() {
+    public void contains_test7() {
         checkIfContains(new LineNumber(915));
     }
 
 
     @Test
-    public void testUnxpectedNumber1() {
+    public void doesntContain_test1() {
         checkIfDoesntContain(new LineNumber(303));
     }
 
     @Test
-    public void testUnxpectedNumber2() {
+    public void doesntContain_test2() {
         checkIfDoesntContain(new LineNumber(5));
     }
 
     @Test
-    public void testUnxpectedNumber3() {
+    public void doesntContain_test3() {
         checkIfDoesntContain(new LineNumber(298));
     }
 
     @Test
-    public void testUnxpectedNumber4() {
+    public void doesntContain_test4() {
         checkIfDoesntContain(new LineNumber(999));
     }
 
     @Test
-    public void testUnxpectedNumber5() {
+    public void doesntContain_test5() {
         checkIfDoesntContain(new LineNumber("A"));
     }
 
     @Test
-    public void testUnxpectedNumber6() {
+    public void doesntContain_test6() {
         checkIfDoesntContain(new LineNumber("69a"));
     }
 
     @Test
-    public void testUnxpectedNumber7() {
+    public void doesntContain_test7() {
         checkIfDoesntContain(new LineNumber("Z8"));
     }
 

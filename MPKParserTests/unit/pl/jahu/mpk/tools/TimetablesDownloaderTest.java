@@ -67,8 +67,9 @@ public class TimetablesDownloaderTest {
     /******************** TESTS ********************/
 
     @Test
-    public void downloadInfoTest() throws ParsableDataNotFoundException {
+    public void downloadInfo_test() throws ParsableDataNotFoundException {
         TimetablesDownloader.downloadInfo();
+
         verify(downloadUtilsMock).downloadUrl(eq(UrlResolver.LINES_LIST_URL), anyString());
         verify(downloadUtilsMock).downloadUrl(eq(UrlResolver.TIMETABLE_MENU_URL), anyString());
         verify(downloadUtilsMock).downloadUrl(eq(UrlResolver.STATIONS_LIST_URL), anyString());
@@ -76,7 +77,7 @@ public class TimetablesDownloaderTest {
 
 
     @Test
-    public void directionsDownloadTest() throws ParsableDataNotFoundException, TimetableParseException {
+    public void downloadTimetables_directions() throws ParsableDataNotFoundException, TimetableParseException {
         when(timetableProviderMock.getLinesList()).thenReturn(buildLinesList(new int[]{1, 3, 4, 6, 7, 8, 10, 12, 15, 16, 21}));
         // four directions
         when(downloadUtilsMock.downloadUrl(anyString(), anyString())).thenReturn(true);
@@ -93,7 +94,7 @@ public class TimetablesDownloaderTest {
     }
 
     @Test
-    public void routeDownloadTest() throws ParsableDataNotFoundException, TimetableParseException {
+    public void downloadTimetables_route() throws ParsableDataNotFoundException, TimetableParseException {
         when(timetableProviderMock.getLinesList()).thenReturn(buildLinesList(new int[]{1, 3, 4, 6, 7, 8, 10, 12, 15, 16, 21}));
         when(timetableProviderMock.getLineRoute(new LineNumber(8), 1)).thenReturn(buildRouteStationsList());
         // just one direction
@@ -115,7 +116,7 @@ public class TimetablesDownloaderTest {
     }
 
     @Test
-    public void differentLinesTest() throws ParsableDataNotFoundException {
+    public void downloadTimetables_differentLines() throws ParsableDataNotFoundException {
         when(timetableProviderMock.getLinesList()).thenReturn(buildLinesList(new int[]{1, 3, 6, 7, 8, 10, 12, 15, 16, 21}));
         // just one direction for each line
         when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0003/0003w001.htm"), anyString())).thenReturn(true);

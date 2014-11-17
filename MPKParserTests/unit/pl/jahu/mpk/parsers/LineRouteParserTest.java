@@ -34,12 +34,12 @@ public class LineRouteParserTest {
     /******************** TESTS ********************/
 
     @Test(expected = ParsableDataNotFoundException.class)
-    public void notParsableDataFoundTest() throws TimetableParseException, ParsableDataNotFoundException {
+    public void getLineRoute_noDataFound() throws TimetableParseException, ParsableDataNotFoundException {
         timetableProvider.getLineRoute(new LineNumber("A"), 2);
     }
 
     @Test
-    public void getLineRouteTest1() throws ParsableDataNotFoundException, TimetableParseException {
+    public void getLineRoute_test1() throws ParsableDataNotFoundException, TimetableParseException {
         LineNumber lineNumber = new LineNumber(1);
         List<StationData> stations = timetableProvider.getLineRoute(lineNumber, 1);
         TestUtils.checkCollectionSize(stations, 29);
@@ -48,7 +48,7 @@ public class LineRouteParserTest {
     }
 
     @Test
-    public void getLineRouteTest2() throws ParsableDataNotFoundException, TimetableParseException {
+    public void getLineRoute_test2() throws ParsableDataNotFoundException, TimetableParseException {
         LineNumber lineNumber = new LineNumber(22);
         List<StationData> stations = timetableProvider.getLineRoute(lineNumber, 1);
         TestUtils.checkCollectionSize(stations, 37);
@@ -57,7 +57,7 @@ public class LineRouteParserTest {
     }
 
     @Test
-    public void getLineRouteTest3() throws ParsableDataNotFoundException, TimetableParseException {
+    public void getLineRoute_test3() throws ParsableDataNotFoundException, TimetableParseException {
         LineNumber lineNumber = new LineNumber(248);
         List<StationData> stations = timetableProvider.getLineRoute(lineNumber, 1);
         TestUtils.checkCollectionSize(stations, 22);
@@ -66,17 +66,17 @@ public class LineRouteParserTest {
     }
 
     @Test
-    public void retrieveDestinationTest1() throws ParsableDataNotFoundException, TimetableParseException {
+    public void getLineRouteDestination_test1() throws ParsableDataNotFoundException, TimetableParseException {
         assertEquals("Salwator", timetableProvider.getLineRouteDestination(new LineNumber(1), 1));
     }
 
     @Test
-    public void retrieveDestinationTest2() throws ParsableDataNotFoundException, TimetableParseException {
+    public void getLineRouteDestination_test2() throws ParsableDataNotFoundException, TimetableParseException {
         assertEquals("Walcownia", timetableProvider.getLineRouteDestination(new LineNumber(22), 1));
     }
 
     @Test
-    public void retrieveDestinationTest3() throws ParsableDataNotFoundException, TimetableParseException {
+    public void getLineRouteDestination_test3() throws ParsableDataNotFoundException, TimetableParseException {
         assertEquals("Zelków", timetableProvider.getLineRouteDestination(new LineNumber(248), 1));
     }
 

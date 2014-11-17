@@ -40,7 +40,7 @@ public class TimetableParserTest {
     /******************** TESTS ********************/
 
     @Test
-    public void parseStandardDayTypesTest() throws ParsableDataNotFoundException, TimetableParseException {
+    public void parseDayTypes_standard() throws ParsableDataNotFoundException, TimetableParseException {
         LineNumber lineNumber = new LineNumber(1);
         ParsableData timetableDocument = timetableProvider.getTimetableDocument(lineNumber, 1);
 
@@ -50,7 +50,7 @@ public class TimetableParserTest {
     }
 
     @Test
-    public void parseEverydayNightDayTypesTest() throws ParsableDataNotFoundException, TimetableParseException {
+    public void parseDayTypes_everydayNight() throws ParsableDataNotFoundException, TimetableParseException {
         LineNumber lineNumber = new LineNumber(601);
         ParsableData timetableDocument = timetableProvider.getTimetableDocument(lineNumber, 1);
 
@@ -60,7 +60,7 @@ public class TimetableParserTest {
     }
 
     @Test
-    public void parseSpecificNightDayTypesTest() throws ParsableDataNotFoundException, TimetableParseException {
+    public void parseDayTypes_specificNightDayTypes() throws ParsableDataNotFoundException, TimetableParseException {
         LineNumber lineNumber = new LineNumber(605);
         ParsableData timetableDocument = timetableProvider.getTimetableDocument(lineNumber, 1);
         DayType mondayThursdayType = DayType.getInstance(new int[]{Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY}, true);
@@ -76,7 +76,7 @@ public class TimetableParserTest {
 
 
     @Test
-    public void parseWeekdayDeparturesTest() throws ParsableDataNotFoundException, TimetableParseException {
+    public void parseDepartures_weekday() throws ParsableDataNotFoundException, TimetableParseException {
         LineNumber lineNumber = new LineNumber(1);
         ParsableData timetableDocument = timetableProvider.getTimetableDocument(lineNumber, 1);
         List<DayType> dayTypes = Arrays.asList(TestUtils.WEEKDAY_TYPE, TestUtils.SATURDAY_TYPE, TestUtils.SUNDAY_TYPE);
@@ -89,7 +89,7 @@ public class TimetableParserTest {
     }
 
     @Test
-    public void parseSaturdayDeparturesTest() throws ParsableDataNotFoundException, TimetableParseException {
+    public void parseDepartures_saturday() throws ParsableDataNotFoundException, TimetableParseException {
         LineNumber lineNumber = new LineNumber(1);
         ParsableData timetableDocument = timetableProvider.getTimetableDocument(lineNumber, 1);
         List<DayType> dayTypes = Arrays.asList(TestUtils.WEEKDAY_TYPE, TestUtils.SATURDAY_TYPE, TestUtils.SUNDAY_TYPE);
@@ -102,7 +102,7 @@ public class TimetableParserTest {
     }
 
     @Test
-    public void parseSundayDeparturesTest() throws ParsableDataNotFoundException, TimetableParseException {
+    public void parseDepartures_sunday() throws ParsableDataNotFoundException, TimetableParseException {
         LineNumber lineNumber = new LineNumber(1);
         ParsableData timetableDocument = timetableProvider.getTimetableDocument(lineNumber, 1);
         List<DayType> dayTypes = Arrays.asList(TestUtils.WEEKDAY_TYPE, TestUtils.SATURDAY_TYPE, TestUtils.SUNDAY_TYPE);
@@ -115,7 +115,7 @@ public class TimetableParserTest {
     }
 
     @Test
-    public void parseEverydayNightDeparturesTest() throws ParsableDataNotFoundException, TimetableParseException {
+    public void parseDepartures_everynight() throws ParsableDataNotFoundException, TimetableParseException {
         LineNumber lineNumber = new LineNumber(601);
         ParsableData timetableDocument = timetableProvider.getTimetableDocument(lineNumber, 1);
         List<DayType> dayTypes = Arrays.asList(TestUtils.EVERYDAY_NIGHT_TYPE);
@@ -128,7 +128,7 @@ public class TimetableParserTest {
     }
 
     @Test
-    public void parseDeparturesWithOneLegendTest() throws ParsableDataNotFoundException, TimetableParseException {
+    public void parseDepartures_withOneLegend() throws ParsableDataNotFoundException, TimetableParseException {
         LineNumber lineNumber = new LineNumber(22);
         String expectedLegend = "Kurs do przystanku: Kombinat";
         ParsableData timetableDocument = timetableProvider.getTimetableDocument(lineNumber, 1);
@@ -142,7 +142,7 @@ public class TimetableParserTest {
     }
 
     @Test
-    public void parseDeparturesWithTwoLegendsForOneDepartureTest() throws ParsableDataNotFoundException, TimetableParseException {
+    public void parseDepartures_withTwoLegendsForOneDeparture() throws ParsableDataNotFoundException, TimetableParseException {
         LineNumber lineNumber = new LineNumber(248);
         String expectedLegend1 = "Kurs do przystanku: Bolechowice przez: Kraków Business Park";
         String expectedLegend2 = "w dni nauki szkolnej do Bolechowic, w pozostałe dni powszednie do Zelkowa";
@@ -156,7 +156,7 @@ public class TimetableParserTest {
     }
 
     @Test
-    public void parseDeparturesWithTwoLegendsTest() throws ParsableDataNotFoundException, TimetableParseException {
+    public void parseDepartures_withTwoLegends() throws ParsableDataNotFoundException, TimetableParseException {
         LineNumber lineNumber = new LineNumber(183);
         String expectedLegend1 = "Kurs do przystanku: Wydział Farmaceutyczny UJ";
         String expectedLegend2 = "Kurs do przystanku: Prokocim Szpital";

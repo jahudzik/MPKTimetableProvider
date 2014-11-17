@@ -38,106 +38,106 @@ public class LineNumbersResolverTest {
     /******************** TESTS ********************/
 
     @Test
-    public void constructorTest1() {
+    public void constructor_test1() {
         LineNumbersResolver lineNumbersResolver = new LineNumbersResolver(true);
         TestUtils.checkCollectionSize(lineNumbersResolver.getLineNumbersCandidates(), 0);
     }
 
     @Test
-    public void constructorTest2() {
+    public void constructor_test2() {
         LineNumbersResolver lineNumbersResolver = new LineNumbersResolver(false);
         assertTrue(lineNumbersResolver.getLineNumbersCandidates().size() > 0);
     }
 
     @Test
-    public void testLinesFromRange1() {
+    public void checkRange_test1() {
         int[] lines = LineNumbersResolver.getLinesFromRange(allLinesNumeric, new LineNumber(1), new LineNumber(3));
         checkRange(lines, new int[]{0, 1});
     }
 
     @Test
-    public void testLinesFromRange2() {
+    public void checkRange_test2() {
         int[] lines = LineNumbersResolver.getLinesFromRange(allLinesNumeric, new LineNumber(2), new LineNumber(8));
         checkRange(lines, new int[]{0, 3});
     }
 
     @Test
-    public void testLinesFromRange3() {
+    public void checkRange_test3() {
         int[] lines = LineNumbersResolver.getLinesFromRange(allLinesNumeric, new LineNumber(5), new LineNumber(9));
         checkRange(lines, new int[]{2, 3});
     }
 
     @Test
-    public void testLinesFromRange4() {
+    public void checkRange_test4() {
         int[] lines = LineNumbersResolver.getLinesFromRange(allLinesNumeric, new LineNumber(3), new LineNumber(3));
         checkRange(lines, new int[]{1, 1});
     }
 
     @Test
-    public void testLinesFromRangeNoResult1() {
+    public void checkRange_noResult1() {
         int[] lines = LineNumbersResolver.getLinesFromRange(allLinesNumeric, new LineNumber(11), new LineNumber(20));
         checkRange(lines, new int[]{LineNumbersResolver.NO_LINE_NUMBER, LineNumbersResolver.NO_LINE_NUMBER});
     }
 
     @Test
-    public void testLinesFromRangeNoResult2() {
+    public void checkRange_noResult2() {
         int[] lines = LineNumbersResolver.getLinesFromRange(allLinesNumeric, new LineNumber(7), new LineNumber(3));
         checkRange(lines, new int[]{LineNumbersResolver.NO_LINE_NUMBER, LineNumbersResolver.NO_LINE_NUMBER});
     }
 
     @Test
-    public void testLinesFromRangeNoResult3() {
+    public void checkRange_noResult3() {
         int[] lines = LineNumbersResolver.getLinesFromRange(allLinesNumeric, new LineNumber(0), new LineNumber(1));
         checkRange(lines, new int[]{LineNumbersResolver.NO_LINE_NUMBER, LineNumbersResolver.NO_LINE_NUMBER});
     }
 
     // allLinesWithLiteral = [2, 3, 6, 6a, 6b, 7, 10, X]
     @Test
-    public void testLiteralLinesInRange1() {
+    public void checkRange_literal1() {
         int[] lines = LineNumbersResolver.getLinesFromRange(allLinesWithLiteral, new LineNumber(1), new LineNumber(6));
         checkRange(lines, new int[]{0, 2});
     }
 
 
     @Test
-    public void testLiteralLinesInRange2() {
+    public void checkRange_literal2() {
         int[] lines = LineNumbersResolver.getLinesFromRange(allLinesWithLiteral, new LineNumber(1), new LineNumber("6a"));
         checkRange(lines, new int[]{0, 3});
     }
 
 
     @Test
-    public void testLiteralLinesInRange3() {
+    public void checkRange_literal3() {
         int[] lines = LineNumbersResolver.getLinesFromRange(allLinesWithLiteral, new LineNumber(1), new LineNumber("6b"));
         checkRange(lines, new int[]{0, 4});
     }
 
     @Test
-    public void testLiteralLinesInRange4() {
+    public void checkRange_literal4() {
         int[] lines = LineNumbersResolver.getLinesFromRange(allLinesWithLiteral, new LineNumber(1), new LineNumber(7));
         checkRange(lines, new int[]{0, 5});
     }
 
     @Test
-    public void testLiteralLinesInRange5() {
+    public void checkRange_literal5() {
         int[] lines = LineNumbersResolver.getLinesFromRange(allLinesWithLiteral, new LineNumber(0), new LineNumber(100));
         checkRange(lines, new int[]{0, 6});
     }
 
     @Test
-    public void testLiteralLinesInRange6() {
+    public void checkRange_literal6() {
         int[] lines = LineNumbersResolver.getLinesFromRange(allLinesWithLiteral, new LineNumber(0), new LineNumber("C"));
         checkRange(lines, new int[]{0, 6});
     }
 
     @Test
-    public void testLiteralLinesInRange7() {
+    public void checkRange_literal7() {
         int[] lines = LineNumbersResolver.getLinesFromRange(allLinesWithLiteral, new LineNumber(0), new LineNumber("Z"));
         checkRange(lines, new int[]{0, 7});
     }
 
     @Test
-    public void testLiteralLinesInRange8() {
+    public void checkRange_literal8() {
         int[] lines = LineNumbersResolver.getLinesFromRange(allLinesWithLiteral, new LineNumber("A"), new LineNumber("Z"));
         checkRange(lines, new int[]{7, 7});
     }

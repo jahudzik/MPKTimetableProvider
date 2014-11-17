@@ -97,22 +97,25 @@ public class UrlTimetableProviderTest {
     }
 
     @Test
-    public void getLinesListTest() throws ParsableDataNotFoundException, IOException {
+    public void getLinesList_test() throws ParsableDataNotFoundException, IOException {
         timetableProvider.getLinesList();
+
         verify(downloadUtilsMock).downloadJsoupDocument(eq(UrlResolver.LINES_LIST_URL));
         verify(linesListParserMock).parse(parsableDataMock);
     }
 
     @Test
-    public void getLineRouteTest() throws ParsableDataNotFoundException, TimetableParseException, IOException {
+    public void getLineRoute_test() throws ParsableDataNotFoundException, TimetableParseException, IOException {
         LineNumber lineNumber = new LineNumber(5);
+
         timetableProvider.getLineRoute(lineNumber, 1);
+
         verify(downloadUtilsMock).downloadJsoupDocument(eq("http://rozklady.mpk.krakow.pl/aktualne/0005/0005w001.htm"));
         verify(lineRouteParserMock).parse(lineNumber, parsableDataMock);
     }
 
     @Test
-    public void getTimetableTest() throws TimetableParseException, ParsableDataNotFoundException, IOException {
+    public void getTimetable_test() throws TimetableParseException, ParsableDataNotFoundException, IOException {
         LineNumber lineNumber = new LineNumber(605);
         List<DayType> dayTypeList = Arrays.asList(TestUtils.WEEKDAY_TYPE, TestUtils.SATURDAY_TYPE, TestUtils.SUNDAY_TYPE);
         when(timetableParserMock.parseDayTypes(any(ParsableData.class), eq(lineNumber))).thenReturn(dayTypeList);

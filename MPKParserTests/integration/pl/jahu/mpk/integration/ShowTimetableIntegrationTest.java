@@ -114,9 +114,7 @@ public class ShowTimetableIntegrationTest {
 
                     // prints general summary of each destination of each line
                     if (printGeneralOutput) {
-                        StringBuilder sb = new StringBuilder();
-                        sb.append(dayType).append("=").append(transits.size()).append(";");
-                        System.out.println("PASSED: {line=" + line + ", route='" + route.get(0).getName() + "'->'" + destination + "', stations=" + route.size() + ", departures={" + sb.toString() + "} }");
+                        System.out.println("PASSED: {line=" + line + ", route='" + route.get(0).getName() + "'->'" + destination + "', stations=" + route.size() + ", departures={" + String.valueOf(dayType) + "=" + transits.size() + ";" + "} }");
                     }
                 } catch (ParsableDataNotFoundException e) {
                     break;
