@@ -1,5 +1,6 @@
 package pl.jahu.mpk.integration;
 
+import org.joda.time.DateTime;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +18,6 @@ import pl.jahu.mpk.validators.exceptions.TransitValidationException;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -33,7 +33,7 @@ public class ShowTimetableIntegrationTest {
     private static String destination;
     private static int actSequenceNumber;
     private static boolean printGeneralOutput;
-    private static Date testDate;
+    private static DateTime testDate;
 
     @Inject
     static TimetableProvider timetableProvider;

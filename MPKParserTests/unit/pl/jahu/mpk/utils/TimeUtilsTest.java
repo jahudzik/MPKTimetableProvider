@@ -1,14 +1,11 @@
 package pl.jahu.mpk.utils;
 
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Calendar;
-import java.util.Date;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 // TODO Handle WEEKEND_NIGHTS properly
 
@@ -47,24 +44,21 @@ public class TimeUtilsTest {
 
     @Test
     public void buildDate_withTime() {
-        Date date = TimeUtils.buildDate(14, 03, 13, 07, 1995);
+        DateTime date = TimeUtils.buildDate(14, 03, 13, 07, 1995);
 
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        assertEquals(14, cal.get(Calendar.HOUR_OF_DAY));
-        assertEquals(3, cal.get(Calendar.MINUTE));
-        assertEquals(13, cal.get(Calendar.DAY_OF_MONTH));
-        assertEquals(6, cal.get(Calendar.MONTH));
-        assertEquals(1995, cal.get(Calendar.YEAR));
+        assertEquals(14, date.getHourOfDay());
+        assertEquals(3, date.getMinuteOfHour());
+        assertEquals(13, date.getDayOfMonth());
+        assertEquals(7, date.getMonthOfYear());
+        assertEquals(1995, date.getYear());
     }
 
     @Test
     public void buildDate_defaultTime() {
-        Date date = TimeUtils.buildDate(13, 07, 1995);
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        assertEquals(12, cal.get(Calendar.HOUR_OF_DAY));
-        assertEquals(0, cal.get(Calendar.MINUTE));
+        DateTime date = TimeUtils.buildDate(13, 07, 1995);
+
+        assertEquals(12, date.getHourOfDay());
+        assertEquals(0, date.getMinuteOfHour());
     }
 
     @Test

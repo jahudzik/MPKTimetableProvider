@@ -1,5 +1,6 @@
 package pl.jahu.mpk.parsers;
 
+import org.joda.time.DateTimeConstants;
 import org.junit.Before;
 import org.junit.Test;
 import pl.jahu.mpk.DaggerApplication;
@@ -13,7 +14,6 @@ import pl.jahu.mpk.providers.TimetableProvider;
 
 import javax.inject.Inject;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -57,9 +57,9 @@ public class TimetableParserTest {
     @Test
     public void parseDayTypes_specificNightDayTypes() throws ParsableDataNotFoundException, TimetableParseException {
         ParsableData timetableDocument = timetableProvider.getTimetableDocument(new LineNumber(605), 1);
-        DayType mondayThursdayType = DayType.getInstance(new int[]{Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY}, true);
-        DayType weekendNightType = DayType.getInstance(new int[]{Calendar.FRIDAY, Calendar.SATURDAY}, true);
-        DayType sundayNightType = DayType.getInstance(new int[]{Calendar.SUNDAY}, true);
+        DayType mondayThursdayType = DayType.getInstance(new int[]{DateTimeConstants.MONDAY, DateTimeConstants.TUESDAY, DateTimeConstants.WEDNESDAY, DateTimeConstants.THURSDAY}, true);
+        DayType weekendNightType = DayType.getInstance(new int[]{DateTimeConstants.FRIDAY, DateTimeConstants.SATURDAY}, true);
+        DayType sundayNightType = DayType.getInstance(new int[]{DateTimeConstants.SUNDAY}, true);
 
         List<DayType> dayTypes = timetableParser.parseDayTypes(timetableDocument, true);
 

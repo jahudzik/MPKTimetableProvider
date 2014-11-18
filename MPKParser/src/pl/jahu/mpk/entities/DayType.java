@@ -1,9 +1,11 @@
 package pl.jahu.mpk.entities;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import pl.jahu.mpk.utils.TimeUtils;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,9 +20,11 @@ public final class DayType {
     private final static int NIGHT_START = 23;
     private final static int NIGHT_END = 6;
 
-    private final Date startDate;
+    private final static DateTimeFormatter DATE_FORMATTER = DateTimeFormat.forPattern("dd.MM.yyyy");
 
-    private final Date endDate;
+    private final DateTime startDate;
+
+    private final DateTime endDate;
 
     private final Map<Integer, Boolean> daysOfWeek;
 
@@ -33,22 +37,22 @@ public final class DayType {
         this.nightly = nightly;
     }
 
-    public DayType(Date date) {
+    public DayType(DateTime date) {
         this(date, false);
     }
 
-    public DayType(Date date, boolean nightly) {
+    public DayType(DateTime date, boolean nightly) {
         this.startDate = date;
         this.endDate = date;
         this.daysOfWeek = null;
         this.nightly = nightly;
     }
 
-    public DayType(Date startDate, Date endDate) {
+    public DayType(DateTime startDate, DateTime endDate) {
         this(startDate, endDate, false);
     }
 
-    public DayType(Date startDate, Date endDate, boolean nightly) {
+    public DayType(DateTime startDate, DateTime endDate, boolean nightly) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.daysOfWeek = null;
@@ -62,42 +66,41 @@ public final class DayType {
             expectedValues[day] = true;
         }
         Map<Integer, Boolean> daysOfWeek = new HashMap<>();
-        daysOfWeek.put(Calendar.MONDAY, expectedValues[Calendar.MONDAY]);
-        daysOfWeek.put(Calendar.TUESDAY, expectedValues[Calendar.TUESDAY]);
-        daysOfWeek.put(Calendar.WEDNESDAY, expectedValues[Calendar.WEDNESDAY]);
-        daysOfWeek.put(Calendar.THURSDAY, expectedValues[Calendar.THURSDAY]);
-        daysOfWeek.put(Calendar.FRIDAY, expectedValues[Calendar.FRIDAY]);
-        daysOfWeek.put(Calendar.SATURDAY, expectedValues[Calendar.SATURDAY]);
-        daysOfWeek.put(Calendar.SUNDAY, expectedValues[Calendar.SUNDAY]);
+        daysOfWeek.put(DateTimeConstants.MONDAY, expectedValues[DateTimeConstants.MONDAY]);
+        daysOfWeek.put(DateTimeConstants.TUESDAY, expectedValues[DateTimeConstants.TUESDAY]);
+        daysOfWeek.put(DateTimeConstants.WEDNESDAY, expectedValues[DateTimeConstants.WEDNESDAY]);
+        daysOfWeek.put(DateTimeConstants.THURSDAY, expectedValues[DateTimeConstants.THURSDAY]);
+        daysOfWeek.put(DateTimeConstants.FRIDAY, expectedValues[DateTimeConstants.FRIDAY]);
+        daysOfWeek.put(DateTimeConstants.SATURDAY, expectedValues[DateTimeConstants.SATURDAY]);
+        daysOfWeek.put(DateTimeConstants.SUNDAY, expectedValues[DateTimeConstants.SUNDAY]);
         return new DayType(daysOfWeek, nightly);
     }
 
-    public boolean matches(Date date) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        int hour = cal.get(Calendar.HOUR_OF_DAY);
-        int day = cal.get(Calendar.DAY_OF_WEEK);
+    public boolean matches(DateTime date) {
+        int hour = date.getHourOfDay();
+        int min = date.getMinuteOfHour();
+        int dayOfWeek = date.getDayOfWeek();
         if (daysOfWeek != null) {
             if (nightly) {
                 if (hour >= NIGHT_START) {
                     // any time between 22:00 and 00:00
-                    return daysOfWeek.get(day);
+                    return daysOfWeek.get(dayOfWeek);
                 }
                 if (hour <= NIGHT_END) {
                     // any time between 00:00 and 06:59
-                    return daysOfWeek.get(TimeUtils.previousDay(day));
+                    return daysOfWeek.get(TimeUtils.previousDay(dayOfWeek));
                 }
-                throw new IllegalArgumentException("Incorrect time (" + hour + ":" + cal.get(Calendar.MINUTE)+ ") for nightly day type");
+                throw new IllegalArgumentException("Incorrect time (" + hour + ":" + min + ") for nightly day type");
             } else {
                 if (hour >= DAY_START) {
                     // any time between 03:00 and 00:00
-                    return daysOfWeek.get(day);
+                    return daysOfWeek.get(dayOfWeek);
                 }
                 if (hour <= DAY_END) {
                     // any time between 00:00 and 01:59
-                    return daysOfWeek.get(TimeUtils.previousDay(day));
+                    return daysOfWeek.get(TimeUtils.previousDay(dayOfWeek));
                 }
-                throw new IllegalArgumentException("Incorrect time (" + hour + ":" + cal.get(Calendar.MINUTE)+ ") for daily day type");
+                throw new IllegalArgumentException("Incorrect time (" + hour + ":" + min + ") for daily day type");
             }
 
         } else {
@@ -105,11 +108,11 @@ public final class DayType {
         }
     }
 
-    public Date getStartDate() {
+    public DateTime getStartDate() {
         return startDate;
     }
 
-    public Date getEndDate() {
+    public DateTime getEndDate() {
         return endDate;
     }
 
@@ -164,36 +167,28 @@ public final class DayType {
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
         if (startDate != null && endDate != null) {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(startDate);
-            sb.append(cal.get(Calendar.DAY_OF_MONTH)).append(".");
-            sb.append(cal.get(Calendar.MONTH) + 1).append(".");
-            sb.append(cal.get(Calendar.YEAR)).append("-");
-            cal.setTime(endDate);
-            sb.append(cal.get(Calendar.DAY_OF_MONTH)).append(".");
-            sb.append(cal.get(Calendar.MONTH) + 1).append(".");
-            sb.append(cal.get(Calendar.YEAR));
+            sb.append(DATE_FORMATTER.print(startDate)).append("-").append(DATE_FORMATTER.print(endDate));
         } else {
             sb.append(nightly ? "nightly:" : "daily:");
-            if (daysOfWeek.get(Calendar.MONDAY)) {
+            if (daysOfWeek.get(DateTimeConstants.MONDAY)) {
                 sb.append("Mon|");
             }
-            if (daysOfWeek.get(Calendar.TUESDAY)) {
+            if (daysOfWeek.get(DateTimeConstants.TUESDAY)) {
                 sb.append("Tue|");
             }
-            if (daysOfWeek.get(Calendar.WEDNESDAY)) {
+            if (daysOfWeek.get(DateTimeConstants.WEDNESDAY)) {
                 sb.append("Wed|");
             }
-            if (daysOfWeek.get(Calendar.THURSDAY)) {
+            if (daysOfWeek.get(DateTimeConstants.THURSDAY)) {
                 sb.append("Thu|");
             }
-            if (daysOfWeek.get(Calendar.FRIDAY)) {
+            if (daysOfWeek.get(DateTimeConstants.FRIDAY)) {
                 sb.append("Fri|");
             }
-            if (daysOfWeek.get(Calendar.SATURDAY)) {
+            if (daysOfWeek.get(DateTimeConstants.SATURDAY)) {
                 sb.append("Sat|");
             }
-            if (daysOfWeek.get(Calendar.SUNDAY)) {
+            if (daysOfWeek.get(DateTimeConstants.SUNDAY)) {
                 sb.append("Sun|");
             }
             sb.deleteCharAt(sb.lastIndexOf("|"));

@@ -1,11 +1,13 @@
 package pl.jahu.mpk.parsers;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.LocalDate;
 import pl.jahu.mpk.entities.DayType;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 import pl.jahu.mpk.utils.TimeUtils;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,7 +55,7 @@ public class DayTypeParser {
         }
 
         // ex 01.11.2014, 1-3.05.2015
-        Date dates[] = parseDates(literal);
+        DateTime dates[] = parseDates(literal);
         if (dates != null) {
             return (dates.length == 1) ? new DayType(dates[0], nightly) : new DayType(dates[0], dates[1], nightly);
         }
@@ -79,9 +81,9 @@ public class DayTypeParser {
         switch (literal) {
             case "Dzień powszedni":
             case "Dni powszednie":
-                return getDaysOfWeekMap(Calendar.MONDAY, Calendar.FRIDAY);
+                return getDaysOfWeekMap(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY);
             case "Wszystkie dni tygodnia":
-                return getDaysOfWeekMap(Calendar.MONDAY, Calendar.SUNDAY);
+                return getDaysOfWeekMap(DateTimeConstants.MONDAY, DateTimeConstants.SUNDAY);
             case "Weekend":
                 return getWeekendMap();
             default:
@@ -106,21 +108,21 @@ public class DayTypeParser {
         return parseDaysOfWeek(values[0]);
     }
 
-    private static Date[] parseDates(String literal) {
+    private static DateTime[] parseDates(String literal) {
         String[] values = literal.split("\\.");
         if (values.length < 2) {
             return null;
         }
         int[] days = parseDays(values[0]);
         int month = parseInt(values[1]);
-        int year = (values.length > 2) ? parseInt(values[2]) : Calendar.getInstance().get(Calendar.YEAR);
+        int year = (values.length > 2) ? parseInt(values[2]) : LocalDate.now().getYear();
 
         if (days != null && month != UNKNOWN && year != UNKNOWN) {
             switch (days.length) {
                 case 1:
-                    return new Date[]{TimeUtils.buildDate(days[0], month, year)};
+                    return new DateTime[]{TimeUtils.buildDate(days[0], month, year)};
                 case 2:
-                    return new Date[]{TimeUtils.buildDate(days[0], month, year), TimeUtils.buildDate(days[1], month, year)};
+                    return new DateTime[]{TimeUtils.buildDate(days[0], month, year), TimeUtils.buildDate(days[1], month, year)};
             }
         }
         return null;
@@ -162,7 +164,7 @@ public class DayTypeParser {
             case "Sb":
             case "Sob":
             case "Sob.":
-                return Calendar.SATURDAY;
+                return DateTimeConstants.SATURDAY;
             case "Święta":
             case "Św.":
             case "Niedziela":
@@ -171,33 +173,33 @@ public class DayTypeParser {
             case "Nie.":
             case "Niedz":
             case "Niedz.":
-                return Calendar.SUNDAY;
+                return DateTimeConstants.SUNDAY;
             case "Poniedziałek":
             case "Pn":
             case "Pon":
             case "Pon.":
-                return Calendar.MONDAY;
+                return DateTimeConstants.MONDAY;
             case "Wtorek":
             case "Wt":
             case "Wt.":
             case "Wto":
             case "Wto.":
-                return Calendar.TUESDAY;
+                return DateTimeConstants.TUESDAY;
             case "Środa":
             case "Śr":
             case "Śr.":
             case "Śro":
             case "Śro.":
-                return Calendar.WEDNESDAY;
+                return DateTimeConstants.WEDNESDAY;
             case "Czwartek":
             case "Czw":
             case "Czw.":
-                return Calendar.THURSDAY;
+                return DateTimeConstants.THURSDAY;
             case "Piątek":
             case "Pi":
             case "Pi.":
             case "Pt":
-                return Calendar.FRIDAY;
+                return DateTimeConstants.FRIDAY;
         }
         return UNKNOWN;
     }
@@ -207,25 +209,25 @@ public class DayTypeParser {
             return null;
         }
         Map<Integer, Boolean> map = new HashMap<>();
-        map.put(Calendar.MONDAY, dayInRange(Calendar.MONDAY, firstDayIndex, lastDayIndex));
-        map.put(Calendar.TUESDAY, dayInRange(Calendar.TUESDAY, firstDayIndex, lastDayIndex));
-        map.put(Calendar.WEDNESDAY, dayInRange(Calendar.WEDNESDAY, firstDayIndex, lastDayIndex));
-        map.put(Calendar.THURSDAY, dayInRange(Calendar.THURSDAY, firstDayIndex, lastDayIndex));
-        map.put(Calendar.FRIDAY, dayInRange(Calendar.FRIDAY, firstDayIndex, lastDayIndex));
-        map.put(Calendar.SATURDAY, dayInRange(Calendar.SATURDAY, firstDayIndex, lastDayIndex));
-        map.put(Calendar.SUNDAY, dayInRange(Calendar.SUNDAY, firstDayIndex, lastDayIndex));
+        map.put(DateTimeConstants.MONDAY, dayInRange(DateTimeConstants.MONDAY, firstDayIndex, lastDayIndex));
+        map.put(DateTimeConstants.TUESDAY, dayInRange(DateTimeConstants.TUESDAY, firstDayIndex, lastDayIndex));
+        map.put(DateTimeConstants.WEDNESDAY, dayInRange(DateTimeConstants.WEDNESDAY, firstDayIndex, lastDayIndex));
+        map.put(DateTimeConstants.THURSDAY, dayInRange(DateTimeConstants.THURSDAY, firstDayIndex, lastDayIndex));
+        map.put(DateTimeConstants.FRIDAY, dayInRange(DateTimeConstants.FRIDAY, firstDayIndex, lastDayIndex));
+        map.put(DateTimeConstants.SATURDAY, dayInRange(DateTimeConstants.SATURDAY, firstDayIndex, lastDayIndex));
+        map.put(DateTimeConstants.SUNDAY, dayInRange(DateTimeConstants.SUNDAY, firstDayIndex, lastDayIndex));
         return map;
     }
 
     private static Map<Integer, Boolean> getWeekendMap() {
         Map<Integer, Boolean> map = new HashMap<>();
-        map.put(Calendar.MONDAY, false);
-        map.put(Calendar.TUESDAY, false);
-        map.put(Calendar.WEDNESDAY, false);
-        map.put(Calendar.THURSDAY, false);
-        map.put(Calendar.FRIDAY, false);
-        map.put(Calendar.SATURDAY, true);
-        map.put(Calendar.SUNDAY, true);
+        map.put(DateTimeConstants.MONDAY, false);
+        map.put(DateTimeConstants.TUESDAY, false);
+        map.put(DateTimeConstants.WEDNESDAY, false);
+        map.put(DateTimeConstants.THURSDAY, false);
+        map.put(DateTimeConstants.FRIDAY, false);
+        map.put(DateTimeConstants.SATURDAY, true);
+        map.put(DateTimeConstants.SUNDAY, true);
         return map;
     }
 

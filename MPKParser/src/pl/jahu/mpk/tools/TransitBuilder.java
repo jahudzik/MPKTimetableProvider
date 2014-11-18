@@ -1,5 +1,6 @@
 package pl.jahu.mpk.tools;
 
+import org.joda.time.DateTime;
 import pl.jahu.mpk.entities.*;
 import pl.jahu.mpk.parsers.data.StationData;
 import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
@@ -11,7 +12,10 @@ import pl.jahu.mpk.validators.exceptions.TransitValidationException;
 import pl.jahu.mpk.validators.exceptions.UnhandledTimetableDepartureException;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * MPK Timetable Parser
@@ -27,7 +31,7 @@ public class TransitBuilder {
     /**
      * Parses timetables of specified line in specified direction and builds list of transits.
      */
-    public static List<Transit> parseAndBuild(Date date, Line line, int direction) throws ParsableDataNotFoundException, TimetableParseException, TransitValidationException {
+    public static List<Transit> parseAndBuild(DateTime date, Line line, int direction) throws ParsableDataNotFoundException, TimetableParseException, TransitValidationException {
         List<Timetable> timetables = new ArrayList<>();
         timetableProvider.getLineRoute(line, direction);
         List<StationData> stations = timetableProvider.getLineRoute(line, direction);

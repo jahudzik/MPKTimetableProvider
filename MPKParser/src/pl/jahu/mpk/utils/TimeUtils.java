@@ -1,7 +1,6 @@
 package pl.jahu.mpk.utils;
 
-import java.util.Calendar;
-import java.util.Date;
+import org.joda.time.DateTime;
 
 /**
  * Created by jahudzik on 2014-08-03.
@@ -19,15 +18,12 @@ public class TimeUtils {
         return hour * 60 + min;
     }
 
-    public static Date buildDate(int day, int month, int year) {
+    public static DateTime buildDate(int day, int month, int year) {
         return buildDate(12, 0, day, month, year);
     }
 
-    public static Date buildDate(int hour, int min, int day, int month, int year) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(0);
-        cal.set(year, month - 1, day, hour, min);
-        return cal.getTime();
+    public static DateTime buildDate(int hour, int min, int day, int month, int year) {
+        return new DateTime(year, month, day, hour, min);
     }
 
     public static int previousDay(int day) {

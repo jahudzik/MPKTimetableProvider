@@ -1,5 +1,6 @@
 package pl.jahu.mpk.providers;
 
+import org.joda.time.DateTime;
 import pl.jahu.mpk.entities.DayType;
 import pl.jahu.mpk.entities.Line;
 import pl.jahu.mpk.entities.LineNumber;
@@ -14,7 +15,6 @@ import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 
 import javax.inject.Inject;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -58,7 +58,7 @@ public abstract class TimetableProvider {
         return lineRouteParser.retrieveDestination(data);
     }
 
-    public Timetable getTimetable(Date date, Line line, int stationSequenceNumber) throws ParsableDataNotFoundException, TimetableParseException {
+    public Timetable getTimetable(DateTime date, Line line, int stationSequenceNumber) throws ParsableDataNotFoundException, TimetableParseException {
         ParsableData parsableData = getTimetableDocument(line.getNumber(), stationSequenceNumber);
         boolean nightly = (line.getType().getReasonType() == ReasonTypes.NIGHTLY);
         List<DayType> dayTypeList = timetableParser.parseDayTypes(parsableData, nightly);
@@ -66,7 +66,7 @@ public abstract class TimetableProvider {
         return timetableParser.parseDepartures(parsableData, dayTypeList, dayTypeIndex, line);
     }
 
-    private int matchDateWithDateType(Date date, List<DayType> dayTypeList, String location) throws TimetableParseException {
+    private int matchDateWithDateType(DateTime date, List<DayType> dayTypeList, String location) throws TimetableParseException {
         for (int i = 0; i < dayTypeList.size(); i++) {
             if (dayTypeList.get(i).matches(date)) {
                 return i;

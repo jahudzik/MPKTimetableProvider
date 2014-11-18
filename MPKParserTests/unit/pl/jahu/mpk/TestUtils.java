@@ -1,12 +1,12 @@
 package pl.jahu.mpk;
 
+import org.joda.time.DateTimeConstants;
 import pl.jahu.mpk.entities.DayType;
 import pl.jahu.mpk.entities.LineType;
 import pl.jahu.mpk.enums.AreaTypes;
 import pl.jahu.mpk.enums.ReasonTypes;
 import pl.jahu.mpk.enums.VehicleTypes;
 
-import java.util.Calendar;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
@@ -18,11 +18,10 @@ import static org.junit.Assert.assertNotNull;
  */
 public class TestUtils {
 
-    public static final DayType WEEKDAY_TYPE = DayType.getInstance(new int[]{Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY, Calendar.FRIDAY}, false);
-    public static final DayType SATURDAY_TYPE = DayType.getInstance(new int[]{Calendar.SATURDAY}, false);
-    public static final DayType SUNDAY_TYPE = DayType.getInstance(new int[]{Calendar.SUNDAY}, false);
-    public static final DayType SUNDAY_NIGHT_TYPE = DayType.getInstance(new int[]{Calendar.SUNDAY}, true);
-    public static final DayType EVERYDAY_NIGHT_TYPE = DayType.getInstance(new int[]{Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY, Calendar.FRIDAY, Calendar.SATURDAY, Calendar.SUNDAY}, true);
+    public static final DayType WEEKDAY_TYPE = DayType.getInstance(new int[]{DateTimeConstants.MONDAY, DateTimeConstants.TUESDAY, DateTimeConstants.WEDNESDAY, DateTimeConstants.THURSDAY, DateTimeConstants.FRIDAY}, false);
+    public static final DayType SATURDAY_TYPE = DayType.getInstance(new int[]{DateTimeConstants.SATURDAY}, false);
+    public static final DayType SUNDAY_TYPE = DayType.getInstance(new int[]{DateTimeConstants.SUNDAY}, false);
+    public static final DayType EVERYDAY_NIGHT_TYPE = DayType.getInstance(new int[]{DateTimeConstants.MONDAY, DateTimeConstants.TUESDAY, DateTimeConstants.WEDNESDAY, DateTimeConstants.THURSDAY, DateTimeConstants.FRIDAY, DateTimeConstants.SATURDAY, DateTimeConstants.SUNDAY}, true);
 
     public static final LineType EXAMPLE_LINE_TYPE = new LineType(VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.CITY);
 

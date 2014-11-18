@@ -1,9 +1,8 @@
 package pl.jahu.mpk.entities;
 
+import org.joda.time.DateTimeConstants;
 import org.junit.Test;
 import pl.jahu.mpk.utils.TimeUtils;
-
-import java.util.Calendar;
 
 import static org.junit.Assert.*;
 
@@ -17,7 +16,7 @@ public class DayTypeTest {
 
     @Test
     public void matches_test1() {
-        DayType mondayDayType = DayType.getInstance(new int[]{Calendar.MONDAY}, false);
+        DayType mondayDayType = DayType.getInstance(new int[]{DateTimeConstants.MONDAY}, false);
         assertTrue(mondayDayType.matches(TimeUtils.buildDate(10, 11, 2014)));
         assertTrue(mondayDayType.matches(TimeUtils.buildDate(17, 11, 2014)));
         assertTrue(mondayDayType.matches(TimeUtils.buildDate( 4,  5, 2015)));
@@ -32,7 +31,7 @@ public class DayTypeTest {
 
     @Test
     public void matches_test2() {
-        DayType weekendDayType = DayType.getInstance(new int[]{Calendar.SATURDAY, Calendar.SUNDAY}, false);
+        DayType weekendDayType = DayType.getInstance(new int[]{DateTimeConstants.SATURDAY, DateTimeConstants.SUNDAY}, false);
         assertTrue(weekendDayType.matches(TimeUtils.buildDate(15, 11, 2014)));
         assertTrue(weekendDayType.matches(TimeUtils.buildDate(16, 11, 2014)));
         assertTrue(weekendDayType.matches(TimeUtils.buildDate(29, 11, 2014)));
@@ -47,7 +46,7 @@ public class DayTypeTest {
 
     @Test
     public void matches_test3() {
-        DayType allWeekDayType = DayType.getInstance(new int[]{Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY, Calendar.FRIDAY, Calendar.SATURDAY, Calendar.SUNDAY}, false);
+        DayType allWeekDayType = DayType.getInstance(new int[]{DateTimeConstants.MONDAY, DateTimeConstants.TUESDAY, DateTimeConstants.WEDNESDAY, DateTimeConstants.THURSDAY, DateTimeConstants.FRIDAY, DateTimeConstants.SATURDAY, DateTimeConstants.SUNDAY}, false);
         assertTrue(allWeekDayType.matches(TimeUtils.buildDate(10, 11, 2014)));
         assertTrue(allWeekDayType.matches(TimeUtils.buildDate(11, 11, 2014)));
         assertTrue(allWeekDayType.matches(TimeUtils.buildDate(12, 11, 2014)));
@@ -83,7 +82,7 @@ public class DayTypeTest {
 
     @Test
     public void matches_test6() {
-        DayType dayType = DayType.getInstance(new int[]{Calendar.THURSDAY}, false);
+        DayType dayType = DayType.getInstance(new int[]{DateTimeConstants.THURSDAY}, false);
         // matching with Friday 00:15
         assertTrue(dayType.matches(TimeUtils.buildDate(0, 15, 14, 11, 2014)));
         // matching with Friday 03:15
@@ -92,7 +91,7 @@ public class DayTypeTest {
 
     @Test
     public void matches_test7() {
-        DayType dayType = DayType.getInstance(new int[]{Calendar.THURSDAY}, false);
+        DayType dayType = DayType.getInstance(new int[]{DateTimeConstants.THURSDAY}, false);
         // matching with Thursday 01:15
         assertFalse(dayType.matches(TimeUtils.buildDate(1, 15, 13, 11, 2014)));
         // matching with Thursday 12:15
@@ -101,28 +100,28 @@ public class DayTypeTest {
 
     @Test
     public void matchesNight_test1() {
-        DayType dayType = DayType.getInstance(new int[]{Calendar.THURSDAY}, true);
+        DayType dayType = DayType.getInstance(new int[]{DateTimeConstants.THURSDAY}, true);
         // matching with Thursday 23:15
         assertTrue(dayType.matches(TimeUtils.buildDate(23, 15, 13, 11, 2014)));
     }
 
     @Test
     public void matchesNight_test2() {
-        DayType dayType = DayType.getInstance(new int[]{Calendar.THURSDAY}, true);
+        DayType dayType = DayType.getInstance(new int[]{DateTimeConstants.THURSDAY}, true);
         // matching with Friday 03:15
         assertTrue(dayType.matches(TimeUtils.buildDate(3, 15, 14, 11, 2014)));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void incorrectMatchingTime_test1() {
-        DayType dayType = DayType.getInstance(new int[]{Calendar.THURSDAY}, true);
+        DayType dayType = DayType.getInstance(new int[]{DateTimeConstants.THURSDAY}, true);
         // matching nightly with 07:15
         assertFalse(dayType.matches(TimeUtils.buildDate(7, 15, 14, 11, 2014)));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void incorrectMatchingTime_test2() {
-        DayType dayType = DayType.getInstance(new int[]{Calendar.THURSDAY}, false);
+        DayType dayType = DayType.getInstance(new int[]{DateTimeConstants.THURSDAY}, false);
         // matching daily with 02:15
         assertFalse(dayType.matches(TimeUtils.buildDate(2, 15, 14, 11, 2014)));
     }
@@ -130,38 +129,38 @@ public class DayTypeTest {
 
     @Test
     public void toString_test1() {
-        DayType dayType = DayType.getInstance(new int[]{Calendar.MONDAY}, false);
+        DayType dayType = DayType.getInstance(new int[]{DateTimeConstants.MONDAY}, false);
         assertEquals("[daily:Mon]", dayType.toString());
     }
 
     @Test
     public void toString_test2() {
-        DayType dayType = DayType.getInstance(new int[]{Calendar.SATURDAY, Calendar.SUNDAY}, false);
+        DayType dayType = DayType.getInstance(new int[]{DateTimeConstants.SATURDAY, DateTimeConstants.SUNDAY}, false);
         assertEquals("[daily:Sat|Sun]", dayType.toString());
     }
 
     @Test
     public void toString_test3() {
-        DayType dayType = DayType.getInstance(new int[]{Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY, Calendar.FRIDAY, Calendar.SATURDAY, Calendar.SUNDAY}, false);
+        DayType dayType = DayType.getInstance(new int[]{DateTimeConstants.MONDAY, DateTimeConstants.TUESDAY, DateTimeConstants.WEDNESDAY, DateTimeConstants.THURSDAY, DateTimeConstants.FRIDAY, DateTimeConstants.SATURDAY, DateTimeConstants.SUNDAY}, false);
         assertEquals("[daily:Mon|Tue|Wed|Thu|Fri|Sat|Sun]", dayType.toString());
     }
 
     @Test
     public void toString_test4() {
-        DayType dayType = DayType.getInstance(new int[]{Calendar.MONDAY}, true);
+        DayType dayType = DayType.getInstance(new int[]{DateTimeConstants.MONDAY}, true);
         assertEquals("[nightly:Mon]", dayType.toString());
     }
 
     @Test
     public void toString_test5() {
-        DayType dayType = DayType.getInstance(new int[]{Calendar.SATURDAY, Calendar.SUNDAY}, true);
+        DayType dayType = DayType.getInstance(new int[]{DateTimeConstants.SATURDAY, DateTimeConstants.SUNDAY}, true);
         assertEquals("[nightly:Sat|Sun]", dayType.toString());
     }
 
     @Test
     public void toString_test6() {
         DayType dayType = new DayType(TimeUtils.buildDate(5, 4, 2014));
-        assertEquals("[5.4.2014-5.4.2014]", dayType.toString());
+        assertEquals("[05.04.2014-05.04.2014]", dayType.toString());
     }
 
     @Test
@@ -221,24 +220,24 @@ public class DayTypeTest {
 
     @Test
     public void equals_test7() {
-        DayType dayType1 = DayType.getInstance(new int[]{Calendar.SATURDAY}, false);
-        DayType dayType2 = DayType.getInstance(new int[]{Calendar.SATURDAY}, false);
+        DayType dayType1 = DayType.getInstance(new int[]{DateTimeConstants.SATURDAY}, false);
+        DayType dayType2 = DayType.getInstance(new int[]{DateTimeConstants.SATURDAY}, false);
         assertTrue(dayType1.equals(dayType2));
         assertTrue(dayType2.equals(dayType1));
     }
 
     @Test
     public void equals_test8() {
-        DayType dayType1 = DayType.getInstance(new int[]{Calendar.SATURDAY}, false);
-        DayType dayType2 = DayType.getInstance(new int[]{Calendar.SUNDAY}, false);
+        DayType dayType1 = DayType.getInstance(new int[]{DateTimeConstants.SATURDAY}, false);
+        DayType dayType2 = DayType.getInstance(new int[]{DateTimeConstants.SUNDAY}, false);
         assertFalse(dayType1.equals(dayType2));
         assertFalse(dayType2.equals(dayType1));
     }
 
     @Test
     public void equals_test9() {
-        DayType dayType1 = DayType.getInstance(new int[]{Calendar.THURSDAY, Calendar.FRIDAY, Calendar.SATURDAY, Calendar.SUNDAY}, false);
-        DayType dayType2 = DayType.getInstance(new int[]{Calendar.THURSDAY, Calendar.FRIDAY, Calendar.SATURDAY}, false);
+        DayType dayType1 = DayType.getInstance(new int[]{DateTimeConstants.THURSDAY, DateTimeConstants.FRIDAY, DateTimeConstants.SATURDAY, DateTimeConstants.SUNDAY}, false);
+        DayType dayType2 = DayType.getInstance(new int[]{DateTimeConstants.THURSDAY, DateTimeConstants.FRIDAY, DateTimeConstants.SATURDAY}, false);
         assertFalse(dayType1.equals(dayType2));
         assertFalse(dayType2.equals(dayType1));
     }
@@ -246,7 +245,7 @@ public class DayTypeTest {
     @Test
     public void equals_test10() {
         DayType dayType1 = new DayType(TimeUtils.buildDate(5, 4, 2014));
-        DayType dayType2 = DayType.getInstance(new int[]{Calendar.THURSDAY}, false);
+        DayType dayType2 = DayType.getInstance(new int[]{DateTimeConstants.THURSDAY}, false);
         assertFalse(dayType1.equals(dayType2));
         assertFalse(dayType2.equals(dayType1));
     }
@@ -287,43 +286,43 @@ public class DayTypeTest {
 
     @Test
     public void hashCode_test3() {
-        DayType dayType1 = DayType.getInstance(new int[]{Calendar.FRIDAY}, true);
-        DayType dayType2 = DayType.getInstance(new int[]{Calendar.FRIDAY}, true);
+        DayType dayType1 = DayType.getInstance(new int[]{DateTimeConstants.FRIDAY}, true);
+        DayType dayType2 = DayType.getInstance(new int[]{DateTimeConstants.FRIDAY}, true);
         assertEquals(dayType1.hashCode(), dayType2.hashCode());
     }
 
     @Test
     public void hashCode_test4() {
-        DayType dayType1 = DayType.getInstance(new int[]{Calendar.FRIDAY}, true);
-        DayType dayType2 = DayType.getInstance(new int[]{Calendar.FRIDAY}, false);
+        DayType dayType1 = DayType.getInstance(new int[]{DateTimeConstants.FRIDAY}, true);
+        DayType dayType2 = DayType.getInstance(new int[]{DateTimeConstants.FRIDAY}, false);
         assertNotEquals(dayType1.hashCode(), dayType2.hashCode());
     }
 
     @Test
     public void hashCode_test5() {
-        DayType dayType1 = DayType.getInstance(new int[]{Calendar.FRIDAY}, true);
-        DayType dayType2 = DayType.getInstance(new int[]{Calendar.FRIDAY, Calendar.SATURDAY}, true);
+        DayType dayType1 = DayType.getInstance(new int[]{DateTimeConstants.FRIDAY}, true);
+        DayType dayType2 = DayType.getInstance(new int[]{DateTimeConstants.FRIDAY, DateTimeConstants.SATURDAY}, true);
         assertNotEquals(dayType1.hashCode(), dayType2.hashCode());
     }
 
     @Test
     public void hashCode_test6() {
-        DayType dayType1 = DayType.getInstance(new int[]{Calendar.FRIDAY}, true);
-        DayType dayType2 = DayType.getInstance(new int[]{Calendar.SATURDAY}, true);
+        DayType dayType1 = DayType.getInstance(new int[]{DateTimeConstants.FRIDAY}, true);
+        DayType dayType2 = DayType.getInstance(new int[]{DateTimeConstants.SATURDAY}, true);
         assertNotEquals(dayType1.hashCode(), dayType2.hashCode());
     }
 
     @Test
     public void hashCode_test7() {
-        DayType dayType1 = DayType.getInstance(new int[]{Calendar.SATURDAY, Calendar.SUNDAY}, true);
-        DayType dayType2 = DayType.getInstance(new int[]{Calendar.FRIDAY, Calendar.SATURDAY}, true);
+        DayType dayType1 = DayType.getInstance(new int[]{DateTimeConstants.SATURDAY, DateTimeConstants.SUNDAY}, true);
+        DayType dayType2 = DayType.getInstance(new int[]{DateTimeConstants.FRIDAY, DateTimeConstants.SATURDAY}, true);
         assertNotEquals(dayType1.hashCode(), dayType2.hashCode());
     }
 
     @Test
     public void hashCode_test8() {
-        DayType dayType1 = DayType.getInstance(new int[]{Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY}, true);
-        DayType dayType2 = DayType.getInstance(new int[]{Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY}, true);
+        DayType dayType1 = DayType.getInstance(new int[]{DateTimeConstants.MONDAY, DateTimeConstants.TUESDAY, DateTimeConstants.WEDNESDAY, DateTimeConstants.THURSDAY}, true);
+        DayType dayType2 = DayType.getInstance(new int[]{DateTimeConstants.MONDAY, DateTimeConstants.TUESDAY, DateTimeConstants.WEDNESDAY, DateTimeConstants.THURSDAY}, true);
         assertEquals(dayType1.hashCode(), dayType2.hashCode());
     }
 
