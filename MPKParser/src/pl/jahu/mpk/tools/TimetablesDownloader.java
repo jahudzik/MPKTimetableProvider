@@ -37,7 +37,7 @@ public class TimetablesDownloader {
      */
     public static void downloadInfo() throws ParsableDataNotFoundException {
         downloadUtils.downloadUrl(UrlResolver.LINES_LIST_URL, TIMETABLES_LOCATION + LINES_PAGE_NAME);
-        downloadUtils.downloadUrl(UrlResolver.TIMETABLE_MENU_URL, TIMETABLES_LOCATION + MENU_PAGE_NAME);
+        downloadUtils.downloadUrl(UrlResolver.UPDATE_INFO_URL, TIMETABLES_LOCATION + MENU_PAGE_NAME);
         downloadUtils.downloadUrl(UrlResolver.STATIONS_LIST_URL, TIMETABLES_LOCATION + STATIONS_PAGE_NAME);
     }
 

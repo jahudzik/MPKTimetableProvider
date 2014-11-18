@@ -32,11 +32,19 @@ public abstract class TimetableProvider {
     @Inject
     TimetableParser timetableParser;
 
+
+    abstract public ParsableData getUpdateInfoDocument() throws ParsableDataNotFoundException;
+
     abstract public ParsableData getLinesListDocument() throws ParsableDataNotFoundException;
 
     abstract public ParsableData getLineRouteDocument(LineNumber lineNumber, int direction) throws ParsableDataNotFoundException;
 
     abstract public ParsableData getTimetableDocument(LineNumber lineNumber, int stationSequenceNumber) throws ParsableDataNotFoundException;
+
+    public DateTime getLastUpdateDate() throws ParsableDataNotFoundException, TimetableParseException {
+        ParsableData data = getUpdateInfoDocument();
+        return linesListParser.parseLastUpdateDate(data);
+    }
 
     public List<Line> getLinesList() throws ParsableDataNotFoundException {
         ParsableData data = getLinesListDocument();

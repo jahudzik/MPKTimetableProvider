@@ -18,6 +18,7 @@ import java.io.IOException;
 public class FileTimetableProvider extends TimetableProvider {
 
     public static final String LINES_LIST_FILE = "_lines.html";
+    public static final String UPDATE_INFO_FILE = "_menu.html";
     public static final String FILE_ENCODING = "iso-8859-2";
 
     private final String filesLocation;
@@ -26,6 +27,11 @@ public class FileTimetableProvider extends TimetableProvider {
     public FileTimetableProvider(String filesLocation) {
         DaggerApplication.inject(this);
         this.filesLocation = filesLocation;
+    }
+
+    @Override
+    public ParsableData getUpdateInfoDocument() throws ParsableDataNotFoundException {
+        return getDocumentFromFile(UPDATE_INFO_FILE);
     }
 
     @Override

@@ -16,7 +16,7 @@ public class UrlResolver {
     private final static String ACT_HOST_URL = HOST_URL + "aktualne";
 
     public static final String LINES_LIST_URL = HOST_URL + "linie.aspx";
-    public static final String TIMETABLE_MENU_URL = HOST_URL + "menu.aspx";
+    public static final String UPDATE_INFO_URL = HOST_URL + "menu.aspx";
     public static final String STATIONS_LIST_URL = ACT_HOST_URL + "/" + "przystan.htm";
 
     private static final String LINE_ROUTE_FILE_PATTERN = LINE_NUMBER_TOKEN + "w00" + DIRECTION_TOKEN + ".htm";

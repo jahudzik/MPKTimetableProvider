@@ -72,7 +72,7 @@ public class TimetablesDownloaderTest {
         TimetablesDownloader.downloadInfo();
 
         verify(downloadUtilsMock).downloadUrl(eq(UrlResolver.LINES_LIST_URL), anyString());
-        verify(downloadUtilsMock).downloadUrl(eq(UrlResolver.TIMETABLE_MENU_URL), anyString());
+        verify(downloadUtilsMock).downloadUrl(eq(UrlResolver.UPDATE_INFO_URL), anyString());
         verify(downloadUtilsMock).downloadUrl(eq(UrlResolver.STATIONS_LIST_URL), anyString());
     }
 

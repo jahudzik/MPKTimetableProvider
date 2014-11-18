@@ -1,5 +1,7 @@
 package pl.jahu.mpk.parsers;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import pl.jahu.mpk.entities.Line;
@@ -8,14 +10,19 @@ import pl.jahu.mpk.enums.AreaTypes;
 import pl.jahu.mpk.enums.ReasonTypes;
 import pl.jahu.mpk.enums.VehicleTypes;
 import pl.jahu.mpk.parsers.data.ParsableData;
+import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by hudzj on 8/1/2014.
  */
 public class LinesListParser {
+
+    private static final Pattern DATE_PATTERN = Pattern.compile("(\\d{2}).(\\d{2}).(\\d{4})");
 
     /**
      * Parses lines list page and return list of lines
@@ -27,6 +34,20 @@ public class LinesListParser {
 
     public List<Line> parseChanged(ParsableData parsableData) {
         return parse(parsableData, "special");
+    }
+
+    public DateTime parseLastUpdateDate(ParsableData parsableData) throws TimetableParseException {
+        Elements boldElements = parsableData.getDocument().getElementsByTag("b");
+        for (Element boldElement : boldElements) {
+            String text = boldElement.text();
+            if (text.contains("ostatnia aktualizacja:")) {
+                Matcher matcher = DATE_PATTERN.matcher(text);
+                if (matcher.find()) {
+                    return DateTimeFormat.forPattern("dd.MM.yyy").parseDateTime(matcher.group(0));
+                }
+            }
+        }
+        throw new TimetableParseException("Did not find last update date", parsableData.getLocation());
     }
 
     private List<Line> parse(ParsableData parsableData, String tagClass) {

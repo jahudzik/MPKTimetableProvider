@@ -1,5 +1,6 @@
 package pl.jahu.mpk.parsers;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import pl.jahu.mpk.DaggerApplication;
@@ -10,12 +11,15 @@ import pl.jahu.mpk.entities.LineType;
 import pl.jahu.mpk.enums.AreaTypes;
 import pl.jahu.mpk.enums.ReasonTypes;
 import pl.jahu.mpk.enums.VehicleTypes;
+import pl.jahu.mpk.parsers.data.ParsableData;
 import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
+import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 import pl.jahu.mpk.providers.TimetableProvider;
 
 import javax.inject.Inject;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -50,6 +54,8 @@ public class LinesListParserTest {
     }
 
 
+
+
     @Test
     public void getChangedLinesList_test1() throws ParsableDataNotFoundException {
         initModule("default");
@@ -77,6 +83,9 @@ public class LinesListParserTest {
         List<Line> lines = linesListParser.parseChanged(timetableProvider.getLinesListDocument());
         TestUtils.checkCollectionSize(lines, 0);
     }
+
+
+
 
 
     @Test
@@ -189,6 +198,25 @@ public class LinesListParserTest {
     }
 
 
+
+
+    @Test
+    public void parseLastUpdateDate_noPlannedUpdateDates() throws ParsableDataNotFoundException, TimetableParseException {
+        initModule("2014-10-20");
+        ParsableData parsableData = timetableProvider.getUpdateInfoDocument();
+        DateTime date = linesListParser.parseLastUpdateDate(parsableData);
+        checkDate(date, 20, 10, 2014);
+    }
+
+    @Test
+    public void parseLastUpdateDate_withTwoPlannedUpdateDates() throws ParsableDataNotFoundException, TimetableParseException {
+        initModule("default");
+        ParsableData parsableData = timetableProvider.getUpdateInfoDocument();
+        DateTime date = linesListParser.parseLastUpdateDate(parsableData);
+        checkDate(date, 5, 9, 2014);
+    }
+
+
     /******************** API ********************/
 
     private void initModule(String filesLocation) {
@@ -202,6 +230,12 @@ public class LinesListParserTest {
 
     private void checkExpectedLine(List<Line> lines, String expectedNumber, VehicleTypes expectedVehicleType, ReasonTypes expectedReasonType, AreaTypes expectedAreaType) {
         assertTrue("Didn't find expected line number [" + expectedNumber + "]", lines.contains(new Line(expectedNumber, new LineType(expectedVehicleType, expectedReasonType, expectedAreaType))));
+    }
+
+    private void checkDate(DateTime date, int expectedDay, int expectedMonth, int expectedYear) {
+        assertEquals(expectedDay, date.getDayOfMonth());
+        assertEquals(expectedMonth, date.getMonthOfYear());
+        assertEquals(expectedYear, date.getYear());
     }
 
 }

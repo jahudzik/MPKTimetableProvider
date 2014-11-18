@@ -24,6 +24,11 @@ public class UrlTimetableProvider extends TimetableProvider {
     }
 
     @Override
+    public ParsableData getUpdateInfoDocument() throws ParsableDataNotFoundException {
+        return retrieveDocumentFromUrl(UrlResolver.UPDATE_INFO_URL);
+    }
+
+    @Override
     public ParsableData getLinesListDocument() throws ParsableDataNotFoundException {
         return retrieveDocumentFromUrl(UrlResolver.LINES_LIST_URL);
     }
