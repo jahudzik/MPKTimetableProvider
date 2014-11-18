@@ -8,14 +8,14 @@ public final class Line implements Comparable<Line> {
 
     private final LineNumber number;
 
-    private final LineType type;
+    private final LineInfo type;
 
-    public Line(int numberValue, LineType type) {
+    public Line(int numberValue, LineInfo type) {
         this.number = new LineNumber(numberValue);
         this.type = type;
     }
 
-    public Line(String numberValue, LineType type) {
+    public Line(String numberValue, LineInfo type) {
         this.number = new LineNumber(numberValue);
         this.type = type;
     }
@@ -24,7 +24,7 @@ public final class Line implements Comparable<Line> {
         return number;
     }
 
-    public LineType getType() {
+    public LineInfo getType() {
         return type;
     }
 

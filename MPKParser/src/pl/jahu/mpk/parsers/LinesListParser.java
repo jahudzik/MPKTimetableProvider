@@ -5,10 +5,10 @@ import org.joda.time.format.DateTimeFormat;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import pl.jahu.mpk.entities.Line;
-import pl.jahu.mpk.entities.LineType;
-import pl.jahu.mpk.enums.AreaTypes;
-import pl.jahu.mpk.enums.ReasonTypes;
-import pl.jahu.mpk.enums.VehicleTypes;
+import pl.jahu.mpk.entities.LineInfo;
+import pl.jahu.mpk.enums.Areas;
+import pl.jahu.mpk.enums.LineTypes;
+import pl.jahu.mpk.enums.Vehicles;
 import pl.jahu.mpk.parsers.data.ParsableData;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 
@@ -60,48 +60,48 @@ public class LinesListParser {
 
             if (lineTypeCells.size() > 0 && lineNumbersCells.size() > 0) {
                 String lineTypeName = lineTypeCells.get(0).text();
-                LineType lineType = retrieveLineType(lineTypeName);
+                LineInfo lineInfo = retrieveLineType(lineTypeName);
 
                 Elements lineNumberElements = (tagClass == null) ? lineNumbersCells.get(0).getElementsByTag("a") : lineNumbersCells.get(0).getElementsByClass(tagClass);
-                lineNumbers.addAll(getLineNumbers(lineNumberElements, lineType));
+                lineNumbers.addAll(getLineNumbers(lineNumberElements, lineInfo));
             }
         }
         return lineNumbers;
     }
 
-    private List<Line> getLineNumbers(Elements links, LineType lineType) {
+    private List<Line> getLineNumbers(Elements links, LineInfo lineInfo) {
         List<Line> lines = new ArrayList<>();
         for (Element link : links) {
             // ensure this is a link to line details - it should have "[line_number]rw" substring (ex http://rozklady.mpk.krakow.pl/aktualne/0164/0164rw01.htm)
             String href = link.attr("href");
             if (href != null && href.contains(link.text() + "rw")) {
-                lines.add(new Line(link.text(), lineType));
+                lines.add(new Line(link.text(), lineInfo));
             }
         }
         return lines;
     }
 
 
-    private static LineType retrieveLineType(String lineTypeName) {
-        VehicleTypes vehicleType = lineTypeName.contains("tramwajowe") ? VehicleTypes.TRAM : VehicleTypes.BUS;
-        AreaTypes areaType = lineTypeName.contains("aglomeracyjne") ? AreaTypes.AGGLOMERATION : AreaTypes.CITY;
-        ReasonTypes reasonType = ReasonTypes.STANDARD;
+    private static LineInfo retrieveLineType(String lineTypeName) {
+        Vehicles vehicleType = lineTypeName.contains("tramwajowe") ? Vehicles.TRAM : Vehicles.BUS;
+        Areas areaType = lineTypeName.contains("aglomeracyjne") ? Areas.AGGLOMERATION : Areas.CITY;
+        LineTypes lineType = LineTypes.STANDARD;
         if (lineTypeName.contains("zastepcze")) {
-            reasonType = ReasonTypes.REPLACEMENT;
+            lineType = LineTypes.REPLACEMENT;
         }
         if (lineTypeName.contains("specjalne")) {
-            reasonType = ReasonTypes.SPECIAL;
+            lineType = LineTypes.SPECIAL;
         }
         if (lineTypeName.contains("nocne")) {
-            reasonType = ReasonTypes.NIGHTLY;
+            lineType = LineTypes.NIGHTLY;
         }
         if (lineTypeName.contains("przyspieszone")) {
-            reasonType = ReasonTypes.RAPID;
+            lineType = LineTypes.RAPID;
         }
         if (lineTypeName.contains("wspomagajace")) {
-            reasonType = ReasonTypes.ADDITIONAL;
+            lineType = LineTypes.ADDITIONAL;
         }
-        return new LineType(vehicleType, reasonType, areaType);
+        return new LineInfo(vehicleType, lineType, areaType);
     }
 
 }

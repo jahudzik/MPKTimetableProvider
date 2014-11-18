@@ -2,10 +2,10 @@ package pl.jahu.mpk;
 
 import org.joda.time.DateTimeConstants;
 import pl.jahu.mpk.entities.DayType;
-import pl.jahu.mpk.entities.LineType;
-import pl.jahu.mpk.enums.AreaTypes;
-import pl.jahu.mpk.enums.ReasonTypes;
-import pl.jahu.mpk.enums.VehicleTypes;
+import pl.jahu.mpk.entities.LineInfo;
+import pl.jahu.mpk.enums.Areas;
+import pl.jahu.mpk.enums.LineTypes;
+import pl.jahu.mpk.enums.Vehicles;
 
 import java.util.Collection;
 
@@ -23,7 +23,7 @@ public class TestUtils {
     public static final DayType SUNDAY_TYPE = DayType.getInstance(new int[]{DateTimeConstants.SUNDAY}, false);
     public static final DayType EVERYDAY_NIGHT_TYPE = DayType.getInstance(new int[]{DateTimeConstants.MONDAY, DateTimeConstants.TUESDAY, DateTimeConstants.WEDNESDAY, DateTimeConstants.THURSDAY, DateTimeConstants.FRIDAY, DateTimeConstants.SATURDAY, DateTimeConstants.SUNDAY}, true);
 
-    public static final LineType EXAMPLE_LINE_TYPE = new LineType(VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.CITY);
+    public static final LineInfo EXAMPLE_LINE_TYPE = new LineInfo(Vehicles.BUS, LineTypes.STANDARD, Areas.CITY);
 
 
     public static void checkCollectionSize(Collection collection, int expectedSize) {

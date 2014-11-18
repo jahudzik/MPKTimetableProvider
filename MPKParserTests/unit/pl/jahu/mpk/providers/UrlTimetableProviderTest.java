@@ -9,10 +9,10 @@ import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.TestUtils;
 import pl.jahu.mpk.entities.DayType;
 import pl.jahu.mpk.entities.Line;
-import pl.jahu.mpk.entities.LineType;
-import pl.jahu.mpk.enums.AreaTypes;
-import pl.jahu.mpk.enums.ReasonTypes;
-import pl.jahu.mpk.enums.VehicleTypes;
+import pl.jahu.mpk.entities.LineInfo;
+import pl.jahu.mpk.enums.Areas;
+import pl.jahu.mpk.enums.LineTypes;
+import pl.jahu.mpk.enums.Vehicles;
 import pl.jahu.mpk.parsers.LineRouteParser;
 import pl.jahu.mpk.parsers.LinesListParser;
 import pl.jahu.mpk.parsers.TimetableParser;
@@ -137,7 +137,7 @@ public class UrlTimetableProviderTest {
 
     @Test
     public void getTimetable_test() throws TimetableParseException, ParsableDataNotFoundException, IOException {
-        Line line = new Line(605, new LineType(VehicleTypes.BUS, ReasonTypes.NIGHTLY, AreaTypes.CITY));
+        Line line = new Line(605, new LineInfo(Vehicles.BUS, LineTypes.NIGHTLY, Areas.CITY));
         List<DayType> dayTypeList = Arrays.asList(TestUtils.WEEKDAY_TYPE, TestUtils.SATURDAY_TYPE, TestUtils.SUNDAY_TYPE);
         when(timetableParserMock.parseDayTypes(any(ParsableData.class), anyBoolean())).thenReturn(dayTypeList);
 

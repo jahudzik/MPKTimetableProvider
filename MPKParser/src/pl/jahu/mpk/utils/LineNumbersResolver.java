@@ -2,9 +2,9 @@ package pl.jahu.mpk.utils;
 
 import pl.jahu.mpk.entities.Line;
 import pl.jahu.mpk.entities.LineNumber;
-import pl.jahu.mpk.enums.AreaTypes;
-import pl.jahu.mpk.enums.ReasonTypes;
-import pl.jahu.mpk.enums.VehicleTypes;
+import pl.jahu.mpk.enums.Areas;
+import pl.jahu.mpk.enums.LineTypes;
+import pl.jahu.mpk.enums.Vehicles;
 
 import java.util.*;
 
@@ -15,76 +15,76 @@ public class LineNumbersResolver {
     
     public static final int NO_LINE_NUMBER = -1;
 
-    private Set<AreaTypes> areaTypes;
-    private Set<ReasonTypes> reasonTypes;
-    private Set<VehicleTypes> vehicleTypes;
+    private Set<Areas> areas;
+    private Set<LineTypes> lineTypes;
+    private Set<Vehicles> vehicles;
 
     public LineNumbersResolver(boolean empty) {
-        this.areaTypes = new HashSet<>();
-        this.reasonTypes = new HashSet<>();
-        this.vehicleTypes = new HashSet<>();
+        this.areas = new HashSet<>();
+        this.lineTypes = new HashSet<>();
+        this.vehicles = new HashSet<>();
         if (!empty) {
-            this.areaTypes.add(AreaTypes.CITY);
-            this.areaTypes.add(AreaTypes.AGGLOMERATION);
-            this.reasonTypes.add(ReasonTypes.ADDITIONAL);
-            this.reasonTypes.add(ReasonTypes.NIGHTLY);
-            this.reasonTypes.add(ReasonTypes.RAPID);
-            this.reasonTypes.add(ReasonTypes.NIGHTLY);
-            this.reasonTypes.add(ReasonTypes.REPLACEMENT);
-            this.reasonTypes.add(ReasonTypes.SPECIAL);
-            this.reasonTypes.add(ReasonTypes.STANDARD);
-            this.vehicleTypes.add(VehicleTypes.BUS);
-            this.vehicleTypes.add(VehicleTypes.TRAM);
+            this.areas.add(Areas.CITY);
+            this.areas.add(Areas.AGGLOMERATION);
+            this.lineTypes.add(LineTypes.ADDITIONAL);
+            this.lineTypes.add(LineTypes.NIGHTLY);
+            this.lineTypes.add(LineTypes.RAPID);
+            this.lineTypes.add(LineTypes.NIGHTLY);
+            this.lineTypes.add(LineTypes.REPLACEMENT);
+            this.lineTypes.add(LineTypes.SPECIAL);
+            this.lineTypes.add(LineTypes.STANDARD);
+            this.vehicles.add(Vehicles.BUS);
+            this.vehicles.add(Vehicles.TRAM);
         }
     }
 
 
     public List<Integer> getLineNumbersCandidates() {
         LinesList lines = new LinesList();
-        if (vehicleTypes.contains(VehicleTypes.TRAM)) {
-            if (reasonTypes.contains(ReasonTypes.STANDARD)) {
+        if (vehicles.contains(Vehicles.TRAM)) {
+            if (lineTypes.contains(LineTypes.STANDARD)) {
                 lines.addRange(1, 59);
             }
-            if (reasonTypes.contains(ReasonTypes.NIGHTLY)) {
+            if (lineTypes.contains(LineTypes.NIGHTLY)) {
                 lines.addRange(60, 69);
             }
-            if (reasonTypes.contains(ReasonTypes.REPLACEMENT)) {
+            if (lineTypes.contains(LineTypes.REPLACEMENT)) {
                 lines.addRange(70, 79);
             }
-            if (reasonTypes.contains(ReasonTypes.SPECIAL)) {
+            if (lineTypes.contains(LineTypes.SPECIAL)) {
                 lines.addRange(80, 89);
                 lines.add(0);
             }
         }
-        if (vehicleTypes.contains(VehicleTypes.BUS)) {
-            if (areaTypes.contains(AreaTypes.CITY)) {
-                if (reasonTypes.contains(ReasonTypes.STANDARD)) {
+        if (vehicles.contains(Vehicles.BUS)) {
+            if (areas.contains(Areas.CITY)) {
+                if (lineTypes.contains(LineTypes.STANDARD)) {
                     lines.addRange(100, 199);
                 }
-                if (reasonTypes.contains(ReasonTypes.ADDITIONAL)) {
+                if (lineTypes.contains(LineTypes.ADDITIONAL)) {
                     lines.addRange(400, 499);
                 }
-                if (reasonTypes.contains(ReasonTypes.RAPID)) {
+                if (lineTypes.contains(LineTypes.RAPID)) {
                     lines.addRange(500, 599);
                 }
-                if (reasonTypes.contains(ReasonTypes.NIGHTLY)) {
+                if (lineTypes.contains(LineTypes.NIGHTLY)) {
                     lines.addRange(600, 699);
                 }
-                if (reasonTypes.contains(ReasonTypes.REPLACEMENT)) {
+                if (lineTypes.contains(LineTypes.REPLACEMENT)) {
                     lines.addRange(700, 799);
                 }
-                if (reasonTypes.contains(ReasonTypes.SPECIAL)) {
+                if (lineTypes.contains(LineTypes.SPECIAL)) {
                     lines.addRange(800, 899);
                 }
             }
-            if (areaTypes.contains(AreaTypes.AGGLOMERATION)) {
-                if (reasonTypes.contains(ReasonTypes.STANDARD)) {
+            if (areas.contains(Areas.AGGLOMERATION)) {
+                if (lineTypes.contains(LineTypes.STANDARD)) {
                     lines.addRange(200, 299);
                 }
-                if (reasonTypes.contains(ReasonTypes.RAPID)) {
+                if (lineTypes.contains(LineTypes.RAPID)) {
                     lines.addRange(300, 399);
                 }
-                if (reasonTypes.contains(ReasonTypes.NIGHTLY)) {
+                if (lineTypes.contains(LineTypes.NIGHTLY)) {
                     lines.addRange(900, 999);
                 }
             }

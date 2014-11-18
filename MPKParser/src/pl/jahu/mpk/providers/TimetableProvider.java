@@ -5,7 +5,7 @@ import pl.jahu.mpk.entities.DayType;
 import pl.jahu.mpk.entities.Line;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.entities.Timetable;
-import pl.jahu.mpk.enums.ReasonTypes;
+import pl.jahu.mpk.enums.LineTypes;
 import pl.jahu.mpk.parsers.LineRouteParser;
 import pl.jahu.mpk.parsers.LinesListParser;
 import pl.jahu.mpk.parsers.TimetableParser;
@@ -68,7 +68,7 @@ public abstract class TimetableProvider {
 
     public Timetable getTimetable(DateTime date, Line line, int stationSequenceNumber) throws ParsableDataNotFoundException, TimetableParseException {
         ParsableData parsableData = getTimetableDocument(line.getNumber(), stationSequenceNumber);
-        boolean nightly = (line.getType().getReasonType() == ReasonTypes.NIGHTLY);
+        boolean nightly = (line.getType().getLineType() == LineTypes.NIGHTLY);
         List<DayType> dayTypeList = timetableParser.parseDayTypes(parsableData, nightly);
         int dayTypeIndex = matchDateWithDateType(date, dayTypeList, parsableData.getLocation());
         return timetableParser.parseDepartures(parsableData, dayTypeList, dayTypeIndex, line);

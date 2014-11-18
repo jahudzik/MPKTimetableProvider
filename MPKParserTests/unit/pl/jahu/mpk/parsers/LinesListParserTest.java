@@ -7,10 +7,10 @@ import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.DefaultTestModule;
 import pl.jahu.mpk.TestUtils;
 import pl.jahu.mpk.entities.Line;
-import pl.jahu.mpk.entities.LineType;
-import pl.jahu.mpk.enums.AreaTypes;
-import pl.jahu.mpk.enums.ReasonTypes;
-import pl.jahu.mpk.enums.VehicleTypes;
+import pl.jahu.mpk.entities.LineInfo;
+import pl.jahu.mpk.enums.Areas;
+import pl.jahu.mpk.enums.LineTypes;
+import pl.jahu.mpk.enums.Vehicles;
 import pl.jahu.mpk.parsers.data.ParsableData;
 import pl.jahu.mpk.parsers.exceptions.ParsableDataNotFoundException;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
@@ -92,109 +92,109 @@ public class LinesListParserTest {
     public void getLinesList_tramStandardCity() throws ParsableDataNotFoundException {
         initModule("default");
         List<Line> lines = linesListParser.parseAll(timetableProvider.getLinesListDocument());
-        checkExpectedLine(lines, 1, VehicleTypes.TRAM, ReasonTypes.STANDARD, AreaTypes.CITY);
-        checkExpectedLine(lines, 52, VehicleTypes.TRAM, ReasonTypes.STANDARD, AreaTypes.CITY);
+        checkExpectedLine(lines, 1, Vehicles.TRAM, LineTypes.STANDARD, Areas.CITY);
+        checkExpectedLine(lines, 52, Vehicles.TRAM, LineTypes.STANDARD, Areas.CITY);
     }
 
     @Test
     public void getLinesList_tramReplacementCity() throws ParsableDataNotFoundException {
         initModule("default");
         List<Line> lines = linesListParser.parseAll(timetableProvider.getLinesListDocument());
-        checkExpectedLine(lines, 72, VehicleTypes.TRAM, ReasonTypes.REPLACEMENT, AreaTypes.CITY);
+        checkExpectedLine(lines, 72, Vehicles.TRAM, LineTypes.REPLACEMENT, Areas.CITY);
     }
 
     @Test
     public void getLinesList_tramSpecialCity1() throws ParsableDataNotFoundException {
         initModule("default");
         List<Line> lines = linesListParser.parseAll(timetableProvider.getLinesListDocument());
-        checkExpectedLine(lines, 0, VehicleTypes.TRAM, ReasonTypes.SPECIAL, AreaTypes.CITY);
+        checkExpectedLine(lines, 0, Vehicles.TRAM, LineTypes.SPECIAL, Areas.CITY);
     }
 
     @Test
     public void getLinesList_tramSpecialCity2() throws ParsableDataNotFoundException {
         initModule("2014-11-01");
         List<Line> lines = linesListParser.parseAll(timetableProvider.getLinesListDocument());
-        checkExpectedLine(lines, 86, VehicleTypes.TRAM, ReasonTypes.SPECIAL, AreaTypes.CITY);
+        checkExpectedLine(lines, 86, Vehicles.TRAM, LineTypes.SPECIAL, Areas.CITY);
     }
 
     @Test
     public void getLinesList_tramNightlyCity1() throws ParsableDataNotFoundException {
         initModule("default");
         List<Line> lines = linesListParser.parseAll(timetableProvider.getLinesListDocument());
-        checkExpectedLine(lines, 62, VehicleTypes.TRAM, ReasonTypes.NIGHTLY, AreaTypes.CITY);
-        checkExpectedLine(lines, 69, VehicleTypes.TRAM, ReasonTypes.NIGHTLY, AreaTypes.CITY);
+        checkExpectedLine(lines, 62, Vehicles.TRAM, LineTypes.NIGHTLY, Areas.CITY);
+        checkExpectedLine(lines, 69, Vehicles.TRAM, LineTypes.NIGHTLY, Areas.CITY);
     }
 
     @Test
     public void getLinesList_tramNightlyCity2() throws ParsableDataNotFoundException {
         initModule("2014-11-01");
         List<Line> lines = linesListParser.parseAll(timetableProvider.getLinesListDocument());
-        checkExpectedLine(lines, "64a", VehicleTypes.TRAM, ReasonTypes.NIGHTLY, AreaTypes.CITY);
+        checkExpectedLine(lines, "64a", Vehicles.TRAM, LineTypes.NIGHTLY, Areas.CITY);
     }
 
     @Test
     public void getLinesList_busStandardCity() throws ParsableDataNotFoundException {
         initModule("default");
         List<Line> lines = linesListParser.parseAll(timetableProvider.getLinesListDocument());
-        checkExpectedLine(lines, 100, VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.CITY);
-        checkExpectedLine(lines, 159, VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.CITY);
-        checkExpectedLine(lines, 179, VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.CITY);
+        checkExpectedLine(lines, 100, Vehicles.BUS, LineTypes.STANDARD, Areas.CITY);
+        checkExpectedLine(lines, 159, Vehicles.BUS, LineTypes.STANDARD, Areas.CITY);
+        checkExpectedLine(lines, 179, Vehicles.BUS, LineTypes.STANDARD, Areas.CITY);
     }
 
     @Test
     public void getLinesList_busStandardAgglomeration() throws ParsableDataNotFoundException {
         initModule("default");
         List<Line> lines = linesListParser.parseAll(timetableProvider.getLinesListDocument());
-        checkExpectedLine(lines, 201, VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.AGGLOMERATION);
-        checkExpectedLine(lines, 202, VehicleTypes.BUS, ReasonTypes.STANDARD, AreaTypes.AGGLOMERATION);
+        checkExpectedLine(lines, 201, Vehicles.BUS, LineTypes.STANDARD, Areas.AGGLOMERATION);
+        checkExpectedLine(lines, 202, Vehicles.BUS, LineTypes.STANDARD, Areas.AGGLOMERATION);
     }
 
     @Test
     public void getLinesList_busRapidAgglomeration() throws ParsableDataNotFoundException {
         initModule("default");
         List<Line> lines = linesListParser.parseAll(timetableProvider.getLinesListDocument());
-        checkExpectedLine(lines, 301, VehicleTypes.BUS, ReasonTypes.RAPID, AreaTypes.AGGLOMERATION);
-        checkExpectedLine(lines, 352, VehicleTypes.BUS, ReasonTypes.RAPID, AreaTypes.AGGLOMERATION);
+        checkExpectedLine(lines, 301, Vehicles.BUS, LineTypes.RAPID, Areas.AGGLOMERATION);
+        checkExpectedLine(lines, 352, Vehicles.BUS, LineTypes.RAPID, Areas.AGGLOMERATION);
     }
 
     @Test
     public void getLinesList_busAdditionalCity() throws ParsableDataNotFoundException {
         initModule("default");
         List<Line> lines = linesListParser.parseAll(timetableProvider.getLinesListDocument());
-        checkExpectedLine(lines, 405, VehicleTypes.BUS, ReasonTypes.ADDITIONAL, AreaTypes.CITY);
-        checkExpectedLine(lines, 422, VehicleTypes.BUS, ReasonTypes.ADDITIONAL, AreaTypes.CITY);
+        checkExpectedLine(lines, 405, Vehicles.BUS, LineTypes.ADDITIONAL, Areas.CITY);
+        checkExpectedLine(lines, 422, Vehicles.BUS, LineTypes.ADDITIONAL, Areas.CITY);
     }
 
     @Test
     public void getLinesList_busRapidCity() throws ParsableDataNotFoundException {
         initModule("default");
         List<Line> lines = linesListParser.parseAll(timetableProvider.getLinesListDocument());
-        checkExpectedLine(lines, 502, VehicleTypes.BUS, ReasonTypes.RAPID, AreaTypes.CITY);
-        checkExpectedLine(lines, 572, VehicleTypes.BUS, ReasonTypes.RAPID, AreaTypes.CITY);
+        checkExpectedLine(lines, 502, Vehicles.BUS, LineTypes.RAPID, Areas.CITY);
+        checkExpectedLine(lines, 572, Vehicles.BUS, LineTypes.RAPID, Areas.CITY);
     }
 
     @Test
     public void getLinesList_busNightlyCity() throws ParsableDataNotFoundException {
         initModule("default");
         List<Line> lines = linesListParser.parseAll(timetableProvider.getLinesListDocument());
-        checkExpectedLine(lines, 601, VehicleTypes.BUS, ReasonTypes.NIGHTLY, AreaTypes.CITY);
-        checkExpectedLine(lines, 605, VehicleTypes.BUS, ReasonTypes.NIGHTLY, AreaTypes.CITY);
+        checkExpectedLine(lines, 601, Vehicles.BUS, LineTypes.NIGHTLY, Areas.CITY);
+        checkExpectedLine(lines, 605, Vehicles.BUS, LineTypes.NIGHTLY, Areas.CITY);
     }
 
     @Test
     public void getLinesList_busReplacementCity() throws ParsableDataNotFoundException {
         initModule("default");
         List<Line> lines = linesListParser.parseAll(timetableProvider.getLinesListDocument());
-        checkExpectedLine(lines, 704, VehicleTypes.BUS, ReasonTypes.REPLACEMENT, AreaTypes.CITY);
-        checkExpectedLine(lines, 724, VehicleTypes.BUS, ReasonTypes.REPLACEMENT, AreaTypes.CITY);
+        checkExpectedLine(lines, 704, Vehicles.BUS, LineTypes.REPLACEMENT, Areas.CITY);
+        checkExpectedLine(lines, 724, Vehicles.BUS, LineTypes.REPLACEMENT, Areas.CITY);
     }
 
     @Test
     public void getLinesList_busNightlyAgglomeration() throws ParsableDataNotFoundException {
         initModule("default");
         List<Line> lines = linesListParser.parseAll(timetableProvider.getLinesListDocument());
-        checkExpectedLine(lines, 902, VehicleTypes.BUS, ReasonTypes.NIGHTLY, AreaTypes.AGGLOMERATION);
-        checkExpectedLine(lines, 904, VehicleTypes.BUS, ReasonTypes.NIGHTLY, AreaTypes.AGGLOMERATION);
+        checkExpectedLine(lines, 902, Vehicles.BUS, LineTypes.NIGHTLY, Areas.AGGLOMERATION);
+        checkExpectedLine(lines, 904, Vehicles.BUS, LineTypes.NIGHTLY, Areas.AGGLOMERATION);
     }
 
 
@@ -224,12 +224,12 @@ public class LinesListParserTest {
         DaggerApplication.inject(this);
     }
 
-    private void checkExpectedLine(List<Line> lines, int expectedNumber, VehicleTypes expectedVehicleType, ReasonTypes expectedReasonType, AreaTypes expectedAreaType) {
-        assertTrue("Didn't find expected line number [" + expectedNumber + "]", lines.contains(new Line(expectedNumber, new LineType(expectedVehicleType, expectedReasonType, expectedAreaType))));
+    private void checkExpectedLine(List<Line> lines, int expectedNumber, Vehicles expectedVehicleType, LineTypes expectedReasonType, Areas expectedAreaType) {
+        assertTrue("Didn't find expected line number [" + expectedNumber + "]", lines.contains(new Line(expectedNumber, new LineInfo(expectedVehicleType, expectedReasonType, expectedAreaType))));
     }
 
-    private void checkExpectedLine(List<Line> lines, String expectedNumber, VehicleTypes expectedVehicleType, ReasonTypes expectedReasonType, AreaTypes expectedAreaType) {
-        assertTrue("Didn't find expected line number [" + expectedNumber + "]", lines.contains(new Line(expectedNumber, new LineType(expectedVehicleType, expectedReasonType, expectedAreaType))));
+    private void checkExpectedLine(List<Line> lines, String expectedNumber, Vehicles expectedVehicleType, LineTypes expectedReasonType, Areas expectedAreaType) {
+        assertTrue("Didn't find expected line number [" + expectedNumber + "]", lines.contains(new Line(expectedNumber, new LineInfo(expectedVehicleType, expectedReasonType, expectedAreaType))));
     }
 
     private void checkDate(DateTime date, int expectedDay, int expectedMonth, int expectedYear) {
