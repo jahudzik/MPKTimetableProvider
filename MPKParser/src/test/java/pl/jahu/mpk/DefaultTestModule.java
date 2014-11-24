@@ -30,7 +30,7 @@ import javax.inject.Singleton;
 )
 public class DefaultTestModule {
 
-    private static final String TEST_FILES_LOCATION = "MPKParserTests/res/";
+    private static final String TEST_FILES_LOCATION = "MPKParser/src/test/resources/";
     private static final String DEFAULT_TEST_FILES_DIRECTORY = "default";
 
     private String filesLocation;

@@ -1,6 +1,7 @@
 package pl.jahu.mpk;
 
 import org.joda.time.DateTimeConstants;
+import org.junit.Assert;
 import pl.jahu.mpk.entities.DayType;
 import pl.jahu.mpk.entities.LineInfo;
 import pl.jahu.mpk.enums.Areas;
@@ -8,9 +9,6 @@ import pl.jahu.mpk.enums.LineTypes;
 import pl.jahu.mpk.enums.Vehicles;
 
 import java.util.Collection;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 /**
  * MPK Timetable Parser
@@ -27,8 +25,8 @@ public class TestUtils {
 
 
     public static void checkCollectionSize(Collection collection, int expectedSize) {
-        assertNotNull(collection);
-        assertEquals(expectedSize, collection.size());
+        Assert.assertNotNull(collection);
+        Assert.assertEquals(expectedSize, collection.size());
     }
 
 }
