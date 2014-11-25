@@ -19,7 +19,6 @@ public class FileTimetableProvider extends TimetableProvider {
 
     public static final String LINES_LIST_FILE = "_lines.html";
     public static final String UPDATE_INFO_FILE = "_menu.html";
-    public static final String FILE_ENCODING = "iso-8859-2";
 
     private final String filesLocation;
 
@@ -52,7 +51,7 @@ public class FileTimetableProvider extends TimetableProvider {
     private ParsableData getDocumentFromFile(String fileName) throws ParsableDataNotFoundException {
         try {
             String fileLocation = filesLocation + "/" + fileName;
-            Document document = Jsoup.parse(new File(fileLocation), FILE_ENCODING);
+            Document document = Jsoup.parse(new File(fileLocation), null);
             return new ParsableData(document, fileLocation);
         } catch (IOException e) {
             throw new ParsableDataNotFoundException(e.getMessage());

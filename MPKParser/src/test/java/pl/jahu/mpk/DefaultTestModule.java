@@ -2,12 +2,11 @@ package pl.jahu.mpk;
 
 import dagger.Module;
 import dagger.Provides;
-import pl.jahu.mpk.providers.FileTimetableProvider;
-import pl.jahu.mpk.providers.TimetableProvider;
-import pl.jahu.mpk.integration.ShowTimetableIntegrationTest;
 import pl.jahu.mpk.parsers.LineRouteParserTest;
 import pl.jahu.mpk.parsers.LinesListParserTest;
 import pl.jahu.mpk.parsers.TimetableParserTest;
+import pl.jahu.mpk.providers.FileTimetableProvider;
+import pl.jahu.mpk.providers.TimetableProvider;
 
 import javax.inject.Singleton;
 
@@ -16,9 +15,9 @@ import javax.inject.Singleton;
  * Created by jahudzik on 2014-10-21.
  */
 @Module(
-        staticInjections = {
-                ShowTimetableIntegrationTest.class
-        },
+//        staticInjections = {
+//                ShowTimetableIntegrationTest.class
+//        },
         injects = {
                 FileTimetableProvider.class,
                 LinesListParserTest.class,
@@ -30,7 +29,7 @@ import javax.inject.Singleton;
 )
 public class DefaultTestModule {
 
-    private static final String TEST_FILES_LOCATION = "MPKParser/src/test/resources/";
+    private static final String TEST_FILES_LOCATION = "src/test/resources/";
     private static final String DEFAULT_TEST_FILES_DIRECTORY = "default";
 
     private String filesLocation;

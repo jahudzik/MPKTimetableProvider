@@ -23,6 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
+ * MPK Timetable Parser
  * Created by hudzj on 8/1/2014.
  */
 public class LinesListParserTest {
