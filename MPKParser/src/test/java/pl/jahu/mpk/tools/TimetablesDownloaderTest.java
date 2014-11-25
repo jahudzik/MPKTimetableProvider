@@ -143,6 +143,48 @@ public class TimetablesDownloaderTest {
     }
 
 
+    @Test
+    public void downloadTimetables_differentLinesWithLiteral() throws ParsableDataNotFoundException {
+        List<Line> linesList = new ArrayList<>();
+        linesList.add(new Line("6a", TestUtils.EXAMPLE_LINE_TYPE));
+        linesList.add(new Line(7, TestUtils.EXAMPLE_LINE_TYPE));
+        linesList.add(new Line(9, TestUtils.EXAMPLE_LINE_TYPE));
+        linesList.add(new Line("9a", TestUtils.EXAMPLE_LINE_TYPE));
+        linesList.add(new Line(10, TestUtils.EXAMPLE_LINE_TYPE));
+        linesList.add(new Line("10a", TestUtils.EXAMPLE_LINE_TYPE));
+
+        when(timetableProviderMock.getLinesList()).thenReturn(linesList);
+        // just one direction for each line
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/006a/006aw001.htm"), anyString())).thenReturn(true);
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/006a/006aw002.htm"), anyString())).thenReturn(false);
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0007/0007w001.htm"), anyString())).thenReturn(true);
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0007/0007w002.htm"), anyString())).thenReturn(false);
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0009/0009w001.htm"), anyString())).thenReturn(true);
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0009/0009w002.htm"), anyString())).thenReturn(false);
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/009a/009aw001.htm"), anyString())).thenReturn(true);
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/009a/009aw002.htm"), anyString())).thenReturn(false);
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0010/0010w001.htm"), anyString())).thenReturn(true);
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0010/0010w002.htm"), anyString())).thenReturn(false);
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0010/010aw001.htm"), anyString())).thenReturn(true);
+        when(downloadUtilsMock.downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0010/010aw002.htm"), anyString())).thenReturn(false);
+
+        TimetablesDownloader.downloadTimetables(6, 10);
+
+        verify(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/006a/006aw001.htm"), eq(TimetablesDownloader.TIMETABLES_LOCATION + "006aw001.htm"));
+        verify(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/006a/006aw002.htm"), eq(TimetablesDownloader.TIMETABLES_LOCATION + "006aw002.htm"));
+        verify(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0007/0007w001.htm"), eq(TimetablesDownloader.TIMETABLES_LOCATION + "0007w001.htm"));
+        verify(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0007/0007w002.htm"), eq(TimetablesDownloader.TIMETABLES_LOCATION + "0007w002.htm"));
+        verify(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0009/0009w001.htm"), eq(TimetablesDownloader.TIMETABLES_LOCATION + "0009w001.htm"));
+        verify(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0009/0009w002.htm"), eq(TimetablesDownloader.TIMETABLES_LOCATION + "0009w002.htm"));
+        verify(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/009a/009aw001.htm"), eq(TimetablesDownloader.TIMETABLES_LOCATION + "009aw001.htm"));
+        verify(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/009a/009aw002.htm"), eq(TimetablesDownloader.TIMETABLES_LOCATION + "009aw002.htm"));
+        verify(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0010/0010w001.htm"), eq(TimetablesDownloader.TIMETABLES_LOCATION + "0010w001.htm"));
+        verify(downloadUtilsMock).downloadUrl(eq("http://rozklady.mpk.krakow.pl/aktualne/0010/0010w002.htm"), eq(TimetablesDownloader.TIMETABLES_LOCATION + "0010w002.htm"));
+        // 10a line won't be downloaded, because 10a is bigger than 10
+        verifyNoMoreInteractions(downloadUtilsMock);
+    }
+
+
     /******************** API ********************/
 
     private List<Line> buildLinesList(int[] numbers) {
