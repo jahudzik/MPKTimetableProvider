@@ -199,6 +199,10 @@ public class LinesListParserTest {
     }
 
 
+    @Test
+    public void failingTest() {
+        assertTrue(false);
+    }
 
 
     @Test
