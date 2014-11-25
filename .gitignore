@@ -37,7 +37,9 @@ Icon
 .Trashes
 out
 .idea
+.gradle
 *.iml
 /MPKParser/*.iml
+/MPKParser/build
 /Tests
 offline
