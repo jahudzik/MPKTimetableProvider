@@ -14,11 +14,6 @@ sourceSets {
 }
 
 
-task integrationTest(type: Test) {
-    testClassesDir = sourceSets.integrationTest.output.classesDir
-    classpath = sourceSets.integrationTest.runtimeClasspath
-}
-
 dependencies {
     compile group: 'com.squareup.dagger', name: 'dagger-compiler', version: '1.2.2'
     compile group: 'commons-io', name: 'commons-io', version: '2.4'
@@ -31,6 +26,21 @@ dependencies {
     integrationTestCompile configurations.testCompile
     integrationTestCompile sourceSets.test.output
     integrationTestRuntime configurations.testRuntime
+}
+
+
+task downloadTimetables(type: JavaExec) {
+    main = 'pl.jahu.mpk.tools.TimetablesDownloader'
+    classpath = sourceSets.main.runtimeClasspath
+    if (project.hasProperty("lines")) {
+        args project.lines.split('\\s+')
+    }
+}
+
+
+task integrationTest(type: Test) {
+    testClassesDir = sourceSets.integrationTest.output.classesDir
+    classpath = sourceSets.integrationTest.runtimeClasspath
 }
 
 

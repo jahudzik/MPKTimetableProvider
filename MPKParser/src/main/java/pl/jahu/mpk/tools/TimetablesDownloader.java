@@ -1,5 +1,7 @@
 package pl.jahu.mpk.tools;
 
+import pl.jahu.mpk.AppModule;
+import pl.jahu.mpk.DaggerApplication;
 import pl.jahu.mpk.entities.Line;
 import pl.jahu.mpk.entities.LineNumber;
 import pl.jahu.mpk.parsers.data.StationData;
@@ -82,4 +84,29 @@ public class TimetablesDownloader {
         return url.substring(url.lastIndexOf("/") + 1);
     }
 
+
+    public static void main(String args[]) {
+        int minLineNumber = 0;
+        int maxLineNumber = 1000;
+
+        if (args.length == 2) {
+            try {
+                minLineNumber = Integer.parseInt(args[0]);
+                maxLineNumber = Integer.parseInt(args[1]);
+            } catch (NumberFormatException e) {
+                minLineNumber = 0;
+                maxLineNumber = 1000;
+            }
+        }
+
+        DaggerApplication.init(new AppModule());
+
+        try {
+            downloadInfo();
+            downloadTimetables(minLineNumber, maxLineNumber);
+        } catch (ParsableDataNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
