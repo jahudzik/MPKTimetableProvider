@@ -199,11 +199,6 @@ public class LinesListParserTest {
     }
 
 
-    @Test
-    public void failingTest() {
-        assertTrue(false);
-    }
-
 
     @Test
     public void parseLastUpdateDate_noPlannedUpdateDates() throws ParsableDataNotFoundException, TimetableParseException {
