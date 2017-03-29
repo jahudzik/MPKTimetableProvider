@@ -65,7 +65,7 @@ public class ShowTimetableIntegrationTest {
         ShowTimetableIntegrationTest.printGeneralOutput = printGeneralOutput;
         List<Line> lines = timetableProvider.getLinesList();
         assertNotNull(lines);
-        assertTrue(lines.size() > 0);
+        assertFalse(lines.isEmpty());
 
         int[] linesRange = LineNumbersResolver.getLinesFromRange(lines, new LineNumber(firstLine), new LineNumber(lastLine));
 
@@ -82,7 +82,7 @@ public class ShowTimetableIntegrationTest {
                     // get all stations on the route
                     List<StationData> route = timetableProvider.getLineRoute(line, i);
                     assertNotNull(route);
-                    assertTrue(route.size() > 0);
+                    assertFalse(route.isEmpty());
                     List<Timetable> timetables = new ArrayList<>();
 
                     // for each station on the route...
@@ -97,14 +97,14 @@ public class ShowTimetableIntegrationTest {
                         Timetable timetable = timetableProvider.getTimetable(testDate, line, station.getSequenceNumber());
                         List<Departure> departures = timetable.getDepartures();
                         assertNotNull(departures);
-                        assertTrue(departures.size() > 0);
+                        assertFalse(departures.isEmpty());
                         timetables.add(timetable);
                     }
 
                     // get list of all transits on the route (based on timetables)
                     List<Transit> transits = TransitBuilder.buildFromTimetables(timetables);
                     assertNotNull(transits);
-                    assertTrue(transits.size() > 0);
+                    assertFalse(transits.isEmpty());
 
                     DayType dayType = timetables.get(0).getDayType();
                     // prints all transits

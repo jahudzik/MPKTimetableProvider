@@ -42,7 +42,7 @@ public class LineRouteParser {
     }
 
     private int getSequenceNumber(String pageName) {
-        int index = pageName.indexOf("t") + 1;
+        int index = pageName.indexOf('t') + 1;
         String numberLiteral = pageName.substring(index, index + 3);
         try {
             return Integer.parseInt(numberLiteral);
@@ -60,7 +60,7 @@ public class LineRouteParser {
         Elements bullets = parsableData.getDocument().getElementsByTag("li");
         for (Element bullet : bullets) {
             Elements links = bullet.getElementsByTag("a");
-            if (links.size() == 0) {
+            if (links.isEmpty()) {
                 destinationName = bullet.getElementsByTag("b").text();
             }
         }

@@ -100,7 +100,7 @@ public class LineNumbersResolver {
     public static int[] getLinesFromRange(List<Line> lines, LineNumber firstLineNumber, LineNumber lastLineNumber) {
         Collections.sort(lines);
 
-        if (lastLineNumber.compareTo(firstLineNumber) < 0 || lines.size() == 0 || firstLineNumber.compareTo(lines.get(lines.size() - 1).getNumber()) > 0 || lastLineNumber.compareTo(lines.get(0).getNumber()) < 0) {
+        if (lastLineNumber.compareTo(firstLineNumber) < 0 || lines.isEmpty() || firstLineNumber.compareTo(lines.get(lines.size() - 1).getNumber()) > 0 || lastLineNumber.compareTo(lines.get(0).getNumber()) < 0) {
             return new int[]{NO_LINE_NUMBER, NO_LINE_NUMBER};
         }
 
@@ -116,7 +116,7 @@ public class LineNumbersResolver {
         return new int[]{firstLineIndex, lastLineIndex};
     }
 
-    private class LinesList extends ArrayList<Integer> {
+    private static class LinesList extends ArrayList<Integer> {
 
         public void addRange(int a, int b) {
             for (int i = a; i <= b; i++) {

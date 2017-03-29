@@ -45,11 +45,11 @@ public class Transit {
     }
 
     public Time getLastStopTime() {
-        return (stops.size() > 0 ) ? stops.get(stops.size() - 1).getTime() : null;
+        return stops.isEmpty() ? null : stops.get(stops.size() - 1).getTime();
     }
 
     public String getDirections() {
-        if (stops.size() == 0) {
+        if (stops.isEmpty()) {
             return "[empty]";
         }
         return stops.get(0).toString() + " -> " + stops.get(stops.size() - 1).toString() + " -> " + destStation;
@@ -61,7 +61,7 @@ public class Transit {
 
     @Override
     public String toString() {
-        if (stops.size() == 0) {
+        if (stops.isEmpty()) {
             return "[empty]";
         }
         StringBuilder sb = new StringBuilder();
@@ -72,7 +72,8 @@ public class Transit {
         return sb.toString();
     }
 
-    private class TransitStopsComparator implements Comparator<TransitStop> {
+    private static class TransitStopsComparator implements Comparator<TransitStop> {
+
         @Override
         public int compare(TransitStop o1, TransitStop o2) {
             return o1.getTime().compareDaytimeTo(o2.getTime());

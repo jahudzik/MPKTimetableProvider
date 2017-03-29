@@ -32,7 +32,7 @@ public class TimetableParser {
         Document document = parsableData.getDocument();
         Elements rows = document.getElementsByClass(DEPARTURES_TABLE_CLASS).get(0).getElementsByTag("tr");
         Elements dayTypes = rows.get(0).children();
-        if (dayTypes.size() == 0) {
+        if (dayTypes.isEmpty()) {
             throw new TimetableParseException("No day type info found on the timetable", parsableData.getLocation());
         }
         return retrieveDayTypeConfiguration(dayTypes, nightly, parsableData.getLocation());
@@ -54,7 +54,7 @@ public class TimetableParser {
             for (int i = 1; i < rows.size() - 1; i++) {
                 Elements hourCells = rows.get(i).getElementsByClass(HOUR_CELL_CLASS);
                 if (hourCells.size() > 0) {
-                    int hour = new Integer(hourCells.get(0).text());
+                    int hour = Integer.valueOf(hourCells.get(0).text());
                     Elements minCells = rows.get(i).getElementsByClass(MINUTE_CELL_CLASS);
                     if (minCells.size() == dayTypesList.size()) {
                         // get minute cells only from day type column pointed by dayTypeIndex
@@ -137,7 +137,7 @@ public class TimetableParser {
 
     private String retrieveSpecificCell(Document document, String className, String contentDescription, String location) throws TimetableParseException {
         Elements elementsByClass = document.getElementsByClass(className);
-        if (elementsByClass.size() == 0) {
+        if (elementsByClass.isEmpty()) {
             throw new TimetableParseException("Could not parse " + contentDescription, location);
         }
         return elementsByClass.get(0).text();

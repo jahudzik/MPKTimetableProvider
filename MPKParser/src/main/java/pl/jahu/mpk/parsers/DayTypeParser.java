@@ -7,7 +7,6 @@ import pl.jahu.mpk.entities.DayType;
 import pl.jahu.mpk.parsers.exceptions.TimetableParseException;
 import pl.jahu.mpk.utils.TimeUtils;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 

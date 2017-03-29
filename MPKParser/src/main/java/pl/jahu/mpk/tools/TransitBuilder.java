@@ -49,9 +49,7 @@ public class TransitBuilder {
     public static void printTransitsMap(Map<DayType, List<Transit>> transitsMap) {
         for (DayType dayType : transitsMap.keySet()) {
             System.out.println("* " + dayType + " :");
-            for (Transit transit : transitsMap.get(dayType)) {
-                System.out.println(transit);
-            }
+            transitsMap.get(dayType).forEach(System.out::println);
             System.out.println();
         }
     }
@@ -64,7 +62,7 @@ public class TransitBuilder {
 
         for (Timetable timetable : timetables) {
             List<Departure> departures = timetable.getDepartures();
-            if (transits.size() == 0) {
+            if (transits.isEmpty()) {
                 // first station on the route, create new transits
                 for (Departure departure : departures) {
                     Transit transit = new Transit(timetable.getLine());
@@ -115,11 +113,9 @@ public class TransitBuilder {
         }
 
         String destStation = timetables.get(0).getDestStation();
-        for (Transit transit : transits) {
-            if (transit.getDestStation() == null) {
-                transit.setDestStation(destStation);
-            }
-        }
+        transits.stream().filter(transit -> transit.getDestStation() == null).forEach(transit -> {
+            transit.setDestStation(destStation);
+        });
 
         TransitsValidator.validate(transits);
         return transits;

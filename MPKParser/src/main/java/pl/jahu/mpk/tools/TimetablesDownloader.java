@@ -74,7 +74,7 @@ public class TimetablesDownloader {
     }
 
     private static String getPageName(String url) {
-        return url.substring(url.lastIndexOf("/") + 1);
+        return url.substring(url.lastIndexOf('/') + 1);
     }
 
     public static void main(String args[]) {
