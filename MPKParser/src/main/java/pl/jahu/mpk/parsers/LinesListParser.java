@@ -81,7 +81,6 @@ public class LinesListParser {
         return lines;
     }
 
-
     private static LineInfo retrieveLineType(String lineTypeName) {
         Vehicles vehicleType = lineTypeName.contains("tramwajowe") ? Vehicles.TRAM : Vehicles.BUS;
         Areas areaType = lineTypeName.contains("aglomeracyjne") ? Areas.AGGLOMERATION : Areas.CITY;

@@ -19,7 +19,6 @@ public class DayTypeParser {
 
     private static final int UNKNOWN = -1;
 
-
     public static DayType parse(String literal, boolean nightly, String location) throws TimetableParseException {
         String[] entries = literal.replace(", ", ",").split(",");
         if (entries.length == 1) {
@@ -231,7 +230,6 @@ public class DayTypeParser {
         return map;
     }
 
-
     private static boolean dayInRange(int day, int firstDayIndex, int lastDayIndex) {
         if (firstDayIndex <= lastDayIndex) {
             return (day >= firstDayIndex && day <= lastDayIndex);
@@ -239,6 +237,5 @@ public class DayTypeParser {
             return (day >= firstDayIndex || day <= lastDayIndex);
         }
     }
-
 
 }

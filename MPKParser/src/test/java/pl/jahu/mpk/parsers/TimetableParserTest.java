@@ -25,14 +25,12 @@ public class TimetableParserTest {
 
     private TimetableParser timetableParser;
 
-
     @Before
     public void setUp() {
         DaggerApplication.init(new DefaultTestModule());
         DaggerApplication.inject(this);
         timetableParser = new TimetableParser();
     }
-
 
     /******************** TESTS ********************/
 
@@ -65,9 +63,6 @@ public class TimetableParserTest {
 
         checkDayType(dayTypes, new DayType[]{mondayThursdayType, weekendNightType, sundayNightType});
     }
-
-
-
 
     @Test
     public void parseDepartures_weekday() throws ParsableDataNotFoundException, TimetableParseException {
@@ -164,7 +159,6 @@ public class TimetableParserTest {
         checkDeparture(timetable.getDepartures().get(35), 22, 8, new String[]{expectedLegend1});
         checkDeparture(timetable.getDepartures().get(36), 23, 5, new String[]{expectedLegend2});
     }
-
 
     /****************** API ********************/
 

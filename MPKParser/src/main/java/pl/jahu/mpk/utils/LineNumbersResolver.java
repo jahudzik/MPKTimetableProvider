@@ -38,7 +38,6 @@ public class LineNumbersResolver {
         }
     }
 
-
     public List<Integer> getLineNumbersCandidates() {
         LinesList lines = new LinesList();
         if (vehicles.contains(Vehicles.TRAM)) {

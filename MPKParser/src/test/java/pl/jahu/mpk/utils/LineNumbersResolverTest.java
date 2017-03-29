@@ -99,13 +99,11 @@ public class LineNumbersResolverTest {
         checkRange(lines, new int[]{0, 2});
     }
 
-
     @Test
     public void checkRange_literal2() {
         int[] lines = LineNumbersResolver.getLinesFromRange(allLinesWithLiteral, new LineNumber(1), new LineNumber("6a"));
         checkRange(lines, new int[]{0, 3});
     }
-
 
     @Test
     public void checkRange_literal3() {

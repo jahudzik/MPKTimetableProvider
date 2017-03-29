@@ -9,9 +9,7 @@ import pl.jahu.mpk.entities.Line;
 public final class StationData {
 
     private final String name;
-
     private final Line line;
-
     private final int sequenceNumber;
 
     public StationData(String name, Line line, int sequenceNumber) {

@@ -25,8 +25,7 @@ public class TransitBuilder {
 
     public static final int MAX_TIME_DIFF_BETWEEN_STOPS = 5;
 
-    @Inject
-    static TimetableProvider timetableProvider;
+    @Inject static TimetableProvider timetableProvider;
 
     /**
      * Parses timetables of specified line in specified direction and builds list of transits.
@@ -56,7 +55,6 @@ public class TransitBuilder {
             System.out.println();
         }
     }
-
 
     /**
      * Converts list of timetables (all in common direction) into list of transits grouped by day types.

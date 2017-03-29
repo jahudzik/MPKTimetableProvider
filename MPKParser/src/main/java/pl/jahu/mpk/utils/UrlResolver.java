@@ -33,7 +33,6 @@ public class UrlResolver {
         return TIMETABLE_URL_PATTERN.replace(LINE_NUMBER_TOKEN, getLineLiteral(lineNo)).replace(SEQUENCE_TOKEN, getSequenceNumberLiteral(sequenceNumber));
     }
 
-
     public static String getLineLiteral(LineNumber lineNumber)  {
         return getLineNumberLiteral(lineNumber);
     }

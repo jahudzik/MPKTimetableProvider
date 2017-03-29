@@ -64,7 +64,6 @@ public class TimetablesDownloaderTest {
         DaggerApplication.init(new TimetablesDownloaderTestModule());
     }
 
-
     /******************** TESTS ********************/
 
     @Test
@@ -75,7 +74,6 @@ public class TimetablesDownloaderTest {
         verify(downloadUtilsMock).downloadUrl(eq(UrlResolver.UPDATE_INFO_URL), anyString());
         verify(downloadUtilsMock).downloadUrl(eq(UrlResolver.STATIONS_LIST_URL), anyString());
     }
-
 
     @Test
     public void downloadTimetables_directions() throws ParsableDataNotFoundException, TimetableParseException {
@@ -142,7 +140,6 @@ public class TimetablesDownloaderTest {
         verifyNoMoreInteractions(downloadUtilsMock);
     }
 
-
     @Test
     public void downloadTimetables_differentLinesWithLiteral() throws ParsableDataNotFoundException {
         List<Line> linesList = new ArrayList<>();
@@ -183,7 +180,6 @@ public class TimetablesDownloaderTest {
         // 10a line won't be downloaded, because 10a is bigger than 10
         verifyNoMoreInteractions(downloadUtilsMock);
     }
-
 
     /******************** API ********************/
 

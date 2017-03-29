@@ -7,7 +7,6 @@ package pl.jahu.mpk.entities;
 public final class LineNumber implements Comparable<LineNumber> {
 
     private final Integer numeric;
-
     private final String value;
 
     public LineNumber(int numericValue)  {

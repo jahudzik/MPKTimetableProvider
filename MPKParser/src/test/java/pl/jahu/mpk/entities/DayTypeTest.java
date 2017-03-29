@@ -126,7 +126,6 @@ public class DayTypeTest {
         assertFalse(dayType.matches(TimeUtils.buildDate(2, 15, 14, 11, 2014)));
     }
 
-
     @Test
     public void toString_test1() {
         DayType dayType = DayType.getInstance(new int[]{DateTimeConstants.MONDAY}, false);
@@ -168,7 +167,6 @@ public class DayTypeTest {
         DayType dayType = new DayType(TimeUtils.buildDate(25, 12, 2014), TimeUtils.buildDate(26, 12, 2014));
         assertEquals("[25.12.2014-26.12.2014]", dayType.toString());
     }
-
 
     @Test
     public void equals_test1() {

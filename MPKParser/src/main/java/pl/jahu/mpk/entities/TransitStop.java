@@ -9,7 +9,6 @@ import pl.jahu.mpk.utils.Time;
 public final class TransitStop {
 
     private final Time time;
-
     private final String station;
 
     public TransitStop(Time time, String station) {

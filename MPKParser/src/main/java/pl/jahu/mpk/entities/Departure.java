@@ -8,7 +8,6 @@ import pl.jahu.mpk.utils.Time;
 public final class Departure {
 
     private final Time time;
-
     private final String[] extraInfo;
 
     public Departure(int hour, int min, String[] extraInfo) {

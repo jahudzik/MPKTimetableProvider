@@ -74,8 +74,6 @@ public class LineTest {
         assertFalse(line2.equals(line1));
     }
 
-
-
     @Test
     public void hashCode_test1() {
         Line line1 = new Line(1, new LineInfo(Vehicles.BUS, LineTypes.STANDARD, Areas.CITY));

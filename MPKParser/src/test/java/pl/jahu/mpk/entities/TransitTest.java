@@ -20,7 +20,6 @@ public class TransitTest {
         checkStopsList(transit, new TransitStop[]{});
     }
 
-
     @Test
     public void addStop_test() {
         Transit transit = new Transit(new Line(123, TestUtils.EXAMPLE_LINE_TYPE));

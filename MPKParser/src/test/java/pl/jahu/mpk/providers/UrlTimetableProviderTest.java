@@ -100,7 +100,6 @@ public class UrlTimetableProviderTest {
         when(downloadUtilsMock.downloadJsoupDocument(anyString())).thenReturn(parsableDataMock);
     }
 
-
     @Test
     public void getLastUpdateDate_test() throws TimetableParseException, ParsableDataNotFoundException, IOException {
         timetableProvider.getLastUpdateDate();

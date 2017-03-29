@@ -66,7 +66,6 @@ public class LineNumberTest {
         checkNumber(new LineNumber(3), 3, "3");
     }
 
-
     @Test
     public void compareTo_test1() {
         checkDifferentNumbersComparison(new LineNumber("3"), new LineNumber("7"));
@@ -86,7 +85,6 @@ public class LineNumberTest {
     public void compareTo_test4() {
         checkDifferentNumbersComparison(new LineNumber("B"), new LineNumber("C2"));
     }
-
 
     @Test
     public void compareTo_test5() {
@@ -142,7 +140,6 @@ public class LineNumberTest {
         Collections.sort(numbers);
         checkNumbersList(numbers, new LineNumber[]{new LineNumber(13), new LineNumber("Z6")});
     }
-
 
     @Test
     public void sort_test4() {
@@ -322,7 +319,6 @@ public class LineNumberTest {
         LineNumber lineNumber = new LineNumber(14);
         assertEquals("14", lineNumber.toString());
     }
-
 
     /***************** API ********************/
 

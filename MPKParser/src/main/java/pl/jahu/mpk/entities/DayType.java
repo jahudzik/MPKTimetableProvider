@@ -19,15 +19,11 @@ public final class DayType {
     private final static int DAY_END = 1;
     private final static int NIGHT_START = 23;
     private final static int NIGHT_END = 6;
-
     private final static DateTimeFormatter DATE_FORMATTER = DateTimeFormat.forPattern("dd.MM.yyyy");
 
     private final DateTime startDate;
-
     private final DateTime endDate;
-
     private final Map<Integer, Boolean> daysOfWeek;
-
     private final boolean nightly;
 
     public DayType(Map<Integer, Boolean> daysOfWeek, boolean nightly) {
@@ -58,7 +54,6 @@ public final class DayType {
         this.daysOfWeek = null;
         this.nightly = nightly;
     }
-
 
     public static DayType getInstance(int[] expectedDaysOfWeek, boolean nightly) {
         boolean[] expectedValues = new boolean[8];
@@ -102,7 +97,6 @@ public final class DayType {
                 }
                 throw new IllegalArgumentException("Incorrect time (" + hour + ":" + min + ") for daily day type");
             }
-
         } else {
             return (date.compareTo(startDate) >= 0 && date.compareTo(endDate) <= 0);
         }

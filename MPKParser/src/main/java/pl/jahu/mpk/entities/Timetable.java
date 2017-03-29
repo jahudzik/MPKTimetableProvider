@@ -9,15 +9,10 @@ import java.util.List;
 public final class Timetable {
 
     private final String station;
-
     private final Line line;
-
     private final String destStation;
-
     private final DayType dayType;
-
     private final List<Departure> departures;
-
 
     public Timetable(String station, Line line, String destStation, DayType dayType, List<Departure> departures) {
         this.station = station;

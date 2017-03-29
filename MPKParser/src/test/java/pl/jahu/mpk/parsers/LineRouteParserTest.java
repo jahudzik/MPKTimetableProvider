@@ -93,7 +93,6 @@ public class LineRouteParserTest {
         assertEquals("Zelków", lineRouteParser.retrieveDestination(parsableData));
     }
 
-
     /******************** API ********************/
 
     private void checkStationData(StationData stationData, String expectedName, Line expectedLine, int expectedSequenceNumber) {

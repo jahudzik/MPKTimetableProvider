@@ -38,7 +38,6 @@ public class TimetableParser {
         return retrieveDayTypeConfiguration(dayTypes, nightly, parsableData.getLocation());
     }
 
-
     /**
      * Parses document and returns departures lists for one day type from the dayTypesList pointed by dayTypeIndex
      * @return Timetable object holding map with departures lists for chosen day type
@@ -48,7 +47,6 @@ public class TimetableParser {
         List<Departure> departures = new ArrayList<>();
         Elements rows = document.getElementsByClass(DEPARTURES_TABLE_CLASS).get(0).getElementsByTag("tr");
         if (rows.size() > 0) {
-
             // get legend
             legendCells = rows.get(rows.size() - 1).getElementsByClass(LEGEND_CELL_CLASS);
 
@@ -89,7 +87,6 @@ public class TimetableParser {
 
         return new Timetable(station, line, destStation, dayTypesList.get(dayTypeIndex), departures);
     }
-
 
     public static List<DayType> retrieveDayTypeConfiguration(Elements dayTypes, boolean nightly, String location) throws TimetableParseException {
         List<DayType> list = new ArrayList<>();
@@ -145,6 +142,5 @@ public class TimetableParser {
         }
         return elementsByClass.get(0).text();
     }
-
 
 }

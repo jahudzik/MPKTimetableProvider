@@ -26,7 +26,6 @@ public class TransitBuilderTest {
 
     /******************** TESTS ********************/
 
-
     @Test
       public void buildFromTimetables_regular() throws TransitValidationException {
         List<Timetable> timetables = new ArrayList<>();
@@ -43,7 +42,6 @@ public class TransitBuilderTest {
         checkTransit(transits.get(1), 5, 8, LAST_STATION, STATIONS, new int[]{12, 20, 12, 22, 12, 23, 12, 26, 12, 28});
         checkTransit(transits.get(2), 5, 8, LAST_STATION, STATIONS, new int[]{12, 30, 12, 32, 12, 33, 12, 36, 12, 38});
     }
-
 
     @Test
     public void buildFromTimetables_withDifferentBeginningAndEnd() throws TransitValidationException {
@@ -91,7 +89,6 @@ public class TransitBuilderTest {
         TransitBuilder.buildFromTimetables(timetables);
     }
 
-
     @Test(expected = IncorrectTimeDifferenceBetweenStopsException.class)
     public void buildFromTimetables_incorrectTimeDifferenceBetweenStopsException1() throws TransitValidationException {
         List<Timetable> timetables = new ArrayList<>();
@@ -104,7 +101,6 @@ public class TransitBuilderTest {
         // in the last transit there's much bigger difference between 2 and 3 stops (5 mins) than in previous transits (1 min) - IncorrectTimeDifferenceBetweenStopsException should be thrown
         TransitBuilder.buildFromTimetables(timetables);
     }
-
 
     @Test(expected = IncorrectTimeDifferenceBetweenStopsException.class)
     public void buildFromTimetables_incorrectTimeDifferenceBetweenStopsException2() throws TransitValidationException {

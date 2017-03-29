@@ -42,7 +42,6 @@ public class TimeTest {
         checkDaytimeDifference(new Time(23, 50), new Time(0, 05), -15, 15);
     }
 
-
     @Test
     public void toString_test() {
         Time time1 = new Time(4, 5);
@@ -50,7 +49,6 @@ public class TimeTest {
     }
 
     /******************** API ********************/
-
 
     private void checkTimeDifference(Time time1, Time time2, int expectedDiff1, int expectedDiff2) {
         assertEquals(time1.compareTo(time2), expectedDiff1);

@@ -9,9 +9,7 @@ import org.jsoup.nodes.Document;
 public class ParsableData {
 
     private final Document document;
-
     private final String location;
-
 
     public ParsableData(Document document, String location) {
         this.document = document;

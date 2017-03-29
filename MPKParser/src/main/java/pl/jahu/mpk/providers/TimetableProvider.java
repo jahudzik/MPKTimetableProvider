@@ -23,15 +23,9 @@ import java.util.List;
  */
 public abstract class TimetableProvider {
 
-    @Inject
-    LinesListParser linesListParser;
-
-    @Inject
-    LineRouteParser lineRouteParser;
-
-    @Inject
-    TimetableParser timetableParser;
-
+    @Inject LinesListParser linesListParser;
+    @Inject LineRouteParser lineRouteParser;
+    @Inject TimetableParser timetableParser;
 
     abstract public ParsableData getUpdateInfoDocument() throws ParsableDataNotFoundException;
 

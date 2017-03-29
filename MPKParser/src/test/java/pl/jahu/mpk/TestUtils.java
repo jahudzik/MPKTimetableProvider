@@ -23,7 +23,6 @@ public class TestUtils {
 
     public static final LineInfo EXAMPLE_LINE_TYPE = new LineInfo(Vehicles.BUS, LineTypes.STANDARD, Areas.CITY);
 
-
     public static void checkCollectionSize(Collection collection, int expectedSize) {
         Assert.assertNotNull(collection);
         Assert.assertEquals(expectedSize, collection.size());

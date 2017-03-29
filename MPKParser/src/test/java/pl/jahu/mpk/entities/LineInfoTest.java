@@ -57,8 +57,6 @@ public class LineInfoTest {
         assertFalse(lineInfo2.equals(lineInfo1));
     }
 
-
-
     @Test
     public void hashCode_test1() {
         LineInfo lineInfo1 = new LineInfo(Vehicles.BUS, LineTypes.STANDARD, Areas.CITY);
@@ -66,13 +64,11 @@ public class LineInfoTest {
         assertEquals(lineInfo1.hashCode(), lineInfo2.hashCode());
     }
 
-
     @Test
     public void hashCode_test2() {
         LineInfo lineInfo1 = new LineInfo(Vehicles.BUS, LineTypes.STANDARD, Areas.CITY);
         LineInfo lineInfo2 = new LineInfo(Vehicles.TRAM, LineTypes.STANDARD, Areas.CITY);
         assertNotEquals(lineInfo1.hashCode(), lineInfo2.hashCode());
     }
-
 
 }

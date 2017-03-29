@@ -19,7 +19,6 @@ public class TransitsValidator {
     private static final int TRANSITS_DURATION_MARGIN_OF_ERROR = 6;
     private static final int DIFF_BETWEEN_STOPS_MARGIN_OF_ERROR = 3;
 
-
     public static void validate(List<Transit> transits) throws TransitValidationException{
         validateTransitDurations(transits);
         validateDiffBetweenStops(transits);
@@ -75,6 +74,7 @@ public class TransitsValidator {
     }
 
     private static class DiffBetweenStopsInfo {
+
         Transit transit;
         int diff;
 
@@ -82,8 +82,6 @@ public class TransitsValidator {
             this.transit = transit;
             this.diff = diff;
         }
-
     }
-
 
 }

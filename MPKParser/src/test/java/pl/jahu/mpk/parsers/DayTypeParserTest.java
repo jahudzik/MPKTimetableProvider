@@ -18,7 +18,6 @@ import static org.junit.Assert.assertNull;
  */
 public class DayTypeParserTest {
 
-
     /******************** TESTS ********************/
 
     @Test
@@ -147,7 +146,6 @@ public class DayTypeParserTest {
         checkDaysOfWeek(dayType, new int[]{DateTimeConstants.MONDAY, DateTimeConstants.TUESDAY, DateTimeConstants.WEDNESDAY, DateTimeConstants.THURSDAY, DateTimeConstants.FRIDAY, DateTimeConstants.SATURDAY, DateTimeConstants.SUNDAY}, true);
     }
 
-
     @Test
     public void checkDaysOfWeek_merge1() throws TimetableParseException {
         DayType dayType = DayTypeParser.parse("Pt/Sob.,Sob./Św.", true, null);
@@ -165,8 +163,6 @@ public class DayTypeParserTest {
         DayType dayType = DayTypeParser.parse("Poniedziałek, Wtorek", false, null);
         checkDaysOfWeek(dayType, new int[]{DateTimeConstants.MONDAY, DateTimeConstants.TUESDAY}, false);
     }
-
-
 
     @Test
     public void checkDates_singleDate1() throws TimetableParseException {
@@ -209,7 +205,6 @@ public class DayTypeParserTest {
         DayType dayType = DayTypeParser.parse("24.12", false, null);
         checkDates(dayType, TimeUtils.buildDate(24, 12, 2014), false);
     }
-
 
     @Test(expected = TimetableParseException.class)
     public void checkDates_unsupportedDayType1() throws TimetableParseException {

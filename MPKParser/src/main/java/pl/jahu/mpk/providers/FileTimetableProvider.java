@@ -22,7 +22,6 @@ public class FileTimetableProvider extends TimetableProvider {
 
     private final String filesLocation;
 
-
     public FileTimetableProvider(String filesLocation) {
         DaggerApplication.inject(this);
         this.filesLocation = filesLocation;

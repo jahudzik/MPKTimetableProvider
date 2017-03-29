@@ -54,9 +54,6 @@ public class LinesListParserTest {
         TestUtils.checkCollectionSize(lines, 184);
     }
 
-
-
-
     @Test
     public void getChangedLinesList_test1() throws ParsableDataNotFoundException {
         initModule("default");
@@ -84,10 +81,6 @@ public class LinesListParserTest {
         List<Line> lines = linesListParser.parseChanged(timetableProvider.getLinesListDocument());
         TestUtils.checkCollectionSize(lines, 0);
     }
-
-
-
-
 
     @Test
     public void getLinesList_tramStandardCity() throws ParsableDataNotFoundException {
@@ -198,8 +191,6 @@ public class LinesListParserTest {
         checkExpectedLine(lines, 904, Vehicles.BUS, LineTypes.NIGHTLY, Areas.AGGLOMERATION);
     }
 
-
-
     @Test
     public void parseLastUpdateDate_noPlannedUpdateDates() throws ParsableDataNotFoundException, TimetableParseException {
         initModule("2014-10-20");
@@ -215,7 +206,6 @@ public class LinesListParserTest {
         DateTime date = linesListParser.parseLastUpdateDate(parsableData);
         checkDate(date, 5, 9, 2014);
     }
-
 
     /******************** API ********************/
 

@@ -17,7 +17,6 @@ public class UrlResolverTest {
         UrlResolver.getLineRouteUrl(new LineNumber("12345"), 1);
     }
 
-
     @Test(expected = IllegalArgumentException.class)
     public void getLineRouteUrl_IllegalArgumentException3() {
         UrlResolver.getLineRouteUrl(new LineNumber(-1), 1);

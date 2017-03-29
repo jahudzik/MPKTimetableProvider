@@ -16,8 +16,7 @@ import java.io.IOException;
  */
 public class UrlTimetableProvider extends TimetableProvider {
 
-    @Inject
-    DownloadUtils downloadUtils;
+    @Inject DownloadUtils downloadUtils;
 
     public UrlTimetableProvider() {
         DaggerApplication.inject(this);

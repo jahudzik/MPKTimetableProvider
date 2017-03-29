@@ -11,9 +11,7 @@ import pl.jahu.mpk.enums.Vehicles;
 public final class LineInfo {
 
     private final Areas area;
-
     private final LineTypes lineType;
-
     private final Vehicles vehicle;
 
     public LineInfo(Vehicles vehicle, LineTypes lineType, Areas area) {

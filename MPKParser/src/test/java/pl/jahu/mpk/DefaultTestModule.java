@@ -34,7 +34,6 @@ public class DefaultTestModule {
 
     private String filesLocation;
 
-
     public DefaultTestModule() {
         this(DEFAULT_TEST_FILES_DIRECTORY);
     }

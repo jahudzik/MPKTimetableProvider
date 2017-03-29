@@ -26,11 +26,8 @@ public class TimetablesDownloader {
     public static final String MENU_PAGE_NAME = "_menu.html";
     public static final String STATIONS_PAGE_NAME = "_stations.html";
 
-    @Inject
-    static TimetableProvider timetableProvider;
-
-    @Inject
-    static DownloadUtils downloadUtils;
+    @Inject static TimetableProvider timetableProvider;
+    @Inject static DownloadUtils downloadUtils;
 
     /**
      * Downloads:
@@ -47,14 +44,12 @@ public class TimetablesDownloader {
         downloadTimetables(new LineNumber(firstLine), new LineNumber(lastLine));
     }
 
-
     /**
      * Downloads timetables for lines from specified range [firstLine, lastLine] and saves them locally
      */
     public static void downloadTimetables(LineNumber firstLineNumber, LineNumber lastLineNumber) {
         try {
             List<Line> lines = timetableProvider.getLinesList();
-
             int[] linesRange = LineNumbersResolver.getLinesFromRange(lines, firstLineNumber, lastLineNumber);
             for (int i = linesRange[0]; i <= linesRange[1]; i++) {
                 Line line = lines.get(i);
@@ -71,7 +66,6 @@ public class TimetablesDownloader {
         } catch (ParsableDataNotFoundException | TimetableParseException e) {
             e.printStackTrace();
         }
-
     }
 
     private static boolean downloadLineRouteData(Line line, int direction) {
@@ -79,11 +73,9 @@ public class TimetablesDownloader {
         return downloadUtils.downloadUrl(lineRouteUrl, TIMETABLES_LOCATION + getPageName(lineRouteUrl));
     }
 
-
     private static String getPageName(String url) {
         return url.substring(url.lastIndexOf("/") + 1);
     }
-
 
     public static void main(String args[]) {
         int minLineNumber = 0;
