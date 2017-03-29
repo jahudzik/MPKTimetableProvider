@@ -6,11 +6,15 @@ package pl.jahu.mpk.entities;
  */
 public final class LineNumber implements Comparable<LineNumber> {
 
+    private static final int MIN_LINE_NUMBER = 0;
+    private static final int MAX_LINE_NUMBER = 9999;
+    private static final int MAX_DIGITS_IN_NUMBER = 4;
+
     private final Integer numeric;
     private final String value;
 
     public LineNumber(int numericValue)  {
-        if (numericValue < 0 || numericValue > 9999) {
+        if (numericValue < MIN_LINE_NUMBER || numericValue > MAX_LINE_NUMBER) {
             throw new IllegalArgumentException("Incorrect line number: " + Integer.toString(numericValue));
         }
         this.numeric = numericValue;
@@ -18,7 +22,7 @@ public final class LineNumber implements Comparable<LineNumber> {
     }
 
     public LineNumber(String value)  {
-        if (value == null || value.equals("") || value.length() > 4) {
+        if (value == null || value.equals("") || value.length() > MAX_DIGITS_IN_NUMBER) {
             throw new IllegalArgumentException("Incorrect line number: '" + value + "'");
         }
         this.value = value;

@@ -7,6 +7,7 @@ package pl.jahu.mpk.utils;
 public class Time implements Comparable<Time> {
 
     private static final int DAY_MINUTES_COUNT = 24 * 60;
+    private static final int MINUTES_IN_HOUR = 60;
 
     private int hour;
     private int min;
@@ -25,7 +26,7 @@ public class Time implements Comparable<Time> {
     }
 
     public int getTimeValue() {
-        return 60 * hour + min;
+        return MINUTES_IN_HOUR * hour + min;
     }
 
     /**

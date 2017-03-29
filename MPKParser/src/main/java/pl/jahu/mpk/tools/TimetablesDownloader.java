@@ -21,10 +21,12 @@ import java.util.List;
  */
 public class TimetablesDownloader {
 
-    public static final String TIMETABLES_LOCATION = "offline/timetables/";
-    public static final String LINES_PAGE_NAME = "_lines.html";
-    public static final String MENU_PAGE_NAME = "_menu.html";
-    public static final String STATIONS_PAGE_NAME = "_stations.html";
+    static final String TIMETABLES_LOCATION = "offline/timetables/";
+    private static final String LINES_PAGE_NAME = "_lines.html";
+    private static final String MENU_PAGE_NAME = "_menu.html";
+    private static final String STATIONS_PAGE_NAME = "_stations.html";
+    private static final int DEFAULT_MIN_LINE_NUMBER = 0;
+    private static final int DEFAULT_MAX_LINE_NUMBER = 1000;
 
     @Inject static TimetableProvider timetableProvider;
     @Inject static DownloadUtils downloadUtils;
@@ -78,16 +80,16 @@ public class TimetablesDownloader {
     }
 
     public static void main(String args[]) {
-        int minLineNumber = 0;
-        int maxLineNumber = 1000;
+        int minLineNumber = DEFAULT_MIN_LINE_NUMBER;
+        int maxLineNumber = DEFAULT_MAX_LINE_NUMBER;
 
         if (args.length == 2) {
             try {
                 minLineNumber = Integer.parseInt(args[0]);
                 maxLineNumber = Integer.parseInt(args[1]);
             } catch (NumberFormatException e) {
-                minLineNumber = 0;
-                maxLineNumber = 1000;
+                minLineNumber = DEFAULT_MIN_LINE_NUMBER;
+                maxLineNumber = DEFAULT_MAX_LINE_NUMBER;
             }
         }
 

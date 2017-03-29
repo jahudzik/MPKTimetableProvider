@@ -19,6 +19,7 @@ public final class DayType {
     private static final int DAY_END = 1;
     private static final int NIGHT_START = 23;
     private static final int NIGHT_END = 6;
+    private static final int DAYS_IN_WEEK = 7;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormat.forPattern("dd.MM.yyyy");
 
     private final DateTime startDate;
@@ -56,7 +57,7 @@ public final class DayType {
     }
 
     public static DayType getInstance(int[] expectedDaysOfWeek, boolean nightly) {
-        boolean[] expectedValues = new boolean[8];
+        boolean[] expectedValues = new boolean[DAYS_IN_WEEK + 1];
         for (int day : expectedDaysOfWeek) {
             expectedValues[day] = true;
         }
