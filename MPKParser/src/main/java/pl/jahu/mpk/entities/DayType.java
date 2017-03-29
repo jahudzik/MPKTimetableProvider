@@ -15,11 +15,11 @@ import java.util.Map;
  */
 public final class DayType {
 
-    private final static int DAY_START = 3;
-    private final static int DAY_END = 1;
-    private final static int NIGHT_START = 23;
-    private final static int NIGHT_END = 6;
-    private final static DateTimeFormatter DATE_FORMATTER = DateTimeFormat.forPattern("dd.MM.yyyy");
+    private static final int DAY_START = 3;
+    private static final int DAY_END = 1;
+    private static final int NIGHT_START = 23;
+    private static final int NIGHT_END = 6;
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormat.forPattern("dd.MM.yyyy");
 
     private final DateTime startDate;
     private final DateTime endDate;

@@ -8,12 +8,12 @@ import pl.jahu.mpk.entities.LineNumber;
  */
 public class UrlResolver {
 
-    private final static String DIRECTION_TOKEN = "@[seg]";
-    private final static String LINE_NUMBER_TOKEN = "@[line]";
-    private final static String SEQUENCE_TOKEN = "@[seq]";
+    private static final String DIRECTION_TOKEN = "@[seg]";
+    private static final String LINE_NUMBER_TOKEN = "@[line]";
+    private static final String SEQUENCE_TOKEN = "@[seq]";
 
-    private final static String HOST_URL = "http://rozklady.mpk.krakow.pl/";
-    private final static String ACT_HOST_URL = HOST_URL + "aktualne";
+    private static final String HOST_URL = "http://rozklady.mpk.krakow.pl/";
+    private static final String ACT_HOST_URL = HOST_URL + "aktualne";
 
     public static final String LINES_LIST_URL = HOST_URL + "linie.aspx";
     public static final String UPDATE_INFO_URL = HOST_URL + "menu.aspx";
